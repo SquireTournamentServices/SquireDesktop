@@ -71,6 +71,8 @@ set(MAIN_FILES
     ./testing_h/logger.cpp
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
+    ./src/coins.cpp
+    ./src/coins.h
 )
 
 set(PROJECT_SOURCES
@@ -85,6 +87,8 @@ set(PROJECT_SOURCES
 set(TESTING_SOURCES
     ${MAIN_FILES}
     ./tests/main.cpp
+    ./tests/test_coins.cpp
+    ./tests/test_coins.h
     ./testing_h/testing.cpp
     ./testing_h/testing.h
 )
