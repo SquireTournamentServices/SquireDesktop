@@ -22,6 +22,9 @@ TODO
 TODO
 
 ## Building From Sources
+### Windows
+
+### Linux / Mac
 ```bash
 mkdir -p build && cd build
 # cmake .. -DCMAKE_BUILD_TYPE=TEST # Use if want to compile tests
@@ -36,4 +39,5 @@ cmake --build . -j
 | `cmake` | Build System |
 | `clang++`/`g++`/`mingw` | C++ Compiler |
 | `qt5/qt6` | GUI Library |
+| `rust` | Squire Core |
 
