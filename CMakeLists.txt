@@ -66,26 +66,48 @@ set(TS_FILES
     SquireDesktop_en_GB.ts
 )
 
+# Non-ui files that are tested
 set(MAIN_FILES
-    ./mainwindow.cpp
-    ./mainwindow.h
-    ./mainwindow.ui
     ./testing_h/logger.cpp
     ./testing_h/logger.h
+    ./testing_h/ansi_colour.h
 )
 
 set(PROJECT_SOURCES
     ${TS_FILES}
     ${MAIN_FILES}
-    ./main.cpp
+    ./src/ui/mainwindow.cpp
+    ./src/ui/mainwindow.h
+    ./src/ui/mainwindow.ui
+    ./src/main.cpp
 )
 
 set(TESTING_SOURCES
     ${MAIN_FILES}
-    ./testing_h/ansi_colour.h
+    ./tests/main.cpp
     ./testing_h/testing.cpp
     ./testing_h/testing.h
 )
+
+set(LIBS
+  "m" # Maths
+)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
+
+if (CMAKE_BUILD_TYPE STREQUAL "TEST")
+    include(CodeCoverage)
+
+    # Setup coverage (using gcovr so needs gcc/g++)
+                #set(CMAKE_C_COMPILER /usr/bin/gcc)
+                #set(CMAKE_CXX_COMPILER /usr/bin/g++)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -DTEST")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -DTEST")
+
+    append_coverage_compiler_flags()
+    setup_target_for_coverage_gcovr_xml(NAME coverage
+      EXECUTABLE SquireDesktopTests
+        EXCLUDE "build/*" "tests/*")
+endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(SquireDesktop
@@ -127,3 +149,23 @@ set_target_properties(SquireDesktop PROPERTIES
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(SquireDesktop)
 endif()
+
+# Make tests when needed
+if (CMAKE_BUILD_TYPE STREQUAL "TEST")
+    # tests, set the flags manually
+    set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_DEBUG})
+    set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_DEBUG})
+
+    add_executable(SquireDesktopTests ${TESTING_SOURCES})
+    target_link_libraries(SquireDesktopTests PUBLIC ${LIBS})
+    target_include_directories(SquireDesktopTests PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+    file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY mem_tests.py DESTINATION ${CMAKE_BINARY_DIR})
+
+    enable_testing ()
+    add_test(NAME tests COMMAND SquireDesktopTests)
+    add_test(NAME memory-tests COMMAND bash mem_tests.sh)
+    message(STATUS "TEST build setup")
+endif()
+
