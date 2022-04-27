@@ -2,6 +2,54 @@ cmake_minimum_required(VERSION 3.5)
 
 project(SquireDesktop VERSION 0.1 LANGUAGES CXX)
 
+set(REPO_URL "https://github.com/MonarchDevelopment/SquireDesktop")
+
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# compiler flags
+set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic")
+set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
+set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
+set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
+
+message(STATUS "Building ${CMAKE_PROJECT_NAME}")
+message(STATUS "Git repo: ${REPO_URL}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Version: ${CMAKE_PROJECT_VERSION}")
+message(STATUS "Build OS: ${CMAKE_SYSTEM_NAME}")
+
+# Get the branch name
+execute_process(
+  COMMAND git rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_BRANCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Get the latest abbreviated commit hash of the working branch
+execute_process(
+  COMMAND git log -1 --format=%h
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_COMMIT_HASH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Version info
+add_definitions("-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
+add_definitions("-DGIT_BRANCH=\"${GIT_BRANCH}\"")
+add_definitions("-DVERSION=\"${CMAKE_PROJECT_VERSION} (${GIT_COMMIT_HASH}@${GIT_BRANCH})\"")
+add_definitions("-DOS=\"${CMAKE_SYSTEM_NAME}\"")
+add_definitions("-DREPO_URL=\"${REPO_URL}\"")
+add_definitions("-DBUFFER_LENGTH=4096")
+
+# __FILENAME__
+string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
+add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
