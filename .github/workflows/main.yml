@@ -45,7 +45,6 @@ jobs:
     - name: Make Release
       shell: bash
       run : |
-        cd fantom-server
         mkdir -p build
         cd build
         rm -rf *
@@ -55,7 +54,6 @@ jobs:
     - name: Run Tests and Coverage
       shell: bash
       run: |
-        cd fantom-server
         mkdir -p build
         cd build
         rm -rf *

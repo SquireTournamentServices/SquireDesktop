@@ -40,7 +40,6 @@ jobs:
     - name: Run Tests and Coverage
       shell: bash
       run: |
-        cd fantom-server
         mkdir -p build
         cd build
         rm -rf *
