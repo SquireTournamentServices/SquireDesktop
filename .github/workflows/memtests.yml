@@ -1,0 +1,50 @@
+name: "Memory tests"
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 5'
+
+jobs:
+  analyze:
+    name: Analyse, Compile. Unit Tests and Coverage.
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp' ]
+        
+    steps:    
+    - name: Cancel previous runs
+      uses: styfle/cancel-workflow-action@0.6.0
+      with:
+        access_token: ${{github.token}} # needs other token https://github.com/styfle/cancel-workflow-action/issues/7
+    
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Install deps
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr
+        sudo apt-get install -y --no-install-recommends valgrind python3
+        
+    - name: Run Tests and Coverage
+      shell: bash
+      run: |
+        cd fantom-server
+        mkdir -p build
+        cd build
+        rm -rf *
+        cmake .. -DCMAKE_BUILD_TYPE=TEST "-DCMAKE_C_COMPILER=/bin/gcc"
+        cmake --build . -j
+        bash mem_tests.sh
+    
