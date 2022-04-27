@@ -2,44 +2,6 @@ cmake_minimum_required(VERSION 3.5)
 
 project(SquireDesktop VERSION 0.1 LANGUAGES CXX)
 
-#=========
-# Version info
-#=========
-set(REPO_URL "https://github.com/RHUL-CS-Projects/TeamProject2022_05")
-
-message(STATUS "Building ${CMAKE_PROJECT_NAME}")
-message(STATUS "Git repo: ${REPO_URL}")
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "Version: ${CMAKE_PROJECT_VERSION}")
-message(STATUS "Build OS: ${CMAKE_SYSTEM_NAME}")
-
-# Get the branch name
-execute_process(
-  COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_BRANCH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Get the latest abbreviated commit hash of the working branch
-execute_process(
-  COMMAND git log -1 --format=%h
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_COMMIT_HASH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-add_definitions(-DGIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
-add_definitions(-DGIT_BRANCH="${GIT_BRANCH}")
-
-# compiler flags
-set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic")
-add_definitions("-DVERSION=\"${CMAKE_PROJECT_VERSION} (${GIT_COMMIT_HASH}@${GIT_BRANCH})\"")
-add_definitions("-DOS=\"${CMAKE_SYSTEM_NAME}\"")
-add_definitions("-DREPO_URL=\"${REPO_URL}\"")
-
-message(STATUS "Commit info: (${GIT_COMMIT_HASH}@${GIT_BRANCH})")
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -52,23 +14,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
-set(TS_FILES SquireDesktop_en_GB.ts)
-
-set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        testing_h/logger.c
-        testing_h/logger.h
-        ${TS_FILES}
+set(TS_FILES
+    SquireDesktop_en_GB.ts
 )
 
-set (TESTING_SOURCES
-       testing_h/ansi_colour.h
-       testing_h/test.c
-       testing_h/testing.c
-       testing_h/testing.h
+set(MAIN_FILES
+    ./mainwindow.cpp
+    ./mainwindow.h
+    ./mainwindow.ui
+    ./testing_h/logger.cpp
+    ./testing_h/logger.h
+)
+
+set(PROJECT_SOURCES
+    ${TS_FILES}
+    ${MAIN_FILES}
+    ./main.cpp
+)
+
+set(TESTING_SOURCES
+    ${MAIN_FILES}
+    ./testing_h/ansi_colour.h
+    ./testing_h/testing.cpp
+    ./testing_h/testing.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
