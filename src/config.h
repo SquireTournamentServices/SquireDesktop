@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 
 typedef struct squire_user_t {
     char *uuid;
@@ -58,4 +59,9 @@ typedef struct config_t {
     char *tourn_save_path; // Default path to save the tournaments to
     tourn_settings_t default_settings;
 } config_t;
+
+bool init_config(config_t *config, FILE *f);
+void free_config(config_t *config);
+bool valid_config(config_t config);
+bool write_config(config_t *config, FILE *f);
 
