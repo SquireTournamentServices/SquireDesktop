@@ -26,7 +26,9 @@ int flip_krark_coins(int coins)
   }
 
   fast_rand();
-  count += __builtin_popcountl(t << (sizeof(long) * 8) - coins + i);
+  t2 = t;
+  fast_rand();
+  count += __builtin_popcountl((t | t2) << (sizeof(long) * 8) - coins + i);
 
   return count;
 }

@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # compiler flags
-set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic")
+set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -fno-exceptions -std=gnu++98")
 set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
 set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
@@ -73,6 +73,10 @@ set(MAIN_FILES
     ./testing_h/ansi_colour.h
     ./src/coins.cpp
     ./src/coins.h
+    ./src/config.cpp
+    ./src/config.h
+    ./src/io_utils.cpp
+    ./src/io_utils.h
 )
 
 set(PROJECT_SOURCES
@@ -86,11 +90,15 @@ set(PROJECT_SOURCES
 
 set(TESTING_SOURCES
     ${MAIN_FILES}
+    ./testing_h/testing.cpp
+    ./testing_h/testing.h
     ./tests/main.cpp
     ./tests/test_coins.cpp
     ./tests/test_coins.h
-    ./testing_h/testing.cpp
-    ./testing_h/testing.h
+    ./tests/test_config.cpp
+    ./tests/test_config.h
+    ./tests/test_io_utils.cpp
+    ./tests/test_io_utils.h
 )
 
 set(LIBS
