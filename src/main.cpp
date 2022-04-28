@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     }
 
     if (!t) {
-      lprintf(LOG_INFO, "Using default translations (English)...\n");
+        lprintf(LOG_INFO, "Using default translations (English)...\n");
     }
 
     lprintf(LOG_INFO, "Starting application...\n");
