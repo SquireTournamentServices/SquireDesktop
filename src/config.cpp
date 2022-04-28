@@ -1,10 +1,34 @@
+#include <exception>
 #include <nlohmann/json.hpp>
 #include <stdio.h>
+#include "../testing_h/logger.h"
+#include "./io_utils.h"
 #include "./config.h"
+
+using json = nlohmann::json;
 
 bool init_config(config_t *config, FILE *f)
 {
-    return false;
+    char *data = read_all_f(f);
+    if (data == NULL) {
+        return false;
+    }
+
+    bool status = false;
+    json *j = new json();
+    if (j) {
+        try {
+            *j = json::parse(data);
+
+        } catch (std::exception t) {
+            lprintf(LOG_ERROR, "Cannot parse configuration file\n");
+        }
+
+        delete j;
+    }
+
+    free(data);
+    return status;
 }
 
 void free_config(config_t *config)

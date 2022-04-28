@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # compiler flags
-set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -fno-exceptions -std=gnu++98")
+set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -std=gnu++98")
 set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
 set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")

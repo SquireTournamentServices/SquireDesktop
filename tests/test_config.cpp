@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -58,9 +59,26 @@ int test_free()
     return 1;
 }
 
+int test_init_fail()
+{
+    config_t config;
+    ASSERT(!init_config(&config, NULL));
+
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *closed = fdopen(fid[0], "r"), *w = fdopen(fid[1], "w");
+    ASSERT(fclose(closed) == 0);
+    ASSERT(fclose(w) == 0);
+
+    ASSERT(!init_config(&config, closed));
+
+    return 1;
+}
+
 SUB_TEST(config_cpp_tests,
 {&test_default_tourn, "Test default tourn settings"},
 {&test_free_error, "Test free error case"},
-{&test_free, "Test free"}
+{&test_free, "Test free"},
+{&test_init_fail, "Test init fail"}
         )
 
