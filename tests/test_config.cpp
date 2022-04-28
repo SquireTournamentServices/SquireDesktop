@@ -75,10 +75,28 @@ int test_init_fail()
     return 1;
 }
 
+int test_init_fail_2()
+{
+    config_t config;
+    ASSERT(!init_config(&config, NULL));
+
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *r = fdopen(fid[0], "r"), *w = fdopen(fid[1], "w");
+    fprintf(w, "{}");
+    ASSERT(fclose(w) == 0);
+
+    ASSERT(!init_config(&config, r));
+    ASSERT(fclose(r) == 0);
+
+    return 1;
+}
+
 SUB_TEST(config_cpp_tests,
 {&test_default_tourn, "Test default tourn settings"},
 {&test_free_error, "Test free error case"},
 {&test_free, "Test free"},
-{&test_init_fail, "Test init fail"}
+{&test_init_fail, "Test init fail"},
+{&test_init_fail_2, "Test init fail 2"}
         )
 
