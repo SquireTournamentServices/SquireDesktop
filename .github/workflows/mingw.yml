@@ -41,8 +41,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev
         sudo apt-get install -y --no-install-recommends valgrind python3
-        sudo apt-get install -y --no-install-recommends mingw-w64 g++-mingw-w64 mingw-w64-cmake mingw-w64-make mingw-w64-qt5-base mingw-w64-tools mingw-w64-sqlite mingw-w64-curl mingw-w64-qt5-tools
-        
+        sudo apt-get install -y --no-install-recommends mingw-w64 g++-mingw-w64 mingw-w64-cmake mingw-w64-make mingw-w64-qt5 mingw-w64-qt5-tools
+
     - name: Make Release
       shell: bash
       run : |
