@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 
 project(SquireDesktop VERSION 0.1 LANGUAGES CXX)
 
@@ -106,6 +106,30 @@ set(LIBS
 )
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
+# Squire Core (Rust)
+option(ENABLE_LTO ON)
+if (POLICY CMP0048)
+  cmake_policy(SET CMP0048 NEW)
+endif ()
+
+option(ENABLE_LTO "Enable cross language linking time optimization" ON)
+if(ENABLE_LTO)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT supported OUTPUT error)
+  if(supported)
+      message(STATUS "IPO / LTO enabled")
+      set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+      add_link_options(-fuse-ld=lld)
+  else()
+      message(STATUS "IPO / LTO not supported: <${error}>")
+  endif()
+endif()
+
+include_directories(${CMAKE_BINARY_DIR}/squire_core)
+include_directories(include)
+
+add_subdirectory(squire_core)
+
 if (CMAKE_BUILD_TYPE STREQUAL "TEST")
     include(CodeCoverage)
 
@@ -152,7 +176,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets nlohmann_json::nlohmann_json)
+target_link_libraries(SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets nlohmann_json::nlohmann_json squire_core)
 
 set_target_properties(SquireDesktop PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

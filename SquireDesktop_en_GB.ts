@@ -6,6 +6,7 @@
     <message>
         <location filename="src/ui/mainwindow.ui" line="14"/>
         <location filename="build/SquireDesktop_autogen/include/ui_mainwindow.h" line="50"/>
+        <location filename="build-SquireDesktop-Desktop-Debug/SquireDesktop_autogen/include/ui_mainwindow.h" line="50"/>
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
