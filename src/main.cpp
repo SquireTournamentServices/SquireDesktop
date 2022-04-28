@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
         lprintf(LOG_INFO, "Using default translations (English)...\n");
     }
 
-    lprintf(LOG_INFO, "Starting application...\n");
+    lprintf(LOG_INFO, "Starting Squire Desktop " VERSION "...\n");
     MainWindow w;
     w.show();
     lprintf(LOG_INFO, "Exiting application...\n");

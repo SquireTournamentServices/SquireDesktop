@@ -11,7 +11,7 @@ char *read_all_f(FILE *f)
     size_t length = DEFAULT_BLOCK_SIZE, ptr = 0;
     char *ret = (char *) malloc(sizeof(*ret) * length);
     if (ret == NULL) {
-        return NULL;
+        EXIT_MEM_ERROR(ret);
     }
 
     for (int c = 0; c = fgetc(f), c != EOF;) {
