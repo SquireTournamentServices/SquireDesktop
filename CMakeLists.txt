@@ -99,6 +99,8 @@ set(TESTING_SOURCES
     ./tests/test_config.h
     ./tests/test_io_utils.cpp
     ./tests/test_io_utils.h
+    ./tests/sq_link_test.h
+    ./tests/sq_link_test.cpp
 )
 
 set(LIBS
@@ -179,7 +181,7 @@ endif()
 target_link_libraries(SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets nlohmann_json::nlohmann_json squire_core)
 
 set_target_properties(SquireDesktop PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_GUI_IDENTIFIER monarch.squire_desktop
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -197,7 +199,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "TEST")
     set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_DEBUG})
 
     add_executable(SquireDesktopTests ${TESTING_SOURCES})
-    target_link_libraries(SquireDesktopTests PUBLIC ${LIBS} PRIVATE nlohmann_json::nlohmann_json)
+    target_link_libraries(SquireDesktopTests PUBLIC ${LIBS} PRIVATE nlohmann_json::nlohmann_json squire_core)
     target_include_directories(SquireDesktopTests PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
     file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})
