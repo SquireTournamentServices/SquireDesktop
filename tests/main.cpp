@@ -3,6 +3,7 @@
 #include "./test_config.h"
 #include "./test_io_utils.h"
 #include "../testing_h/testing.h"
+#include "./sq_link_test.h"
 
 int test_func()
 {
