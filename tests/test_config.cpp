@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <string>
+#include <iostream>
+#include <exception>
+#include <nlohmann/json.hpp>
 #include "./test_config.h"
 #include "../src/config.h"
 
@@ -92,11 +96,56 @@ int test_init_fail_2()
     return 1;
 }
 
+// Checks the constant is valid
+int test_default_config()
+{
+    config_t config = DEFAULT_CONFIG;
+
+    return 1;
+}
+
+int test_default_config_write()
+{
+    config_t config = DEFAULT_CONFIG;
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *r = fdopen(fid[0], "r");
+    FILE *w = fdopen(fid[1], "w");
+
+    write_config(&config, w);
+    fclose(w);
+
+    char *buffer = (char *) malloc(sizeof * buffer * BUFFER_LENGTH);
+    ASSERT(buffer != NULL);
+
+    char *s = fgets(buffer, BUFFER_LENGTH, r);
+    ASSERT(s != NULL);
+
+    fclose(r);
+
+    try {
+        nlohmann::json j;
+        ASSERT(j = nlohmann::json::parse(s));
+        free(buffer);
+
+        std::string ver;
+        j.at(CONFIG_VERSION).get_to(ver);
+        ASSERT(ver == VERSION);
+    } catch(std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        ASSERT(0);
+    }
+
+    return 1;
+}
+
 SUB_TEST(config_cpp_tests,
 {&test_default_tourn, "Test default tourn settings"},
 {&test_free_error, "Test free error case"},
 {&test_free, "Test free"},
 {&test_init_fail, "Test init fail"},
-{&test_init_fail_2, "Test init fail 2"}
+{&test_init_fail_2, "Test init fail 2"},
+{&test_default_config, "Test default config"},
+{&test_default_config_write, "Test default config write"}
         )
 
