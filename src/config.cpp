@@ -101,7 +101,7 @@ bool write_config(config_t *config, FILE *f)
     std::string output = ret.dump();
 
     // Write and flush
-    int num = fprintf(f, output.c_str());
+    int num = fprintf(f, "%s", output.c_str());
     int flush_status = fflush(f);
     return ((size_t) num) == output.size() && flush_status == 0;
 }
