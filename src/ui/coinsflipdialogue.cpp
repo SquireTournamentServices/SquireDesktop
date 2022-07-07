@@ -8,6 +8,7 @@ CoinsFlipDialogue::CoinsFlipDialogue(QWidget *parent) :
     ui(new Ui::CoinsFlipDialogue)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Flip coins.");
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &CoinsFlipDialogue::onOkay);
 }
 

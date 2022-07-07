@@ -46,6 +46,8 @@ add_definitions(
 add_definitions("-DOS=\"${CMAKE_SYSTEM_NAME}\"")
 add_definitions("-DREPO_URL=\"${REPO_URL}\"")
 add_definitions("-DBUFFER_LENGTH=4096")
+add_definitions("-DPROJECT_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
+add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 
 # __FILENAME__
 string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
