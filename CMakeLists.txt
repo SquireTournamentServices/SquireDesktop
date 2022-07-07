@@ -78,13 +78,18 @@ set(MAIN_FILES
     ./src/io_utils.cpp
     ./src/io_utils.h)
 
-set(PROJECT_SOURCES ${TS_FILES} ${MAIN_FILES} 
+set(PROJECT_SOURCES
+    ${TS_FILES}
+    ${MAIN_FILES}
     ./src/ui/mainwindow.cpp
-    ./src/ui/mainwindow.h 
-    ./src/ui/mainwindow.ui 
+    ./src/ui/mainwindow.h
+    ./src/ui/mainwindow.ui
     ./src/ui/coinsflipdialogue.cpp
     ./src/ui/coinsflipdialogue.h
     ./src/ui/coinsflipdialogue.ui
+    ./src/ui/dicerolldialogue.cpp
+    ./src/ui/dicerolldialogue.h
+    ./src/ui/dicerolldialogue.ui
     ./src/main.cpp)
 
 set(TESTING_SOURCES
@@ -132,8 +137,8 @@ include_directories(include)
 if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   include(CodeCoverage)
 
-  # Setup coverage (using gcovr so needs gcc/g++)
-  # set(CMAKE_C_COMPILER /usr/bin/gcc) set(CMAKE_CXX_COMPILER /usr/bin/g++)
+  # Setup coverage (using gcovr so needs gcc/g++) set(CMAKE_C_COMPILER
+  # /usr/bin/gcc) set(CMAKE_CXX_COMPILER /usr/bin/g++)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -DTEST")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -DTEST")
 

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "./coinsflipdialogue.h"
+#include "../../testing_h/logger.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
     QAction *coinsAction = rndMenu->addAction(tr("Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
+
+    lprintf(LOG_INFO, "Application started fully.");
 }
 
 MainWindow::~MainWindow()
@@ -24,3 +27,4 @@ void MainWindow::coinFlipUtility()
     CoinsFlipDialogue *dlg = new CoinsFlipDialogue();
     dlg->exec();
 }
+

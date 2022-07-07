@@ -1,24 +1,25 @@
 #pragma once
 #include <QDialog>
 
-namespace Ui {
-  class CoinsFlipDialogue;
+namespace Ui
+{
+class CoinsFlipDialogue;
 }
 
 class CoinsFlipDialogue : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit CoinsFlipDialogue(QWidget *parent = nullptr);
-  ~CoinsFlipDialogue();
+    explicit CoinsFlipDialogue(QWidget *parent = nullptr);
+    ~CoinsFlipDialogue();
 
 protected:
-  void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e);
 
 private:
-  Ui::CoinsFlipDialogue *ui;
+    Ui::CoinsFlipDialogue *ui;
 private slots:
-  void onOkay();
+    void onOkay();
 };
 

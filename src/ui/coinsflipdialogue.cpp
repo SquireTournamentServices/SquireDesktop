@@ -4,46 +4,47 @@
 #include "../coins.h"
 
 CoinsFlipDialogue::CoinsFlipDialogue(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::CoinsFlipDialogue)
+    QDialog(parent),
+    ui(new Ui::CoinsFlipDialogue)
 {
-  ui->setupUi(this);
-  connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &CoinsFlipDialogue::onOkay);
+    ui->setupUi(this);
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &CoinsFlipDialogue::onOkay);
 }
 
 CoinsFlipDialogue::~CoinsFlipDialogue()
 {
-  delete ui;
+    delete ui;
 }
 
 void CoinsFlipDialogue::changeEvent(QEvent *e)
 {
-  QDialog::changeEvent(e);
-  switch (e->type()) {
+    QDialog::changeEvent(e);
+    switch (e->type()) {
     case QEvent::LanguageChange:
-      ui->retranslateUi(this);
-      break;
+        ui->retranslateUi(this);
+        break;
     default:
-      break;
+        break;
     }
 }
 
 void CoinsFlipDialogue::onOkay()
 {
-  // Roll dice
-  int res;
-  int coins = ui->spinBox->value();
-  QString postfix;
-  if (ui->krarkBox->checkState() == Qt::Checked) {
-    res = flip_krark_coins(coins);
-    postfix = tr(" Krark coins.");
-  } else {
-    res = flip_coins(coins);
-    postfix = tr(" coins.");
-  }
+    // Flip dice
+    int res;
+    int coins = ui->spinBox->value();
+    QString postfix;
+    if (ui->krarkBox->checkState() == Qt::Checked) {
+        res = flip_krark_coins(coins);
+        postfix = tr(" Krark coins.");
+    } else {
+        res = flip_coins(coins);
+        postfix = tr(" coins.");
+    }
 
-  QString str = tr("You rolled ") + QString::number(res, 10) + postfix;
-  QMessageBox dlg(this);
-  dlg.setText(str);
-  dlg.exec();
+    QString str = tr("You flipped ") + QString::number(res, 10) + postfix;
+    QMessageBox dlg(this);
+    dlg.setText(str);
+    dlg.setWindowTitle(tr("Coin Flip Results"));
+    dlg.exec();
 }
