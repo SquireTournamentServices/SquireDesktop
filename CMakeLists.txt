@@ -86,12 +86,15 @@ set(PROJECT_SOURCES
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui
-    ./src/ui/coinsflipdialogue.cpp
-    ./src/ui/coinsflipdialogue.h
-    ./src/ui/coinsflipdialogue.ui
-    ./src/ui/dicerolldialogue.cpp
-    ./src/ui/dicerolldialogue.h
-    ./src/ui/dicerolldialogue.ui
+    ./src/ui/appdashboardtab.cpp
+    ./src/ui/appdashboardtab.h
+    ./src/ui/appdashboardtab.ui
+    ./src/ui/menubar/rng/coinsflipdialogue.cpp
+    ./src/ui/menubar/rng/coinsflipdialogue.h
+    ./src/ui/menubar/rng/coinsflipdialogue.ui
+    ./src/ui/menubar/rng/dicerolldialogue.cpp
+    ./src/ui/menubar/rng/dicerolldialogue.h
+    ./src/ui/menubar/rng/dicerolldialogue.ui
     ./src/main.cpp)
 
 set(TESTING_SOURCES

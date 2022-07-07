@@ -1,7 +1,7 @@
 #include <QMessageBox>
 #include "./coinsflipdialogue.h"
 #include "./ui_coinsflipdialogue.h"
-#include "../coins.h"
+#include "../../../coins.h"
 
 CoinsFlipDialogue::CoinsFlipDialogue(QWidget *parent) :
     QDialog(parent),

@@ -1,7 +1,7 @@
 #include <QMessageBox>
 #include "dicerolldialogue.h"
 #include "ui_dicerolldialogue.h"
-#include "../coins.h"
+#include "../../../coins.h"
 
 DiceRollDialogue::DiceRollDialogue(QWidget *parent) :
     QDialog(parent),

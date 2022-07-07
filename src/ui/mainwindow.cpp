@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "./coinsflipdialogue.h"
+#include "./appdashboardtab.h"
+#include "./menubar/rng/coinsflipdialogue.h"
 #include "../../testing_h/logger.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -14,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
     QAction *coinsAction = rndMenu->addAction(tr("Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
+
+    // Application dashboard
+    AppDashboardTab *dashboard = new AppDashboardTab(this);
+    ui->tabWidget->addTab(dashboard, tr("Dashboard"));
 
     // Set version label
     ui->versionLabel->setText(tr("Version: ") + PROJECT_VERSION + " - " + GIT_COMMIT_HASH + "@" + GIT_BRANCH

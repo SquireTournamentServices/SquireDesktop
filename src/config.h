@@ -13,8 +13,16 @@ typedef enum tourn_type_t {
     LEAGUE_TOURN = 2
 } tourn_type_t;
 
+typedef struct recent_tournament_t {
+    char *file_path;
+    char *name;
+    int last_opened;
+} recent_tournament_t;
+
 typedef struct tourn_settings_t {
     bool offline_only;
+
+    // Default tournament settings
 
     // Player details
     int match_size;
@@ -27,6 +35,10 @@ typedef struct tourn_settings_t {
     int points_bye;
 
     tourn_type_t type;
+
+    // Recent tournaments
+    int recent_tournament_count;
+    recent_tournament_t *recent_tournaments;
 } tourn_settings_t;
 
 #define DEFAULT_TOURN_TYPE SWISS_TOURN

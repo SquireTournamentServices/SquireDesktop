@@ -15,24 +15,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget">
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Tab 1</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Tab 2</string>
-       </attribute>
-      </widget>
-     </widget>
-    </item>
     <item row="1" column="0">
      <widget class="QLabel" name="versionLabel">
       <property name="text">
-       <string>TextLabel</string>
+       <string>Version info, replaced at startup - don't translate</string>
       </property>
       <property name="textFormat">
        <enum>Qt::MarkdownText</enum>
@@ -41,6 +27,22 @@
        <bool>true</bool>
       </property>
       <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
        <bool>true</bool>
       </property>
      </widget>
