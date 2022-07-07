@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *coinsAction = rndMenu->addAction(tr("Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
 
-    lprintf(LOG_INFO, "Application started fully.");
+    lprintf(LOG_INFO, "Application started fully.\n");
 }
 
 MainWindow::~MainWindow()

@@ -67,7 +67,7 @@ dice_roll_ret_t roll_dice(int sides, int number, int *status)
         ret.dice_rolled = 0;
         *status = 0;
 
-        lprintf(LOG_ERROR, "Cannot allocate distribution return for dice roll.");
+        lprintf(LOG_ERROR, "Cannot allocate distribution return for dice roll.\n");
         return ret;
     } else {
         *status = 1;
