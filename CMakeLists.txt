@@ -78,8 +78,14 @@ set(MAIN_FILES
     ./src/io_utils.cpp
     ./src/io_utils.h)
 
-set(PROJECT_SOURCES ${TS_FILES} ${MAIN_FILES} ./src/ui/mainwindow.cpp
-                    ./src/ui/mainwindow.h ./src/ui/mainwindow.ui ./src/main.cpp)
+set(PROJECT_SOURCES ${TS_FILES} ${MAIN_FILES} 
+    ./src/ui/mainwindow.cpp
+    ./src/ui/mainwindow.h 
+    ./src/ui/mainwindow.ui 
+    ./src/ui/coinsflipdialogue.cpp
+    ./src/ui/coinsflipdialogue.h
+    ./src/ui/coinsflipdialogue.ui
+    ./src/main.cpp)
 
 set(TESTING_SOURCES
     ${MAIN_FILES}
