@@ -4,5 +4,7 @@
 
 void test_linker()
 {
+  squire_core::sc_TournamentId tid;
+  squire_core::sc_PlayerId pid;
 }
 

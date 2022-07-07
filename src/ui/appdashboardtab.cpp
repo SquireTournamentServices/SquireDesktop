@@ -2,25 +2,25 @@
 #include "ui_appdashboardtab.h"
 
 AppDashboardTab::AppDashboardTab(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::AppDashboardTab)
+    QWidget(parent),
+    ui(new Ui::AppDashboardTab)
 {
-  ui->setupUi(this);
+    ui->setupUi(this);
 }
 
 AppDashboardTab::~AppDashboardTab()
 {
-  delete ui;
+    delete ui;
 }
 
 void AppDashboardTab::changeEvent(QEvent *e)
 {
-  QWidget::changeEvent(e);
-  switch (e->type()) {
+    QWidget::changeEvent(e);
+    switch (e->type()) {
     case QEvent::LanguageChange:
-      ui->retranslateUi(this);
-      break;
+        ui->retranslateUi(this);
+        break;
     default:
-      break;
+        break;
     }
 }

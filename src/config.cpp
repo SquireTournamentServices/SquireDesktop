@@ -20,7 +20,7 @@ bool init_config(config_t *config, FILE *f)
         try {
             *j = json::parse(data);
 
-        } catch (std::exception t) {
+        } catch (std::exception &t) {
             lprintf(LOG_ERROR, "Cannot parse configuration file\n");
         }
 

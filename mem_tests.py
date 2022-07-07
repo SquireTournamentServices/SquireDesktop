@@ -4,7 +4,8 @@ import sys
 
 NO_LEAKS = "All heap blocks were freed -- no leaks are possible"
 TEST_EXEC_NAME = "SquireDesktopTests"
-VALGRIND_OPTS = "--leak-check=full --show-leak-kinds=all --track-fds=yes" #all" silly ubuntu has no all
+VALGRIND_OPTS = "--leak-check=full --show-leak-kinds=all --track-fds=yes"  # all" silly ubuntu has no all
+
 
 def tests():
     print(
@@ -43,4 +44,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
