@@ -8,7 +8,7 @@
 #include <QIcon>
 #include <QPixmap>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(config_t t, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
 
     // Application dashboard
-    AppDashboardTab *dashboard = new AppDashboardTab(this);
+    AppDashboardTab *dashboard = new AppDashboardTab(t, this);
     ui->tabWidget->addTab(dashboard, tr("Dashboard"));
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::beep);
 

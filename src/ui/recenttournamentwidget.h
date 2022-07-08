@@ -1,7 +1,6 @@
-#ifndef RECENTTOURNAMENTWIDGET_H
-#define RECENTTOURNAMENTWIDGET_H
-
+#pragma once
 #include <QWidget>
+#include "../config.h"
 
 namespace Ui
 {
@@ -13,7 +12,7 @@ class RecentTournamentWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit RecentTournamentWidget(QWidget *parent = nullptr);
+    explicit RecentTournamentWidget(recent_tournament_t t, QWidget *parent = nullptr);
     ~RecentTournamentWidget();
 
 protected:
@@ -21,6 +20,6 @@ protected:
 
 private:
     Ui::RecentTournamentWidget *ui;
+    recent_tournament_t t;
 };
 
-#endif // RECENTTOURNAMENTWIDGET_H

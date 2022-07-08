@@ -89,6 +89,9 @@ set(PROJECT_SOURCES
     ./src/ui/appdashboardtab.cpp
     ./src/ui/appdashboardtab.h
     ./src/ui/appdashboardtab.ui
+    ./src/ui/recenttournamentwidget.cpp
+    ./src/ui/recenttournamentwidget.h
+    ./src/ui/recenttournamentwidget.ui
     ./src/ui/menubar/rng/coinsflipdialogue.cpp
     ./src/ui/menubar/rng/coinsflipdialogue.h
     ./src/ui/menubar/rng/coinsflipdialogue.ui

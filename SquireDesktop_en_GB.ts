@@ -5,25 +5,25 @@
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="82"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="88"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="83"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="89"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="84"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="90"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/appdashboardtab.ui" line="49"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="85"/>
+        <location filename="src/ui/appdashboardtab.ui" line="46"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="91"/>
         <source>Recent Tournaments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -145,14 +145,14 @@
 <context>
     <name>DiceRollResultWidget</name>
     <message>
-        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="26"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultwidget.h" line="64"/>
+        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="32"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultwidget.h" line="65"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="32"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultwidget.h" line="65"/>
+        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="38"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultwidget.h" line="66"/>
         <source>1 | 123</source>
         <translation type="unfinished"></translation>
     </message>
@@ -211,22 +211,26 @@
 <context>
     <name>RecentTournamentWidget</name>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="14"/>
+        <location filename="src/ui/recenttournamentwidget.ui" line="32"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="103"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="20"/>
+        <location filename="src/ui/recenttournamentwidget.ui" line="65"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="104"/>
         <source>Tournament Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="34"/>
+        <location filename="src/ui/recenttournamentwidget.ui" line="82"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="105"/>
         <source>Tournament Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="41"/>
+        <location filename="src/ui/recenttournamentwidget.ui" line="89"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="106"/>
         <source>Last Edit Time</source>
         <translation type="unfinished"></translation>
     </message>

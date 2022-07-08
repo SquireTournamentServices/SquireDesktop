@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include "../config.h"
 
 namespace Ui
 {
@@ -11,7 +12,7 @@ class AppDashboardTab : public QWidget
     Q_OBJECT
 
 public:
-    explicit AppDashboardTab(QWidget *parent = nullptr);
+    explicit AppDashboardTab(config_t t, QWidget *parent = nullptr);
     ~AppDashboardTab();
 
 protected:

@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 
     // Start app
     lprintf(LOG_INFO, "Starting Squire Desktop " VERSION "...\n");
-    MainWindow w;
+    MainWindow w(config);
     w.show();
     int ret = a.exec(); // Exec until the app is kil
 
