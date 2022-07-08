@@ -35,7 +35,7 @@ for asset_proc in assets_proc:
     str = str.hex()
 
     print(f"Found {name}")
-    output += f'const unsigned char {name}[] ="{escape(str)}";'
+    output += f'const unsigned char {name}[] = "{escape(str)}";'
     output += "\n"
 
 f = open(HEADER_FILE, "w")
