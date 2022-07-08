@@ -112,6 +112,11 @@ cleanup:
 
 bool init_config(config_t *config, FILE *f)
 {
+    if (f == NULL) {
+        lprintf(LOG_ERROR, "Invalid stream\n");
+        return false;
+    }
+
     lprintf(LOG_INFO, "Reading configuration...\n");
     config_t config_default = DEFAULT_CONFIG;
     memcpy(config, &config_default, sizeof(config_default));
@@ -182,6 +187,7 @@ bool init_config(config_t *config, FILE *f)
                 i++;
             }
         }
+        status = true;
     } catch (std::exception &t) {
         lprintf(LOG_ERROR, "Cannot parse configuration file - %s\n", t.what());
     }
@@ -190,7 +196,6 @@ bool init_config(config_t *config, FILE *f)
 
     if (valid_config(*config)) {
         lprintf(LOG_INFO, "Confiuration is valid\n");
-        status = true;
     } else {
         lprintf(LOG_ERROR, "Configuration is not valid\n");
         status = false;

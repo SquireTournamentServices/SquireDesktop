@@ -72,7 +72,7 @@ typedef struct config_t {
     recent_tournament_t *recent_tournaments;
 } config_t;
 
-#define DEFAULT_SAVE_PATH NULL
+#define DEFAULT_SAVE_PATH "tourns"
 #define DEFAULT_CONFIG { \
   DEFAULT_USER,\
   false,\

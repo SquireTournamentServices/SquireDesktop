@@ -121,8 +121,7 @@ int test_default_config_write()
     fclose(r);
 
     try {
-        nlohmann::json j;
-        ASSERT(j = nlohmann::json::parse(buffer));
+        nlohmann::json j = nlohmann::json::parse(buffer);
         free(buffer);
 
         std::string ver;
@@ -131,7 +130,7 @@ int test_default_config_write()
     } catch(std::exception &e) {
         lprintf(LOG_INFO, "%s\n", buffer);
         std::cerr << e.what() << std::endl;
-        ASSERT(0);
+        return 0;
     }
 
     return 1;
