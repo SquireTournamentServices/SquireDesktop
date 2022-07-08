@@ -26,7 +26,7 @@ soon).
 The GUI is translated in English (UK) at the moment and, can be translated with the Qt 
 translation tool, at the moment no such translations exist, but you can help by creating them!
 
-### Bug Crash Reporting
+### Bug / Crash Reporting
 Please create an [issue on github](https://github.com/MonarchDevelopment/SquireDesktop/issues)
 describing the bug/crash and what you did to cause it, if possible please attach logs or, (for
 advanced users) ||a stacktrace or core dump (if you do this please don't post it in full as
