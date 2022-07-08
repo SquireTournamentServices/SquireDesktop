@@ -3,11 +3,15 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
 #include "./ui/mainwindow.h"
+#include "./config.h"
 #include "../testing_h/logger.h"
+
+#define CONFIG_FILE "config.json"
 
 void handler(int sig)
 {
@@ -25,8 +29,10 @@ void handler(int sig)
 
 int main(int argc, char *argv[])
 {
+    // Error catchinator 9000
     signal(SIGSEGV, handler);
 
+    // Qt init
     QApplication a(argc, argv);
     bool t = false;
     QTranslator translator;
@@ -45,9 +51,43 @@ int main(int argc, char *argv[])
         lprintf(LOG_INFO, "Using default translations (English)...\n");
     }
 
+    // Read config
+    config_t config;
+    FILE *f = fopen(CONFIG_FILE, "r");
+    if (f == NULL) {
+        f = fopen(CONFIG_FILE, "w");
+        config_t default_config = DEFAULT_CONFIG;
+        memcpy(&config, &default_config, sizeof(default_config));
+
+        if (f != NULL) {
+            lprintf(LOG_WARNING, "Cannot open config file to read it, trying to make a new one with default values...\n");
+
+            bool r = write_config(&config, f);
+            if (!r) {
+                lprintf(LOG_ERROR, "Cannot write config file.\n");
+            } else {
+                lprintf(LOG_INFO, "Created a new config file %s.\n", CONFIG_FILE);
+            }
+            fclose(f);
+        } else {
+            lprintf(LOG_ERROR, "Cannot open config file to write.\n");
+        }
+    } else {
+        lprintf(LOG_INFO, "Reading configuration file %s\n", CONFIG_FILE);
+        bool r = init_config(&config, f);
+        if (!r) {
+            lprintf(LOG_ERROR, "Cannot read config file as it is invalid.\n");
+        }
+        fclose(f);
+    }
+
+    // Start app
     lprintf(LOG_INFO, "Starting Squire Desktop " VERSION "...\n");
     MainWindow w;
     w.show();
+    int ret = a.exec(); // Exec until the app is kil
+
     lprintf(LOG_INFO, "Exiting application...\n");
-    return a.exec();
+    free_config(&config);
+    return ret;
 }

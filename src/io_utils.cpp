@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "./io_utils.h"
 
 char *read_all_f(FILE *f)
@@ -37,3 +38,26 @@ char *read_all_f(FILE *f)
     return ret;
 }
 
+char *clone_std_string(std::string str)
+{
+    size_t len = str.size() + 1;
+    char *ret = (char *) malloc(sizeof * ret * len);
+    if (ret == NULL) {
+        EXIT_MEM_ERROR(ret);
+    }
+
+    strncpy(ret, str.c_str(), len);
+    return ret;
+}
+
+char *clone_string(char *str)
+{
+    size_t len = strlen(str) + 1;
+    char *ret = (char *) malloc(sizeof * ret * len);
+    if (ret == NULL) {
+        EXIT_MEM_ERROR(ret);
+    }
+
+    strcpy(ret, str);
+    return ret;
+}

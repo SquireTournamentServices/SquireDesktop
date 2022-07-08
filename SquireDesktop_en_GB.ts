@@ -5,25 +5,25 @@
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="81"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="82"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="82"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="83"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="83"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="84"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="49"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="84"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="85"/>
         <source>Recent Tournaments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -103,6 +103,27 @@
     </message>
 </context>
 <context>
+    <name>DiceRollResultWidget</name>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="20"/>
+        <source>1 | 123</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiceRollResultsDialogue</name>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultsdialogue.ui" line="16"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="src/ui/mainwindow.ui" line="14"/>
@@ -145,6 +166,29 @@
     <message>
         <location filename="src/ui/mainwindow.cpp" line="35"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecentTournamentWidget</name>
+    <message>
+        <location filename="src/ui/recenttournamentwidget.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/recenttournamentwidget.ui" line="20"/>
+        <source>Tournament Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/recenttournamentwidget.ui" line="34"/>
+        <source>Tournament Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/recenttournamentwidget.ui" line="41"/>
+        <source>Last Edit Time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,4 +1,5 @@
 #pragma once
+#include <time.h>
 #include <stdio.h>
 
 // Warning: strings in this file must be alloced not, static data
@@ -20,12 +21,11 @@ typedef enum tourn_type_t {
 typedef struct recent_tournament_t {
     char *file_path;
     char *name;
-    int last_opened;
+    char *pairing_sys;
+    struct tm last_opened;
 } recent_tournament_t;
 
 typedef struct tourn_settings_t {
-    bool offline_only;
-
     // Default tournament settings
     // Player details
     int match_size;
@@ -50,10 +50,7 @@ typedef struct tourn_settings_t {
 #define DEFAULT_POINTS_BYE 3
 #define DEFAULT_POINTS_DRAW 1
 
-#define DEFAULT_OFFLINE_ONLY false
-
 #define DEFAULT_TOURN { \
-  DEFAULT_OFFLINE_ONLY,\
   DEFAULT_MATCH_SIZE,\
   DEFAULT_DECK_COUNT,\
   DEFAULT_POINTS_WIN,\
@@ -100,7 +97,7 @@ typedef struct config_t {
 #define CONFIG_TOURN_TYPE "type"
 
 // Back to root
-#define CONFIG_USER "user"
+#define CONFIG_USER_SETTINGS "user"
 
 // Under user
 #define CONFIG_USER_NAME "user-name"
