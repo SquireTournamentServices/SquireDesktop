@@ -5,25 +5,25 @@
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="88"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="89"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="89"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="90"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="90"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="91"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="46"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="91"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="92"/>
         <source>Recent Tournaments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -121,13 +121,13 @@
     <name>DiceRollResultDialogue</name>
     <message>
         <location filename="src/ui/menubar/rng/dicerollresultdialogue.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultdialogue.h" line="68"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultdialogue.h" line="69"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/rng/dicerollresultdialogue.ui" line="52"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultdialogue.h" line="69"/>
+        <location filename="src/ui/menubar/rng/dicerollresultdialogue.ui" line="55"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultdialogue.h" line="70"/>
         <source>Dice Roll Results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -232,6 +232,11 @@
         <location filename="src/ui/recenttournamentwidget.ui" line="89"/>
         <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="106"/>
         <source>Last Edit Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/recenttournamentwidget.cpp" line="17"/>
+        <source>Error with: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

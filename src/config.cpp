@@ -19,6 +19,12 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
     recent_tournament_t ret;
     memset(&ret, 0, sizeof(ret));
 
+    ret.file_path = clone_string(name);
+    if (ret.file_path == NULL) {
+        *status = 0;
+        return ret;
+    }
+
     // Get last time
     struct stat stat_ret;
     int r = stat(name, &stat_ret);
@@ -51,12 +57,6 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
 
     // Parse data
     int s = 0;
-    ret.file_path = clone_string(name);
-    if (ret.file_path == NULL) {
-        *status = 0;
-        return ret;
-    }
-
     try {
         nlohmann::json j = nlohmann::json::parse(data);
         nlohmann::json tourn = j.at(TOURN_TAG);

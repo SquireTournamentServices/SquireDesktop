@@ -13,6 +13,7 @@ DiceRollResultDialogue::DiceRollResultDialogue(dice_roll_ret_t rolls, QWidget *p
                          QString::number(rolls.sides, 10));
 
     QVBoxLayout *layout = new QVBoxLayout(ui->diceRollResults);
+    layout->setAlignment(Qt::AlignTop);
     for (int i = 0; i < rolls.sides; i++) {
         DiceRollResultWidget *w = new DiceRollResultWidget(rolls.results[i].side_number,
                 rolls.results[i].number_rolled,

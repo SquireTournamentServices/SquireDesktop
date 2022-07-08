@@ -10,6 +10,7 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
 
     // Set recent tournaments
     QVBoxLayout *layout = new QVBoxLayout(ui->recentTournaments);
+    layout->setAlignment(Qt::AlignTop);
     for (int i = 0; i < t.recent_tournament_count; i++) {
         RecentTournamentWidget *w = new RecentTournamentWidget(t.recent_tournaments[i], this);
         layout->addWidget(w);
