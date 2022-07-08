@@ -22,7 +22,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/appdashboardtab.ui" line="46"/>
+        <location filename="src/ui/appdashboardtab.ui" line="49"/>
         <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="84"/>
         <source>Recent Tournaments</source>
         <translation type="unfinished"></translation>
@@ -117,33 +117,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="15"/>
+        <location filename="src/ui/mainwindow.cpp" line="23"/>
         <source>RNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="16"/>
+        <location filename="src/ui/mainwindow.cpp" line="24"/>
         <source>Flip Coins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="21"/>
+        <location filename="src/ui/mainwindow.cpp" line="29"/>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="24"/>
+        <location filename="src/ui/mainwindow.cpp" line="33"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="25"/>
+        <location filename="src/ui/mainwindow.cpp" line="34"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="26"/>
+        <location filename="src/ui/mainwindow.cpp" line="35"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>

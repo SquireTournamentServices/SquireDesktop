@@ -1,8 +1,11 @@
-#include "mainwindow.h"
+#include "assets.h"
+#include "./mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "./appdashboardtab.h"
 #include "./menubar/rng/coinsflipdialogue.h"
 #include "../../testing_h/logger.h"
+#include <QIcon>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(QString(PROJECT_NAME) + " - " + PROJECT_VERSION);
+
+    QPixmap pixmap;
+    pixmap.loadFromData(ICON_PNG, sizeof(ICON_PNG));
+    QIcon icon = QIcon(pixmap);
+    this->setWindowIcon(icon);
 
     // Init menu bar
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
@@ -19,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Application dashboard
     AppDashboardTab *dashboard = new AppDashboardTab(this);
     ui->tabWidget->addTab(dashboard, tr("Dashboard"));
+    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::beep);
 
     // Set version label
     ui->versionLabel->setText(tr("Version: ") + PROJECT_VERSION + " - " + GIT_COMMIT_HASH + "@" + GIT_BRANCH
@@ -37,5 +46,10 @@ void MainWindow::coinFlipUtility()
 {
     CoinsFlipDialogue *dlg = new CoinsFlipDialogue();
     dlg->show();
+}
+
+void MainWindow::beep()
+{
+    QApplication::beep();
 }
 

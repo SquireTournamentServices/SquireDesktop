@@ -115,6 +115,11 @@ set(LIBS "m" # Maths
 )
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
+# Assets to data strings
+file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
+add_custom_target(generate_assets ${ASSETS_TO_STR_PY})
+
 # Squire Core (Rust)
 option(ENABLE_LTO ON)
 if(POLICY CMP0048)
@@ -189,7 +194,6 @@ endif()
 target_link_libraries(
   SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                         nlohmann_json::nlohmann_json squire_core)
-
 set_target_properties(
   SquireDesktop
   PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER monarch.squire_desktop
@@ -198,6 +202,7 @@ set_target_properties(
              ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
              MACOSX_BUNDLE TRUE
              WIN32_EXECUTABLE TRUE)
+add_dependencies(SquireDesktop generate_assets)
 
 if(QT_VERSION_MAJOR EQUAL 6)
   qt_finalize_executable(SquireDesktop)
@@ -225,3 +230,27 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   add_test(NAME memory-tests COMMAND bash mem_tests.sh)
   message(STATUS "TEST build setup")
 endif()
+
+# packaging?
+set(CPACK_PACKAGE_CONTACT "djpiper28@gmail.com")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY SquireDesktop)
+set(CPACK_PACKAGE_VENDOR "djpiper28 @ Monarch Development")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README.md")
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_FILE_NAME CockatriceTournamentBot)
+set(CPACK_INSTALL_CMAKE_PROJECTS "SquireDesktop;SquireDesktop;ALL;/")
+if(CPACK_GENERATOR STREQUAL "RPM")
+  set(CPACK_RPM_PACKAGE_LICENSE "APGL3")
+  set(CPACK_RPM_PACKAGE_REQUIRES "")
+  set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games")
+  set(CPACK_RPM_PACKAGE_URL ${REPO_URL})
+elseif(CPACK_GENERATOR STREQUAL "DEB")
+  set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+  set(CPACK_DEBIAN_PACKAGE_SECTION "games")
+  set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${REPO_URL})
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+endif()
+include(CPack)

@@ -26,7 +26,7 @@ bool init_config(config_t *config, FILE *f)
         j.at(CONFIG_VERSION).get_to(ver);
 
         if (ver != VERSION) {
-          lprintf(LOG_WARNING, "Version mismatch, unexpected behaviour may occur.\n");
+            lprintf(LOG_WARNING, "Version mismatch, unexpected behaviour may occur.\n");
         }
 
         status = true;
