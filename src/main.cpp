@@ -22,7 +22,7 @@ void handler(int sig)
     size = backtrace(array, 10);
 
     // print out all the frames to stderr
-    fprintf(stderr, "Error: signal %d:\n", sig);
+    fprintf(stderr, "Signal %d:\n", sig);
     backtrace_symbols_fd(array, size, STDERR_FILENO);
     exit(1);
 }

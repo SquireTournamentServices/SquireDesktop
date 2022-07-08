@@ -8,6 +8,9 @@
 #include <QIcon>
 #include <QPixmap>
 
+#define UNSAVED_DATA "Unsaved data"
+#define NO_UNSAVED_DATA "No unsaved data"
+
 MainWindow::MainWindow(config_t t, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -15,12 +18,20 @@ MainWindow::MainWindow(config_t t, QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle(QString(PROJECT_NAME) + " - " + PROJECT_VERSION);
 
+    ui->statusbar->showMessage(tr(NO_UNSAVED_DATA));
+
     QPixmap pixmap;
     pixmap.loadFromData(ICON_PNG, sizeof(ICON_PNG));
     QIcon icon = QIcon(pixmap);
     this->setWindowIcon(icon);
 
     // Init menu bar
+    QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
+    QAction *settings = fileMenu->addAction(tr("Settings"));
+
+    QAction *exitAction = fileMenu->addAction(tr("Exit"));
+    connect(exitAction, &QAction::triggered, this, &MainWindow::close);
+
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
     QAction *coinsAction = rndMenu->addAction(tr("Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);

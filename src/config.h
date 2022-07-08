@@ -60,6 +60,8 @@ typedef struct tourn_settings_t {
   DEFAULT_TOURN_TYPE\
 }
 
+#define MAXIMUM_RECENT_LIST_SIZE 50
+
 typedef struct config_t {
     squire_user_t user;
     bool logged_in; // Whether .user is set.

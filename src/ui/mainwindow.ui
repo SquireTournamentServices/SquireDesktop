@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="documentMode">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
@@ -37,7 +40,7 @@
        <number>-1</number>
       </property>
       <property name="documentMode">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="tabsClosable">
        <bool>true</bool>
