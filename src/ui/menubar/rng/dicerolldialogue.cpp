@@ -1,6 +1,7 @@
 #include <QMessageBox>
-#include "dicerolldialogue.h"
-#include "ui_dicerolldialogue.h"
+#include "./dicerolldialogue.h"
+#include "./ui_dicerolldialogue.h"
+#include "./dicerollresultdialogue.h"
 #include "../../../coins.h"
 
 DiceRollDialogue::DiceRollDialogue(QWidget *parent) :
@@ -8,6 +9,7 @@ DiceRollDialogue::DiceRollDialogue(QWidget *parent) :
     ui(new Ui::DiceRollDialogue)
 {
     ui->setupUi(this);
+    this->setWindowTitle(tr("Roll Dice"));
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &DiceRollDialogue::onOkay);
 }
@@ -42,11 +44,29 @@ void DiceRollDialogue::onOkay()
         QMessageBox dlg(this);
         dlg.setText(tr("Cannot roll dice."));
         dlg.setWindowTitle(tr("Error"));
-        dlg.exec();
+        dlg.show();
         return;
     }
 
     // Create the distribution model dialogue
+    if (number == 1) {
+        QMessageBox dlg(this);
+        dlg.setWindowTitle(tr("Your Dice Results"));
+
+        int num = 0;
+        for (int i = 0; i < ret.sides; i++) {
+            if (ret.results[i].number_rolled != 0) {
+                num = ret.results[i].side_number;
+                break;
+            }
+        }
+
+        dlg.setText(tr("You rolled a ") + QString::number(num, 10));
+        dlg.exec();
+    } else {
+        DiceRollResultDialogue dlg(ret, this);
+        dlg.exec();
+    }
 
     free_dice_roll_ret(ret);
 }

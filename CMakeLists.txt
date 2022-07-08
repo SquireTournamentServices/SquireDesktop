@@ -95,6 +95,12 @@ set(PROJECT_SOURCES
     ./src/ui/menubar/rng/dicerolldialogue.cpp
     ./src/ui/menubar/rng/dicerolldialogue.h
     ./src/ui/menubar/rng/dicerolldialogue.ui
+    ./src/ui/menubar/rng/dicerollresultwidget.cpp
+    ./src/ui/menubar/rng/dicerollresultwidget.h
+    ./src/ui/menubar/rng/dicerollresultwidget.ui
+    ./src/ui/menubar/rng/dicerollresultdialogue.cpp
+    ./src/ui/menubar/rng/dicerollresultdialogue.h
+    ./src/ui/menubar/rng/dicerollresultdialogue.ui
     ./src/main.cpp)
 
 set(TESTING_SOURCES

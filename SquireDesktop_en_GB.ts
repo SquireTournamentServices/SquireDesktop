@@ -92,34 +92,68 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="43"/>
+        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="12"/>
+        <source>Roll Dice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="45"/>
         <source>Cannot roll dice.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="44"/>
+        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="46"/>
         <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="54"/>
+        <source>Your Dice Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerolldialogue.cpp" line="64"/>
+        <source>You rolled a </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DiceRollResultDialogue</name>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultdialogue.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultdialogue.h" line="68"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultdialogue.ui" line="52"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultdialogue.h" line="69"/>
+        <source>Dice Roll Results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultdialogue.cpp" line="10"/>
+        <source>Dice Results for </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/rng/dicerollresultdialogue.cpp" line="12"/>
+        <source>D</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DiceRollResultWidget</name>
     <message>
-        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="14"/>
+        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="26"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultwidget.h" line="64"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="20"/>
+        <location filename="src/ui/menubar/rng/dicerollresultwidget.ui" line="32"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_dicerollresultwidget.h" line="65"/>
         <source>1 | 123</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DiceRollResultsDialogue</name>
-    <message>
-        <location filename="src/ui/menubar/rng/dicerollresultsdialogue.ui" line="16"/>
-        <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -138,33 +172,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="23"/>
+        <location filename="src/ui/mainwindow.cpp" line="24"/>
         <source>RNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="24"/>
+        <location filename="src/ui/mainwindow.cpp" line="25"/>
         <source>Flip Coins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="29"/>
-        <source>Dashboard</source>
+        <location filename="src/ui/mainwindow.cpp" line="28"/>
+        <source>Roll Dice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/mainwindow.cpp" line="33"/>
+        <source>Dashboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="37"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="34"/>
+        <location filename="src/ui/mainwindow.cpp" line="38"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="35"/>
+        <location filename="src/ui/mainwindow.cpp" line="39"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>

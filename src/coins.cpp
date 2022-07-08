@@ -61,6 +61,7 @@ dice_roll_ret_t roll_dice(int sides, int number, int *status)
     // Alloc ret
     dice_roll_ret_t ret;
     ret.dice_rolled = number;
+    ret.sides = sides;
     ret.results = (dice_roll_res_line_t *) malloc(sizeof * ret.results * sides);
 
     if (ret.results == NULL) {

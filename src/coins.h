@@ -10,6 +10,7 @@ typedef struct dice_roll_res_line_t {
 
 typedef struct dice_roll_ret_t {
     int dice_rolled;
+    int sides;
     dice_roll_res_line_t *results;
 } dice_roll_ret_t;
 

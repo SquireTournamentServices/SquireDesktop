@@ -11,7 +11,7 @@ class DiceRollResultWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit DiceRollResultWidget(QWidget *parent = nullptr);
+    explicit DiceRollResultWidget(int sideNumber, int numberRolled, int total, QWidget *parent = nullptr);
     ~DiceRollResultWidget();
 
 protected:

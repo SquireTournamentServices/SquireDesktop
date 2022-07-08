@@ -20,5 +20,6 @@ private:
     Ui::MainWindow *ui;
 private slots:
     void coinFlipUtility();
+    void diceRollUtility();
     void beep();
 };

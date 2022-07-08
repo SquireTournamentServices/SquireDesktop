@@ -3,6 +3,7 @@
 #include "./ui_mainwindow.h"
 #include "./appdashboardtab.h"
 #include "./menubar/rng/coinsflipdialogue.h"
+#include "./menubar/rng/dicerolldialogue.h"
 #include "../../testing_h/logger.h"
 #include <QIcon>
 #include <QPixmap>
@@ -23,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
     QAction *coinsAction = rndMenu->addAction(tr("Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
+
+    QAction *diceAction = rndMenu->addAction(tr("Roll Dice"));
+    connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
 
     // Application dashboard
     AppDashboardTab *dashboard = new AppDashboardTab(this);
@@ -45,6 +49,12 @@ MainWindow::~MainWindow()
 void MainWindow::coinFlipUtility()
 {
     CoinsFlipDialogue *dlg = new CoinsFlipDialogue();
+    dlg->show();
+}
+
+void MainWindow::diceRollUtility()
+{
+    DiceRollDialogue *dlg = new DiceRollDialogue();
     dlg->show();
 }
 
