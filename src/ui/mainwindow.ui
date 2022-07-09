@@ -24,7 +24,7 @@
        <string>Version info, replaced at startup - don't translate</string>
       </property>
       <property name="textFormat">
-       <enum>Qt::AutoText</enum>
+       <enum>Qt::MarkdownText</enum>
       </property>
       <property name="wordWrap">
        <bool>true</bool>
