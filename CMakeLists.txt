@@ -54,6 +54,12 @@ string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
 add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
 add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
 
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "CYGWIN")
+  message(STATUS "Not using backtrace catcher on windoze")
+else()
+  add_definitions("-DUSE_BACKTRACE")
+endif()
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)

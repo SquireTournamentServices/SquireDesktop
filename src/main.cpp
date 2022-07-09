@@ -1,5 +1,7 @@
-#include <stdio.h>
+#ifdef USE_BACKTRACE
 #include <execinfo.h>
+#endif
+#include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -13,6 +15,7 @@
 
 #define CONFIG_FILE "config.json"
 
+#ifdef USE_BACKTRACE
 void handler(int sig)
 {
     void *array[10];
@@ -26,11 +29,14 @@ void handler(int sig)
     backtrace_symbols_fd(array, size, STDERR_FILENO);
     exit(1);
 }
+#endif
 
 int main(int argc, char *argv[])
 {
+#ifdef USE_BACKTRACE
     // Error catchinator 9000
     signal(SIGSEGV, handler);
+#endif
 
     // Qt init
     QApplication a(argc, argv);
