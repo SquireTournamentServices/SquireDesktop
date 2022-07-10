@@ -32,7 +32,6 @@ jobs:
 
       - name: Configure
         id: configure
-        needs: rust
         shell: bash
         run: |
           tag_regex='^refs/tags/'
