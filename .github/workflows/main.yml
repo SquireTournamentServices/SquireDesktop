@@ -70,7 +70,7 @@ jobs:
   build-linux:
     name: Build Linux + Code Coverage
     needs: configure
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
