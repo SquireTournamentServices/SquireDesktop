@@ -7,17 +7,6 @@ project(
 
 set(REPO_URL "https://github.com/MonarchDevelopment/SquireDesktop")
 
-# specify the C++ standard
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# compiler flags
-set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -std=gnu++98")
-set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
-set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
-set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
-
 message(STATUS "Building ${CMAKE_PROJECT_NAME}")
 message(STATUS "Git repo: ${REPO_URL}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
@@ -54,12 +43,135 @@ string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
 add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
 add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
 
-if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+if(WIN32)
   message(STATUS "Not using backtrace catcher on windoze")
 else()
   add_definitions("-DUSE_BACKTRACE")
 endif()
 
+if(WIN32)
+  # Use vcpkg toolchain on Windows
+  set(CMAKE_TOOLCHAIN_FILE
+      ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      CACHE STRING "Vcpkg toolchain file"
+  )
+  # Qt path set by user or env var
+  if(QTDIR
+     OR DEFINED ENV{QTDIR}
+     OR DEFINED ENV{QTDIR32}
+     OR DEFINED ENV{QTDIR64}
+  )
+
+  else()
+    set(QTDIR
+        ""
+        CACHE PATH "Path to Qt (e.g. C:/Qt/5.7/msvc2015_64)"
+    )
+    message(
+      WARNING "QTDIR variable is missing.  Please set this variable to specify path to Qt (e.g. C:/Qt/5.7/msvc2015_64)"
+    )
+  endif()
+endif()
+
+# Define a proper install path
+if(UNIX)
+  if(APPLE)
+    # macOS Due to the special bundle structure ignore the prefix eventually set by the user.
+    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/release)
+
+    # Force ccache usage if available
+    get_property(RULE_LAUNCH_COMPILE GLOBAL PROPERTY RULE_LAUNCH_COMPILE)
+    if(RULE_LAUNCH_COMPILE)
+      message(STATUS "Force enabling CCache usage under macOS")
+      # Set up wrapper scripts
+      configure_file("${COCKATRICE_CMAKE_PATH}/launch-c.in" launch-c)
+      configure_file("${COCKATRICE_CMAKE_PATH}/launch-cxx.in" launch-cxx)
+      execute_process(COMMAND chmod a+rx "${CMAKE_BINARY_DIR}/launch-c" "${CMAKE_BINARY_DIR}/launch-cxx")
+
+      # Set Xcode project attributes to route compilation through our scripts
+      set(CMAKE_XCODE_ATTRIBUTE_CC "${CMAKE_BINARY_DIR}/launch-c")
+      set(CMAKE_XCODE_ATTRIBUTE_CXX "${CMAKE_BINARY_DIR}/launch-cxx")
+      set(CMAKE_XCODE_ATTRIBUTE_LD "${CMAKE_BINARY_DIR}/launch-c")
+      set(CMAKE_XCODE_ATTRIBUTE_LDPLUSPLUS "${CMAKE_BINARY_DIR}/launch-cxx")
+    endif()
+  else()
+    # Linux / BSD
+    if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+      # fix package build
+      if(PREFIX)
+        set(CMAKE_INSTALL_PREFIX ${PREFIX})
+      else()
+        set(CMAKE_INSTALL_PREFIX /usr/local)
+      endif()
+    endif()
+  endif()
+elseif(WIN32)
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/rundir/${CMAKE_BUILD_TYPE})
+endif()
+
+# Define proper compilation flags
+if(MSVC)
+  # Visual Studio: Maximum optimization, disable warning C4251, establish C++17 compatibility
+  set(CMAKE_CXX_FLAGS_RELEASE "/Ox /MD /wd4251 /Zc:__cplusplus /std:c++17 /permissive-")
+  # Generate complete debugging information set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
+elseif(CMAKE_COMPILER_IS_GNUCXX)
+  # linux/gcc, bsd/gcc, windows/mingw
+  include(CheckCXXCompilerFlag)
+
+  set(CMAKE_CXX_FLAGS_RELEASE "-s -O2")
+  if(WARNING_AS_ERROR)
+    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -O0 -Wall -Wextra -Werror")
+  else()
+    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -O0 -Wall -Wextra")
+  endif()
+
+  if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17")
+  endif()
+
+  set(ADDITIONAL_DEBUG_FLAGS
+      -Wcast-align
+      -Wmissing-declarations
+      -Wno-long-long
+      -Wno-error=extra
+      -Wno-error=delete-non-virtual-dtor
+      -Wno-error=sign-compare
+      -Wno-error=missing-declarations
+  )
+
+  foreach(FLAG ${ADDITIONAL_DEBUG_FLAGS})
+    check_cxx_compiler_flag("${FLAG}" CXX_HAS_WARNING_${FLAG})
+    if(CXX_HAS_WARNING_${FLAG})
+      set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${FLAG}")
+    endif()
+  endforeach()
+else()
+  # other: osx/llvm, bsd/llvm
+  set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+  if(WARNING_AS_ERROR)
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Werror")
+  else()
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra")
+  endif()
+endif()
+
+if(DEFINED QTDIR${_lib_suffix})
+  list(APPEND CMAKE_PREFIX_PATH "${QTDIR${_lib_suffix}}")
+elseif(DEFINED QTDIR)
+  list(APPEND CMAKE_PREFIX_PATH "${QTDIR}")
+elseif(DEFINED ENV{QTDIR${_lib_suffix}})
+  list(APPEND CMAKE_PREFIX_PATH "$ENV{QTDIR${_lib_suffix}}")
+elseif(DEFINED ENV{QTDIR})
+  list(APPEND CMAKE_PREFIX_PATH "$ENV{QTDIR}")
+endif()
+
+# Compiler settings
+# compiler flags
+set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -std=gnu++98")
+set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
+set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
+set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -249,26 +361,71 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   message(STATUS "TEST build setup")
 endif()
 
-# packaging?
-set(CPACK_PACKAGE_CONTACT "djpiper28@gmail.com")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY SquireDesktop)
-set(CPACK_PACKAGE_VENDOR "djpiper28 @ Monarch Development")
+# Package builder
+set(CPACK_PACKAGE_CONTACT "Danny Piper <djpiper28@gmail.com>")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_NAME}")
+set(CPACK_PACKAGE_VENDOR "Monarch Development")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
-set(CPACK_PACKAGE_FILE_NAME CockatriceTournamentBot)
-set(CPACK_INSTALL_CMAKE_PROJECTS "SquireDesktop;SquireDesktop;ALL;/")
-if(CPACK_GENERATOR STREQUAL "RPM")
-  set(CPACK_RPM_PACKAGE_LICENSE "APGL3")
-  set(CPACK_RPM_PACKAGE_REQUIRES "")
-  set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games")
-  set(CPACK_RPM_PACKAGE_URL ${REPO_URL})
-elseif(CPACK_GENERATOR STREQUAL "DEB")
-  set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-  set(CPACK_DEBIAN_PACKAGE_SECTION "games")
-  set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${REPO_URL})
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+set(CPACK_PACKAGE_FILE_NAME "${PROJECT_VERSION_FILENAME}")
+
+if(UNIX)
+  if(APPLE)
+    set(CPACK_GENERATOR DragNDrop ${CPACK_GENERATOR})
+    set(CPACK_GENERATOR "DragNDrop")
+    set(CPACK_DMG_FORMAT "UDBZ")
+    set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
+    set(CPACK_SYSTEM_NAME "OSX")
+    set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icon.png") # does it need to be icns?
+  else()
+    # linux
+    if(CPACK_GENERATOR STREQUAL "RPM")
+      set(CPACK_RPM_PACKAGE_LICENSE "AGPLv3")
+      set(CPACK_RPM_MAIN_COMPONENT "squire_desktop")
+      if(Qt6_FOUND)
+        set(CPACK_RPM_PACKAGE_REQUIRES "qt6-qttools, qt6-qtmultimedia")
+      elseif(Qt5_FOUND)
+        set(CPACK_RPM_PACKAGE_REQUIRES "qt5-qttools, qt5-qtmultimedia")
+      endif()
+      set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games")
+      set(CPACK_RPM_PACKAGE_URL REPO_URL)
+      # stop directories from making package conflicts
+      set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION
+          /usr/share/applications
+          /usr/share/icons
+          /usr/share/icons/hicolor
+          /usr/share/icons/hicolor/48x48
+          /usr/share/icons/hicolor/48x48/apps
+          /usr/share/icons/hicolor/scalable
+          /usr/share/icons/hicolor/scalable/apps
+      )
+    else()
+      set(CPACK_GENERATOR DEB)
+      set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+      set(CPACK_DEBIAN_PACKAGE_SECTION "games")
+      set(CPACK_DEBIAN_PACKAGE_HOMEPAGE REPO_URL)
+      if(Qt6_FOUND)
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt6multimedia6, qt6-qpa-plugins")
+      elseif(Qt5_FOUND)
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libqt5multimedia5-plugins")
+      endif()
+    endif()
+  endif()
+elseif(WIN32)
+  set(CPACK_GENERATOR NSIS ${CPACK_GENERATOR})
+  if("${CMAKE_GENERATOR_PLATFORM}" MATCHES "(x64)")
+    set(TRICE_IS_64_BIT 1)
+  else()
+    set(TRICE_IS_64_BIT 0)
+  endif()
+
+  # include vcredist into the package; NSIS will take care of running it
+  if(VCREDISTRUNTIME_FOUND)
+    install(FILES "${VCREDISTRUNTIME_FILE}" DESTINATION ./)
+  endif()
 endif()
+
 include(CPack)
