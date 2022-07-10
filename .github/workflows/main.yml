@@ -97,7 +97,7 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools qt5-default
+        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qtbase6-dev qtdeclarative6-dev qttools6-dev qttools6-dev-tools qt6-default
         sudo apt-get install -y --no-install-recommends valgrind python3 astyle
         rustup default nightly
         rustup update
@@ -183,6 +183,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Install dependencies using homebrew
         shell: bash
