@@ -200,6 +200,8 @@ jobs:
         run: |
           brew update
           brew install "$qt_version" --force-bottle
+          brew install llvm
+          brew install gcc
           
       - name: Build on Xcode ${{matrix.xcode}}
         shell: bash
