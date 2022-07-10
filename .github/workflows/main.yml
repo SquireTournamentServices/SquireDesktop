@@ -10,6 +10,63 @@ on:
     - cron: '0 0 * * 5'
 
 jobs:
+  configure:
+    name: Configure
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{steps.configure.outputs.tag}}
+      sha: ${{steps.configure.outputs.sha}}
+      upload_url: ${{steps.create_release.outputs.upload_url}}
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: ${{github.token}} # needs other token https://github.com/styfle/cancel-workflow-action/issues/7
+
+      - name: Configure
+        id: configure
+        shell: bash
+        run: |
+          tag_regex='^refs/tags/'
+          if [[ $GITHUB_EVENT_NAME == pull-request ]]; then # pull request
+            sha="${{github.event.pull_request.head.sha}}"
+          elif [[ $GITHUB_REF =~ $tag_regex ]]; then # release
+            sha="$GITHUB_SHA"
+            tag="${GITHUB_REF/refs\/tags\//}"
+            echo "::set-output name=tag::$tag"
+          else # push to branch
+            sha="$GITHUB_SHA"
+          fi
+          echo "::set-output name=sha::$sha"
+
+      - name: Checkout
+        if: steps.configure.outputs.tag != null
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Prepare release parameters
+        id: prepare
+        if: steps.configure.outputs.tag != null
+        shell: bash
+        env:
+          TAG: ${{steps.configure.outputs.tag}}
+        run: .ci/prep_release.sh
+
+      - name: Create release
+        if: steps.configure.outputs.tag != null
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+        with:
+          tag_name: ${{github.ref}}
+          release_name: ${{steps.prepare.outputs.title}}
+          body_path: ${{steps.prepare.outputs.body_path}}
+          draft: true
+          prerelease: ${{steps.prepare.outputs.is_beta == 'yes'}}
+
   linux:
     name: Build Linux + Code Coverage
     runs-on: ubuntu-latest
@@ -69,7 +126,7 @@ jobs:
         name: codecov-umbrella # optional
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-act
+      uses: github/codeql-action/analyze@v1
 
   build-macos:
     strategy:
@@ -118,7 +175,6 @@ jobs:
     name: macOS ${{matrix.target}}
     needs: configure
     runs-on: ${{matrix.os}}
-    continue-on-error: ${{matrix.allow-failure == 'yes'}}
     env:
       DEVELOPER_DIR:
         /Applications/Xcode_${{matrix.xcode}}.app/Contents/Developer
