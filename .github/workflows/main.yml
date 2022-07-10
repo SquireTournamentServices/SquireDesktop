@@ -204,7 +204,7 @@ jobs:
           PACKAGE_SUFFIX: '-macOS-${{matrix.target}}'
           # set QTDIR to find qt5, qt6 can be found without this
           QTDIR: '/usr/local/opt/qt5'
-        run: cmake ..; cmake --build . -j
+        run: mkdir build; cd build; cmake ..; cmake --build . -j
 
       - name: Upload artifact
         if: matrix.make_package
@@ -300,7 +300,7 @@ jobs:
           CMAKE_GENERATOR: '${{env.CMAKE_GENERATOR}}'
           CMAKE_GENERATOR_PLATFORM: '${{matrix.cmake_generator_platform}}'
           QTDIR: '${{github.workspace}}\Qt\${{matrix.qt_version}}\win${{matrix.arch}}_${{matrix.qt_arch}}'
-        run: cmake ..; cmake --build . -j
+        run: mkdir build; cd build; cmake ..; cmake --build . -j
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
