@@ -53,22 +53,20 @@ if(WIN32)
   # Use vcpkg toolchain on Windows
   set(CMAKE_TOOLCHAIN_FILE
       ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
-      CACHE STRING "Vcpkg toolchain file"
-  )
+      CACHE STRING "Vcpkg toolchain file")
   # Qt path set by user or env var
   if(QTDIR
      OR DEFINED ENV{QTDIR}
      OR DEFINED ENV{QTDIR32}
-     OR DEFINED ENV{QTDIR64}
-  )
+     OR DEFINED ENV{QTDIR64})
 
   else()
     set(QTDIR
         ""
-        CACHE PATH "Path to Qt (e.g. C:/Qt/5.7/msvc2015_64)"
-    )
+        CACHE PATH "Path to Qt (e.g. C:/Qt/5.7/msvc2015_64)")
     message(
-      WARNING "QTDIR variable is missing.  Please set this variable to specify path to Qt (e.g. C:/Qt/5.7/msvc2015_64)"
+      WARNING
+        "QTDIR variable is missing.  Please set this variable to specify path to Qt (e.g. C:/Qt/5.7/msvc2015_64)"
     )
   endif()
 endif()
@@ -76,7 +74,8 @@ endif()
 # Define a proper install path
 if(UNIX)
   if(APPLE)
-    # macOS Due to the special bundle structure ignore the prefix eventually set by the user.
+    # macOS Due to the special bundle structure ignore the prefix eventually set
+    # by the user.
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/release)
 
     # Force ccache usage if available
@@ -86,7 +85,8 @@ if(UNIX)
       # Set up wrapper scripts
       configure_file("${COCKATRICE_CMAKE_PATH}/launch-c.in" launch-c)
       configure_file("${COCKATRICE_CMAKE_PATH}/launch-cxx.in" launch-cxx)
-      execute_process(COMMAND chmod a+rx "${CMAKE_BINARY_DIR}/launch-c" "${CMAKE_BINARY_DIR}/launch-cxx")
+      execute_process(COMMAND chmod a+rx "${CMAKE_BINARY_DIR}/launch-c"
+                              "${CMAKE_BINARY_DIR}/launch-cxx")
 
       # Set Xcode project attributes to route compilation through our scripts
       set(CMAKE_XCODE_ATTRIBUTE_CC "${CMAKE_BINARY_DIR}/launch-c")
@@ -111,8 +111,10 @@ endif()
 
 # Define proper compilation flags
 if(MSVC)
-  # Visual Studio: Maximum optimization, disable warning C4251, establish C++17 compatibility
-  set(CMAKE_CXX_FLAGS_RELEASE "/Ox /MD /wd4251 /Zc:__cplusplus /std:c++17 /permissive-")
+  # Visual Studio: Maximum optimization, disable warning C4251, establish C++17
+  # compatibility
+  set(CMAKE_CXX_FLAGS_RELEASE
+      "/Ox /MD /wd4251 /Zc:__cplusplus /std:c++17 /permissive-")
   # Generate complete debugging information set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
 elseif(CMAKE_COMPILER_IS_GNUCXX)
   # linux/gcc, bsd/gcc, windows/mingw
@@ -136,8 +138,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
       -Wno-error=extra
       -Wno-error=delete-non-virtual-dtor
       -Wno-error=sign-compare
-      -Wno-error=missing-declarations
-  )
+      -Wno-error=missing-declarations)
 
   foreach(FLAG ${ADDITIONAL_DEBUG_FLAGS})
     check_cxx_compiler_flag("${FLAG}" CXX_HAS_WARNING_${FLAG})
@@ -165,8 +166,7 @@ elseif(DEFINED ENV{QTDIR})
   list(APPEND CMAKE_PREFIX_PATH "$ENV{QTDIR}")
 endif()
 
-# Compiler settings
-# compiler flags
+# Compiler settings compiler flags
 set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -std=gnu++98")
 set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
@@ -379,7 +379,8 @@ if(UNIX)
     set(CPACK_DMG_FORMAT "UDBZ")
     set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
     set(CPACK_SYSTEM_NAME "OSX")
-    set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icon.png") # does it need to be icns?
+    set(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/icon.png"
+    )# does it need to be icns?
   else()
     # linux
     if(CPACK_GENERATOR STREQUAL "RPM")
@@ -400,8 +401,7 @@ if(UNIX)
           /usr/share/icons/hicolor/48x48
           /usr/share/icons/hicolor/48x48/apps
           /usr/share/icons/hicolor/scalable
-          /usr/share/icons/hicolor/scalable/apps
-      )
+          /usr/share/icons/hicolor/scalable/apps)
     else()
       set(CPACK_GENERATOR DEB)
       set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
