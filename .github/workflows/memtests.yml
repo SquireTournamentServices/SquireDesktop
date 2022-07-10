@@ -12,7 +12,7 @@ on:
 jobs:
   analyze:
     name: Analyse, Compile. Unit Tests and Coverage.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
@@ -34,8 +34,8 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev
-        sudo apt-get install -y --no-install-recommends valgrind python3 astyle
+        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qt6-base-dev qt6-declarative-dev qt6-tools-dev qt6-tools-dev-tools
+        sudo apt-get install -y --no-install-recommends valgrind python3 astyle libgl1-mesa-dev
         rustup default nightly
         rustup update
         
