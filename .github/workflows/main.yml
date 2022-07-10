@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Cancel previous runs
-      - uses: styfle/cancel-workflow-action@0.6.0
+        uses: styfle/cancel-workflow-action@0.6.0
         with:
           access_token: ${{github.token}} # needs other token https://github.com/styfle/cancel-workflow-action/issues/7
 
@@ -84,7 +84,7 @@ jobs:
         submodules: recursive
         
     - name: Install Rust
-    - uses: hecrj/setup-rust-action@v1
+      uses: hecrj/setup-rust-action@v1
       with:
         rust-version: ${{matrix.rust}}
 
@@ -187,7 +187,7 @@ jobs:
           submodules: recursive
           
       - name: Install Rust
-      - uses: hecrj/setup-rust-action@v1
+        uses: hecrj/setup-rust-action@v1
         with:
          rust-version: ${{matrix.rust}}
 
@@ -276,7 +276,7 @@ jobs:
           submodules: recursive
           
       - name: Install Rust
-      - uses: hecrj/setup-rust-action@v1
+        uses: hecrj/setup-rust-action@v1
         with:
          rust-version: ${{matrix.rust}}
 
