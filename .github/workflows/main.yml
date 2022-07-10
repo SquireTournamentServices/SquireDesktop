@@ -10,8 +10,9 @@ on:
     - cron: '0 0 * * 5'
 
 jobs:
-  linux:
+  build-linux:
     name: Build Linux + Code Coverage
+    needs: configure
     runs-on: ubuntu-latest
 
     strategy:
