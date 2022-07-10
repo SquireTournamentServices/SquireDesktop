@@ -97,7 +97,7 @@ jobs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qtbase6-dev qtdeclarative6-dev qttools6-dev qttools6-dev-tools qt6-default
+        sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qt6-base-dev qt6-declarative-dev qt6-tools-dev
         sudo apt-get install -y --no-install-recommends valgrind python3 astyle
         rustup default nightly
         rustup update
