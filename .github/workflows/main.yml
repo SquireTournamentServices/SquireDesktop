@@ -204,8 +204,7 @@ jobs:
           PACKAGE_SUFFIX: '-macOS-${{matrix.target}}'
           # set QTDIR to find qt5, qt6 can be found without this
           QTDIR: '/usr/local/opt/qt5'
-        # Mac machines actually have 3 cores
-        run: .ci/compile.sh --server --parallel 3
+        run: cmake ..; cmake --build . -j
 
       - name: Upload artifact
         if: matrix.make_package
@@ -293,10 +292,6 @@ jobs:
           VCPKG_DEFAULT_TRIPLET: '${{matrix.vcpkg_default_triplet}}-windows'
           VCPKG_DISABLE_METRICS: 1
 
-      - name: Install OpenSSL ${{matrix.arch}}-bit
-        shell: bash
-        run: .ci/download_openssl.sh --arch ${{matrix.arch}}
-
       - name: Build Cockatrice
         id: build
         shell: bash
@@ -305,7 +300,7 @@ jobs:
           CMAKE_GENERATOR: '${{env.CMAKE_GENERATOR}}'
           CMAKE_GENERATOR_PLATFORM: '${{matrix.cmake_generator_platform}}'
           QTDIR: '${{github.workspace}}\Qt\${{matrix.qt_version}}\win${{matrix.arch}}_${{matrix.qt_arch}}'
-        run: .ci/compile.sh --server --release --test --package --parallel 2
+        run: cmake ..; cmake --build . -j
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
