@@ -20,13 +20,19 @@ jobs:
 
     steps:
       - name: Cancel previous runs
-      - uses: hecrj/setup-rust-action@v1, styfle/cancel-workflow-action@0.6.0
+      - uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: ${{github.token}} # needs other token https://github.com/styfle/cancel-workflow-action/issues/7
+          
+      - name: Install Rust
+        id: rust
+      - uses: hecrj/setup-rust-action@v1
         with:
           rust-version: ${{ matrix.rust }}
-          access_token: ${{github.token}} # needs other token https://github.com/styfle/cancel-workflow-action/issues/7
 
       - name: Configure
         id: configure
+        needs: rust
         shell: bash
         run: |
           tag_regex='^refs/tags/'
@@ -186,9 +192,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
-      - uses: hecrj/setup-rust-action@v1
-        with:
-          rust-version: ${{ matrix.rust }}
 
       - name: Install dependencies using homebrew
         shell: bash
@@ -264,11 +267,7 @@ jobs:
     env:
       CMAKE_GENERATOR: 'Visual Studio 16 2019'
 
-    steps:
-      - uses: hecrj/setup-rust-action@v1
-        with:
-          rust-version: ${{ matrix.rust }}
-          
+    steps:          
       - name: Add msbuild to PATH
         id: add-msbuild
         uses: microsoft/setup-msbuild@v1.1
