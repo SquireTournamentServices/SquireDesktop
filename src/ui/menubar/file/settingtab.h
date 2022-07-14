@@ -14,6 +14,8 @@ class SettingTab : public QWidget
 public:
     explicit SettingTab(config_t *c, QWidget *parent = nullptr);
     ~SettingTab();
+public slots:
+    void onExit();
 
 protected:
     void changeEvent(QEvent *e);
@@ -21,4 +23,8 @@ protected:
 private:
     Ui::SettingTab *ui;
     config_t *c;
+private slots:
+    void onSave();
+    void onReset();
+    void onRestore();
 };

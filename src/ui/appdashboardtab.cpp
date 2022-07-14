@@ -1,6 +1,7 @@
 #include "./appdashboardtab.h"
 #include "./ui_appdashboardtab.h"
 #include "./recenttournamentwidget.h"
+#include <QApplication>
 
 AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
     QWidget(parent),
@@ -14,7 +15,6 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
     for (int i = 0; i < t.recent_tournament_count; i++) {
         RecentTournamentWidget *w = new RecentTournamentWidget(t.recent_tournaments[i], this);
         layout->addWidget(w);
-
     }
 }
 
@@ -34,3 +34,4 @@ void AppDashboardTab::changeEvent(QEvent *e)
         break;
     }
 }
+

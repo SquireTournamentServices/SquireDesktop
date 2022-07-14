@@ -162,6 +162,7 @@
     <message>
         <location filename="src/ui/mainwindow.ui" line="14"/>
         <location filename="build/SquireDesktop_autogen/include/ui_mainwindow.h" line="79"/>
+        <location filename="build-SquireDesktop-Desktop-Debug/SquireDesktop_autogen/include/ui_mainwindow.h" line="50"/>
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
@@ -172,53 +173,54 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="29"/>
+        <location filename="src/ui/mainwindow.cpp" line="32"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="30"/>
+        <location filename="src/ui/mainwindow.cpp" line="33"/>
+        <location filename="src/ui/mainwindow.cpp" line="88"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="32"/>
+        <location filename="src/ui/mainwindow.cpp" line="36"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="35"/>
+        <location filename="src/ui/mainwindow.cpp" line="39"/>
         <source>RNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="36"/>
+        <location filename="src/ui/mainwindow.cpp" line="40"/>
         <source>Flip Coins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="39"/>
+        <location filename="src/ui/mainwindow.cpp" line="43"/>
         <source>Roll Dice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="44"/>
+        <location filename="src/ui/mainwindow.cpp" line="48"/>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="48"/>
+        <location filename="src/ui/mainwindow.cpp" line="55"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="49"/>
+        <location filename="src/ui/mainwindow.cpp" line="56"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="50"/>
+        <location filename="src/ui/mainwindow.cpp" line="57"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>

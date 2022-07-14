@@ -26,3 +26,24 @@ void SettingTab::changeEvent(QEvent *e)
         break;
     }
 }
+
+void SettingTab::onExit()
+{
+
+}
+
+void SettingTab::onSave()
+{
+
+}
+
+void SettingTab::onReset()
+{
+
+}
+
+void SettingTab::onRestore()
+{
+
+}
+

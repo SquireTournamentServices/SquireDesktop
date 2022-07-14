@@ -32,7 +32,8 @@
         <string>Select Folder</string>
        </property>
        <property name="icon">
-        <iconset theme="document-open"/>
+        <iconset theme="document-open">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -171,14 +172,14 @@
     </widget>
    </item>
    <item row="9" column="1">
-    <widget class="QRadioButton" name="radioButton">
+    <widget class="QRadioButton" name="swissRadio">
      <property name="text">
       <string>Swiss</string>
      </property>
     </widget>
    </item>
    <item row="10" column="1">
-    <widget class="QRadioButton" name="radioButton_2">
+    <widget class="QRadioButton" name="fluidRadio">
      <property name="text">
       <string>Fluid</string>
      </property>

@@ -19,8 +19,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    config_t config;
 private slots:
     void coinFlipUtility();
     void diceRollUtility();
-    void beep();
+    void settings();
+    void closeTab(int index);
 };

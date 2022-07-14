@@ -4,9 +4,11 @@
 #include "./appdashboardtab.h"
 #include "./menubar/rng/coinsflipdialogue.h"
 #include "./menubar/rng/dicerolldialogue.h"
+#include "./menubar/file/settingtab.h"
 #include "../../testing_h/logger.h"
 #include <QIcon>
 #include <QPixmap>
+#include <QTabBar>
 
 #define UNSAVED_DATA "Unsaved data"
 #define NO_UNSAVED_DATA "No unsaved data"
@@ -15,6 +17,7 @@ MainWindow::MainWindow(config_t t, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->config = t;
     ui->setupUi(this);
     this->setWindowTitle(QString(PROJECT_NAME) + " - " + PROJECT_VERSION);
 
@@ -27,7 +30,8 @@ MainWindow::MainWindow(config_t t, QWidget *parent)
 
     // Init menu bar
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
-    QAction *settings = fileMenu->addAction(tr("Settings"));
+    QAction *settingsAction = fileMenu->addAction(tr("Settings"));
+    connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);
 
     QAction *exitAction = fileMenu->addAction(tr("Exit"));
     connect(exitAction, &QAction::triggered, this, &MainWindow::close);
@@ -40,9 +44,12 @@ MainWindow::MainWindow(config_t t, QWidget *parent)
     connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
 
     // Application dashboard
-    AppDashboardTab *dashboard = new AppDashboardTab(t, this);
+    AppDashboardTab *dashboard = new AppDashboardTab(t, ui->tabWidget);
     ui->tabWidget->addTab(dashboard, tr("Dashboard"));
-    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::beep);
+    ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
+
+    // Set tab closeinator
+    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
     // Set version label
     ui->versionLabel->setText(tr("Version: ") + PROJECT_VERSION + " - " + GIT_COMMIT_HASH + "@" + GIT_BRANCH
@@ -59,18 +66,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::coinFlipUtility()
 {
-    CoinsFlipDialogue *dlg = new CoinsFlipDialogue();
+    CoinsFlipDialogue *dlg = new CoinsFlipDialogue(this);
     dlg->show();
 }
 
 void MainWindow::diceRollUtility()
 {
-    DiceRollDialogue *dlg = new DiceRollDialogue();
+    DiceRollDialogue *dlg = new DiceRollDialogue(this);
     dlg->show();
 }
 
-void MainWindow::beep()
+void MainWindow::closeTab(int index)
 {
-    QApplication::beep();
+    delete ui->tabWidget->currentWidget();
+    ui->tabWidget->removeTab(index);
+}
+
+void MainWindow::settings()
+{
+    SettingTab *st = new SettingTab(&this->config, ui->tabWidget);
+    ui->tabWidget->addTab(st, tr("Settings"));
 }
 
