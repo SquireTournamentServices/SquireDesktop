@@ -1,6 +1,7 @@
 #include "settingtab.h"
 #include "ui_settingtab.h"
 #include <string>
+#include <string.h>
 
 SettingTab::SettingTab(config_t *c, QWidget *parent) :
     QWidget(parent),
@@ -59,6 +60,12 @@ void SettingTab::onExit()
 
 void SettingTab::onSave()
 {
+    // Load settings in the tab to a temp settings struct
+    config_t tmp_config;
+
+    // Free old config then copy new config in
+    free_config(this->c);
+    memcpy(this->c, &tmp_config, sizeof(tmp_config));
 
 }
 

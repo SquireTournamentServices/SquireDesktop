@@ -1,5 +1,8 @@
 #pragma once
 #include <QWidget>
+#include <QTimer>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 #include "../config.h"
 
 namespace Ui
@@ -20,5 +23,11 @@ protected:
 
 private:
     Ui::AppDashboardTab *ui;
+    QTimer resizeTimer;
+    QGraphicsPixmapItem *img;
+    QGraphicsScene* scene;
+    QImage image;
+private slots:
+    void resizeImage();
 };
 

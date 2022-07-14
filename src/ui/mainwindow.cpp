@@ -13,7 +13,7 @@
 #define UNSAVED_DATA "Unsaved data"
 #define NO_UNSAVED_DATA "No unsaved data"
 
-MainWindow::MainWindow(config_t t, QWidget *parent)
+MainWindow::MainWindow(config_t *t, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -44,7 +44,7 @@ MainWindow::MainWindow(config_t t, QWidget *parent)
     connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
 
     // Application dashboard
-    AppDashboardTab *dashboard = new AppDashboardTab(t, ui->tabWidget);
+    AppDashboardTab *dashboard = new AppDashboardTab(*t, ui->tabWidget);
     ui->tabWidget->addTab(dashboard, tr("Dashboard"));
     ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
@@ -84,7 +84,7 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::settings()
 {
-    SettingTab *st = new SettingTab(&this->config, ui->tabWidget);
+    SettingTab *st = new SettingTab(this->config, ui->tabWidget);
     ui->tabWidget->addTab(st, tr("Settings"));
 }
 

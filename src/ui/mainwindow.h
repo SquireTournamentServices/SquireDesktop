@@ -14,12 +14,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(config_t t, QWidget *parent = nullptr);
+    MainWindow(config_t *t, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    config_t config;
+    config_t *config;
 private slots:
     void coinFlipUtility();
     void diceRollUtility();

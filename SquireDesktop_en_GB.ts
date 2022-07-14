@@ -5,25 +5,25 @@
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="89"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="100"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="90"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="101"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="91"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="102"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="46"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="92"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="103"/>
         <source>Recent Tournaments</source>
         <translation type="unfinished"></translation>
     </message>
