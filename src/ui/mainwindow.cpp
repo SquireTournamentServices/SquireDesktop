@@ -30,17 +30,17 @@ MainWindow::MainWindow(config_t t, QWidget *parent)
 
     // Init menu bar
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
-    QAction *settingsAction = fileMenu->addAction(tr("Settings"));
+    QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
     connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);
 
-    QAction *exitAction = fileMenu->addAction(tr("Exit"));
+    QAction *exitAction = fileMenu->addAction(tr("&Exit"));
     connect(exitAction, &QAction::triggered, this, &MainWindow::close);
 
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
-    QAction *coinsAction = rndMenu->addAction(tr("Flip Coins"));
+    QAction *coinsAction = rndMenu->addAction(tr("&Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
 
-    QAction *diceAction = rndMenu->addAction(tr("Roll Dice"));
+    QAction *diceAction = rndMenu->addAction(tr("&Roll Dice"));
     connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
 
     // Application dashboard

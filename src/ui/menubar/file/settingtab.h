@@ -23,6 +23,7 @@ protected:
 private:
     Ui::SettingTab *ui;
     config_t *c;
+    void uiSetSettings();
 private slots:
     void onSave();
     void onReset();

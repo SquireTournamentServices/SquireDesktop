@@ -1,5 +1,6 @@
 #include "settingtab.h"
 #include "ui_settingtab.h"
+#include <string>
 
 SettingTab::SettingTab(config_t *c, QWidget *parent) :
     QWidget(parent),
@@ -7,7 +8,9 @@ SettingTab::SettingTab(config_t *c, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Init state
     this->c = c;
+    this->uiSetSettings();
 }
 
 SettingTab::~SettingTab()
@@ -23,6 +26,28 @@ void SettingTab::changeEvent(QEvent *e)
         ui->retranslateUi(this);
         break;
     default:
+        break;
+    }
+}
+
+void SettingTab::uiSetSettings()
+{
+    ui->tournSaveLocation->setText(QString::fromStdString(std::string(c->tourn_save_path)));
+
+    ui->deckCountSpinBox->setValue(c->default_settings.deck_count);
+    ui->matchSizeSpinBox->setValue(c->default_settings.match_size);
+
+    ui->drawPointsSpinBox->setValue(c->default_settings.points_draw);
+    ui->byePointsSpinBox->setValue(c->default_settings.points_bye);
+    ui->winPointsSpinBox->setValue(c->default_settings.points_win);
+    ui->lossPointsSpinBox->setValue(c->default_settings.points_loss);
+
+    switch (c->default_settings.type) {
+    case SWISS_TOURN:
+        ui->swissRadio->setChecked(true);
+        break;
+    case FLUID_TOURN:
+        ui->fluidRadio->setChecked(true);
         break;
     }
 }
