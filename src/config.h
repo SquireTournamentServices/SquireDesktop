@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include "./io_utils.h"
 
-// Warning: strings in this file must be alloced not, static data
+#define CONFIG_FILE "config.json"
 
+// Warning: strings in this file must be alloced not, static data
 typedef struct squire_user_t {
     char *uuid;
     char *user_name;
@@ -15,8 +16,7 @@ typedef struct squire_user_t {
 
 typedef enum tourn_type_t {
     SWISS_TOURN = 0,
-    FLUID_TOURN = 1,
-    LEAGUE_TOURN = 2
+    FLUID_TOURN = 1
 } tourn_type_t;
 
 typedef struct recent_tournament_t {
@@ -115,4 +115,5 @@ bool init_config(config_t *config, FILE *f);
 void free_config(config_t *config);
 bool valid_config(config_t config);
 bool write_config(config_t *config, FILE *f);
+const char *pairing_sys_str(tourn_type_t t);
 

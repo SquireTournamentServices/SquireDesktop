@@ -13,8 +13,6 @@
 #include "./config.h"
 #include "../testing_h/logger.h"
 
-#define CONFIG_FILE "config.json"
-
 #ifdef USE_BACKTRACE
 void handler(int sig)
 {

@@ -10,9 +10,6 @@
 #include <QPixmap>
 #include <QTabBar>
 
-#define UNSAVED_DATA "Unsaved data"
-#define NO_UNSAVED_DATA "No unsaved data"
-
 MainWindow::MainWindow(config_t *t, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -20,8 +17,6 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     this->config = t;
     ui->setupUi(this);
     this->setWindowTitle(QString(PROJECT_NAME) + " - " + PROJECT_VERSION);
-
-    ui->statusbar->showMessage(tr(NO_UNSAVED_DATA));
 
     QPixmap pixmap;
     pixmap.loadFromData(ICON_PNG, sizeof(ICON_PNG));
@@ -56,6 +51,11 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
                               + " (" + OS + ") | [" + tr("Github Repo") + "](" + REPO_URL + ") | "
                               + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
 
+    QCoreApplication::setOrganizationName("Monarch");
+    QCoreApplication::setOrganizationDomain("monarch.cards");
+    QCoreApplication::setApplicationName("SquireDesktop");
+    QCoreApplication::setApplicationVersion(VERSION);
+
     lprintf(LOG_INFO, "Application started fully.\n");
 }
 
@@ -82,9 +82,15 @@ void MainWindow::closeTab(int index)
     ui->tabWidget->removeTab(index);
 }
 
+void MainWindow::addTab(QWidget *w, QString name)
+{
+    ui->tabWidget->addTab(w, name);
+    emit ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+}
+
 void MainWindow::settings()
 {
     SettingTab *st = new SettingTab(this->config, ui->tabWidget);
-    ui->tabWidget->addTab(st, tr("Settings"));
+    this->addTab(st, tr("Settings"));
 }
 

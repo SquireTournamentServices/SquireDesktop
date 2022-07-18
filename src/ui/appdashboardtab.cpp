@@ -19,23 +19,20 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
     }
 
     // Banner stuff
-    this->image.loadFromData(BANNER_PNG, sizeof(BANNER_PNG));
-    this->img = new QGraphicsPixmapItem(QPixmap::fromImage(this->image));
-    this->scene = new QGraphicsScene;
+    QPixmap pixmap;
+    pixmap.loadFromData(BANNER_PNG, sizeof(BANNER_PNG));
 
-    this->scene->addItem(this->img);
-    this->img->setPos(0, 0);
-    ui->bannerView->setScene(scene);
+    this->banner = new LabelImage();
+    banner->setPixmap(pixmap);
 
-    this->resizeImage();
-    connect(&this->resizeTimer, &QTimer::timeout, this, &AppDashboardTab::resizeImage);
+    QVBoxLayout *bannerLayout = new QVBoxLayout(ui->bannerView);
+    bannerLayout->setAlignment(Qt::AlignTop);
+    bannerLayout->addWidget(this->banner);
 }
 
 AppDashboardTab::~AppDashboardTab()
 {
     delete ui;
-    delete this->img;
-    delete this->scene;
 }
 
 void AppDashboardTab::changeEvent(QEvent *e)
@@ -48,30 +45,5 @@ void AppDashboardTab::changeEvent(QEvent *e)
     default:
         break;
     }
-}
-
-void AppDashboardTab::resizeImage()
-{
-    double w = this->image.width();
-    double h = this->image.height();
-
-    if (w == 0 || h ==0) {
-        return;
-    }
-
-    double scale1 = ui->bannerView->width() / w;
-    double scale2 = ui->bannerView->height() / h;
-
-    // Min
-    double scale = scale1;
-    if (scale2 < scale1) {
-        scale = scale2;
-    }
-
-    // Set scale
-    this->img->setScale(scale);
-    this->img->setPos(0, 0);
-
-    this->resizeTimer.start(100);
 }
 

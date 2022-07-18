@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include "./widgets/labelimage.h"
 #include "../config.h"
 
 namespace Ui
@@ -21,5 +22,6 @@ protected:
 private:
     Ui::RecentTournamentWidget *ui;
     recent_tournament_t t;
+    LabelImage *img;
 };
 

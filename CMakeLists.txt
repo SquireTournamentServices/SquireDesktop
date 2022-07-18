@@ -225,6 +225,8 @@ set(PROJECT_SOURCES
     ./src/ui/menubar/rng/dicerollresultdialogue.cpp
     ./src/ui/menubar/rng/dicerollresultdialogue.h
     ./src/ui/menubar/rng/dicerollresultdialogue.ui
+    ./src/ui/widgets/labelimage.cpp
+    ./src/ui/widgets/labelimage.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES

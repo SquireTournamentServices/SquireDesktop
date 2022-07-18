@@ -5,25 +5,25 @@
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="100"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="125"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="101"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="126"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="102"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="127"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/appdashboardtab.ui" line="46"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="103"/>
+        <location filename="src/ui/appdashboardtab.ui" line="52"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="128"/>
         <source>Recent Tournaments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -162,7 +162,6 @@
     <message>
         <location filename="src/ui/mainwindow.ui" line="14"/>
         <location filename="build/SquireDesktop_autogen/include/ui_mainwindow.h" line="79"/>
-        <location filename="build-SquireDesktop-Desktop-Debug/SquireDesktop_autogen/include/ui_mainwindow.h" line="50"/>
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
@@ -173,61 +172,61 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="32"/>
+        <location filename="src/ui/mainwindow.cpp" line="27"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="88"/>
+        <location filename="src/ui/mainwindow.cpp" line="94"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="36"/>
+        <location filename="src/ui/mainwindow.cpp" line="31"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="33"/>
+        <location filename="src/ui/mainwindow.cpp" line="28"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="39"/>
+        <location filename="src/ui/mainwindow.cpp" line="34"/>
         <source>RNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="40"/>
+        <location filename="src/ui/mainwindow.cpp" line="35"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="43"/>
+        <location filename="src/ui/mainwindow.cpp" line="38"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="48"/>
+        <location filename="src/ui/mainwindow.cpp" line="43"/>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="55"/>
+        <location filename="src/ui/mainwindow.cpp" line="50"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="56"/>
+        <location filename="src/ui/mainwindow.cpp" line="51"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="57"/>
+        <location filename="src/ui/mainwindow.cpp" line="52"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>
@@ -236,30 +235,35 @@
     <name>RecentTournamentWidget</name>
     <message>
         <location filename="src/ui/recenttournamentwidget.ui" line="32"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="103"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="104"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="65"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="104"/>
-        <source>Tournament Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="82"/>
+        <location filename="src/ui/recenttournamentwidget.ui" line="59"/>
         <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="105"/>
         <source>Tournament Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="89"/>
+        <location filename="src/ui/recenttournamentwidget.ui" line="66"/>
         <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="106"/>
         <source>Last Edit Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui/recenttournamentwidget.ui" line="78"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="107"/>
+        <source>type label</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="src/ui/recenttournamentwidget.cpp" line="17"/>
+        <source>N/a</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/recenttournamentwidget.cpp" line="23"/>
         <source>Error with: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,6 +364,26 @@
         <location filename="src/ui/menubar/file/settingtab.ui" line="194"/>
         <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="220"/>
         <source>Default Tournament Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="55"/>
+        <source>Select the folder to save tournaments to.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="102"/>
+        <source>An Error Occurred Saving Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="135"/>
+        <source>Cannot open file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="141"/>
+        <source>Cannot encode settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

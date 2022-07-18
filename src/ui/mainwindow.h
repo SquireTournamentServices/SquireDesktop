@@ -1,5 +1,6 @@
 #pragma once
 #include <QMainWindow>
+#include <QString>
 #include "../config.h"
 
 QT_BEGIN_NAMESPACE
@@ -20,6 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     config_t *config;
+    void addTab(QWidget *w, QString name);
 private slots:
     void coinFlipUtility();
     void diceRollUtility();

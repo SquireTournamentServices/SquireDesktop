@@ -290,3 +290,15 @@ bool write_config(config_t *config, FILE *f)
     return ((size_t) num) == output.size() && flush_status == 0;
 }
 
+const char *pairing_sys_str(tourn_type_t t)
+{
+    switch(t) {
+    case FLUID_TOURN:
+        return "Fluid Round";
+    case SWISS_TOURN:
+        return "Swiss";
+    default:
+        return "Unknown";
+    }
+}
+
