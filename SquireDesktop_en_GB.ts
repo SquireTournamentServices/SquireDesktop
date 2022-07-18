@@ -172,62 +172,63 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="27"/>
+        <location filename="src/ui/mainwindow.cpp" line="30"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="94"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/mainwindow.cpp" line="31"/>
+        <location filename="src/ui/mainwindow.cpp" line="34"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="28"/>
+        <location filename="src/ui/mainwindow.cpp" line="31"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="34"/>
+        <location filename="src/ui/mainwindow.cpp" line="37"/>
         <source>RNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="35"/>
+        <location filename="src/ui/mainwindow.cpp" line="38"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="38"/>
+        <location filename="src/ui/mainwindow.cpp" line="41"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="43"/>
+        <location filename="src/ui/mainwindow.cpp" line="46"/>
+        <location filename="src/ui/mainwindow.cpp" line="67"/>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="50"/>
+        <location filename="src/ui/mainwindow.cpp" line="53"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="51"/>
+        <location filename="src/ui/mainwindow.cpp" line="54"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="52"/>
+        <location filename="src/ui/mainwindow.cpp" line="55"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="210"/>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -372,17 +373,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="102"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="103"/>
         <source>An Error Occurred Saving Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="135"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="136"/>
         <source>Cannot open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="141"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="142"/>
         <source>Cannot encode settings</source>
         <translation type="unfinished"></translation>
     </message>

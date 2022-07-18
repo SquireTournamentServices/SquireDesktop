@@ -6,6 +6,9 @@
 #include "./menubar/rng/dicerolldialogue.h"
 #include "./menubar/file/settingtab.h"
 #include "../../testing_h/logger.h"
+#include "../discord_game_sdk.h"
+#include <unistd.h>
+#include <string.h>
 #include <QIcon>
 #include <QPixmap>
 #include <QTabBar>
@@ -56,11 +59,124 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     QCoreApplication::setApplicationName("SquireDesktop");
     QCoreApplication::setApplicationVersion(VERSION);
 
+    this->dc_info = (dc_info_t *) malloc(sizeof * this->dc_info);
+    if (this->dc_info != NULL) {
+        this->discord_thread_txt = NULL;
+        this->dc_info->txt = NULL;
+        this->dc_info->lock = PTHREAD_MUTEX_INITIALIZER;
+        this->setDiscordText((QString::fromStdString(PROJECT_NAME " - ") + tr("Dashboard")).toStdString());
+
+        pthread_create(&this->discord_thread, NULL, &dc_thread, this->dc_info);
+    } else {
+        lprintf(LOG_ERROR, "Malloc error\n");
+    }
+
+
     lprintf(LOG_INFO, "Application started fully.\n");
+}
+
+void MainWindow::setDiscordText(std::string txt)
+{
+    if (this->dc_info == NULL) {
+        return;
+    }
+
+    pthread_mutex_lock(&this->dc_info->lock);
+    if (this->discord_thread_txt != NULL) {
+        free(this->discord_thread_txt);
+    }
+
+    this->discord_thread_txt = clone_std_string(txt);
+    this->dc_info->txt = &this->discord_thread_txt;
+    pthread_mutex_unlock(&this->dc_info->lock);
+}
+
+struct Application {
+    struct IDiscordCore* core;
+    struct IDiscordUsers* users;
+};
+
+void *dc_thread(void *__info)
+{
+    lprintf(LOG_INFO, "Discord RPC thread started.\n");
+    struct Application app;
+    memset(&app, 0, sizeof(app));
+
+    IDiscordCoreEvents events;
+    memset(&events, 0, sizeof(events));
+
+    struct DiscordCreateParams params;
+    params.client_id = CLIENT_ID;
+    params.flags = DiscordCreateFlags_NoRequireDiscord;
+    params.events = &events;
+    params.event_data = &app;
+    while (DiscordCreate(DISCORD_VERSION, &params, &app.core) != DiscordResult_Ok) sleep(1);
+    dc_info_t *info = (dc_info_t *) __info;
+
+    int tries = 0;
+    while (tries < 10) {
+        size_t dc_start_time = time(NULL);
+
+        while (1) {
+            EDiscordResult r = app.core->run_callbacks(app.core);
+            if (r != DiscordResult_Ok) {
+                lprintf(LOG_ERROR, "Discord error - trying again (%d)\n", tries++);
+                break;
+            }
+
+            // Copy txt safely
+            char *txt = NULL;
+            pthread_mutex_lock(&info->lock);
+            if (info->txt != NULL) {
+                txt = *info->txt;
+                *info->txt = NULL;
+            }
+            pthread_mutex_unlock(&info->lock);
+
+            // If txt was set, set the status
+            if (txt != NULL) {
+                lprintf(LOG_INFO, "Set Discord state to %s\n", txt);
+
+                DiscordActivity activity;
+                memset(&activity, 0, sizeof(activity));
+                activity.type = DiscordActivityType_Playing;
+                strncpy(activity.name, PROJECT_NAME, sizeof(activity.name));
+                strncpy(activity.state, "Running a Tournament", sizeof(activity.state));
+                strncpy(activity.details, txt, sizeof(activity.details));
+                strncpy(activity.assets.large_image, DISCORD_LARGE_IMG, sizeof(activity.assets.large_image));
+                activity.timestamps.start = dc_start_time;
+
+                IDiscordActivityManager *act = app.core->get_activity_manager(app.core);
+                act->update_activity(act, &activity, NULL, NULL);
+                free(txt);
+            }
+            sleep(1);
+        }
+    }
+
+    pthread_exit(NULL);
 }
 
 MainWindow::~MainWindow()
 {
+    lprintf(LOG_INFO, "Exiting app\n");
+
+    if (this->dc_info != NULL) {
+        pthread_mutex_lock(&this->dc_info->lock);
+        if (*this->dc_info->txt != NULL) {
+            free(*this->dc_info->txt);
+            *this->dc_info->txt = NULL;
+            this->dc_info->txt = NULL;
+        }
+        pthread_mutex_unlock(&this->dc_info->lock);
+        pthread_cancel(this->discord_thread);
+
+        void *ret;
+        pthread_join(this->discord_thread, &ret);
+        pthread_mutex_destroy(&this->dc_info->lock);
+        free(this->dc_info);
+    }
+
     delete ui;
 }
 

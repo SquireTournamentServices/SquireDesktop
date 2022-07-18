@@ -201,6 +201,7 @@ set(MAIN_FILES
 set(PROJECT_SOURCES
     ${TS_FILES}
     ${MAIN_FILES}
+    ./src/discord_game_sdk.h
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui
@@ -297,6 +298,21 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
     "src/ui/*")
 endif()
 
+# Installs Discord Game SDK binaries
+set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dll.lib")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.so")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Macos")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
+endif()
+install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH} DESTINATION lib/)
+message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
+
 # Setup deps
 set(JSON_BuildTests
     OFF
@@ -326,6 +342,12 @@ endif()
 target_link_libraries(
   SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                         nlohmann_json::nlohmann_json squire_core)
+# Link discord
+add_library(discord STATIC IMPORTED)
+set_target_properties(discord PROPERTIES IMPORTED_LOCATION
+                                         ${CMAKE_DISCORD_GAME_SDK_LIB_PATH})
+target_link_libraries(SquireDesktop PUBLIC discord)
+
 set_target_properties(
   SquireDesktop
   PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER monarch.squire_desktop
