@@ -8,15 +8,57 @@
 ## Start Here!
 Currently this is under development and, not released, please check back later!
 
-### Installing
-#### Installing on Windows
-TODO
+### Installing from Binaries
+**See releases.**
 
-#### Installing on Mac
-TODO
+### Installing from Sources
+#### Start Here
+##### 1. Install the following
+ - `Rust`
+ - `CMake`
+ - `cbindgen` (execute: `cargo install --force cbindgen`)
+ - `Qt` (>= 5.14, Windows users can install qtcreator to make this easier)
+   - Linguistics
+   - Core
+   - Networking
+ - `Compiler` (gcc, clang or, msvc)
+ - `pthread`
 
-#### Installing on Linux
-TODO
+##### 2. Update Rust to Nightly
+```
+rustup default nightly
+rustup update
+```
+
+##### 3. OS Dependant Instructions
+###### Installing on Windows
+Install qtcreator (sorts most things out for you)
+Build in qtcreator (it is easier I promise)
+
+###### Installing on Mac
+Install Deps
+```
+brew install qt6
+brew install llvm
+brew install gcc
+```
+
+You should be able to make this in XCode.
+
+###### Installing on Linux
+```sh
+# Ubuntu
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends build-essential \
+cmake gcovr qt6-base-dev qt6-base-dev-tools qt6-declarative-dev \
+qt6-tools-dev qt6-tools-dev-tools linguist-qt6 \
+valgrind python3 astyle qt6-l10n-tool \
+libgl1-mesa-dev
+```
+```sh
+# Arch
+sudo pacman -S gcc build-essential g++ cmake 
+```
 
 ### Basic Usage
 See the [Wiki](https://github.com/MonarchDevelopment/SquireDesktop/wiki) for a guide (coming
@@ -75,4 +117,5 @@ icons and, assets are ours (Monarch's), enquire if you wish to use.
 |---|---|
 | `warning.png` | Flat Icon |
 | `icon.png` | Monarch |
+| `banner.png` | Monarch |
 
