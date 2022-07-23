@@ -214,6 +214,9 @@ set(PROJECT_SOURCES
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui
+    ./src/ui/menubar/file/createtournamentdialogue.cpp
+    ./src/ui/menubar/file/createtournamentdialogue.h
+    ./src/ui/menubar/file/createtournamentdialogue.ui
     ./src/ui/menubar/rng/coinsflipdialogue.cpp
     ./src/ui/menubar/rng/coinsflipdialogue.h
     ./src/ui/menubar/rng/coinsflipdialogue.ui
