@@ -43,7 +43,11 @@ private:
 private slots:
     void coinFlipUtility();
     void diceRollUtility();
+    
     void settings();
+    void newTournament();
+    void loadTournament();
+    
     void closeTab(int index);
     void setDiscordText(std::string txt);
 };

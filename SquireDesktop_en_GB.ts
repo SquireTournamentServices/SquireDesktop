@@ -72,6 +72,116 @@
     </message>
 </context>
 <context>
+    <name>CreateTournamentDialogue</name>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="267"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="26"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="268"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="36"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="269"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="46"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="270"/>
+        <source>Use table numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="63"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="271"/>
+        <source>Pairing System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="73"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="272"/>
+        <source>Match Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="87"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="273"/>
+        <source>Minimum Deck Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="97"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="274"/>
+        <source>Maximum Deck Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="104"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="275"/>
+        <source>0 (No maximum)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="118"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="276"/>
+        <source>Points Win</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="128"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="277"/>
+        <source>Points Loss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="142"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="278"/>
+        <source>Points Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="156"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="279"/>
+        <source>Points Bye</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="200"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="280"/>
+        <source>Allow Player Self Registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="207"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="281"/>
+        <source>Require player checkins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="214"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="282"/>
+        <source>Host online (Coming Soon)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="241"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="284"/>
+        <source>Save As</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="10"/>
+        <source>New Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DiceRollDialogue</name>
     <message>
         <location filename="src/ui/menubar/rng/dicerolldialogue.ui" line="14"/>
@@ -172,62 +282,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="30"/>
+        <location filename="src/ui/mainwindow.cpp" line="31"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="34"/>
+        <location filename="src/ui/mainwindow.cpp" line="41"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="31"/>
+        <location filename="src/ui/mainwindow.cpp" line="38"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="37"/>
+        <location filename="src/ui/mainwindow.cpp" line="32"/>
+        <source>New Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="35"/>
+        <source>Open Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="45"/>
         <source>RNG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="38"/>
+        <location filename="src/ui/mainwindow.cpp" line="46"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="41"/>
+        <location filename="src/ui/mainwindow.cpp" line="49"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="46"/>
-        <location filename="src/ui/mainwindow.cpp" line="67"/>
+        <location filename="src/ui/mainwindow.cpp" line="54"/>
+        <location filename="src/ui/mainwindow.cpp" line="75"/>
         <source>Dashboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="53"/>
+        <location filename="src/ui/mainwindow.cpp" line="61"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="54"/>
+        <location filename="src/ui/mainwindow.cpp" line="62"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="55"/>
+        <location filename="src/ui/mainwindow.cpp" line="63"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="210"/>
+        <location filename="src/ui/mainwindow.cpp" line="218"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -273,49 +393,43 @@
     <name>SettingTab</name>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="203"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="209"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="20"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="204"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="210"/>
         <source>Tournament Save Location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="32"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="205"/>
-        <source>Select Folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="45"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="206"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="212"/>
         <source>Default Deck Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="52"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="207"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="213"/>
         <source> Decks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="65"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="208"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="214"/>
         <source>Default Match Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="72"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="209"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="215"/>
         <source> Players</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="95"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="210"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="216"/>
         <source>Default Draw Points</source>
         <translation type="unfinished"></translation>
     </message>
@@ -324,46 +438,46 @@
         <location filename="src/ui/menubar/file/settingtab.ui" line="119"/>
         <location filename="src/ui/menubar/file/settingtab.ui" line="136"/>
         <location filename="src/ui/menubar/file/settingtab.ui" line="153"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="211"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="213"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="215"/>
         <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="217"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="219"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="221"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="223"/>
         <source> Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="112"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="212"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="218"/>
         <source>Default Bye Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="129"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="214"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="220"/>
         <source>Default Loss Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="146"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="216"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="222"/>
         <source>Default Win Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="177"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="218"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="224"/>
         <source>Swiss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="187"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="219"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="225"/>
         <source>Fluid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="194"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="220"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="226"/>
         <source>Default Tournament Type</source>
         <translation type="unfinished"></translation>
     </message>
@@ -385,105 +499,6 @@
     <message>
         <location filename="src/ui/menubar/file/settingtab.cpp" line="142"/>
         <source>Cannot encode settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>createtournamentdialogue</name>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="238"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="26"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="239"/>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="36"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="240"/>
-        <source>Format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="46"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="241"/>
-        <source>Use table numbers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="63"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="242"/>
-        <source>Pairing System</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="73"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="243"/>
-        <source>Match Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="87"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="244"/>
-        <source>Minimum Deck Count</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="97"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="245"/>
-        <source>Maximum Deck Count</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="104"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="246"/>
-        <source>0 (No maximum)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="118"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="247"/>
-        <source>Points Win</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="128"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="248"/>
-        <source>Points Loss</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="142"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="249"/>
-        <source>Points Draw</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="156"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="250"/>
-        <source>Points Bye</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="200"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="251"/>
-        <source>Allow Player Self Registration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="207"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="252"/>
-        <source>Require player checkins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="214"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="253"/>
-        <source>Host online (Coming Soon)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

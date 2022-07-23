@@ -5,6 +5,7 @@
 #include "./menubar/rng/coinsflipdialogue.h"
 #include "./menubar/rng/dicerolldialogue.h"
 #include "./menubar/file/settingtab.h"
+#include "./menubar/file/createtournamentdialogue.h"
 #include "../../testing_h/logger.h"
 #include "../discord_game_sdk.h"
 #include <unistd.h>
@@ -28,12 +29,19 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
 
     // Init menu bar
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
+    QAction *newTournamentAction = fileMenu->addAction(tr("New Tournament"));
+    connect(newTournamentAction, &QAction::triggered, this, &MainWindow::newTournament);
+
+    QAction *loadTournamentAction = fileMenu->addAction(tr("Open Tournament"));
+    connect(loadTournamentAction, &QAction::triggered, this, &MainWindow::loadTournament);
+
     QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
     connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);
 
     QAction *exitAction = fileMenu->addAction(tr("&Exit"));
     connect(exitAction, &QAction::triggered, this, &MainWindow::close);
 
+    // Rnd menu
     QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
     QAction *coinsAction = rndMenu->addAction(tr("&Flip Coins"));
     connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
@@ -208,5 +216,16 @@ void MainWindow::settings()
 {
     SettingTab *st = new SettingTab(this->config, ui->tabWidget);
     this->addTab(st, tr("Settings"));
+}
+
+void MainWindow::newTournament()
+{
+    CreateTournamentDialogue *dlg = new CreateTournamentDialogue(this, this->config);
+    dlg->show();
+}
+
+void MainWindow::loadTournament()
+{
+
 }
 

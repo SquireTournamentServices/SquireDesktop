@@ -1,25 +1,23 @@
-#ifndef CREATETOURNAMENTDIALOGUE_H
-#define CREATETOURNAMENTDIALOGUE_H
-
+#pragma once
+#include "../../../config.h"
 #include <QDialog>
 
 namespace Ui {
-  class createtournamentdialogue;
+  class CreateTournamentDialogue;
 }
 
-class createtournamentdialogue : public QDialog
+class CreateTournamentDialogue : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit createtournamentdialogue(QWidget *parent = nullptr);
-  ~createtournamentdialogue();
+  explicit CreateTournamentDialogue(QWidget *parent = nullptr, config_t *config);
+  ~CreateTournamentDialogue();
 
 protected:
   void changeEvent(QEvent *e);
 
 private:
-  Ui::createtournamentdialogue *ui;
+  Ui::CreateTournamentDialogue *ui;
 };
 
-#endif // CREATETOURNAMENTDIALOGUE_H

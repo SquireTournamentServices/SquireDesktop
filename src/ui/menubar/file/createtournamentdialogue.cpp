@@ -1,19 +1,28 @@
 #include "createtournamentdialogue.h"
 #include "ui_createtournamentdialogue.h"
 
-createtournamentdialogue::createtournamentdialogue(QWidget *parent) :
+CreateTournamentDialogue::CreateTournamentDialogue(QWidget *parent, config_t *config) :
   QDialog(parent),
-  ui(new Ui::createtournamentdialogue)
+  ui(new Ui::CreateTournamentDialogue)
 {
   ui->setupUi(this);
+
+  this->setWindowTitle(tr("New Tournament"));
+
+  // Set defaults
+
+
+  // Set name edit -> override save path
+
+  // Set buttons
 }
 
-createtournamentdialogue::~createtournamentdialogue()
+CreateTournamentDialogue::~CreateTournamentDialogue()
 {
   delete ui;
 }
 
-void createtournamentdialogue::changeEvent(QEvent *e)
+void CreateTournamentDialogue::changeEvent(QEvent *e)
 {
   QDialog::changeEvent(e);
   switch (e->type()) {
