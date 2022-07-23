@@ -12,7 +12,7 @@ on:
 jobs:
   configure:
     name: Configure
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       tag: ${{steps.configure.outputs.tag}}
       sha: ${{steps.configure.outputs.sha}}
@@ -100,11 +100,9 @@ jobs:
         sudo apt-get install -y --no-install-recommends build-essential \
           cmake gcovr qt6-base-dev qt6-base-dev-tools qt6-declarative-dev \
           qt6-tools-dev qt6-tools-dev-tools linguist-qt6 \
-          valgrind python3 astyle \
+          valgrind python3 astyle qt6-l10n-tool \
           libgl1-mesa-dev
-        rustup default nightly
-        rustup update
-        
+          
     - name: Make Release
       shell: bash
       run : |
