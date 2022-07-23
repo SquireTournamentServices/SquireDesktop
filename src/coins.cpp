@@ -16,8 +16,8 @@
 
 int flip_krark_coins(int coins)
 {
-    register unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
-    register unsigned long t, t2;
+    unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
+    unsigned long t, t2;
 
     unsigned long i, count;
     i = count = 0;
@@ -39,8 +39,8 @@ int flip_krark_coins(int coins)
 
 int flip_coins(int coins)
 {
-    register unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
-    register unsigned long t;
+    unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
+    unsigned long t;
 
     unsigned long i, count;
     i = count = 0;
@@ -80,8 +80,8 @@ dice_roll_ret_t roll_dice(int sides, int number, int *status)
     }
 
     // Fast random, same as coin flipper
-    register unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
-    register unsigned long t;
+    unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
+    unsigned long t;
 
     for (int i = 0; i < number; i++) {
         fast_rand();
