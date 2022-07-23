@@ -12,7 +12,7 @@ on:
 jobs:
   configure:
     name: Configure
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       tag: ${{steps.configure.outputs.tag}}
       sha: ${{steps.configure.outputs.sha}}
@@ -102,9 +102,7 @@ jobs:
           qt6-tools-dev qt6-tools-dev-tools linguist-qt6 \
           valgrind python3 astyle \
           libgl1-mesa-dev
-        rustup default nightly
-        rustup update
-        
+          
     - name: Make Release
       shell: bash
       run : |
