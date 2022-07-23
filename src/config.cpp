@@ -312,7 +312,7 @@ bool init_tourn_folder(config_t *config)
 
     int j = 0;
     size_t len = strlen(config->tourn_save_path);
-    for (int i = 0; i < len; i++) {
+    for (size_t i = 0; i < len; i++) {
         buffer[j] = config->tourn_save_path[i];
         if ((config->tourn_save_path[i] == '/' && i > 0) || (len == 1 + i)) {
             buffer[j + 1] = '\0';
