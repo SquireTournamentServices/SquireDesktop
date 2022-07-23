@@ -86,7 +86,7 @@ jobs:
     - name: Install Rust
       uses: hecrj/setup-rust-action@v1
       with:
-        rust-version: ${{matrix.rust}}
+        rust-version: nightly
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
@@ -192,7 +192,7 @@ jobs:
       - name: Install Rust
         uses: hecrj/setup-rust-action@v1
         with:
-         rust-version: ${{matrix.rust}}
+         rust-version: nightly
 
       - name: Install dependencies using homebrew
         shell: bash
@@ -283,7 +283,7 @@ jobs:
       - name: Install Rust
         uses: hecrj/setup-rust-action@v1
         with:
-         rust-version: ${{matrix.rust}}
+         rust-version: nightly
 
       - name: Restore Qt ${{matrix.qt_version}} for ${{matrix.target}} from cache
         id: cache-qt
