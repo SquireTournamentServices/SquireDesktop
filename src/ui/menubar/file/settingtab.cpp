@@ -82,8 +82,6 @@ void SettingTab::uiSetSettings()
     case FLUID_TOURN:
         ui->fluidRadio->setChecked(true);
         break;
-    default:
-        lprintf(LOG_ERROR, "%d is not a valid tourn type.\n", c->default_settings.type);
     }
 }
 

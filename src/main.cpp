@@ -9,9 +9,11 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <time.h>
 #include "./ui/mainwindow.h"
 #include "./config.h"
 #include "../testing_h/logger.h"
+#include "squire_core.h"
 
 #ifdef USE_BACKTRACE
 void handler(int sig)
@@ -31,6 +33,9 @@ void handler(int sig)
 
 int main(int argc, char *argv[])
 {
+    squire_core::init_squire_ffi(); // Inits the global tourn struct
+    srand(time(NULL));
+
 #ifdef USE_BACKTRACE
     // Error catchinator 9000
     signal(SIGSEGV, handler);
@@ -95,3 +100,4 @@ int main(int argc, char *argv[])
     free_config(&config);
     return ret;
 }
+

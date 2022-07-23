@@ -8,11 +8,13 @@
 #include "./menubar/file/createtournamentdialogue.h"
 #include "../../testing_h/logger.h"
 #include "../discord_game_sdk.h"
+#include "./ui_appdashboardtab.h" // Hack to attach dashboard to menubar
 #include <unistd.h>
 #include <string.h>
 #include <QIcon>
 #include <QPixmap>
 #include <QTabBar>
+#include <QPushButton>
 
 MainWindow::MainWindow(config_t *t, QWidget *parent)
     : QMainWindow(parent)
@@ -27,13 +29,20 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     QIcon icon = QIcon(pixmap);
     this->setWindowIcon(icon);
 
+    // Application dashboard
+    AppDashboardTab *dashboard = new AppDashboardTab(*t, ui->tabWidget);
+    ui->tabWidget->addTab(dashboard, tr("Dashboard"));
+    ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
+
     // Init menu bar
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
     QAction *newTournamentAction = fileMenu->addAction(tr("New Tournament"));
     connect(newTournamentAction, &QAction::triggered, this, &MainWindow::newTournament);
+    connect(dashboard->ui->newTournament, &QPushButton::clicked, this, &MainWindow::newTournament);
 
     QAction *loadTournamentAction = fileMenu->addAction(tr("Open Tournament"));
     connect(loadTournamentAction, &QAction::triggered, this, &MainWindow::loadTournament);
+    connect(dashboard->ui->openTournament, &QPushButton::clicked, this, &MainWindow::loadTournament);
 
     QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
     connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);
@@ -48,11 +57,6 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
 
     QAction *diceAction = rndMenu->addAction(tr("&Roll Dice"));
     connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
-
-    // Application dashboard
-    AppDashboardTab *dashboard = new AppDashboardTab(*t, ui->tabWidget);
-    ui->tabWidget->addTab(dashboard, tr("Dashboard"));
-    ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
     // Set tab closeinator
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
@@ -220,7 +224,7 @@ void MainWindow::settings()
 
 void MainWindow::newTournament()
 {
-    CreateTournamentDialogue *dlg = new CreateTournamentDialogue(this, this->config);
+    CreateTournamentDialogue *dlg = new CreateTournamentDialogue(this->config, this);
     dlg->show();
 }
 

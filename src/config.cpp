@@ -200,6 +200,7 @@ bool init_config(config_t *config, FILE *f)
         lprintf(LOG_ERROR, "Configuration is not valid\n");
         status = false;
     }
+    init_tourn_folder(config);
     return status;
 }
 
@@ -287,6 +288,8 @@ bool write_config(config_t *config, FILE *f)
     // Write and flush
     int num = fprintf(f, "%s", output.c_str());
     int flush_status = fflush(f);
+    init_tourn_folder(config);
+
     return ((size_t) num) == output.size() && flush_status == 0;
 }
 
@@ -300,5 +303,30 @@ const char *pairing_sys_str(tourn_type_t t)
     default:
         return "Unknown";
     }
+}
+
+bool init_tourn_folder(config_t *config)
+{
+    char *buffer = (char *) malloc(sizeof * buffer * strlen(config->tourn_save_path));
+    bool status = true;
+
+    int j = 0;
+    size_t len = strlen(config->tourn_save_path);
+    for (int i = 0; i < len; i++) {
+        buffer[j] = config->tourn_save_path[i];
+        if ((config->tourn_save_path[i] == '/' && i > 0) || (len == 1 + i)) {
+            buffer[j + 1] = '\0';
+            int r = mkdir(buffer, 0755);
+
+            if (r == 0) {
+                lprintf(LOG_INFO, "Created folder %s (default save path)\n", buffer);
+            }
+        }
+        j++;
+
+    }
+
+    free(buffer);
+    return status;
 }
 

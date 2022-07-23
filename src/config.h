@@ -4,6 +4,7 @@
 #include "./io_utils.h"
 
 #define CONFIG_FILE "config.json"
+#define TOURNAMENT_EXTENTION ".tourn"
 
 // Warning: strings in this file must be alloced not, static data
 typedef struct squire_user_t {
@@ -75,7 +76,7 @@ typedef struct config_t {
     recent_tournament_t *recent_tournaments;
 } config_t;
 
-#define DEFAULT_SAVE_PATH clone_string("tourns")
+#define DEFAULT_SAVE_PATH clone_string("tourns/")
 #define DEFAULT_CONFIG { \
   DEFAULT_USER,\
   false,\
@@ -111,6 +112,7 @@ typedef struct config_t {
 #define CONFIG_TOURN_SAVE_PATH "tourn-save-path"
 #define CONFIG_RECENT_TOURNS "recently-opened"
 
+bool init_tourn_folder(config_t *config);
 bool init_config(config_t *config, FILE *f);
 void free_config(config_t *config);
 bool valid_config(config_t config);

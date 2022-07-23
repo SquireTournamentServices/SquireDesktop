@@ -15,12 +15,12 @@ class AppDashboardTab : public QWidget
 public:
     explicit AppDashboardTab(config_t t, QWidget *parent = nullptr);
     ~AppDashboardTab();
+    Ui::AppDashboardTab *ui; // Sorry OOP fans
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::AppDashboardTab *ui;
     LabelImage *banner;
 };
 

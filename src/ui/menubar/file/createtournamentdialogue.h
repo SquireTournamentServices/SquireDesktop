@@ -2,22 +2,29 @@
 #include "../../../config.h"
 #include <QDialog>
 
-namespace Ui {
-  class CreateTournamentDialogue;
+namespace Ui
+{
+class CreateTournamentDialogue;
 }
 
 class CreateTournamentDialogue : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit CreateTournamentDialogue(QWidget *parent = nullptr, config_t *config);
-  ~CreateTournamentDialogue();
+    explicit CreateTournamentDialogue(config_t *config, QWidget *parent = nullptr);
+    ~CreateTournamentDialogue();
 
 protected:
-  void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e);
 
 private:
-  Ui::CreateTournamentDialogue *ui;
+    config_t *config;
+    Ui::CreateTournamentDialogue *ui;
+    std::string getName();
+private slots:
+    void nameEditChanged(QString name);
+    void changeSaveLocation();
+    void onOkay();
 };
 
