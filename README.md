@@ -3,7 +3,6 @@
 [![Main](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/main.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/main.yml)
 [![Memory tests](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/memtests.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/memtests.yml)
 [![codecov](https://codecov.io/gh/MonarchDevelopment/SquireDesktop/branch/main/graph/badge.svg?token=JCS3Y40XYR)](https://codecov.io/gh/MonarchDevelopment/SquireDesktop)
-[![Mingw](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/mingw.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/mingw.yml)
 
 ## Start Here!
 Currently this is under development and, not released, please check back later!
