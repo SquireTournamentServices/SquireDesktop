@@ -339,7 +339,7 @@ const char *pairing_sys_str(tourn_type_t t)
 
 bool init_tourn_folder(config_t *config)
 {
-    char *buffer = (char *) malloc(sizeof * buffer * strlen(config->tourn_save_path));
+    char *buffer = (char *) malloc(sizeof * buffer * (1 + strlen(config->tourn_save_path)));
     bool status = true;
 
     int j = 0;
