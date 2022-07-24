@@ -3,7 +3,6 @@
 #include "assets.h"
 #include "./recenttournamentwidget.h"
 #include "./ui_recenttournamentwidget.h"
-#include "../config.h"
 
 RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *parent) :
     QWidget(parent),
@@ -36,12 +35,12 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
         }
     }
 
-        this->img = new LabelImage();
-        this->img->setPixmap(pixmap);
+    this->img = new LabelImage();
+    this->img->setPixmap(pixmap);
 
-        QVBoxLayout *layout = new QVBoxLayout(ui->frame);
-        layout->setAlignment(Qt::AlignTop);
-        layout->addWidget(this->img);
+    QVBoxLayout *layout = new QVBoxLayout(ui->frame);
+    layout->setAlignment(Qt::AlignTop);
+    layout->addWidget(this->img);
 }
 
 RecentTournamentWidget::~RecentTournamentWidget()

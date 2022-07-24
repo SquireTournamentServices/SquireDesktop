@@ -174,9 +174,6 @@ set(PROJECT_SOURCES
     ./src/ui/appdashboardtab.cpp
     ./src/ui/appdashboardtab.h
     ./src/ui/appdashboardtab.ui
-    ./src/ui/recenttournamentwidget.cpp
-    ./src/ui/recenttournamentwidget.h
-    ./src/ui/recenttournamentwidget.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui
@@ -199,6 +196,9 @@ set(PROJECT_SOURCES
     ./src/ui/menubar/rng/dicerollresultdialogue.ui
     ./src/ui/widgets/labelimage.cpp
     ./src/ui/widgets/labelimage.h
+    ./src/ui/widgets/recenttournamentwidget.cpp
+    ./src/ui/widgets/recenttournamentwidget.h
+    ./src/ui/widgets/recenttournamentwidget.ui
     ./src/main.cpp)
 
 set(TESTING_SOURCES
@@ -216,8 +216,7 @@ set(TESTING_SOURCES
     ./tests/sq_link_test.cpp)
 
 set(LIBS "m" # Maths
-  "pthread"
-)
+         "pthread")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Assets to data strings
@@ -315,12 +314,8 @@ else()
 endif()
 
 target_link_libraries(
-  SquireDesktop 
-  PRIVATE 
-  Qt${QT_VERSION_MAJOR}::Widgets
-  nlohmann_json::nlohmann_json 
-  squire_core
-  ${LIBS})
+  SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+                        nlohmann_json::nlohmann_json squire_core ${LIBS})
 # Link discord
 add_library(discord STATIC IMPORTED)
 set_target_properties(discord PROPERTIES IMPORTED_LOCATION
@@ -350,11 +345,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   add_executable(SquireDesktopTests ${TESTING_SOURCES})
   target_link_libraries(
     SquireDesktopTests
-    PUBLIC 
-    ${LIBS}
-    PRIVATE
-    nlohmann_json::nlohmann_json 
-    squire_core)
+    PUBLIC ${LIBS}
+    PRIVATE nlohmann_json::nlohmann_json squire_core)
   target_include_directories(SquireDesktopTests
                              PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 

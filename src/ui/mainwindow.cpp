@@ -234,14 +234,14 @@ void MainWindow::loadTournament()
 
 void MainWindow::onTournamentAdded(recent_tournament_t t)
 {
-  FILE *f = fopen(CONFIG_FILE, "w");
+    FILE *f = fopen(CONFIG_FILE, "w");
 
-  if (f != NULL) {
-      add_recent_tourn(this->config, t, f);
-      fclose(f);
-  } else {
-      lprintf(LOG_ERROR, "Cannot update recently opened list\n");
-  }
+    if (f != NULL) {
+        add_recent_tourn(this->config, t, f);
+        fclose(f);
+    } else {
+        lprintf(LOG_ERROR, "Cannot update recently opened list\n");
+    }
 
-  this->dashboard->onTournamentAdded(t);
+    this->dashboard->onTournamentAdded(t);
 }

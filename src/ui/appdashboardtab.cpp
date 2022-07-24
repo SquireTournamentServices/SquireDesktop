@@ -1,6 +1,6 @@
 #include "./appdashboardtab.h"
 #include "./ui_appdashboardtab.h"
-#include "./recenttournamentwidget.h"
+#include "./widgets/recenttournamentwidget.h"
 #include "assets.h"
 #include <QApplication>
 

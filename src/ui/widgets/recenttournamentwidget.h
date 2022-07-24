@@ -1,7 +1,7 @@
 #pragma once
 #include <QWidget>
-#include "./widgets/labelimage.h"
-#include "../config.h"
+#include "./labelimage.h"
+#include "../../config.h"
 
 namespace Ui
 {

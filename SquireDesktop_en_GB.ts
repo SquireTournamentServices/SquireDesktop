@@ -389,36 +389,36 @@
 <context>
     <name>RecentTournamentWidget</name>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="32"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="110"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="35"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="111"/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="59"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="111"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="62"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="112"/>
         <source>Tournament Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="66"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="112"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="69"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="113"/>
         <source>Last Edit Time</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.ui" line="90"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="113"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="93"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="114"/>
         <source>type label</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.cpp" line="18"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="17"/>
         <source>N/a</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/recenttournamentwidget.cpp" line="25"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="24"/>
         <source>Error with: </source>
         <translation></translation>
     </message>

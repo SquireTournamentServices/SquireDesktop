@@ -250,9 +250,9 @@ void free_config(config_t *config)
 bool valid_config(config_t config)
 {
     return config.tourn_save_path != NULL &&
-      config.default_settings.min_deck_count >= 0 && 
-      config.default_settings.max_deck_count >= 0 && 
-      config.default_settings.match_size >= 0;
+           config.default_settings.min_deck_count >= 0 &&
+           config.default_settings.max_deck_count >= 0 &&
+           config.default_settings.match_size >= 0;
 }
 
 #define to_std_string(str) (str == NULL ? "": std::string(str))
@@ -268,7 +268,7 @@ bool add_recent_tourn(config_t *config, recent_tournament_t t, FILE *f)
 
         lprintf(LOG_WARNING, "Maximum recents list reached, deleteing head\n");
     }
-    
+
     recent_tournament_t *tmp = (recent_tournament_t *) malloc(cnt * sizeof * config->recent_tournaments);
     if (tmp == NULL) {
         lprintf(LOG_ERROR, "Malloc error\n");
