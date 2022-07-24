@@ -114,7 +114,6 @@ icons and, assets are ours (Monarch's), enquire if you wish to use.
 
 | Icon Name | Owner |
 |---|---|
-| `warning.png` | Flat Icon |
-| `icon.png` | Monarch |
-| `banner.png` | Monarch |
+| `warning.png`, `fluid.png`, `swiss.png` | Flat Icon |
+| `icon.png`, `banner.png` | Monarch |
 
