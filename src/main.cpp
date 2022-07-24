@@ -16,7 +16,7 @@
 #include "squire_core.h"
 
 #ifdef USE_BACKTRACE
-void handler(int sig)
+static void handler(int sig)
 {
     void *array[10];
     size_t size;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
 #ifdef USE_BACKTRACE
     // Error catchinator 9000
-    signal(SIGSEGV, handler);
+    signal(SIGSEGV, &handler);
 #endif
 
     // Qt init

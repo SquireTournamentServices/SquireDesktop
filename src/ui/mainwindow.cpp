@@ -1,7 +1,6 @@
 #include "assets.h"
 #include "./mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "./appdashboardtab.h"
 #include "./menubar/rng/coinsflipdialogue.h"
 #include "./menubar/rng/dicerolldialogue.h"
 #include "./menubar/file/settingtab.h"
@@ -30,8 +29,8 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     this->setWindowIcon(icon);
 
     // Application dashboard
-    AppDashboardTab *dashboard = new AppDashboardTab(*t, ui->tabWidget);
-    ui->tabWidget->addTab(dashboard, tr("Dashboard"));
+    this->dashboard = new AppDashboardTab(*t, ui->tabWidget);
+    ui->tabWidget->addTab(this->dashboard, tr("Dashboard"));
     ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
     // Init menu bar
@@ -224,6 +223,7 @@ void MainWindow::settings()
 void MainWindow::newTournament()
 {
     CreateTournamentDialogue *dlg = new CreateTournamentDialogue(this->config, this);
+    connect(dlg, &CreateTournamentDialogue::onTournamentAdded, this, &MainWindow::onTournamentAdded);
     dlg->show();
 }
 
@@ -232,3 +232,16 @@ void MainWindow::loadTournament()
 
 }
 
+void MainWindow::onTournamentAdded(recent_tournament_t t)
+{
+  FILE *f = fopen(CONFIG_FILE, "w");
+
+  if (f != NULL) {
+      add_recent_tourn(this->config, t, f);
+      fclose(f);
+  } else {
+      lprintf(LOG_ERROR, "Cannot update recently opened list\n");
+  }
+
+  this->dashboard->onTournamentAdded(t);
+}

@@ -3,6 +3,7 @@
 #include "assets.h"
 #include "./recenttournamentwidget.h"
 #include "./ui_recenttournamentwidget.h"
+#include "../config.h"
 
 RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *parent) :
     QWidget(parent),
@@ -19,11 +20,21 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
         ui->type->setText(QString::fromStdString(std::string(t.pairing_sys)));
     }
 
+    QPixmap pixmap;
     if (t.name == NULL || t.pairing_sys == NULL) {
         ui->editTime->setText(tr("Error with: ") + QString(t.file_path));
-
-        QPixmap pixmap;
         pixmap.loadFromData(WARNING_PNG, sizeof(WARNING_PNG));
+    } else {
+        char timeString[50];
+        strftime(timeString, sizeof(timeString), "%x - %H:%M:%S %Z", &t.last_opened);
+        ui->editTime->setText(QString(timeString));
+
+        if (strcmp(t.pairing_sys, PAIRING_SWISS) == 0) {
+            pixmap.loadFromData(SWISS_PNG, sizeof(SWISS_PNG));
+        } else if (strcmp(t.pairing_sys, PAIRING_FLUID) == 0) {
+            pixmap.loadFromData(FLUID_PNG, sizeof(FLUID_PNG));
+        }
+    }
 
         this->img = new LabelImage();
         this->img->setPixmap(pixmap);
@@ -31,11 +42,6 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
         QVBoxLayout *layout = new QVBoxLayout(ui->frame);
         layout->setAlignment(Qt::AlignTop);
         layout->addWidget(this->img);
-    } else {
-        char timeString[50];
-        strftime(timeString, sizeof(timeString), "%x - %H:%M:%S %Z", &t.last_opened);
-        ui->editTime->setText(QString(timeString));
-    }
 }
 
 RecentTournamentWidget::~RecentTournamentWidget()

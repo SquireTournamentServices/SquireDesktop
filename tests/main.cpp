@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
         {&test_func, "Testing_h self test"},
         {&coins_cpp_test, "Coin cpp test"},
         {&config_cpp_tests, "Config cpp test"},
-        {&io_utils_cpp_test, "IO utils cpp test"}
+        {&io_utils_cpp_test, "IO utils cpp test"},
+        {&sq_link_test, "SQ link test"}
     };
 
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");

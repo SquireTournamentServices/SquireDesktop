@@ -3,6 +3,7 @@
 #include <QString>
 #include <pthread.h>
 #include <string>
+#include "./appdashboardtab.h"
 #include "../config.h"
 
 // Discord stuff
@@ -33,6 +34,7 @@ public:
 private:
     Ui::MainWindow *ui;
     config_t *config;
+    AppDashboardTab *dashboard;
 
     // Discord status
     dc_info_t *dc_info;
@@ -50,4 +52,6 @@ private slots:
 
     void closeTab(int index);
     void setDiscordText(std::string txt);
+
+    void onTournamentAdded(recent_tournament_t t);
 };

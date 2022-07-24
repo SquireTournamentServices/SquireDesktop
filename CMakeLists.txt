@@ -26,6 +26,7 @@ execute_process(
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   OUTPUT_VARIABLE GIT_COMMIT_HASH
   OUTPUT_STRIP_TRAILING_WHITESPACE)
+message(STATUS "Commit info: ${GIT_COMMIT_HASH}@${GIT_BRANCH}")
 
 # Version info
 add_definitions("-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
@@ -41,7 +42,7 @@ add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 # __FILENAME__
 string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
 add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
-add_definitions("-D__FILENAME__=(__FILE__ [SOURCE_PATH_SIZE])")
+add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
 
 if(WIN32)
   message(STATUS "Not using backtrace catcher on windoze")
@@ -116,44 +117,13 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS_RELEASE
       "/Ox /MD /wd4251 /Zc:__cplusplus /std:c++17 /permissive-")
   # Generate complete debugging information set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
-elseif(CMAKE_COMPILER_IS_GNUCXX)
-  # linux/gcc, bsd/gcc, windows/mingw
-  include(CheckCXXCompilerFlag)
-
-  set(CMAKE_CXX_FLAGS_RELEASE "-s -O2")
-  if(WARNING_AS_ERROR)
-    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -O0 -Wall -Wextra -Werror")
-  else()
-    set(CMAKE_CXX_FLAGS_DEBUG "-ggdb -O0 -Wall -Wextra")
-  endif()
-
-  if(APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17")
-  endif()
-
-  set(ADDITIONAL_DEBUG_FLAGS
-      -Wcast-align
-      -Wmissing-declarations
-      -Wno-long-long
-      -Wno-error=extra
-      -Wno-error=delete-non-virtual-dtor
-      -Wno-error=sign-compare
-      -Wno-error=missing-declarations)
-
-  foreach(FLAG ${ADDITIONAL_DEBUG_FLAGS})
-    check_cxx_compiler_flag("${FLAG}" CXX_HAS_WARNING_${FLAG})
-    if(CXX_HAS_WARNING_${FLAG})
-      set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${FLAG}")
-    endif()
-  endforeach()
 else()
-  # other: osx/llvm, bsd/llvm
-  set(CMAKE_CXX_FLAGS_RELEASE "-O2")
-  if(WARNING_AS_ERROR)
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Werror")
-  else()
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra")
-  endif()
+  # Compiler settings compiler flags
+  set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic")
+  set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
+  set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
+  set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
+  set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
 endif()
 
 if(DEFINED QTDIR${_lib_suffix})
@@ -166,12 +136,6 @@ elseif(DEFINED ENV{QTDIR})
   list(APPEND CMAKE_PREFIX_PATH "$ENV{QTDIR}")
 endif()
 
-# Compiler settings compiler flags
-set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -std=gnu++98")
-set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
-set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
-set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -191,6 +155,8 @@ set(MAIN_FILES
     ./testing_h/logger.cpp
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
+    ./src/ffi_utils.cpp
+    ./src/ffi_utils.h
     ./src/coins.cpp
     ./src/coins.h
     ./src/config.cpp
@@ -202,8 +168,6 @@ set(PROJECT_SOURCES
     ${TS_FILES}
     ${MAIN_FILES}
     ./src/discord_game_sdk.h
-    ./src/ffi_utils.cpp
-    ./src/ffi_utils.h
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui
@@ -252,6 +216,7 @@ set(TESTING_SOURCES
     ./tests/sq_link_test.cpp)
 
 set(LIBS "m" # Maths
+  "pthread"
 )
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
@@ -350,8 +315,12 @@ else()
 endif()
 
 target_link_libraries(
-  SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
-                        nlohmann_json::nlohmann_json squire_core)
+  SquireDesktop 
+  PRIVATE 
+  Qt${QT_VERSION_MAJOR}::Widgets
+  nlohmann_json::nlohmann_json 
+  squire_core
+  ${LIBS})
 # Link discord
 add_library(discord STATIC IMPORTED)
 set_target_properties(discord PROPERTIES IMPORTED_LOCATION
@@ -381,8 +350,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   add_executable(SquireDesktopTests ${TESTING_SOURCES})
   target_link_libraries(
     SquireDesktopTests
-    PUBLIC ${LIBS}
-    PRIVATE nlohmann_json::nlohmann_json squire_core)
+    PUBLIC 
+    ${LIBS}
+    PRIVATE
+    nlohmann_json::nlohmann_json 
+    squire_core)
   target_include_directories(SquireDesktopTests
                              PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 

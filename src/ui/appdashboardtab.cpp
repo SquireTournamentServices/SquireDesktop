@@ -11,11 +11,11 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
     ui->setupUi(this);
 
     // Set recent tournaments
-    QVBoxLayout *layout = new QVBoxLayout(ui->recentTournaments);
-    layout->setAlignment(Qt::AlignTop);
+    this->layout = new QVBoxLayout(ui->recentTournaments);
+    this->layout->setAlignment(Qt::AlignTop);
     for (int i = 0; i < t.recent_tournament_count; i++) {
         RecentTournamentWidget *w = new RecentTournamentWidget(t.recent_tournaments[i], this);
-        layout->addWidget(w);
+        this->layout->insertWidget(0, w);
     }
 
     // Banner stuff
@@ -33,6 +33,12 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
 AppDashboardTab::~AppDashboardTab()
 {
     delete ui;
+}
+
+void AppDashboardTab::onTournamentAdded(recent_tournament_t t)
+{
+    RecentTournamentWidget *w = new RecentTournamentWidget(t, this);
+    this->layout->insertWidget(0, w);
 }
 
 void AppDashboardTab::changeEvent(QEvent *e)

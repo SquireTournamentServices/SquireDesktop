@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include <QVBoxLayout>
 #include "../config.h"
 #include "./widgets/labelimage.h"
 
@@ -17,10 +18,12 @@ public:
     ~AppDashboardTab();
     Ui::AppDashboardTab *ui; // Sorry OOP fans
 
+    void onTournamentAdded(recent_tournament_t t);
 protected:
     void changeEvent(QEvent *e);
 
 private:
     LabelImage *banner;
+    QVBoxLayout *layout;
 };
 

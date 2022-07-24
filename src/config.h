@@ -5,6 +5,8 @@
 
 #define CONFIG_FILE "config.json"
 #define TOURNAMENT_EXTENTION ".tourn"
+#define PAIRING_SWISS "Swiss"
+#define PAIRING_FLUID "Fluid"
 
 // Warning: strings in this file must be alloced not, static data
 typedef struct squire_user_t {
@@ -115,7 +117,10 @@ typedef struct config_t {
 bool init_tourn_folder(config_t *config);
 bool init_config(config_t *config, FILE *f);
 void free_config(config_t *config);
+bool add_recent_tourn(config_t *config, recent_tournament_t t, FILE *f);
+
 bool valid_config(config_t config);
 bool write_config(config_t *config, FILE *f);
+
 const char *pairing_sys_str(tourn_type_t t);
 

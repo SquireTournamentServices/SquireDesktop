@@ -14,7 +14,8 @@ class CreateTournamentDialogue : public QDialog
 public:
     explicit CreateTournamentDialogue(config_t *config, QWidget *parent = nullptr);
     ~CreateTournamentDialogue();
-
+signals:
+    void onTournamentAdded(recent_tournament_t t);
 protected:
     void changeEvent(QEvent *e);
 

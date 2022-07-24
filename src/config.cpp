@@ -9,7 +9,6 @@
 #include "./io_utils.h"
 #include "./config.h"
 
-#define TOURN_TAG "tourn"
 #define TOURN_NAME_TAG "name"
 #define TOURN_PAIRING_TAG "pairing_sys"
 
@@ -35,7 +34,7 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
     }
 
     struct tm edit_time;
-    edit_time = *(gmtime(&stat_ret.st_mtime));
+    gmtime_r(&stat_ret.st_mtime, &edit_time);
     ret.last_opened = edit_time;
 
     // Read file + data
@@ -58,13 +57,12 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
     // Parse data
     int s = 0;
     try {
-        nlohmann::json j = nlohmann::json::parse(data);
-        nlohmann::json tourn = j.at(TOURN_TAG);
+        nlohmann::json tourn = nlohmann::json::parse(data);
         std::string name;
         tourn.at(TOURN_NAME_TAG).get_to(name);
         ret.name = clone_std_string(name);
 
-        nlohmann::json pairing = j.at(TOURN_PAIRING_TAG);
+        nlohmann::json pairing = tourn.at(TOURN_PAIRING_TAG);
         std::string sys;
         int i = 0;
         for (nlohmann::json::iterator it = pairing.begin(); it != pairing.end(); it++) {
@@ -86,7 +84,7 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
 
         s = 1;
     } catch(std::exception &e) {
-        lprintf(LOG_ERROR, "An error %s occurred reading a tournament's data\n", e.what());
+        lprintf(LOG_ERROR, "An error %s occurred reading a tournament's %s data\n", e.what(), name);
     }
 
     free(data);
@@ -254,6 +252,40 @@ bool valid_config(config_t config)
 }
 
 #define to_std_string(str) (str == NULL ? "": std::string(str))
+
+bool add_recent_tourn(config_t *config, recent_tournament_t t, FILE *f)
+{
+    size_t offset = 0;
+    size_t cnt = config->recent_tournament_count + 1;
+    if (config->recent_tournament_count >= MAXIMUM_RECENT_LIST_SIZE) {
+        offset = config->recent_tournament_count - MAXIMUM_RECENT_LIST_SIZE;
+        offset *= sizeof * config->recent_tournaments;
+        cnt = MAXIMUM_RECENT_LIST_SIZE;
+
+        lprintf(LOG_WARNING, "Maximum recents list reached, deleteing head\n");
+    }
+    
+    recent_tournament_t *tmp = (recent_tournament_t *) malloc(cnt * sizeof * config->recent_tournaments);
+    if (tmp == NULL) {
+        lprintf(LOG_ERROR, "Malloc error\n");
+        return false;
+    }
+
+    if (config->recent_tournaments != NULL) {
+        // cnt - 1 is where to write the new tourn
+        memcpy(tmp, config->recent_tournaments + offset, (cnt - 1) * sizeof * config->recent_tournaments);
+        free(config->recent_tournaments);
+    }
+
+    t.name = clone_string(t.name);
+    t.pairing_sys = clone_string(t.pairing_sys);
+    t.file_path = clone_string(t.file_path);
+
+    tmp[cnt - 1] = t;
+    config->recent_tournaments = tmp;
+    config->recent_tournament_count = cnt;
+    return write_config(config, f);
+}
 
 bool write_config(config_t *config, FILE *f)
 {

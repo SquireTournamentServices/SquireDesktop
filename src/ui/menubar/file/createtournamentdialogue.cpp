@@ -2,6 +2,7 @@
 #include "./ui_createtournamentdialogue.h"
 #include "./random_names.h"
 #include "../../../ffi_utils.h"
+#include "../../../io_utils.h"
 #include "squire_core.h"
 #include <QFileDialog>
 #include <QMessageBox>
@@ -103,8 +104,10 @@ void CreateTournamentDialogue::changeSaveLocation()
 void CreateTournamentDialogue::onOkay()
 {
     squire_core::sc_TournamentPreset preset = squire_core::sc_TournamentPreset::Swiss;
+    char *preset_str = "Swiss";
     if (ui->fluidRoundRadio->isChecked()) {
         preset = squire_core::sc_TournamentPreset::Fluid;
+        preset_str = "Fluid Round";
     }
 
     init_tourn_folder(this->config);
@@ -123,6 +126,17 @@ void CreateTournamentDialogue::onOkay()
     bool valid = !is_null_id(tid._0);
 
     if (valid) {
+        recent_tournament_t t;
+        t.file_path = clone_std_string(ui->saveLocation->text().toStdString());
+        t.name = clone_std_string(ui->nameEdit->text().toStdString());
+        t.pairing_sys = preset_str;
+
+        time_t tim = time(NULL);
+        gmtime_r(&tim, &t.last_opened);
+
+        this->onTournamentAdded(t);
+        free(t.file_path);
+        free(t.name);
         emit this->close();
     } else {
         QMessageBox dlg(this);

@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 #include "./test_config.h"
 #include "../src/config.h"
+#include "../src/io_utils.h"
 
 int test_default_tourn()
 {
@@ -132,6 +133,7 @@ int test_default_config_write()
         std::cerr << e.what() << std::endl;
         return 0;
     }
+    free_config(&config);
 
     return 1;
 }
@@ -156,7 +158,34 @@ int test_init_default_settings()
     ASSERT(strcmp(config.tourn_save_path, config_read.tourn_save_path) == 0);
     ASSERT(config_read.logged_in == config.logged_in);
     ASSERT(config_read.remember_user == config.remember_user);
+    free_config(&config);
 
+    return 1;
+}
+
+int test_add_recent_tourn()
+{
+    config_t config = DEFAULT_CONFIG;
+    int last = config.recent_tournament_count;
+
+    recent_tournament_t t;
+    t.name = "test name";
+    t.pairing_sys = "swiss";
+    t.file_path = "tourn.json";
+
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *r = fdopen(fid[0], "r");
+    FILE *w = fdopen(fid[1], "w");
+
+    ASSERT(add_recent_tourn(&config, t, w));
+    ASSERT(config.recent_tournament_count == last + 1);
+    fclose(w);
+
+    char *data =read_all_f(r);
+    ASSERT(data != NULL);
+
+    free_config(&config);
     return 1;
 }
 
