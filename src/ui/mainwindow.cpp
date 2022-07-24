@@ -83,7 +83,6 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
         lprintf(LOG_ERROR, "Malloc error\n");
     }
 
-
     lprintf(LOG_INFO, "Application started fully.\n");
 }
 
