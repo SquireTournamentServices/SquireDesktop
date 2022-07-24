@@ -139,7 +139,8 @@ bool init_config(config_t *config, FILE *f)
         // Read default settings
         nlohmann::json dsj = j.at(CONFIG_DEFAULT_SETTINGS);
         dsj.at(CONFIG_MATCH_SIZE).get_to(config->default_settings.match_size);
-        dsj.at(CONFIG_DECK_COUNT).get_to(config->default_settings.deck_count);
+        dsj.at(CONFIG_MIN_DECK_COUNT).get_to(config->default_settings.min_deck_count);
+        dsj.at(CONFIG_MAX_DECK_COUNT).get_to(config->default_settings.max_deck_count);
         dsj.at(CONFIG_POINTS_WIN).get_to(config->default_settings.points_win);
         dsj.at(CONFIG_POINTS_BYE).get_to(config->default_settings.points_bye);
         dsj.at(CONFIG_POINTS_LOSS).get_to(config->default_settings.points_loss);
@@ -248,7 +249,10 @@ void free_config(config_t *config)
 
 bool valid_config(config_t config)
 {
-    return config.tourn_save_path != NULL && config.default_settings.deck_count >= 0 && config.default_settings.match_size >= 0;
+    return config.tourn_save_path != NULL &&
+      config.default_settings.min_deck_count >= 0 && 
+      config.default_settings.max_deck_count >= 0 && 
+      config.default_settings.match_size >= 0;
 }
 
 #define to_std_string(str) (str == NULL ? "": std::string(str))
@@ -291,7 +295,8 @@ bool write_config(config_t *config, FILE *f)
 {
     nlohmann::json default_settings_json;
     default_settings_json[CONFIG_MATCH_SIZE] = config->default_settings.match_size;
-    default_settings_json[CONFIG_DECK_COUNT] = config->default_settings.deck_count;
+    default_settings_json[CONFIG_MIN_DECK_COUNT] = config->default_settings.min_deck_count;
+    default_settings_json[CONFIG_MAX_DECK_COUNT] = config->default_settings.max_deck_count;
     default_settings_json[CONFIG_POINTS_WIN] = config->default_settings.points_win;
     default_settings_json[CONFIG_POINTS_LOSS] = config->default_settings.points_loss;
     default_settings_json[CONFIG_POINTS_DRAW] = config->default_settings.points_draw;

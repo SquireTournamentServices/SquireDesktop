@@ -67,7 +67,8 @@ void SettingTab::uiSetSettings()
 {
     ui->tournSaveLocation->setText(QString::fromStdString(std::string(c->tourn_save_path)));
 
-    ui->deckCountSpinBox->setValue(c->default_settings.deck_count);
+    ui->minDeckCountSpinBox->setValue(c->default_settings.min_deck_count);
+    ui->maxDeckCountSpinBox->setValue(c->default_settings.max_deck_count);
     ui->matchSizeSpinBox->setValue(c->default_settings.match_size);
 
     ui->drawPointsSpinBox->setValue(c->default_settings.points_draw);
@@ -111,7 +112,8 @@ void SettingTab::onSave()
     // Read current settings into tmp_config
     tmp_config.tourn_save_path = clone_std_string(ui->tournSaveLocation->text().toStdString());
 
-    tmp_config.default_settings.deck_count = ui->deckCountSpinBox->value();
+    tmp_config.default_settings.min_deck_count = ui->minDeckCountSpinBox->value();
+    tmp_config.default_settings.max_deck_count = ui->maxDeckCountSpinBox->value();
     tmp_config.default_settings.match_size = ui->matchSizeSpinBox->value();
 
     tmp_config.default_settings.points_draw = ui->drawPointsSpinBox->value();

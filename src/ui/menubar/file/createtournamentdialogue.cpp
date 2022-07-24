@@ -32,7 +32,8 @@ CreateTournamentDialogue::CreateTournamentDialogue(config_t *config, QWidget *pa
         break;
     };
 
-    ui->minDeckCount->setValue(this->config->default_settings.deck_count);
+    ui->minDeckCount->setValue(this->config->default_settings.min_deck_count);
+    ui->maxDeckCount->setValue(this->config->default_settings.max_deck_count);
     ui->matchSize->setValue(this->config->default_settings.match_size);
 
     ui->pointsWin->setValue(this->config->default_settings.points_win);
@@ -103,6 +104,11 @@ void CreateTournamentDialogue::changeSaveLocation()
 
 void CreateTournamentDialogue::onOkay()
 {
+    if (ui->minDeckCount->value() > ui->maxDeckCount->value()) {
+        ui->maxDeckCount->setValue(ui->minDeckCount->value());
+        return;
+    }
+
     squire_core::sc_TournamentPreset preset = squire_core::sc_TournamentPreset::Swiss;
     char *preset_str = "Swiss";
     if (ui->fluidRoundRadio->isChecked()) {

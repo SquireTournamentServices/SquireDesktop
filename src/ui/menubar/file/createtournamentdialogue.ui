@@ -28,7 +28,11 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="nameEdit"/>
+    <widget class="QLineEdit" name="nameEdit">
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -38,7 +42,11 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="formatEdit"/>
+    <widget class="QLineEdit" name="formatEdit">
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="4" column="1">
     <widget class="QCheckBox" name="useTableNumbers">
@@ -223,23 +231,6 @@
      </property>
     </widget>
    </item>
-   <item row="18" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Points Loss</string>
-     </property>
-    </widget>
-   </item>
-   <item row="20" column="1">
-    <widget class="QSpinBox" name="pointsWin"/>
-   </item>
-   <item row="20" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Points Win</string>
-     </property>
-    </widget>
-   </item>
    <item row="21" column="1">
     <widget class="Line" name="line_3">
      <property name="orientation">
@@ -253,6 +244,23 @@
       <number>-99</number>
      </property>
     </widget>
+   </item>
+   <item row="15" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Points Loss</string>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Points Win</string>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="1">
+    <widget class="QSpinBox" name="pointsWin"/>
    </item>
   </layout>
  </widget>

@@ -33,7 +33,8 @@ typedef struct tourn_settings_t {
     // Default tournament settings
     // Player details
     int match_size;
-    int deck_count;
+    int min_deck_count;
+    int max_deck_count;
 
     // Scoring
     int points_win;
@@ -46,7 +47,8 @@ typedef struct tourn_settings_t {
 
 #define DEFAULT_TOURN_TYPE SWISS_TOURN
 
-#define DEFAULT_DECK_COUNT 2
+#define DEFAULT_MIN_DECK_COUNT 1
+#define DEFAULT_MAX_DECK_COUNT 2
 #define DEFAULT_MATCH_SIZE 4
 
 #define DEFAULT_POINTS_WIN 5
@@ -56,7 +58,8 @@ typedef struct tourn_settings_t {
 
 #define DEFAULT_TOURN { \
   DEFAULT_MATCH_SIZE,\
-  DEFAULT_DECK_COUNT,\
+  DEFAULT_MIN_DECK_COUNT,\
+  DEFAULT_MAX_DECK_COUNT,\
   DEFAULT_POINTS_WIN,\
   DEFAULT_POINTS_LOSS,\
   DEFAULT_POINTS_DRAW,\
@@ -95,7 +98,8 @@ typedef struct config_t {
 
 // Under default-settings
 #define CONFIG_MATCH_SIZE "match-size"
-#define CONFIG_DECK_COUNT "deck-count"
+#define CONFIG_MIN_DECK_COUNT "min-deck-count"
+#define CONFIG_MAX_DECK_COUNT "max-deck-count"
 #define CONFIG_POINTS_WIN "points-win"
 #define CONFIG_POINTS_LOSS "points-loss"
 #define CONFIG_POINTS_DRAW "points-draw"
