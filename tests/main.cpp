@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     };
 
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");
-    lprintf(LOG_INFO, "%d/%d tests failed.\n", failed_tests, sizeof(tests) / sizeof(*tests));
+    lprintf(LOG_INFO, "%ld/%ld tests failed.\n", failed_tests, sizeof(tests) / sizeof(*tests));
     return failed_tests > 0;
 }
 
