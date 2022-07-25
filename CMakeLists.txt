@@ -219,11 +219,6 @@ set(LIBS "m" # Maths
          "pthread")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
-# Assets to data strings
-file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
-add_custom_target(generate_assets ${ASSETS_TO_STR_PY})
-
 # Squire Core (Rust)
 option(ENABLE_LTO ON)
 if(POLICY CMP0048)
@@ -242,11 +237,6 @@ if(ENABLE_LTO)
     message(STATUS "IPO / LTO not supported: <${error}>")
   endif()
 endif()
-
-add_subdirectory(squire_core)
-
-include_directories(${CMAKE_BINARY_DIR}/squire_core)
-include_directories(include)
 
 if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   include(CodeCoverage)
@@ -268,6 +258,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
     "src/main.cpp"
     "src/ui/*")
 endif()
+
+# Assets to data strings
+file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
+add_custom_command(OUTPUT generate_assets COMMAND ${ASSETS_TO_STR_PY})
 
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
@@ -293,6 +288,11 @@ set(JSON_BuildTests
     CACHE INTERNAL "")
 add_subdirectory(nlohmann_json)
 
+add_subdirectory(squire_core)
+include_directories(${CMAKE_BINARY_DIR}/squire_core)
+
+include_directories(include)
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(SquireDesktop MANUAL_FINALIZATION ${PROJECT_SOURCES})
   # Define target properties for Android with Qt 6 as: set_property(TARGET
@@ -316,8 +316,9 @@ endif()
 target_link_libraries(
   SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                         nlohmann_json::nlohmann_json squire_core ${LIBS})
+
 # Link discord
-add_library(discord STATIC IMPORTED)
+add_library(discord STATIC IMPORTED generate_assets)
 set_target_properties(discord PROPERTIES IMPORTED_LOCATION
                                          ${CMAKE_DISCORD_GAME_SDK_LIB_PATH})
 target_link_libraries(SquireDesktop PUBLIC discord)
@@ -330,7 +331,6 @@ set_target_properties(
              ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
              MACOSX_BUNDLE TRUE
              WIN32_EXECUTABLE TRUE)
-add_dependencies(SquireDesktop generate_assets)
 
 if(QT_VERSION_MAJOR EQUAL 6)
   qt_finalize_executable(SquireDesktop)

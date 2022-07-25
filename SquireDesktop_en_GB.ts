@@ -390,25 +390,25 @@
     <name>RecentTournamentWidget</name>
     <message>
         <location filename="src/ui/widgets/recenttournamentwidget.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="111"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="131"/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="62"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="112"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="86"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="132"/>
         <source>Tournament Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="69"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="113"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="93"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="133"/>
         <source>Last Edit Time</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="93"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="114"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="136"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="135"/>
         <source>type label</source>
         <translation></translation>
     </message>
