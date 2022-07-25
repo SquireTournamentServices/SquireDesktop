@@ -16,7 +16,7 @@
 
 #ifdef _MSC_VER
 #  include <intrin.h>
-#  define __builtin_popcountl __popcntl
+#  define __builtin_popcountl __popcnt64
 #endif
 
 int flip_krark_coins(int coins)
