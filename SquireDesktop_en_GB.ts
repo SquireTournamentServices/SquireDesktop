@@ -360,7 +360,7 @@
     </message>
     <message>
         <location filename="src/ui/mainwindow.cpp" line="33"/>
-        <location filename="src/ui/mainwindow.cpp" line="78"/>
+        <location filename="src/ui/mainwindow.cpp" line="79"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
@@ -381,7 +381,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="220"/>
+        <location filename="src/ui/mainwindow.cpp" line="213"/>
         <source>Settings</source>
         <translation></translation>
     </message>

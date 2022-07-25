@@ -1,8 +1,9 @@
 #pragma once
 #include <QMainWindow>
 #include <QString>
-#include <pthread.h>
 #include <string>
+#include <mutex>
+#include <thread>
 #include "./appdashboardtab.h"
 #include "../config.h"
 
@@ -12,9 +13,10 @@
 
 typedef struct dc_info_t {
     char **txt;
-    pthread_mutex_t lock;
+    std::mutex *lock;
+    bool running;
 } dc_info_t;
-void *dc_thread(void *__info);
+void dc_thread(dc_info_t *info);
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -38,7 +40,7 @@ private:
 
     // Discord status
     dc_info_t *dc_info;
-    pthread_t discord_thread;
+    std::thread discord_thread;
     char *discord_thread_txt; // free if not-null on set.
 
     void addTab(QWidget *w, QString name);
