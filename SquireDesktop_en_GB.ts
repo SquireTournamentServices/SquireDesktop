@@ -205,12 +205,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="150"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="153"/>
         <source>Error making new tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="151"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="154"/>
         <source>Cannot save new tournament</source>
         <translation></translation>
     </message>
