@@ -33,9 +33,8 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
         return ret;
     }
 
-    struct tm edit_time;
-    gmtime_r(&stat_ret.st_mtime, &edit_time);
-    ret.last_opened = edit_time;
+    struct tm *edit_time = localtime(&stat_ret.st_mtime);
+    memcpy(&ret.last_opened, edit_time, sizeof * edit_time);
 
     // Read file + data
     FILE *f = fopen(name, "r");
