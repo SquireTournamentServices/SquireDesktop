@@ -262,7 +262,8 @@ endif()
 # Assets to data strings
 file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
-add_custom_command(OUTPUT generate_assets COMMAND ${ASSETS_TO_STR_PY})
+add_custom_command(OUTPUT assets.h COMMAND ${ASSETS_TO_STR_PY})
+add_custom_target(generate_assets DEPENDS assets.h)
 
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
@@ -316,9 +317,10 @@ endif()
 target_link_libraries(
   SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                         nlohmann_json::nlohmann_json squire_core ${LIBS})
+add_dependencies(SquireDesktop generate_assets)
 
 # Link discord
-add_library(discord STATIC IMPORTED generate_assets)
+add_library(discord STATIC IMPORTED)
 set_target_properties(discord PROPERTIES IMPORTED_LOCATION
                                          ${CMAKE_DISCORD_GAME_SDK_LIB_PATH})
 target_link_libraries(SquireDesktop PUBLIC discord)
