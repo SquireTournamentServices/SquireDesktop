@@ -108,7 +108,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset theme="document-open"/>
+         <iconset theme="document-open">
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="flat">
          <bool>true</bool>

@@ -5,25 +5,25 @@
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="136"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="143"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="137"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="144"/>
         <source>Open</source>
         <translation>Open</translation>
     </message>
     <message>
-        <location filename="src/ui/appdashboardtab.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="138"/>
+        <location filename="src/ui/appdashboardtab.ui" line="38"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="145"/>
         <source>New</source>
         <translation>New</translation>
     </message>
     <message>
-        <location filename="src/ui/appdashboardtab.ui" line="52"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="139"/>
+        <location filename="src/ui/appdashboardtab.ui" line="58"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_appdashboardtab.h" line="146"/>
         <source>Recent Tournaments</source>
         <translation>Recent Tournaments</translation>
     </message>
@@ -205,12 +205,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="153"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="152"/>
         <source>Error making new tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="154"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="153"/>
         <source>Cannot save new tournament</source>
         <translation></translation>
     </message>
@@ -390,35 +390,35 @@
     <name>RecentTournamentWidget</name>
     <message>
         <location filename="src/ui/widgets/recenttournamentwidget.ui" line="35"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="131"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="137"/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
         <location filename="src/ui/widgets/recenttournamentwidget.ui" line="86"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="132"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="138"/>
         <source>Tournament Name</source>
         <translation></translation>
     </message>
     <message>
         <location filename="src/ui/widgets/recenttournamentwidget.ui" line="93"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="133"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="139"/>
         <source>Last Edit Time</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="136"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="135"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.ui" line="137"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_recenttournamentwidget.h" line="141"/>
         <source>type label</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="17"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="18"/>
         <source>N/a</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="24"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="25"/>
         <source>Error with: </source>
         <translation></translation>
     </message>

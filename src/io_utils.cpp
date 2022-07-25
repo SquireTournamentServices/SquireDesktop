@@ -46,7 +46,7 @@ char *clone_std_string(std::string str)
         EXIT_MEM_ERROR(ret);
     }
 
-    strncpy(ret, str.c_str(), len);
+    memcpy(ret, str.c_str(), len);
     return ret;
 }
 

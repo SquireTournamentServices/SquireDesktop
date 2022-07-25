@@ -115,6 +115,7 @@ void CreateTournamentDialogue::onOkay()
     }
 
     init_tourn_folder(this->config);
+
     squire_core::sc_TournamentId tid = squire_core::new_tournament_from_settings(ui->saveLocation->text().toStdString().c_str(),
                                        ui->nameEdit->text().toStdString().c_str(),
                                        ui->formatEdit->text().toStdString().c_str(),
@@ -126,13 +127,14 @@ void CreateTournamentDialogue::onOkay()
                                        ui->allowPlayerRegistration->isChecked(),
                                        ui->requirePlayerCheckins->isChecked(),
                                        ui->minDeckCount->value() == 0);
+    lprintf(LOG_INFO, "Created tournament %s\n", ui->saveLocation->text().toStdString().c_str());
 
     bool valid = !is_null_id(tid._0);
 
     if (valid) {
         recent_tournament_t t;
-        t.file_path = clone_std_string(ui->saveLocation->text().toStdString());
-        t.name = clone_std_string(ui->nameEdit->text().toStdString());
+        t.file_path = clone_string(ui->saveLocation->text().toStdString().c_str());
+        t.name = clone_string(ui->nameEdit->text().toStdString().c_str());
         if (ui->fluidRoundRadio->isChecked()) {
             t.pairing_sys = clone_string(PAIRING_FLUID);
         } else {
@@ -143,10 +145,7 @@ void CreateTournamentDialogue::onOkay()
         struct tm *info = localtime(&tim);
         memcpy(&t.last_opened, info, sizeof * info);
 
-        this->onTournamentAdded(t);
-        free(t.file_path);
-        free(t.name);
-        free(t.pairing_sys);
+        this->onTournamentAdded(t); // This frees the malloc above.
         emit this->close();
     } else {
         QMessageBox dlg(this);

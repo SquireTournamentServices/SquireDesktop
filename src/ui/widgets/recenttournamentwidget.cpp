@@ -1,6 +1,7 @@
 #include <time.h>
 #include <string>
 #include <assets.h>
+#include <QStyle>
 #include "./recenttournamentwidget.h"
 #include "./ui_recenttournamentwidget.h"
 
@@ -46,6 +47,9 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
 RecentTournamentWidget::~RecentTournamentWidget()
 {
     delete ui;
+    free(this->t.name);
+    free(this->t.file_path);
+    free(this->t.pairing_sys);
 }
 
 void RecentTournamentWidget::changeEvent(QEvent *e)
@@ -59,3 +63,26 @@ void RecentTournamentWidget::changeEvent(QEvent *e)
         break;
     }
 }
+
+// Override QWidget
+void RecentTournamentWidget::mousePressEvent(QMouseEvent *event)
+{
+    this->setBackgroundRole(QPalette::Link);
+    lprintf(LOG_INFO, "Opening tournament %s\n", this->t.file_path);
+}
+
+void RecentTournamentWidget::enterEvent(QEvent *event)
+{
+    this->setBackgroundRole(QPalette::Base);
+}
+
+void RecentTournamentWidget::leaveEvent(QEvent *event)
+{
+    this->setBackgroundRole(QPalette::Highlight);
+}
+
+void RecentTournamentWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    this->setBackgroundRole(QPalette::Base);
+}
+

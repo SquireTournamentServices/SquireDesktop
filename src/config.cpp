@@ -182,6 +182,8 @@ bool init_config(config_t *config, FILE *f)
 
                 if (!r) {
                     lprintf(LOG_WARNING, "Cannot read tournament file %s\n", path.c_str());
+                } else {
+                    config->recent_tournaments[i].file_path = clone_string(config->recent_tournaments[i].file_path);
                 }
                 i++;
             }
@@ -281,6 +283,7 @@ bool add_recent_tourn(config_t *config, recent_tournament_t t, FILE *f)
         free(config->recent_tournaments);
     }
 
+    // Clone input strings
     t.name = clone_string(t.name);
     t.pairing_sys = clone_string(t.pairing_sys);
     t.file_path = clone_string(t.file_path);
