@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <sys/stat.h>
+#include <filesystem>
 #include "../testing_h/logger.h"
 #include "./io_utils.h"
 #include "./config.h"
@@ -352,7 +353,7 @@ bool init_tourn_folder(config_t *config)
         buffer[j] = config->tourn_save_path[i];
         if ((config->tourn_save_path[i] == '/' && i > 0) || (len == 1 + i)) {
             buffer[j + 1] = '\0';
-            int r = mkdir(buffer, 0755);
+            std::filesystem::create_directory(std::string(buffer));
 
             if (r == 0) {
                 lprintf(LOG_INFO, "Created folder %s (default save path)\n", buffer);

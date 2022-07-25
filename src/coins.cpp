@@ -14,14 +14,9 @@
   y = z; \
   z = t ^ x ^ y;
 
-#ifndef __builtin_popcountl
-inline int __builtin_popcountl(long v) {
-  int ret = 0;
-  for (int i = 0; i < sizeof(long) * 8; i++) {
-      ret += (v & (0x1 << i)) != 0;
-  }
-  return ret;
-}
+#ifdef _MSC_VER
+#  include <intrin.h>
+#  define __builtin_popcountl __popcntl
 #endif
 
 int flip_krark_coins(int coins)
