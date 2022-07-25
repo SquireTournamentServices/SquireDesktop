@@ -15,6 +15,9 @@
 #include <squire_core/squire_core.h>
 
 #ifdef USE_BACKTRACE
+#ifndef STDERR_FILENO
+#define STDERR_FILENO 2
+#endif
 static void handler(int sig)
 {
     void *array[10];
@@ -24,7 +27,7 @@ static void handler(int sig)
     size = backtrace(array, 10);
 
     // print out all the frames to stderr
-    fprintf(stderr, "Signal %d:\n", sig);
+    lprintf(LOG_ERROR, "Signal %d:\n", sig);
     backtrace_symbols_fd(array, size, STDERR_FILENO);
     exit(1);
 }
