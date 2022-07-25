@@ -38,7 +38,7 @@ for asset_proc in assets_proc:
 
     print(f"Found {name}")
     output += f'const unsigned char {name}[] = "{escape(str)}";'
-    output += "\n"
+    output += os.linesep
 
 f = open(HEADER_FILE, "w")
 f.write(output)
