@@ -138,7 +138,7 @@ void CreateTournamentDialogue::onOkay()
         t.pairing_sys = preset_str;
 
         time_t tim = time(NULL);
-        gmtime_r(&tim, &t.last_opened);
+        localtime_r(&tim, &t.last_opened);
 
         this->onTournamentAdded(t);
         free(t.file_path);
