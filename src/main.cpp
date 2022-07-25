@@ -13,7 +13,7 @@
 #include "./ui/mainwindow.h"
 #include "./config.h"
 #include "../testing_h/logger.h"
-#include "squire_core.h"
+#include <squire_core.h>
 
 #ifdef USE_BACKTRACE
 static void handler(int sig)

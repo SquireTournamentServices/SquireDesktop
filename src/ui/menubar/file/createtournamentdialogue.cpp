@@ -3,7 +3,7 @@
 #include "./random_names.h"
 #include "../../../ffi_utils.h"
 #include "../../../io_utils.h"
-#include "squire_core.h"
+#include <squire_core.h>
 #include <QFileDialog>
 #include <QMessageBox>
 

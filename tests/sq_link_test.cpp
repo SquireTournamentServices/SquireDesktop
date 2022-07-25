@@ -1,4 +1,4 @@
-#include "squire_core.h"
+#include <squire_core.h>
 #include "./sq_link_test.h"
 #include "../src/ffi_utils.h"
 #include "../testing_h/testing.h"
