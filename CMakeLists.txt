@@ -215,8 +215,7 @@ set(TESTING_SOURCES
     ./tests/sq_link_test.h
     ./tests/sq_link_test.cpp)
 
-set(LIBS "m" # Maths
-)
+set(LIBS)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
