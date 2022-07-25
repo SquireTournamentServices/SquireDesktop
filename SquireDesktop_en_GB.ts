@@ -381,7 +381,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="213"/>
+        <location filename="src/ui/mainwindow.cpp" line="214"/>
         <source>Settings</source>
         <translation></translation>
     </message>

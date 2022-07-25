@@ -8,7 +8,7 @@
 #include "../../testing_h/logger.h"
 #include "../discord_game_sdk.h"
 #include "./ui_appdashboardtab.h" // Hack to attach dashboard to menubar
-#include <unistd.h>
+#include <chrono>
 #include <string.h>
 #include <QIcon>
 #include <QPixmap>
@@ -121,7 +121,8 @@ void dc_thread(dc_info_t *info)
     params.flags = DiscordCreateFlags_NoRequireDiscord;
     params.events = &events;
     params.event_data = &app;
-    while (DiscordCreate(DISCORD_VERSION, &params, &app.core) != DiscordResult_Ok && info->running) sleep(1);
+    while (DiscordCreate(DISCORD_VERSION, &params, &app.core) != DiscordResult_Ok && info->running)
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     size_t dc_start_time = time(NULL);
 
@@ -157,7 +158,7 @@ void dc_thread(dc_info_t *info)
             act->update_activity(act, &activity, NULL, NULL);
             free(txt);
         }
-        sleep(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
