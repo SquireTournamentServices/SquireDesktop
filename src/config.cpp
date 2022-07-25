@@ -94,14 +94,12 @@ cleanup:
         if (ret.name != NULL) {
             free(ret.name);
         }
-
-        if (ret.file_path != NULL) {
-            free(ret.file_path);
-        }
+        ret.name = NULL;
 
         if (ret.pairing_sys != NULL) {
             free(ret.pairing_sys);
         }
+        ret.pairing_sys = NULL;
     }
 
     *status = s;
@@ -182,8 +180,8 @@ bool init_config(config_t *config, FILE *f)
 
                 if (!r) {
                     lprintf(LOG_WARNING, "Cannot read tournament file %s\n", path.c_str());
-                } 
-                
+                }
+
                 config->recent_tournaments[i].file_path = clone_string(config->recent_tournaments[i].file_path);
                 i++;
             }
