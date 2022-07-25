@@ -1,6 +1,6 @@
 #include <time.h>
 #include <string>
-#include "assets.h"
+#include <assets.h>
 #include "./recenttournamentwidget.h"
 #include "./ui_recenttournamentwidget.h"
 

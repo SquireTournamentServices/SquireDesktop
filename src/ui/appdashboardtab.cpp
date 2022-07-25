@@ -1,7 +1,7 @@
 #include "./appdashboardtab.h"
 #include "./ui_appdashboardtab.h"
 #include "./widgets/recenttournamentwidget.h"
-#include "assets.h"
+#include <assets.h>
 #include <QApplication>
 
 AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :

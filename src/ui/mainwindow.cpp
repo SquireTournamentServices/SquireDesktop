@@ -1,4 +1,4 @@
-#include "assets.h"
+#include <assets.h>
 #include "./mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "./menubar/rng/coinsflipdialogue.h"
