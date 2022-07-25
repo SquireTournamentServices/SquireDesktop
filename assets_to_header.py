@@ -13,6 +13,8 @@ def escape(s: str) -> str:
         base = i * 2
         ret += s[base]
         ret += s[base + 1]
+        if i % 100 == 0:
+            ret += '"\n"'
     return ret
 
 
