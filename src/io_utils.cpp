@@ -50,7 +50,7 @@ char *clone_std_string(std::string str)
     return ret;
 }
 
-char *clone_string(char *str)
+char *clone_string(const char *str)
 {
     size_t len = strlen(str) + 1;
     char *ret = (char *) malloc(sizeof * ret * len);
