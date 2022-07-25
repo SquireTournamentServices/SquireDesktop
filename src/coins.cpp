@@ -14,6 +14,16 @@
   y = z; \
   z = t ^ x ^ y;
 
+#ifndef __builtin_popcountl
+inline int __builtin_popcountl(long v) {
+  int ret = 0;
+  for (int i = 0; i < sizeof(long) * 8; i++) {
+      ret += (v & (0x1 << i)) != 0;
+  }
+  return ret;
+}
+#endif
+
 int flip_krark_coins(int coins)
 {
     unsigned long x=time(NULL) ^ clock(), y=362436069, z=521288629;
