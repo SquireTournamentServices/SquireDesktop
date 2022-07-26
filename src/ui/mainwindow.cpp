@@ -8,6 +8,7 @@
 #include "../../testing_h/logger.h"
 #include "../discord_game_sdk.h"
 #include "./ui_appdashboardtab.h" // Hack to attach dashboard to menubar
+#include "./abstracttabwidget.h"
 #include <chrono>
 #include <string.h>
 #include <QIcon>
@@ -59,6 +60,7 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
 
     // Set tab closeinator
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
 
     // Set version label
     ui->versionLabel->setText(tr("Version: ") + PROJECT_VERSION + " - " + GIT_COMMIT_HASH + "@" + GIT_BRANCH
@@ -196,10 +198,29 @@ void MainWindow::diceRollUtility()
     dlg->show();
 }
 
+void MainWindow::tabChanged(int index)
+{
+    this->setDiscordText((QString::fromStdString(PROJECT_NAME " - ") + ui->tabWidget->tabText(index)).toStdString());
+}
+
 void MainWindow::closeTab(int index)
 {
-    delete ui->tabWidget->currentWidget();
-    ui->tabWidget->removeTab(index);
+    lprintf("DEBUG", "i %d\n");
+    if (index == -1) {
+        return;
+    }
+
+    QWidget *widget = ui->tabWidget->widget(index);
+    AbstractTabWidget *w = dynamic_cast<AbstractTabWidget *>(widget);
+    bool canClose = w->canExit();
+
+    if (canClose) {
+        ui->tabWidget->removeTab(index);
+        delete widget;
+    } else {
+        lprintf(LOG_INFO, "Cannot close tab\n");
+        QApplication::beep();
+    }
 }
 
 void MainWindow::addTab(QWidget *w, QString name)
@@ -239,3 +260,4 @@ void MainWindow::onTournamentAdded(recent_tournament_t t)
 
     this->dashboard->onTournamentAdded(t);
 }
+

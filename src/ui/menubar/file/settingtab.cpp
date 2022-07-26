@@ -8,7 +8,7 @@
 #include <string.h>
 
 SettingTab::SettingTab(config_t *c, QWidget *parent) :
-    QWidget(parent),
+    AbstractTabWidget(parent),
     ui(new Ui::SettingTab)
 {
     ui->setupUi(this);
@@ -86,15 +86,6 @@ void SettingTab::uiSetSettings()
     }
 }
 
-bool SettingTab::canExit()
-{
-    if (this->changed) {
-
-    } else {
-        return true;
-    }
-}
-
 void SettingTab::onError(QString err)
 {
     QMessageBox *dlg = new QMessageBox(this);
@@ -160,5 +151,31 @@ void SettingTab::onReset()
 void SettingTab::onChange()
 {
     this->changed = true;
+}
+
+bool SettingTab::canExit()
+{
+    if (this->changed) {
+        // Ask the user if they want to save their settings
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Unsaved Settings Changes"));
+        msgBox.setText("Do you want to save your settings?");
+        msgBox.setStandardButtons(QMessageBox::Save);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.addButton(QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+
+        int ret = msgBox.exec();
+        if (ret == QMessageBox::Save) {
+            this->onSave(); // No error handling.
+            return true;
+        } else if (ret == QMessageBox::Cancel) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return true;
+    }
 }
 

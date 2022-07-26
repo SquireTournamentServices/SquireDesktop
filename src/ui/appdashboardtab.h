@@ -3,13 +3,14 @@
 #include <QVBoxLayout>
 #include "../config.h"
 #include "./widgets/labelimage.h"
+#include "./abstracttabwidget.h"
 
 namespace Ui
 {
 class AppDashboardTab;
 }
 
-class AppDashboardTab : public QWidget
+class AppDashboardTab : public AbstractTabWidget
 {
     Q_OBJECT
 
@@ -19,6 +20,8 @@ public:
     Ui::AppDashboardTab *ui; // Sorry OOP fans
 
     void onTournamentAdded(recent_tournament_t t);
+public slots:
+    bool canExit() override;
 protected:
     void changeEvent(QEvent *e);
 

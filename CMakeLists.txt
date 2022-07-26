@@ -174,6 +174,8 @@ set(PROJECT_SOURCES
     ./src/ui/appdashboardtab.cpp
     ./src/ui/appdashboardtab.h
     ./src/ui/appdashboardtab.ui
+    ./src/ui/abstracttabwidget.cpp
+    ./src/ui/abstracttabwidget.h
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui

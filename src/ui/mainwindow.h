@@ -52,6 +52,7 @@ private slots:
     void newTournament();
     void loadTournament();
 
+    void tabChanged(int index);
     void closeTab(int index);
     void setDiscordText(std::string txt);
 

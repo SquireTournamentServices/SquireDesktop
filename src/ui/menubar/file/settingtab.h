@@ -2,25 +2,24 @@
 #include <QWidget>
 #include <QAbstractButton>
 #include "../../../config.h"
+#include "../../abstracttabwidget.h"
 
 namespace Ui
 {
 class SettingTab;
 }
 
-class SettingTab : public QWidget
+class SettingTab : public AbstractTabWidget
 {
     Q_OBJECT
 
 public:
     explicit SettingTab(config_t *c, QWidget *parent = nullptr);
     ~SettingTab();
-public slots:
-    bool canExit();
-
 protected:
     void changeEvent(QEvent *e);
-
+public slots:
+    bool canExit() override;
 private:
     Ui::SettingTab *ui;
     bool changed;

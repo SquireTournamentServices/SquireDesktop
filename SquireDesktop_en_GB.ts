@@ -317,73 +317,73 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="37"/>
+        <location filename="src/ui/mainwindow.cpp" line="38"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="49"/>
+        <location filename="src/ui/mainwindow.cpp" line="50"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="46"/>
+        <location filename="src/ui/mainwindow.cpp" line="47"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="38"/>
+        <location filename="src/ui/mainwindow.cpp" line="39"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="42"/>
+        <location filename="src/ui/mainwindow.cpp" line="43"/>
         <source>Open Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="53"/>
+        <location filename="src/ui/mainwindow.cpp" line="54"/>
         <source>RNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="54"/>
+        <location filename="src/ui/mainwindow.cpp" line="55"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="57"/>
+        <location filename="src/ui/mainwindow.cpp" line="58"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="33"/>
-        <location filename="src/ui/mainwindow.cpp" line="79"/>
+        <location filename="src/ui/mainwindow.cpp" line="235"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="34"/>
+        <location filename="src/ui/mainwindow.cpp" line="81"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="64"/>
+        <location filename="src/ui/mainwindow.cpp" line="66"/>
         <source>Version: </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="65"/>
+        <location filename="src/ui/mainwindow.cpp" line="67"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="66"/>
+        <location filename="src/ui/mainwindow.cpp" line="68"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/ui/mainwindow.cpp" line="214"/>
-        <source>Settings</source>
         <translation></translation>
     </message>
 </context>
@@ -531,19 +531,24 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="102"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="93"/>
         <source>An Error Occurred Saving Settings</source>
         <translation>An Error Occurred Saving Settings</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="136"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="127"/>
         <source>Cannot open file</source>
         <translation>Cannot open file</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="142"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="133"/>
         <source>Cannot encode settings</source>
         <translation>Cannot encode settings</translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="161"/>
+        <source>Unsaved Settings Changes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

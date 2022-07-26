@@ -2,10 +2,9 @@
 #include "./ui_appdashboardtab.h"
 #include "./widgets/recenttournamentwidget.h"
 #include <assets.h>
-#include <QApplication>
 
 AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
-    QWidget(parent),
+    AbstractTabWidget(parent),
     ui(new Ui::AppDashboardTab)
 {
     ui->setupUi(this);
@@ -51,5 +50,10 @@ void AppDashboardTab::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+bool AppDashboardTab::canExit()
+{
+    return false;
 }
 
