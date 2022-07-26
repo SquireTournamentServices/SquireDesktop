@@ -261,7 +261,11 @@ endif()
 # Assets to data strings
 file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
-add_custom_command(OUTPUT assets.h COMMAND ${ASSETS_TO_STR_PY})
+if(UNUX)
+  add_custom_command(OUTPUT assets.h COMMAND python3 ${ASSETS_TO_STR_PY})
+else()
+  add_custom_command(OUTPUT assets.h COMMAND python ${ASSETS_TO_STR_PY})
+endif()
 add_custom_target(generate_assets DEPENDS assets.h)
 
 # Installs Discord Game SDK binaries
