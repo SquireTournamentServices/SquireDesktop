@@ -71,7 +71,11 @@ void RecentTournamentWidget::mousePressEvent(QMouseEvent *event)
     lprintf(LOG_INFO, "Opening tournament %s\n", this->t.file_path);
 }
 
+#if QT_VERSION >= 0x060000
+void RecentTournamentWidget::enterEvent(QEnterEvent *event)
+#else
 void RecentTournamentWidget::enterEvent(QEvent *event)
+#endif
 {
     this->setBackgroundRole(QPalette::Base);
 }
