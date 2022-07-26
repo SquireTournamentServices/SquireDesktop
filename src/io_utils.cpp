@@ -33,7 +33,7 @@ char *read_all_f(FILE *f)
             EXIT_MEM_ERROR(ret);
         }
     }
-    ret[ptr + 1] = 0;
+    ret[ptr++] = 0;
 
     return ret;
 }
