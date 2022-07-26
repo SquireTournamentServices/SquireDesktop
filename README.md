@@ -16,12 +16,12 @@ Currently this is under development and, not released, please check back later!
  - `Rust`
  - `CMake`
  - `cbindgen` (execute: `cargo install --force cbindgen`)
- - `Qt` (>= 5.14, Windows users can install qtcreator to make this easier)
+ - `python`
+ - `Qt` (>=` 5.14 or, 6, Windows users can install qtcreator to make this easier)
    - Linguistics
    - Core
    - Networking
  - `Compiler` (gcc, clang or, msvc)
- - `pthread`
 
 ##### 2. Update Rust to Nightly
 ```
@@ -31,6 +31,9 @@ rustup update
 
 ##### 3. OS Dependant Instructions
 ###### Installing on Windows
+Install:
+ - Visual Studio Build Tools (default options are fine)
+
 Install qtcreator (sorts most things out for you)
 Build in qtcreator (it is easier I promise)
 
