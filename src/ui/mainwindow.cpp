@@ -63,8 +63,10 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
 
     // Set version label
-    ui->versionLabel->setText(tr("Version: ") + PROJECT_VERSION + " - " + GIT_COMMIT_HASH + "@" + GIT_BRANCH
-                              + " (" + OS + ") | [" + tr("Github Repo") + "](" + REPO_URL + ") | "
+    ui->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
+                              + tr("Squire Core Version: ") + SQ_VERSION
+                              + " | OS: " + OS + " | ["
+                              + tr("Github Repo") + "](" + REPO_URL + ") | "
                               + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
 
     QCoreApplication::setOrganizationName("Monarch");

@@ -360,29 +360,35 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="235"/>
+        <location filename="src/ui/mainwindow.cpp" line="66"/>
+        <source>Squire Desktop Version: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="67"/>
+        <source>Squire Core Version: </source>
+        <oldsource>Core Version: </oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="237"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/mainwindow.cpp" line="34"/>
-        <location filename="src/ui/mainwindow.cpp" line="81"/>
+        <location filename="src/ui/mainwindow.cpp" line="83"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="66"/>
-        <source>Version: </source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/ui/mainwindow.cpp" line="67"/>
+        <location filename="src/ui/mainwindow.cpp" line="69"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="68"/>
+        <location filename="src/ui/mainwindow.cpp" line="70"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>
