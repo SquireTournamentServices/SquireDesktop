@@ -156,6 +156,7 @@ int main(int argc, char *argv[])
         ret = a.exec(); // Exec until the app is kil
     } catch(std::exception &err) {
         lprintf(LOG_ERROR, "Crash detected, exception: %s\n", err.what());
+        print_error_system_information();
         ret = 1;
     }
 
