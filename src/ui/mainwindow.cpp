@@ -17,6 +17,7 @@
 #include <QPixmap>
 #include <QTabBar>
 #include <QPushButton>
+#include <QFileDialog>
 
 MainWindow::MainWindow(config_t *t, QWidget *parent)
     : QMainWindow(parent)
@@ -35,6 +36,8 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     this->dashboard = new AppDashboardTab(*t, ui->tabWidget);
     ui->tabWidget->addTab(this->dashboard, tr("Dashboard"));
     ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
+
+    connect(this->dashboard, &AppDashboardTab::loadTournament, this, &MainWindow::loadTournamentFromName);
 
     // Init menu bar
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
@@ -209,7 +212,6 @@ void MainWindow::tabChanged(int index)
 
 void MainWindow::closeTab(int index)
 {
-    lprintf("DEBUG", "i %d\n");
     if (index == -1) {
         return;
     }
@@ -246,9 +248,52 @@ void MainWindow::newTournament()
     dlg->show();
 }
 
+QString MainWindow::getTournamentTabName(Tournament t)
+{
+    QString ret = QString::fromStdString(t.name()) + tr(" - Tournament");
+    return ret;
+}
+
 void MainWindow::loadTournament()
 {
+    QFileDialog dlg;
+    dlg.setWindowTitle(tr("Open A Squire Tournament"));
+    dlg.setFileMode(QFileDialog::AnyFile);
+    dlg.setViewMode(QFileDialog::Detail);
+    dlg.setNameFilter(tr("All Squire Tournament files") + QString(" (*.json *" TOURNAMENT_EXTENTION ")"));
 
+    bool good = false;
+    if (dlg.exec()) {
+        QString file = dlg.selectedFiles().at(0);
+
+        lprintf(LOG_INFO, "Opening tournament %s\n", file.toStdString().c_str());
+        Tournament t;
+
+        good = load_tournament(file.toStdString(), &t);
+        if (good) {
+            TournamentTab *tourn_tab = new TournamentTab(t, this);
+            ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
+        }
+    }
+
+    if (!good) {
+        lprintf(LOG_ERROR, "Cannot load tournament.\n");
+        QApplication::beep();
+    }
+}
+
+void MainWindow::loadTournamentFromName(QString name)
+{
+    Tournament t;
+
+    bool good = load_tournament(name.toStdString(), &t);
+    if (good) {
+        TournamentTab *tourn_tab = new TournamentTab(t, this);
+        ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
+    } else {
+        lprintf(LOG_ERROR, "Cannot load tournament.\n");
+        QApplication::beep();
+    }
 }
 
 void MainWindow::onTournamentAdded(Tournament t)
@@ -281,6 +326,6 @@ void MainWindow::onTournamentAdded(Tournament t)
     this->dashboard->onTournamentAdded(recent_t);
 
     TournamentTab *tourn_tab = new TournamentTab(t, this);
-    ui->tabWidget->addTab(tourn_tab, QString(recent_t.name) + tr(" - Tournament"));
+    ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
 }
 

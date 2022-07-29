@@ -206,7 +206,7 @@ int test_add_recent_tourn_to_and_over_limit()
     FILE *w = fdopen(fid[1], "w");
 
     for (int i = 0; i <= MAXIMUM_RECENT_LIST_SIZE; i++) {
-      ASSERT(add_recent_tourn(&config, t, w));
+        ASSERT(add_recent_tourn(&config, t, w));
     }
 
     fclose(w);

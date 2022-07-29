@@ -1,6 +1,8 @@
 #include "./abstract_tournament.h"
 #include "../ffi_utils.h"
+#include "../../testing_h/logger.h"
 #include <string.h>
+#include <jemalloc/jemalloc.h>
 #include <squire_core/squire_core.h>
 
 bool load_tournament(std::string file_name, Tournament *t)
@@ -8,9 +10,10 @@ bool load_tournament(std::string file_name, Tournament *t)
     squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name.c_str());
 
     if (is_null_id(tid._0)) {
+        lprintf(LOG_ERROR, "Cannot load tournament %s - NULL UUID returned due to invalid file\n", file_name.c_str());
         return false;
     } else {
-        *t = Tournament(std::string(file_name), tid);
+        *t = LocalTournament(std::string(file_name), tid);
     }
 
     return true;
@@ -44,7 +47,7 @@ bool new_tournament(std::string file,
     if (is_null_id(tid._0)) {
         return false;
     } else {
-        *t = Tournament(std::string(file), tid);
+        *t = LocalTournament(std::string(file), tid);
     }
 
     return true;
@@ -61,7 +64,8 @@ Tournament::Tournament(const Tournament &t)
     this->saveLocation = t.saveLocation;
 }
 
-Tournament::Tournament(std::string save_location, squire_core::sc_TournamentId tid)
+LocalTournament::LocalTournament(std::string save_location, squire_core::sc_TournamentId tid)
+    : Tournament()
 {
     this->tid = tid;
     this->saveLocation = save_location;
@@ -86,7 +90,10 @@ squire_core::sc_TournamentId Tournament::id()
 
 std::string Tournament::name()
 {
-    return std::string(squire_core::tid_name(this->tid));
+    char *name = (char *) squire_core::tid_name(this->tid);
+    std::string ret = name;
+    free(name);
+    return ret;
 }
 
 bool Tournament::use_table_number()
@@ -96,7 +103,10 @@ bool Tournament::use_table_number()
 
 std::string Tournament::format()
 {
-    return squire_core::tid_format(this->tid);
+    char *format = (char *) squire_core::tid_format(this->tid);
+    std::string ret = std::string(format);
+    free(format);
+    return ret;
 }
 
 int Tournament::game_size()

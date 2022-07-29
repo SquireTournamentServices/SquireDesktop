@@ -20,13 +20,16 @@ public:
     Ui::AppDashboardTab *ui; // Sorry OOP fans
 
     void onTournamentAdded(recent_tournament_t t);
+signals:
+    void loadTournament(QString name);
 public slots:
     bool canExit() override;
 protected:
     void changeEvent(QEvent *e);
-
 private:
     LabelImage *banner;
     QVBoxLayout *layout;
+private slots:
+    void openTournament(QString name);
 };
 

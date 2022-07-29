@@ -92,7 +92,7 @@ void CreateTournamentDialogue::changeSaveLocation()
     dlg.setDirectory(QString::fromStdString(dir));
     dlg.selectFile(QString::fromStdString(file));
     dlg.setViewMode(QFileDialog::Detail);
-    dlg.setNameFilter(tr("All Squire Tournament files") + QString(" (*.json *." TOURNAMENT_EXTENTION ")"));
+    dlg.setNameFilter(tr("All Squire Tournament files") + QString(" (*.json *" TOURNAMENT_EXTENTION ")"));
 
     if (dlg.exec()) {
         ui->saveLocation->setText(dlg.directory().absolutePath() + dlg.selectedFiles().at(0));
@@ -115,7 +115,7 @@ void CreateTournamentDialogue::onOkay()
 
     init_tourn_folder(this->config);
 
-    LocalTournament tourn;
+    Tournament tourn;
     bool valid = new_tournament(ui->saveLocation->text().toStdString(),
                                 ui->nameEdit->text().toStdString(),
                                 ui->formatEdit->text().toStdString(),

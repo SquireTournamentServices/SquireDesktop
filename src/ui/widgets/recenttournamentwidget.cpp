@@ -68,7 +68,7 @@ void RecentTournamentWidget::changeEvent(QEvent *e)
 void RecentTournamentWidget::mousePressEvent(QMouseEvent *event)
 {
     this->setBackgroundRole(QPalette::Link);
-    lprintf(LOG_INFO, "Opening tournament %s\n", this->t.file_path);
+    emit this->loadTournament(QString(this->t.file_path));
 }
 
 #if QT_VERSION >= 0x060000

@@ -15,6 +15,7 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
     for (int i = 0; i < t.recent_tournament_count; i++) {
         RecentTournamentWidget *w = new RecentTournamentWidget(t.recent_tournaments[i], this);
         this->layout->insertWidget(0, w);
+        connect(w, &RecentTournamentWidget::loadTournament, this, &AppDashboardTab::openTournament);
     }
 
     // Banner stuff
@@ -38,6 +39,7 @@ void AppDashboardTab::onTournamentAdded(recent_tournament_t t)
 {
     RecentTournamentWidget *w = new RecentTournamentWidget(t, this);
     this->layout->insertWidget(0, w);
+    connect(w, &RecentTournamentWidget::loadTournament, this, &AppDashboardTab::openTournament);
 }
 
 void AppDashboardTab::changeEvent(QEvent *e)
@@ -55,5 +57,10 @@ void AppDashboardTab::changeEvent(QEvent *e)
 bool AppDashboardTab::canExit()
 {
     return false;
+}
+
+void AppDashboardTab::openTournament(QString name)
+{
+    emit this->loadTournament(name);
 }
 

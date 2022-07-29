@@ -18,8 +18,7 @@ public:
     explicit RecentTournamentWidget(recent_tournament_t t, QWidget *parent = nullptr);
     ~RecentTournamentWidget();
 signals:
-    void openTournament(QString name);
-
+    void loadTournament(QString name);
 protected:
     void changeEvent(QEvent *e);
 #if QT_VERSION >= 0x060000

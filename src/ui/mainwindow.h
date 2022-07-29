@@ -45,6 +45,7 @@ private:
     char *discord_thread_txt; // free if not-null on set.
 
     void addTab(QWidget *w, QString name);
+    QString getTournamentTabName(Tournament t);
 private slots:
     void coinFlipUtility();
     void diceRollUtility();
@@ -52,6 +53,7 @@ private slots:
     void settings();
     void newTournament();
     void loadTournament();
+    void loadTournamentFromName(QString name);
 
     void tabChanged(int index);
     void closeTab(int index);
