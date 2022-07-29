@@ -178,6 +178,9 @@ set(PROJECT_SOURCES
     ./src/ui/appdashboardtab.ui
     ./src/ui/abstracttabwidget.cpp
     ./src/ui/abstracttabwidget.h
+    ./src/ui/tournamenttab.cpp
+    ./src/ui/tournamenttab.h
+    ./src/ui/tournamenttab.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui

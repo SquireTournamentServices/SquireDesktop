@@ -6,6 +6,7 @@
 #include <thread>
 #include "./appdashboardtab.h"
 #include "../config.h"
+#include "../model/abstract_tournament.h"
 
 // Discord stuff
 #define CLIENT_ID 869668721264853022
@@ -56,5 +57,5 @@ private slots:
     void closeTab(int index);
     void setDiscordText(std::string txt);
 
-    void onTournamentAdded(recent_tournament_t t);
+    void onTournamentAdded(Tournament t);
 };

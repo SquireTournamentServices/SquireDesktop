@@ -10,7 +10,7 @@ public:
      */
     Tournament();
     Tournament(const Tournament &t); // Copy constructor
-    Tournament(squire_core::sc_TournamentId tid); // Primary constructor
+    Tournament(std::string save_location, squire_core::sc_TournamentId tid); // Primary constructor
     ~Tournament();
 
     // Setters
@@ -29,17 +29,20 @@ public:
     bool require_check_in();
     bool require_deck_reg();
     squire_core::sc_TournamentStatus status();
+    std::string save_location();
 private:
     squire_core::sc_TournamentId tid;
+    std::string saveLocation;
 };
 
+// Type alias
 class LocalTournament : public Tournament {};
 
 // Static util methods
-bool load_tournament(char *file_name, Tournament *t);
-bool new_tournament(char *file,
-                    char *name,
-                    char *format,
+bool load_tournament(std::string file_name, Tournament *t);
+bool new_tournament(std::string file,
+                    std::string name,
+                    std::string format,
                     squire_core::sc_TournamentPreset preset,
                     bool use_table_number,
                     int game_size,

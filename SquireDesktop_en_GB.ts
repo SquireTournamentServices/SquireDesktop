@@ -189,28 +189,28 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="17"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="16"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="91"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="90"/>
         <source>Save Tournament As</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="96"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="95"/>
         <source>All Squire Tournament files</source>
         <oldsource>Squire Tournament</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="152"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="138"/>
         <source>Error making new tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="153"/>
+        <location filename="src/ui/menubar/file/createtournamentdialogue.cpp" line="139"/>
         <source>Cannot save new tournament</source>
         <translation></translation>
     </message>
@@ -317,78 +317,83 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="38"/>
+        <location filename="src/ui/mainwindow.cpp" line="40"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="50"/>
+        <location filename="src/ui/mainwindow.cpp" line="52"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="47"/>
+        <location filename="src/ui/mainwindow.cpp" line="49"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="39"/>
+        <location filename="src/ui/mainwindow.cpp" line="41"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="43"/>
+        <location filename="src/ui/mainwindow.cpp" line="45"/>
         <source>Open Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="54"/>
+        <location filename="src/ui/mainwindow.cpp" line="56"/>
         <source>RNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="55"/>
+        <location filename="src/ui/mainwindow.cpp" line="57"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="58"/>
+        <location filename="src/ui/mainwindow.cpp" line="60"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="66"/>
+        <location filename="src/ui/mainwindow.cpp" line="68"/>
         <source>Squire Desktop Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="67"/>
+        <location filename="src/ui/mainwindow.cpp" line="69"/>
         <source>Squire Core Version: </source>
         <oldsource>Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="237"/>
+        <location filename="src/ui/mainwindow.cpp" line="239"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="34"/>
-        <location filename="src/ui/mainwindow.cpp" line="83"/>
+        <location filename="src/ui/mainwindow.cpp" line="284"/>
+        <source> - Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="36"/>
+        <location filename="src/ui/mainwindow.cpp" line="85"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="69"/>
+        <location filename="src/ui/mainwindow.cpp" line="71"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="70"/>
+        <location filename="src/ui/mainwindow.cpp" line="72"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>
@@ -555,6 +560,15 @@
         <location filename="src/ui/menubar/file/settingtab.cpp" line="161"/>
         <source>Unsaved Settings Changes</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TournamentTab</name>
+    <message>
+        <location filename="src/ui/tournamenttab.ui" line="16"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="35"/>
+        <source>Form</source>
+        <translation type="unfinished">Form</translation>
     </message>
 </context>
 </TS>

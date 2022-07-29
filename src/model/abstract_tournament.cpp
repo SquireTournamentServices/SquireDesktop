@@ -3,22 +3,22 @@
 #include <string.h>
 #include <squire_core/squire_core.h>
 
-bool load_tournament(char *file_name, Tournament *t)
+bool load_tournament(std::string file_name, Tournament *t)
 {
-    squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name);
+    squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name.c_str());
 
     if (is_null_id(tid._0)) {
         return false;
     } else {
-        *t = Tournament(tid);
+        *t = Tournament(std::string(file_name), tid);
     }
 
     return true;
 }
 
-bool new_tournament(char *file,
-                    char *name,
-                    char *format,
+bool new_tournament(std::string file,
+                    std::string name,
+                    std::string format,
                     squire_core::sc_TournamentPreset preset,
                     bool use_table_number,
                     int game_size,
@@ -29,9 +29,9 @@ bool new_tournament(char *file,
                     bool require_deck_reg,
                     Tournament *t)
 {
-    squire_core::sc_TournamentId tid = squire_core::new_tournament_from_settings(file,
-                                       name,
-                                       format,
+    squire_core::sc_TournamentId tid = squire_core::new_tournament_from_settings(file.c_str(),
+                                       name.c_str(),
+                                       format.c_str(),
                                        preset,
                                        use_table_number,
                                        game_size,
@@ -44,7 +44,7 @@ bool new_tournament(char *file,
     if (is_null_id(tid._0)) {
         return false;
     } else {
-        *t = Tournament(tid);
+        *t = Tournament(std::string(file), tid);
     }
 
     return true;
@@ -58,16 +58,23 @@ Tournament::Tournament()
 Tournament::Tournament(const Tournament &t)
 {
     this->tid = t.tid;
+    this->saveLocation = t.saveLocation;
 }
 
-Tournament::Tournament(squire_core::sc_TournamentId tid)
+Tournament::Tournament(std::string save_location, squire_core::sc_TournamentId tid)
 {
     this->tid = tid;
+    this->saveLocation = save_location;
 }
 
 Tournament::~Tournament()
 {
 
+}
+
+std::string Tournament::save_location()
+{
+    return std::string(this->saveLocation);
 }
 
 squire_core::sc_TournamentId Tournament::id()

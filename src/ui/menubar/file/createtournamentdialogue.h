@@ -1,5 +1,6 @@
 #pragma once
 #include "../../../config.h"
+#include "../../../model/abstract_tournament.h"
 #include <QDialog>
 
 namespace Ui
@@ -15,7 +16,7 @@ public:
     explicit CreateTournamentDialogue(config_t *config, QWidget *parent = nullptr);
     ~CreateTournamentDialogue();
 signals:
-    void onTournamentAdded(recent_tournament_t t);
+    void onTournamentAdded(Tournament t);
 protected:
     void changeEvent(QEvent *e);
 
