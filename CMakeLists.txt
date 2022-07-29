@@ -155,6 +155,8 @@ set(MAIN_FILES
     ./testing_h/logger.cpp
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
+    ./src/model/abstract_tournament.cpp
+    ./src/model/abstract_tournament.h
     ./src/ffi_utils.cpp
     ./src/ffi_utils.h
     ./src/coins.cpp
