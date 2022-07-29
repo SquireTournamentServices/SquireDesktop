@@ -28,6 +28,7 @@ void TournamentTab::changeEvent(QEvent *e)
 
 bool TournamentTab::canExit()
 {
+    squire_core::close_tourn(this->tourn.id());
     return true;
 }
 
