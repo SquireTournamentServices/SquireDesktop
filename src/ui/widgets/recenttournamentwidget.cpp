@@ -77,12 +77,12 @@ void RecentTournamentWidget::enterEvent(QEnterEvent *event)
 void RecentTournamentWidget::enterEvent(QEvent *event)
 #endif
 {
-    this->setBackgroundRole(QPalette::Base);
+    this->setBackgroundRole(QPalette::Highlight);
 }
 
 void RecentTournamentWidget::leaveEvent(QEvent *event)
 {
-    this->setBackgroundRole(QPalette::Highlight);
+    this->setBackgroundRole(QPalette::Base);
 }
 
 void RecentTournamentWidget::mouseReleaseEvent(QMouseEvent *event)

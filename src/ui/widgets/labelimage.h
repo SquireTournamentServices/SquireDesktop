@@ -19,7 +19,7 @@ public:
     }
 
 protected:
-    virtual void resizeEvent(QResizeEvent *pQEvent);
+    void resizeEvent(QResizeEvent *pQEvent) override;
 
 private:
     void setPixmap(const QPixmap &qPixmap, const QSize &size);
