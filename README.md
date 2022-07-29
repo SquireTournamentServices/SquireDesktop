@@ -6,6 +6,7 @@
 
 ## Start Here!
 Currently this is under development and, not released, please check back later!
+[https://github.com/MonarchDevelopment/SquireDesktop/wiki](Read the docs in full here)
 
 ### Installing from Binaries
 **See releases.**
@@ -62,6 +63,26 @@ libgl1-mesa-dev
 sudo pacman -S gcc build-essential g++ cmake 
 ```
 
+Then run the compiler
+```bash
+mkdir -p build && cd build # dont build in src please
+# cmake .. -DCMAKE_BUILD_TYPE=TEST # Use if want to compile tests
+cmake .. -DCMAKE_BUILD_TYPE=RELEASE # or DEBUG if you want debug symbols + debug logging
+cmake --build . -j
+# ctest -V # use to run the tests if you built them
+```
+
+### Copyright, Iconography and, Image Assets
+Some icons are from [https://www.flaticon.com](https://www.flaticon.com/), others are
+owned by Wizards of The Coast and, are trademarks of them (MTG Icons and, logos).
+You can enquire about individual assets in issues. Main icons of note are below. Other
+icons and, assets are ours (Monarch's), enquire if you wish to use.
+
+| Icon Name | Owner |
+|---|---|
+| `warning.png`, `fluid.png`, `swiss.png` | Flat Icon |
+| `icon.png`, `banner.png` | Monarch |
+
 ### Basic Usage
 See the [Wiki](https://github.com/MonarchDevelopment/SquireDesktop/wiki) for a guide (coming
 soon).
@@ -88,35 +109,3 @@ privacy policy for those.
 The default configuration is stored in ./config.json, on Windows this is in `CHANGE ME`, 
 on Linux and mac this is in `CHANGE ME`. You *can* edit the configuration by hand or, go to
 `File > Settings` and use the form.
-
-## Building From Sources
-### Windows
-
-### Linux / Mac
-```bash
-mkdir -p build && cd build
-# cmake .. -DCMAKE_BUILD_TYPE=TEST # Use if want to compile tests
-cmake .. -DCMAKE_BUILD_TYPE=RELEASE # or DEBUG if you want debug symbols + debug logging
-cmake --build . -j
-# ctest -V # use to run the tests if you built them
-```
-
-## Software Requirements
-| Name | Usage |
-|---|---|
-| `cmake` | Build System |
-| `clang++`/`g++`/`mingw` | C++ Compiler |
-| `qt5/qt6` | GUI Library |
-| `rust` | Squire Core |
-
-## Copyright, Iconography and, Image Assets
-Some icons are from [https://www.flaticon.com](https://www.flaticon.com/), others are
-owned by Wizards of The Coast and, are trademarks of them (MTG Icons and, logos).
-You can enquire about individual assets in issues. Main icons of note are below. Other
-icons and, assets are ours (Monarch's), enquire if you wish to use.
-
-| Icon Name | Owner |
-|---|---|
-| `warning.png`, `fluid.png`, `swiss.png` | Flat Icon |
-| `icon.png`, `banner.png` | Monarch |
-
