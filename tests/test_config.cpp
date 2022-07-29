@@ -15,7 +15,8 @@ int test_default_tourn()
     tourn_settings_t t = DEFAULT_TOURN;
 
     ASSERT(t.match_size == DEFAULT_MATCH_SIZE);
-    ASSERT(t.deck_count == DEFAULT_DECK_COUNT);
+    ASSERT(t.min_deck_count == DEFAULT_MIN_DECK_COUNT);
+    ASSERT(t.max_deck_count == DEFAULT_MAX_DECK_COUNT);
     ASSERT(t.points_win == DEFAULT_POINTS_WIN);
     ASSERT(t.points_loss == DEFAULT_POINTS_LOSS);
     ASSERT(t.points_draw == DEFAULT_POINTS_DRAW);
@@ -189,6 +190,35 @@ int test_add_recent_tourn()
     return 1;
 }
 
+int test_add_recent_tourn_to_and_over_limit()
+{
+    config_t config = DEFAULT_CONFIG;
+    int last = config.recent_tournament_count;
+
+    recent_tournament_t t;
+    t.name = "test name";
+    t.pairing_sys = "swiss";
+    t.file_path = "tourn.json";
+
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *r = fdopen(fid[0], "r");
+    FILE *w = fdopen(fid[1], "w");
+
+    for (int i = 0; i <= MAXIMUM_RECENT_LIST_SIZE; i++) {
+      ASSERT(add_recent_tourn(&config, t, w));
+    }
+
+    fclose(w);
+
+    char *data =read_all_f(r);
+    ASSERT(data != NULL);
+    ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
+
+    free_config(&config);
+    return 1;
+}
+
 SUB_TEST(config_cpp_tests,
 {&test_default_tourn, "Test default tourn settings"},
 {&test_free_error, "Test free error case"},
@@ -197,6 +227,7 @@ SUB_TEST(config_cpp_tests,
 {&test_init_fail_2, "Test init fail 2"},
 {&test_default_config, "Test default config"},
 {&test_default_config_write, "Test default config write"},
-{&test_init_default_settings, "Test init with default settings"}
+{&test_init_default_settings, "Test init with default settings"},
+{&test_add_recent_tourn_to_and_over_limit, "Adds MAXIMMUM_RECENT_LIST_SIZE + 1 recent tournaments"}
         )
 
