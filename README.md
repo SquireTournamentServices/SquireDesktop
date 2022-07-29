@@ -6,7 +6,8 @@
 
 ## Start Here!
 Currently this is under development and, not released, please check back later!
-(https://github.com/MonarchDevelopment/SquireDesktop/wiki)[Read the docs in full here]
+
+[Read the docs in full here](https://github.com/MonarchDevelopment/SquireDesktop/wiki)
 
 ### Installing from Binaries
 **See releases.**
