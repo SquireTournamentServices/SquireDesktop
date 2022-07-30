@@ -155,10 +155,6 @@ set(MAIN_FILES
     ./testing_h/logger.cpp
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
-    ./src/model/abstract_tournament.cpp
-    ./src/model/abstract_tournament.h
-    ./src/ffi_utils.cpp
-    ./src/ffi_utils.h
     ./src/coins.cpp
     ./src/coins.h
     ./src/config.cpp
@@ -166,9 +162,14 @@ set(MAIN_FILES
     ./src/io_utils.cpp
     ./src/io_utils.h)
 
+set(FFI_FILES
+    ./src/ffi_utils.cpp ./src/ffi_utils.h ./src/model/abstract_tournament.cpp
+    ./src/model/abstract_tournament.h)
+
 set(PROJECT_SOURCES
     ${TS_FILES}
     ${MAIN_FILES}
+    ${FFI_FILES}
     ./src/discord_game_sdk.h
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
@@ -218,9 +219,11 @@ set(TESTING_SOURCES
     ./tests/test_config.cpp
     ./tests/test_config.h
     ./tests/test_io_utils.cpp
-    ./tests/test_io_utils.h
-    ./tests/sq_link_test.h
-    ./tests/sq_link_test.cpp)
+    ./tests/test_io_utils.h)
+
+set(FFI_TESTING_SOURCES
+    ${MAIN_FILES} ${FFI_FILES} ./testing_h/testing.cpp ./testing_h/testing.h
+    ./tests_ffi/sq_link_test.h ./tests_ffi/sq_link_test.cpp)
 
 set(LIBS "jemalloc")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
@@ -378,16 +381,21 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   target_link_libraries(
     SquireDesktopTests
     PUBLIC ${LIBS}
-    PRIVATE nlohmann_json::nlohmann_json squire_core)
+    PRIVATE nlohmann_json::nlohmann_json)
   target_include_directories(SquireDesktopTests
                              PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+  add_executable(SquireDesktopFFITests ./tests_ffi/main.cpp
+                                       ${FFI_TESTING_SOURCES})
+  target_link_libraries(SquireDesktopFFITests PUBLIC ${LIBS} squire_core)
 
   file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})
   file(COPY mem_tests.py DESTINATION ${CMAKE_BINARY_DIR})
 
   enable_testing()
-  add_test(NAME tests COMMAND SquireDesktopTests)
+  add_test(NAME main-tests COMMAND SquireDesktopTests)
   add_test(NAME memory-tests COMMAND bash mem_tests.sh)
+  add_test(NAME ffi-tests COMMAND SquireDesktopFFITests)
   message(STATUS "TEST build setup")
 endif()
 

@@ -160,6 +160,7 @@ int test_init_default_settings()
     ASSERT(config_read.logged_in == config.logged_in);
     ASSERT(config_read.remember_user == config.remember_user);
     free_config(&config);
+    free_config(&config_read);
 
     return 1;
 }
@@ -210,6 +211,7 @@ int test_add_recent_tourn_to_and_over_limit()
     }
 
     fclose(w);
+    fclose(r);
 
     char *data =read_all_f(r);
     ASSERT(data != NULL);
