@@ -98,7 +98,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends build-essential \
-          cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools qt5-default \
+          cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
           valgrind python3 astyle qt6-l10n-tools \
           libgl1-mesa-dev
           
@@ -215,25 +215,6 @@ jobs:
           QTDIR: '/usr/local/opt/qt5'
         run: mkdir build; cd build; cmake ..; cmake --build . -j
 
-      - name: Upload artifact
-        if: matrix.make_package
-        uses: actions/upload-artifact@v2
-        with:
-          name: macOS-${{matrix.target}}-dmg
-          path: ${{steps.build.outputs.path}}
-          if-no-files-found: error
-
-      - name: Upload to release
-        if: matrix.make_package && needs.configure.outputs.tag != null
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{github.token}}
-        with:
-          upload_url: ${{needs.configure.outputs.upload_url}}
-          asset_path: ${{steps.build.outputs.path}}
-          asset_name: ${{steps.build.outputs.name}}
-          asset_content_type: application/octet-stream
-
   build-windows:
     strategy:
       fail-fast: false
@@ -316,20 +297,3 @@ jobs:
           QTDIR: '${{github.workspace}}\Qt\${{matrix.qt_version}}\win${{matrix.arch}}_${{matrix.qt_arch}}'
         run: mkdir build; cd build; cmake ..; cmake --build . -j
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{matrix.target}}-installer
-          path: ${{steps.build.outputs.path}}
-          if-no-files-found: error
-
-      - name: Upload to release
-        if: needs.configure.outputs.tag != null
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{github.token}}
-        with:
-          upload_url: ${{needs.configure.outputs.upload_url}}
-          asset_path: ${{steps.build.outputs.path}}
-          asset_name: ${{steps.build.outputs.name}}
-          asset_content_type: application/octet-streamion/analyze@v1
