@@ -222,8 +222,14 @@ set(TESTING_SOURCES
     ./tests/test_io_utils.h)
 
 set(FFI_TESTING_SOURCES
-    ${MAIN_FILES} ${FFI_FILES} ./testing_h/testing.cpp ./testing_h/testing.h
-    ./tests_ffi/sq_link_test.h ./tests_ffi/sq_link_test.cpp)
+    ${MAIN_FILES}
+    ${FFI_FILES}
+    ./testing_h/testing.cpp
+    ./testing_h/testing.h
+    ./tests_ffi/sq_link_test.h
+    ./tests_ffi/sq_link_test.cpp
+    ./tests_ffi/test_tournament_ffi.h
+    ./tests_ffi/test_tournament_ffi.cpp)
 
 set(LIBS "jemalloc")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
@@ -395,7 +401,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   enable_testing()
   add_test(NAME main-tests COMMAND SquireDesktopTests)
   add_test(NAME memory-tests COMMAND bash mem_tests.sh)
-  add_test(NAME ffi-tests COMMAND SquireDesktopFFITests)
+  add_test(NAME ffi-tests COMMAND ${CMAKE_COMMAND} -E env RUST_BACKTRACE=1
+                                  SquireDesktopFFITests)
   message(STATUS "TEST build setup")
 endif()
 

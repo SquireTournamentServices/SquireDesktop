@@ -114,8 +114,7 @@ bool init_config(config_t *config, FILE *f)
     }
 
     lprintf(LOG_INFO, "Reading configuration...\n");
-    config_t config_default = DEFAULT_CONFIG;
-    memcpy(config, &config_default, sizeof(config_default));
+    memset(config, 0, sizeof(config));
 
     char *data = read_all_f(f);
     if (data == NULL) {
@@ -195,36 +194,34 @@ bool init_config(config_t *config, FILE *f)
 
     if (valid_config(*config)) {
         lprintf(LOG_INFO, "Confiuration is valid\n");
+        init_tourn_folder(config);
     } else {
         lprintf(LOG_ERROR, "Configuration is not valid\n");
         status = false;
     }
-    init_tourn_folder(config);
     return status;
 }
 
 void free_config(config_t *config)
 {
-    if (config->tourn_save_path) {
+    if (config->tourn_save_path != NULL) {
         free(config->tourn_save_path);
         config->tourn_save_path = NULL;
     }
 
-    if (config->logged_in) {
-        if (config->user.uuid) {
-            free(config->user.uuid);
-            config->user.uuid = NULL;
-        }
+    if (config->user.uuid != NULL) {
+        free(config->user.uuid);
+        config->user.uuid = NULL;
+    }
 
-        if (config->user.user_name) {
-            free(config->user.user_name);
-            config->user.user_name = NULL;
-        }
+    if (config->user.user_name != NULL) {
+        free(config->user.user_name);
+        config->user.user_name = NULL;
+    }
 
-        if (config->user.user_token) {
-            free(config->user.user_token);
-            config->user.user_token = NULL;
-        }
+    if (config->user.user_token != NULL) {
+        free(config->user.user_token);
+        config->user.user_token = NULL;
     }
 
     if (config->recent_tournaments != NULL) {
@@ -261,12 +258,20 @@ bool add_recent_tourn(config_t *config, recent_tournament_t t, FILE *f)
 {
     size_t offset = 0;
     size_t cnt = config->recent_tournament_count + 1;
-    if (config->recent_tournament_count >= MAXIMUM_RECENT_LIST_SIZE) {
-        offset = config->recent_tournament_count - MAXIMUM_RECENT_LIST_SIZE;
-        offset *= sizeof * config->recent_tournaments;
+    if (cnt > MAXIMUM_RECENT_LIST_SIZE) {
+        offset = cnt - MAXIMUM_RECENT_LIST_SIZE;
+        for (int i = 0; i < offset; i++) {
+            if (config->recent_tournaments[i].name != NULL)
+                free(config->recent_tournaments[i].name);
+            if (config->recent_tournaments[i].file_path != NULL)
+                free(config->recent_tournaments[i].file_path);
+            if (config->recent_tournaments[i].pairing_sys != NULL)
+                free(config->recent_tournaments[i].pairing_sys);
+        }
+
         cnt = MAXIMUM_RECENT_LIST_SIZE;
 
-        lprintf(LOG_WARNING, "Maximum recents list reached, deleteing head\n");
+        lprintf(LOG_WARNING, "Maximum recents list reached, deleteing %ld entries\n", offset);
     }
 
     recent_tournament_t *tmp = (recent_tournament_t *) malloc(cnt * sizeof * config->recent_tournaments);
@@ -277,7 +282,7 @@ bool add_recent_tourn(config_t *config, recent_tournament_t t, FILE *f)
 
     if (config->recent_tournaments != NULL) {
         // cnt - 1 is where to write the new tourn
-        memcpy(tmp, config->recent_tournaments + offset, (cnt - 1) * sizeof * config->recent_tournaments);
+        memcpy(tmp, &config->recent_tournaments[offset], (cnt - 1 - (offset > 1 ? offset - 1 : 0)) * sizeof * config->recent_tournaments);
         free(config->recent_tournaments);
     }
 

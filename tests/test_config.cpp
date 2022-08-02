@@ -41,19 +41,19 @@ int test_free_error()
 int test_free()
 {
     config_t config;
+    memset(&config, 0, sizeof(config));
+
     config.logged_in = true;
     config.user.user_name = (char *) malloc(180);
     config.user.user_token = (char *) malloc(180);
     config.user.uuid = (char *) malloc(180);
     config.tourn_save_path = (char *) malloc(180);
-
     free_config(&config);
 
     ASSERT(config.tourn_save_path == NULL);
     ASSERT(config.user.user_name == NULL);
     ASSERT(config.user.user_token == NULL);
     ASSERT(config.user.uuid == NULL);
-
 
     // Test logged_in = false
     config.logged_in = false;
@@ -67,15 +67,18 @@ int test_free()
 int test_init_fail()
 {
     config_t config;
+    memset(&config, 0, sizeof(config));
     ASSERT(!init_config(&config, NULL));
 
     int fid[2];
     ASSERT(pipe(fid) == 0);
-    FILE *closed = fdopen(fid[0], "r"), *w = fdopen(fid[1], "w");
+    FILE *closed = fdopen(fid[0], "r");
+    FILE *w = fdopen(fid[1], "w");
     ASSERT(fclose(closed) == 0);
     ASSERT(fclose(w) == 0);
 
     ASSERT(!init_config(&config, closed));
+    free_config(&config);
 
     return 1;
 }
@@ -83,6 +86,7 @@ int test_init_fail()
 int test_init_fail_2()
 {
     config_t config;
+    memset(&config, 0, sizeof(config));
     ASSERT(!init_config(&config, NULL));
 
     int fid[2];
@@ -93,6 +97,7 @@ int test_init_fail_2()
 
     ASSERT(!init_config(&config, r));
     ASSERT(fclose(r) == 0);
+    free_config(&config);
 
     return 1;
 }
@@ -101,6 +106,7 @@ int test_init_fail_2()
 int test_default_config()
 {
     config_t config = DEFAULT_CONFIG;
+    free_config(&config);
 
     return 1;
 }
@@ -159,6 +165,7 @@ int test_init_default_settings()
     ASSERT(strcmp(config.tourn_save_path, config_read.tourn_save_path) == 0);
     ASSERT(config_read.logged_in == config.logged_in);
     ASSERT(config_read.remember_user == config.remember_user);
+
     free_config(&config);
     free_config(&config_read);
 
@@ -186,8 +193,10 @@ int test_add_recent_tourn()
 
     char *data =read_all_f(r);
     ASSERT(data != NULL);
-
+    fclose(r);
+    free(data);
     free_config(&config);
+
     return 1;
 }
 
@@ -206,16 +215,20 @@ int test_add_recent_tourn_to_and_over_limit()
     FILE *r = fdopen(fid[0], "r");
     FILE *w = fdopen(fid[1], "w");
 
-    for (int i = 0; i <= MAXIMUM_RECENT_LIST_SIZE; i++) {
+    ASSERT(r != NULL);
+    ASSERT(w != NULL);
+
+    for (int i = 0; i < 2 + MAXIMUM_RECENT_LIST_SIZE; i++) {
         ASSERT(add_recent_tourn(&config, t, w));
     }
 
     fclose(w);
-    fclose(r);
 
     char *data =read_all_f(r);
     ASSERT(data != NULL);
     ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
+    free(data);
+    fclose(r);
 
     free_config(&config);
     return 1;

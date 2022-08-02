@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "../testing_h/testing.h"
 #include "./sq_link_test.h"
+#include "./test_tournament_ffi.h"
 
 int test_func()
 {
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
     unit_test tests[] = {
         {&test_func, "Testing_h self test"},
         {&sq_link_test, "SQ Link Test"},
+        {&test_tournament_ffi, "Tournament FFI Tests"},
     };
 
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");
