@@ -7,9 +7,11 @@
 #include "../testing_h/testing.h"
 #include "./sq_link_test.h"
 #include "./test_tournament_ffi.h"
+#include <squire_core/squire_core.h>
 
 int test_func()
 {
+    squire_core::init_squire_ffi(); // This is important!
     ASSERT(1 == 1);
     return 1;
 }

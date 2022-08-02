@@ -74,7 +74,28 @@ static int test_tournament_getters()
     return 1;
 }
 
+static int test_bad_tournament_create()
+{
+    Tournament t;
+    ASSERT(!new_tournament("",
+                           TEST_NAME,
+                           TEST_FORMAT,
+                           TEST_PRESET,
+                           TEST_BOOL,
+                           TEST_NUM_GAME_SIZE,
+                           TEST_NUM_MIN_DECKS,
+                           TEST_NUM_MAX_DECKS,
+                           TEST_BOOL,
+                           TEST_BOOL,
+                           TEST_BOOL,
+                           &t));
+
+    return 1;
+}
+
 SUB_TEST(test_tournament_ffi,
 {&test_create_base, "Test Create Tournament Base Case"},
-{&test_tournament_getters, "Test Tournament Getters"})
+{&test_tournament_getters, "Test Tournament Getters"},
+{&test_bad_tournament_create, "Test Bad Tournament Create"}
+        )
 

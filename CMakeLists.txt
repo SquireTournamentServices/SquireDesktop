@@ -401,8 +401,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   enable_testing()
   add_test(NAME main-tests COMMAND SquireDesktopTests)
   add_test(NAME memory-tests COMMAND bash mem_tests.sh)
-  add_test(NAME ffi-tests COMMAND ${CMAKE_COMMAND} -E env RUST_BACKTRACE=1
-                                  SquireDesktopFFITests)
+  add_test(NAME ffi-tests COMMAND SquireDesktopFFITests)
   message(STATUS "TEST build setup")
 endif()
 
