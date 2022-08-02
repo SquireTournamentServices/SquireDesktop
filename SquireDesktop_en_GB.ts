@@ -316,93 +316,100 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="43"/>
+        <location filename="src/ui/mainwindow.cpp" line="44"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="55"/>
+        <location filename="src/ui/mainwindow.cpp" line="56"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="52"/>
+        <location filename="src/ui/mainwindow.cpp" line="53"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="44"/>
+        <location filename="src/ui/mainwindow.cpp" line="45"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="48"/>
+        <location filename="src/ui/mainwindow.cpp" line="49"/>
         <source>Open Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="59"/>
+        <location filename="src/ui/mainwindow.cpp" line="60"/>
         <source>RNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="60"/>
+        <location filename="src/ui/mainwindow.cpp" line="61"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="63"/>
+        <location filename="src/ui/mainwindow.cpp" line="64"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="71"/>
+        <location filename="src/ui/mainwindow.cpp" line="73"/>
+        <location filename="src/ui/mainwindow.cpp" line="80"/>
         <source>Squire Desktop Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="72"/>
+        <location filename="src/ui/mainwindow.cpp" line="74"/>
+        <location filename="src/ui/mainwindow.cpp" line="81"/>
         <source>Squire Core Version: </source>
         <oldsource>Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="241"/>
+        <location filename="src/ui/mainwindow.cpp" line="83"/>
+        <source> Copyright Monarch (AGPL 3) 2022</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="250"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="253"/>
+        <location filename="src/ui/mainwindow.cpp" line="262"/>
         <source> - Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="260"/>
+        <location filename="src/ui/mainwindow.cpp" line="269"/>
         <source>Open A Squire Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="263"/>
+        <location filename="src/ui/mainwindow.cpp" line="272"/>
         <source>All Squire Tournament files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="37"/>
-        <location filename="src/ui/mainwindow.cpp" line="88"/>
+        <location filename="src/ui/mainwindow.cpp" line="38"/>
+        <location filename="src/ui/mainwindow.cpp" line="97"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="74"/>
+        <location filename="src/ui/mainwindow.cpp" line="76"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="75"/>
+        <location filename="src/ui/mainwindow.cpp" line="77"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>

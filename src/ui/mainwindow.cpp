@@ -18,6 +18,7 @@
 #include <QTabBar>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QtGlobal>
 
 MainWindow::MainWindow(config_t *t, QWidget *parent)
     : QMainWindow(parent)
@@ -68,11 +69,19 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
 
     // Set version label
+#if QT_VERSION >= 0x050e00
     ui->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
                               + tr("Squire Core Version: ") + SQ_VERSION
                               + " | OS: " + OS + " | ["
                               + tr("Github Repo") + "](" + REPO_URL + ") | "
                               + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
+    ui->versionLabel->setTextFormat(Qt::MarkdownText);
+#else
+    ui->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
+                              + tr("Squire Core Version: ") + SQ_VERSION
+                              + " | OS: " + OS + " | "
+                              + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2022"));
+#endif
 
     QCoreApplication::setOrganizationName("Monarch");
     QCoreApplication::setOrganizationDomain("monarch.cards");
