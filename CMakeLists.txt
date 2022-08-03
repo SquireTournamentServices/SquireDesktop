@@ -160,7 +160,9 @@ set(MAIN_FILES
     ./src/config.cpp
     ./src/config.h
     ./src/io_utils.cpp
-    ./src/io_utils.h)
+    ./src/io_utils.h
+    ./src/model/mtgjson.cpp
+    ./src/model/mtgjson.h)
 
 set(FFI_FILES
     ./src/ffi_utils.cpp ./src/ffi_utils.h ./src/model/abstract_tournament.cpp
@@ -284,6 +286,15 @@ else()
 endif()
 add_custom_target(generate_assets DEPENDS assets.h)
 
+# Initial MTG Json blob
+set(INITIAL_MTG_JSON "${CMAKE_SOURCE_DIR}/mtgjson_initial_header.py")
+if(UNUX)
+  add_custom_command(OUTPUT mtgjson_initial.h COMMAND python3 ${INITIAL_MTG_JSON})
+else()
+  add_custom_command(OUTPUT mtgjson_initial.h COMMAND python ${INITIAL_MTG_JSON})
+endif()
+add_custom_target(generate_initial_mtg_json DEPENDS mtgjson_initial.h)
+
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
@@ -356,7 +367,7 @@ endif()
 target_link_libraries(
   SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                         nlohmann_json::nlohmann_json squire_core ${LIBS})
-add_dependencies(SquireDesktop generate_assets)
+add_dependencies(SquireDesktop generate_assets generate_initial_mtg_json)
 
 # Link discord
 add_library(discord STATIC IMPORTED)
