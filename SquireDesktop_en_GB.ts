@@ -553,27 +553,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="55"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="72"/>
         <source>Select the folder to save tournaments to.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="93"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="110"/>
         <source>An Error Occurred Saving Settings</source>
         <translation>An Error Occurred Saving Settings</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="127"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="144"/>
         <source>Cannot open file</source>
         <translation>Cannot open file</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="133"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="150"/>
         <source>Cannot encode settings</source>
         <translation>Cannot encode settings</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.cpp" line="161"/>
+        <location filename="src/ui/menubar/file/settingtab.cpp" line="178"/>
         <source>Unsaved Settings Changes</source>
         <translation type="unfinished"></translation>
     </message>

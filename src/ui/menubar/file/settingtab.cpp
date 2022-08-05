@@ -7,6 +7,8 @@
 #include <string>
 #include <string.h>
 
+#define QSPINBOX_INT QOverload<int>::of(&QSpinBox::valueChanged)
+
 SettingTab::SettingTab(config_t *c, QWidget *parent) :
     AbstractTabWidget(parent),
     ui(new Ui::SettingTab)
@@ -17,6 +19,37 @@ SettingTab::SettingTab(config_t *c, QWidget *parent) :
     this->c = c;
     this->uiSetSettings();
     this->changed = false;
+
+    // Connect change events
+    connect(ui->tournSaveLocation, &QLineEdit::textChanged, this, [this](QString text) {
+        this->onChange();
+    });
+
+    connect(ui->minDeckCountSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+    connect(ui->maxDeckCountSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+    connect(ui->matchSizeSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+
+    connect(ui->drawPointsSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+    connect(ui->byePointsSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+    connect(ui->winPointsSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+    connect(ui->lossPointsSpinBox, QSPINBOX_INT, this, [this](int v) {
+        this->onChange();
+    });
+
+    connect(ui->swissRadio, &QAbstractButton::clicked, this, &SettingTab::onChange);
+    connect(ui->fluidRadio, &QAbstractButton::clicked, this, &SettingTab::onChange);
 
     // Connect the buttons
     connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &SettingTab::onButtonClick);
