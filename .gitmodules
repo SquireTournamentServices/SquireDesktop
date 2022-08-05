@@ -10,3 +10,6 @@
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg/
+[submodule "src/mtg_search_engine"]
+	path = src/mtg_search_engine
+	url = https://github.com/djpiper28/mtg-search-engine
