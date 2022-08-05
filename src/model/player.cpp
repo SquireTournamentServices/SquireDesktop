@@ -15,6 +15,10 @@ Player::~Player()
 std::string Player::name()
 {
     char *name = (char *)squire_core::pid_name(this->pid, this->tid);
+    if (name == NULL) {
+        return "";
+    }
+
     std::string ret = std::string(name);
     free(name);
     return ret;
@@ -23,6 +27,10 @@ std::string Player::name()
 std::string Player::gameName()
 {
     char *name = (char *)squire_core::pid_game_name(this->pid, this->tid);
+    if (name == NULL) {
+        return "";
+    }
+
     std::string ret = std::string(name);
     free(name);
     return ret;

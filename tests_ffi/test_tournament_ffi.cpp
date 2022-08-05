@@ -4,6 +4,7 @@
 #include "../src/ffi_utils.h"
 #include <squire_core/squire_core.h>
 #include <unistd.h>
+#include <string.h>
 
 #define TEST_FILE "test_tournament.tourn"
 #define TEST_NAME "Tournament 1234567890"
@@ -70,6 +71,11 @@ static int test_tournament_getters()
     ASSERT(t.game_size() == TEST_NUM_GAME_SIZE);
     ASSERT(t.min_deck_count() == TEST_NUM_MIN_DECKS);
     ASSERT(t.max_deck_count() == TEST_NUM_MAX_DECKS);
+    std::vector<Player> players = t.players();
+    for (Player player : players) {
+        ASSERT(!is_null_id(player.id()._0));
+        ASSERT(memcmp(player.tourn_id()._0, t.id()._0, sizeof(char[16])) == 0);
+    }
 
     return 1;
 }

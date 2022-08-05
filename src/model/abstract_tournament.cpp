@@ -91,6 +91,10 @@ squire_core::sc_TournamentId Tournament::id()
 std::string Tournament::name()
 {
     char *name = (char *) squire_core::tid_name(this->tid);
+    if (name == NULL) {
+        return "";
+    }
+
     std::string ret = name;
     free(name);
     return ret;
@@ -104,6 +108,10 @@ bool Tournament::use_table_number()
 std::string Tournament::format()
 {
     char *format = (char *) squire_core::tid_format(this->tid);
+    if (format == NULL) {
+        return "";
+    }
+
     std::string ret = std::string(format);
     free(format);
     return ret;
@@ -148,5 +156,21 @@ bool Tournament::require_deck_reg()
 squire_core::sc_TournamentStatus Tournament::status()
 {
     return squire_core::tid_status(this->tid);
+}
+
+std::vector<Player> Tournament::players()
+{
+    std::vector<Player> players;
+    squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::tid_players(this->tid);
+    if (player_ptr == NULL) {
+        return players;
+    }
+
+    for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
+        players.push_back(Player(player_ptr[i], this->tid));
+    }
+    free(player_ptr);
+
+    return players;
 }
 

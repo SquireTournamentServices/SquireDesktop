@@ -1,6 +1,8 @@
 #pragma once
+#include "./player.h"
 #include <squire_core/squire_core.h>
 #include <string>
+#include <vector>
 
 class Tournament
 {
@@ -29,6 +31,7 @@ public:
     bool require_deck_reg();
     squire_core::sc_TournamentStatus status();
     std::string save_location();
+    std::vector<Player> players();
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;
