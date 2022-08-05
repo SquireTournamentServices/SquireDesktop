@@ -2,6 +2,8 @@
   "name": "squiredesktop",
   "version-string": "1.0.0",
   "dependencies": [
-    "pthreads"
+    "pthreads",
+    "jemalloc",
+    "jansson"
   ]
 }

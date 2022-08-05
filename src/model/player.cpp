@@ -1,5 +1,6 @@
 #include "./player.h"
 #include <string.h>
+#include <jemalloc/jemalloc.h>
 
 Player::Player(squire_core::sc_PlayerId pid, squire_core::sc_TournamentId tid)
 {
