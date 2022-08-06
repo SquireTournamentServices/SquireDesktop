@@ -28,109 +28,108 @@ private:
     std::vector<T> filtered;
     std::string lastSearch;
     bool (*current_sort)(T &a, T &b); // Comparison function
-    void insert_to_vect(std::vector<T> &t, element T)
-    {
-    };
+    void insert_to_vect(std::vector<T> &t, element T);
+};
 
-    template <class T>
-    FilteredList<T>::FilteredList()
-    {
-        // Do nothing
+template <class T>
+FilteredList<T>::FilteredList()
+{
+    // Do nothing
+}
+
+template <class T>
+FilteredList<T>::FilteredList(std::vector<T> base, bool (*current_sort)(T &a, T &b))
+{
+    this->current_sort = current_sort;
+    std::stable_sort(base.begin(), base.end(), current_sort);
+
+    this->original = base;
+    this->filtered = base;
+}
+
+template <class T>
+void FilteredList<T>::filter(std::string query)
+{
+    if (query == "") {
+        this->filtered = this->original;
+        return;
     }
 
-    template <class T>
-    FilteredList<T>::FilteredList(std::vector<T> base, bool (*current_sort)(T &a, T &b))
-    {
-        this->current_sort = current_sort;
-        std::stable_sort(base.begin(), base.end(), current_sort);
+    this->filtered = std::vector<T>();
 
-        this->original = base;
-        this->filtered = base;
-    }
-
-    template <class T>
-    void FilteredList<T>::filter(std::string query)
-    {
-        if (query == "") {
-            this->filtered = this->original;
-            return;
+    for (T item : this->original) {
+        if (item.matches(query)) {
+            this->filtered.push_back(item);
         }
+    }
 
-        this->filtered = std::vector<T>();
+    this->lastSearch = query;
+}
 
-        for (T item : this->original) {
-            if (item.matches(query)) {
-                this->filtered.push_back(item);
+template <class T>
+void FilteredList::sort(bool (*current_sort)(T &a, T &b))
+{
+    this->current_sort = current_sort;
+    std::stable_sort(this->original.begin(), this->original.end(), current_sort);
+    std::stable_sort(this->filtered.begin(), this->filtered.end(), current_sort);
+}
+
+template <class T>
+void FilteredList::insert_to_vect(std::vector<T> &vec, T element)
+{
+    if (this->current_sort == NULL_FILTER || vec.size() == 0) {
+        vec.push_back(element);
+    } else {
+        int min = 0;
+        int max = vec.size();
+        int i = vec.size() / 2;
+        while (min < max) { // If equal then insert in place right?
+            i = (max - min) / 2;
+
+            // Greater than or equal
+            if (this->current_sort(vec.at(i), T)) {
+                min = i + 1;
+            } else {
+                max = i - 1;
             }
         }
 
-        this->lastSearch = query;
-    }
-
-    template <class T>
-    void FilteredList::sort(bool (*current_sort)(T &a, T &b))
-    {
-        this->current_sort = current_sort;
-        std::stable_sort(this->original.begin(), this->original.end(), current_sort);
-        std::stable_sort(this->filtered.begin(), this->filtered.end(), current_sort);
-    }
-
-    template <class T>
-    void FilteredList::insert_to_vect(std::vector<T> &vec, T element)
-    {
-        if (this->current_sort == NULL_FILTER || vec.size() == 0) {
+        if (i < 0) {
+            vec.push_front(element);
+        } else if (i >= vec.size()) {
             vec.push_back(element);
         } else {
-            int min = 0;
-            int max = vec.size();
-            int i = vec.size() / 2;
-            while (min < max) { // If equal then insert in place right?
-                i = (max - min) / 2;
-
-                // Greater than or equal
-                if (this->current_sort(vec.at(i), T)) {
-                    min = i + 1;
-                } else {
-                    max = i - 1;
-                }
-            }
-
-            if (i < 0) {
-                vec.push_front(element);
-            } else if (i >= vec.size()) {
-                vec.push_back(element);
-            } else {
-                vec.insert(i, element);
-            }
+            vec.insert(i, element);
         }
     }
+}
 
-    template <class T>
-    void FilteredList::insert(T element)
-    {
-        this->insert_to_vect(this->original, element);
-        if (element.matches(this->lastSearch)) {
-            this->insert_to_vect(this->filtered, element);
-        }
+template <class T>
+void FilteredList::insert(T element)
+{
+    this->insert_to_vect(this->original, element);
+    if (element.matches(this->lastSearch)) {
+        this->insert_to_vect(this->filtered, element);
     }
+}
 
-    template <class T>
-    void FilteredList<T>::setBase(std::vector<T> base)
-    {
-        std::stable_sort(base.begin(), base.end(), current_sort);
-        this->original = base;
-        this->filter(this->lastSearch);
-    }
+template <class T>
+void FilteredList<T>::setBase(std::vector<T> base)
+{
+    std::stable_sort(base.begin(), base.end(), current_sort);
+    this->original = base;
+    this->filter(this->lastSearch);
+}
 
-    template <class T>
-    size_t FilteredList<T>::size() const
-    {
-        return this->filtered.size();
-    }
+template <class T>
+size_t FilteredList<T>::size() const
+{
+    return this->filtered.size();
+}
 
-    template <class T>
-    std::vector<T> FilteredList<T>::getFiltered() const
-    {
-        return this->filtered;
-    }
+template <class T>
+std::vector<T> FilteredList<T>::getFiltered() const
+{
+    return this->filtered;
+}
 
