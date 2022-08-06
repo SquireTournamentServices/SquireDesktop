@@ -211,6 +211,7 @@ set(PROJECT_SOURCES
     ./src/ui/widgets/recenttournamentwidget.cpp
     ./src/ui/widgets/recenttournamentwidget.h
     ./src/ui/widgets/recenttournamentwidget.ui
+    ./src/ui/utils/filerable_list.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES
