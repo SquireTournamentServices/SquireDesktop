@@ -36,7 +36,7 @@ static int test_create_base()
                           &t));
 
     // Close the tournament
-    squire_core::close_tourn(t.id());
+    t.close();
 
     // Test it can be read
     FILE *f = fopen(TEST_FILE, "r");
@@ -99,9 +99,52 @@ static int test_bad_tournament_create()
     return 1;
 }
 
+static int test_add_player()
+{
+    Tournament t;
+    ASSERT(new_tournament(TEST_FILE ".2",
+                          TEST_NAME,
+                          TEST_FORMAT,
+                          TEST_PRESET,
+                          TEST_BOOL,
+                          TEST_NUM_GAME_SIZE,
+                          TEST_NUM_MIN_DECKS,
+                          TEST_NUM_MAX_DECKS,
+                          TEST_BOOL,
+                          TEST_BOOL,
+                          TEST_BOOL,
+                          &t));
+
+    std::vector<Player> players = t.players();
+    ASSERT(players.size() == 0);
+
+    squire_core::sc_PlayerId pid = t.addPlayer(TEST_NAME);
+    ASSERT(!is_null_id(pid._0));
+
+    players = t.players();
+    ASSERT(players.size() == 1);
+
+    for (Player player : players) {
+        ASSERT(!is_null_id(player.id()._0));
+        ASSERT(memcmp(player.tourn_id()._0, t.id()._0, sizeof(char[16])) == 0);
+        ASSERT(player.name() == TEST_NAME);
+        ASSERT(player.gameName() == "");
+    }
+
+    // Test that only one of each player name is valid
+    pid = t.addPlayer(TEST_NAME);
+    players = t.players();
+    ASSERT(players.size() == 1);
+    ASSERT(is_null_id(pid._0));
+    t.close();
+
+    return 1;
+}
+
 SUB_TEST(test_tournament_ffi,
 {&test_create_base, "Test Create Tournament Base Case"},
 {&test_tournament_getters, "Test Tournament Getters"},
-{&test_bad_tournament_create, "Test Bad Tournament Create"}
+{&test_bad_tournament_create, "Test Bad Tournament Create"},
+{&test_add_player, "Test add player"}
         )
 

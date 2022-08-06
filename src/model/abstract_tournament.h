@@ -31,7 +31,9 @@ public:
     bool require_deck_reg();
     squire_core::sc_TournamentStatus status();
     std::string save_location();
+    squire_core::sc_PlayerId addPlayer(std::string name);
     std::vector<Player> players();
+    void close();
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;

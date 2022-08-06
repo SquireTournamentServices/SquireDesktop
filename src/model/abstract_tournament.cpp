@@ -76,6 +76,11 @@ Tournament::~Tournament()
 
 }
 
+void Tournament::close()
+{
+    squire_core::close_tourn(this->tid);
+}
+
 std::string Tournament::save_location()
 {
     return std::string(this->saveLocation);
@@ -156,6 +161,11 @@ bool Tournament::require_deck_reg()
 squire_core::sc_TournamentStatus Tournament::status()
 {
     return squire_core::tid_status(this->tid);
+}
+
+squire_core::sc_PlayerId Tournament::addPlayer(std::string name)
+{
+    return squire_core::tid_add_player(this->tid, name.c_str());
 }
 
 std::vector<Player> Tournament::players()
