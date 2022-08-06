@@ -183,6 +183,9 @@ set(PROJECT_SOURCES
     ./src/ui/tournamenttab.cpp
     ./src/ui/tournamenttab.h
     ./src/ui/tournamenttab.ui
+    ./src/ui/tournament/addplayerdialogue.cpp
+    ./src/ui/tournament/addplayerdialogue.h
+    ./src/ui/tournament/addplayerdialogue.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui

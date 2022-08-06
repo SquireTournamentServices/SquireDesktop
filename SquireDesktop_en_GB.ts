@@ -2,6 +2,26 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_GB">
 <context>
+    <name>AddPlayerDialogue</name>
+    <message>
+        <location filename="src/ui/tournament/addplayerdialogue.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_addplayerdialogue.h" line="69"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/addplayerdialogue.ui" line="34"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_addplayerdialogue.h" line="70"/>
+        <source>Player Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/addplayerdialogue.cpp" line="10"/>
+        <source>Add New Player To Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AppDashboardTab</name>
     <message>
         <location filename="src/ui/appdashboardtab.ui" line="17"/>
