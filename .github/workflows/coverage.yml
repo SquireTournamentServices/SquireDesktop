@@ -1,0 +1,131 @@
+name: "Coverage"
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 5'
+
+jobs:
+  configure:
+    name: Configure
+    runs-on: ubuntu-22.04
+    outputs:
+      tag: ${{steps.configure.outputs.tag}}
+      sha: ${{steps.configure.outputs.sha}}
+      upload_url: ${{steps.create_release.outputs.upload_url}}
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: ${{github.token}} # needs other token https://github.com/styfle/cancel-workflow-action/issues/7
+
+      - name: Configure
+        id: configure
+        shell: bash
+        run: |
+          tag_regex='^refs/tags/'
+          if [[ $GITHUB_EVENT_NAME == pull-request ]]; then # pull request
+            sha="${{github.event.pull_request.head.sha}}"
+          elif [[ $GITHUB_REF =~ $tag_regex ]]; then # release
+            sha="$GITHUB_SHA"
+            tag="${GITHUB_REF/refs\/tags\//}"
+            echo "::set-output name=tag::$tag"
+          else # push to branch
+            sha="$GITHUB_SHA"
+          fi
+          echo "::set-output name=sha::$sha"
+
+      - name: Checkout
+        if: steps.configure.outputs.tag != null
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Prepare release parameters
+        id: prepare
+        if: steps.configure.outputs.tag != null
+        shell: bash
+        env:
+          TAG: ${{steps.configure.outputs.tag}}
+        run: .ci/prep_release.sh
+
+      - name: Create release
+        if: steps.configure.outputs.tag != null
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+        with:
+          tag_name: ${{github.ref}}
+          release_name: ${{steps.prepare.outputs.title}}
+          body_path: ${{steps.prepare.outputs.body_path}}
+          draft: true
+          prerelease: ${{steps.prepare.outputs.is_beta == 'yes'}}
+
+  build-linux:
+    name: Build Linux + Code Coverage
+    needs: configure
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'cpp' ]
+      
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        
+    - name: Install Rust
+      uses: hecrj/setup-rust-action@v1
+      with:
+        rust-version: nightly
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{matrix.language}}
+        
+    - name: Install deps
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends build-essential \
+          cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
+          valgrind python3 astyle qt6-l10n-tools \
+          libgl1-mesa-dev libjemalloc-dev
+          
+    - name: Make Release
+      shell: bash
+      run : |
+        rm -rf build
+        mkdir -p build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=RELEASE
+        cmake --build . -j
+        
+    - name: Run Tests and Coverage
+      shell: bash
+      run: |
+        mkdir -p build
+        cd build
+        rm -rf *
+        cmake .. -DCMAKE_BUILD_TYPE=TEST "-DCMAKE_C_COMPILER=/bin/gcc" "-DCMAKE_CXX_COMPILER=/bin/g++"
+        cmake --build . -j
+        make coverage
+    
+    - uses: codecov/codecov-action@v2.1.0
+      with:
+        file: build/coverage.xml
+        name: codecov-umbrella # optional
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+
