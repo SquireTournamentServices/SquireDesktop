@@ -1,5 +1,5 @@
 # SquireDesktop
-**An all in one desktop app for running MTG tournaments. **
+**An all in one desktop app for running MTG tournaments**
 
 ## Build Info
 [![Main](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/main.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/main.yml)
