@@ -20,12 +20,7 @@ following git command sorts everything out for you. This works on git bash as, w
 git.
 
 ```bash
-git clone https://github.com/MonarchDevelopment/SquireDesktop
-cd SquireDesktop
-git submodule init
-git submodule update
-git submodule foreach --recursive git submodule init
-git submodule foreach --recursive git submodule update
+git clone --recursive https://github.com/MonarchDevelopment/SquireDesktop
 ```
 
 ##### 1. Install the following
