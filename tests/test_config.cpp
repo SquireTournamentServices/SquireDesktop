@@ -10,7 +10,7 @@
 #include "../src/config.h"
 #include "../src/utils.h"
 
-int test_default_tourn()
+static int test_default_tourn()
 {
     tourn_settings_t t = DEFAULT_TOURN;
 
@@ -26,7 +26,7 @@ int test_default_tourn()
     return 1;
 }
 
-int test_free_error()
+static int test_free_error()
 {
     config_t config;
     memset(&config, 0, sizeof(config));
@@ -38,7 +38,7 @@ int test_free_error()
     return 1;
 }
 
-int test_free()
+static int test_free()
 {
     config_t config;
     memset(&config, 0, sizeof(config));
@@ -64,7 +64,7 @@ int test_free()
     return 1;
 }
 
-int test_init_fail()
+static int test_init_fail()
 {
     config_t config;
     memset(&config, 0, sizeof(config));
@@ -83,7 +83,7 @@ int test_init_fail()
     return 1;
 }
 
-int test_init_fail_2()
+static int test_init_fail_2()
 {
     config_t config;
     memset(&config, 0, sizeof(config));
@@ -103,7 +103,7 @@ int test_init_fail_2()
 }
 
 // Checks the constant is valid
-int test_default_config()
+static int test_default_config()
 {
     config_t config = DEFAULT_CONFIG;
     free_config(&config);
@@ -111,10 +111,10 @@ int test_default_config()
     return 1;
 }
 
-int test_default_config_write()
+static int test_default_config_write()
 {
     config_t config = DEFAULT_CONFIG;
-    int fid[2];
+    static int fid[2];
     ASSERT(pipe(fid) == 0);
     FILE *r = fdopen(fid[0], "r");
     FILE *w = fdopen(fid[1], "w");
@@ -145,10 +145,10 @@ int test_default_config_write()
     return 1;
 }
 
-int test_init_default_settings()
+static int test_init_default_settings()
 {
     config_t config = DEFAULT_CONFIG;
-    int fid[2];
+    static int fid[2];
     ASSERT(pipe(fid) == 0);
     FILE *r = fdopen(fid[0], "r");
     FILE *w = fdopen(fid[1], "w");
@@ -172,10 +172,10 @@ int test_init_default_settings()
     return 1;
 }
 
-int test_add_recent_tourn()
+static int test_add_recent_tourn()
 {
     config_t config = DEFAULT_CONFIG;
-    int last = config.recent_tournament_count;
+    static int last = config.recent_tournament_count;
 
     recent_tournament_t t;
     t.name = "test name";
@@ -200,10 +200,10 @@ int test_add_recent_tourn()
     return 1;
 }
 
-int test_add_recent_tourn_to_and_over_limit()
+static int test_add_recent_tourn_to_and_over_limit()
 {
     config_t config = DEFAULT_CONFIG;
-    int last = config.recent_tournament_count;
+    static int last = config.recent_tournament_count;
 
     recent_tournament_t t;
     t.name = "test name";
@@ -218,7 +218,7 @@ int test_add_recent_tourn_to_and_over_limit()
     ASSERT(r != NULL);
     ASSERT(w != NULL);
 
-    for (int i = 0; i < 2 + MAXIMUM_RECENT_LIST_SIZE; i++) {
+    for (static int i = 0; i < 2 + MAXIMUM_RECENT_LIST_SIZE; i++) {
         ASSERT(add_recent_tourn(&config, t, w));
     }
 
@@ -234,6 +234,49 @@ int test_add_recent_tourn_to_and_over_limit()
     return 1;
 }
 
+static int test_read_recent_tourns_no_file()
+{
+    config_t config = DEFAULT_CONFIG;
+    static int last = config.recent_tournament_count;
+
+    recent_tournament_t t;
+    t.name = "test name";
+    t.pairing_sys = "swiss";
+    t.file_path = "tourn.json";
+
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *r = fdopen(fid[0], "r");
+    FILE *w = fdopen(fid[1], "w");
+
+    ASSERT(r != NULL);
+    ASSERT(w != NULL);
+
+    for (static int i = 0; i < 2 + MAXIMUM_RECENT_LIST_SIZE; i++) {
+        ASSERT(add_recent_tourn(&config, t, w));
+    }
+
+    fclose(w);
+
+    char *data =read_all_f(r);
+    ASSERT(data != NULL);
+    ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
+    free(data);
+    free_config(&config);
+    
+    init_config(&config, r);
+    ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
+    for (int i = 0; i < config.recent_tournament_count; i++) {
+        ASSERT(strcmp(config.recent_tournaments[i].name, t.name) == 0);
+    }
+
+    free_config(&config);
+    fclose(r);
+
+    return 1;
+
+}
+
 SUB_TEST(config_cpp_tests,
 {&test_default_tourn, "Test default tourn settings"},
 {&test_free_error, "Test free error case"},
@@ -243,6 +286,7 @@ SUB_TEST(config_cpp_tests,
 {&test_default_config, "Test default config"},
 {&test_default_config_write, "Test default config write"},
 {&test_init_default_settings, "Test init with default settings"},
-{&test_add_recent_tourn_to_and_over_limit, "Adds MAXIMMUM_RECENT_LIST_SIZE + 1 recent tournaments"}
+{&test_add_recent_tourn_to_and_over_limit, "Adds MAXIMMUM_RECENT_LIST_SIZE + 1 recent tournaments"},
+{&test_read_recent_tourns_no_file, "Test read config with recent tourns"}
         )
 
