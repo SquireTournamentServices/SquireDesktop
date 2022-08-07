@@ -305,6 +305,7 @@ SUB_TEST(config_cpp_tests,
 {&test_default_config_write, "Test default config write"},
 {&test_init_default_settings, "Test init with default settings"},
 {&test_add_recent_tourn_to_and_over_limit, "Adds MAXIMMUM_RECENT_LIST_SIZE + 1 recent tournaments"},
+{&test_add_recent_tourn, "Test add recent tourn"},
 {&test_read_recent_tourns_no_file, "Test read config with recent tourns"},
 {&test_pairing_types_str, "Test pairing_sys_str"}
         )
