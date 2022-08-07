@@ -1,8 +1,10 @@
 # SquireDesktop
+**An all in one desktop app for running MTG tournaments. **
+
 ## Build Info
 [![Main](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/main.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/main.yml)
 [![Memory tests](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/memtests.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/memtests.yml)
-[![Coverage tests](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/coverage.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/coverage.yml)
+[![Coverage tests](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/memtests.yml/badge.svg)](https://github.com/MonarchDevelopment/SquireDesktop/actions/workflows/coverage.yml)
 [![codecov](https://codecov.io/gh/MonarchDevelopment/SquireDesktop/branch/main/graph/badge.svg?token=JCS3Y40XYR)](https://codecov.io/gh/MonarchDevelopment/SquireDesktop)
 
 ## Start Here!
@@ -16,9 +18,7 @@ Currently this is under development and, not released, please check back later!
 ### Installing from Sources
 #### Start Here
 ##### 0. Clone this repo
-This repo uses submodules for major components, some of these also contain submodules. The
-following git command sorts everything out for you. This works on git bash as, well as unix
-git.
+You must checkout recursively. 
 
 ```bash
 git clone --recursive https://github.com/MonarchDevelopment/SquireDesktop
@@ -29,7 +29,7 @@ git clone --recursive https://github.com/MonarchDevelopment/SquireDesktop
  - `CMake`
  - `cbindgen` (execute: `cargo install --force cbindgen`)
  - `python`
- - `Qt` (>=` 5.14 or, 6, Windows users can install qtcreator to make this easier)
+ - `Qt` (5 or, 6, Windows users can install qtcreator to make this easier)
    - Linguistics
    - Core
    - Networking
@@ -45,8 +45,7 @@ rustup update
 ###### Installing on Windows
 Install:
  - Visual Studio Build Tools (default options are fine)
-
-Install qtcreator (sorts most things out for you)
+ - QtCreator (sorts most things out for you)
 Build in qtcreator (it is easier I promise)
 
 ###### Installing on Mac
