@@ -105,10 +105,10 @@ jobs:
     - name: Make Release
       shell: bash
       run : |
+        rm -rf build
         mkdir -p build
         cd build
-        rm -rf *
-        cmake .. -DCMAKE_BUILD_TYPE=RELEASE "-DCMAKE_C_COMPILER=/bin/gcc"
+        cmake .. -DCMAKE_BUILD_TYPE=RELEASE
         cmake --build . -j
         
     - name: Run Tests and Coverage
@@ -117,7 +117,7 @@ jobs:
         mkdir -p build
         cd build
         rm -rf *
-        cmake .. -DCMAKE_BUILD_TYPE=TEST "-DCMAKE_C_COMPILER=/bin/gcc"
+        cmake .. -DCMAKE_BUILD_TYPE=TEST "-DCMAKE_C_COMPILER=/bin/gcc" "-DCMAKE_CXX_COMPILER=/bin/g++"
         cmake --build . -j
         make coverage
     

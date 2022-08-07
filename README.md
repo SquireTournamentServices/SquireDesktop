@@ -14,6 +14,20 @@ Currently this is under development and, not released, please check back later!
 
 ### Installing from Sources
 #### Start Here
+##### 0. Clone this repo
+This repo uses submodules for major components, some of these also contain submodules. The
+following git command sorts everything out for you. This works on git bash as, well as unix
+git.
+
+```bash
+git clone https://github.com/MonarchDevelopment/SquireDesktop
+cd SquireDesktop
+git submodule init
+git submodule update
+git submodule foreach --recursive git submodule init
+git submodule foreach --recursive git submodule update
+```
+
 ##### 1. Install the following
  - `Rust`
  - `CMake`
