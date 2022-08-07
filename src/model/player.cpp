@@ -1,4 +1,5 @@
 #include "./player.h"
+#include "../utils.h"
 #include <string.h>
 #include <jemalloc/jemalloc.h>
 
@@ -56,3 +57,23 @@ squire_core::sc_TournamentId Player::tourn_id()
     memcpy(ret._0, this->tid._0, sizeof(ret));
     return ret;
 }
+
+bool Player::matches(std::string query)
+{
+    std::string pname = this->name();
+    std::string gname = this->gameName();
+    toLowerCase(pname);
+    toLowerCase(gname);
+    toLowerCase(query);
+
+    bool match = pname.find(query) != std::string::npos;
+    match |= gname.find(query) != std::string::npos;
+    for (size_t l = 0, r = 0; r = query.find(" ", l), r != std::string::npos && !match; l = r) {
+        std::string sub_query = query.substr(l, r - l);
+        match |= pname.find(sub_query) != std::string::npos;
+        match |= gname.find(sub_query) != std::string::npos;
+    }
+
+    return match;
+}
+

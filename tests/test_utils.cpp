@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <string.h>
-#include "./test_io_utils.h"
-#include "../src/io_utils.h"
+#include "./test_utils.h"
+#include "../src/utils.h"
 
 int test_fail_1()
 {
@@ -78,7 +78,7 @@ int test_matching_long()
     return 1;
 }
 
-SUB_TEST(io_utils_cpp_test,
+SUB_TEST(utils_cpp_test,
 {&test_fail_1, "Test fail 1"},
 {&test_eof_1, "Test EOF 1"},
 {&test_matching, "Test matching"},

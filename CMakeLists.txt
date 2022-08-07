@@ -155,12 +155,12 @@ set(MAIN_FILES
     ./testing_h/logger.cpp
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
+    ./src/utils.cpp
+    ./src/utils.h
     ./src/coins.cpp
     ./src/coins.h
     ./src/config.cpp
-    ./src/config.h
-    ./src/io_utils.cpp
-    ./src/io_utils.h)
+    ./src/config.h)
 
 set(FFI_FILES
     ./src/ffi_utils.cpp ./src/ffi_utils.h ./src/model/player.cpp
@@ -223,8 +223,8 @@ set(TESTING_SOURCES
     ./tests/test_coins.h
     ./tests/test_config.cpp
     ./tests/test_config.h
-    ./tests/test_io_utils.cpp
-    ./tests/test_io_utils.h)
+    ./tests/test_utils.cpp
+    ./tests/test_utils.h)
 
 set(FFI_TESTING_SOURCES
     ${MAIN_FILES}

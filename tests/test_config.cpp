@@ -8,7 +8,7 @@
 #include <nlohmann/json.hpp>
 #include "./test_config.h"
 #include "../src/config.h"
-#include "../src/io_utils.h"
+#include "../src/utils.h"
 
 int test_default_tourn()
 {

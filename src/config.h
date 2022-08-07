@@ -1,7 +1,7 @@
 #pragma once
 #include <time.h>
 #include <stdio.h>
-#include "./io_utils.h"
+#include "./utils.h"
 
 #define CONFIG_FILE "config.json"
 #define TOURNAMENT_EXTENTION ".tourn"

@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include "./test_coins.h"
 #include "./test_config.h"
-#include "./test_io_utils.h"
+#include "./test_utils.h"
 #include "../testing_h/testing.h"
 
 int test_func()
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         {&test_func, "Testing_h self test"},
         {&coins_cpp_test, "Coin cpp test"},
         {&config_cpp_tests, "Config cpp test"},
-        {&io_utils_cpp_test, "IO utils cpp test"},
+        {&utils_cpp_test, "IO utils cpp test"},
     };
 
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");
