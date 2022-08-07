@@ -180,8 +180,6 @@ bool init_config(config_t *config, FILE *f)
                 if (!r) {
                     lprintf(LOG_WARNING, "Cannot read tournament file %s\n", path.c_str());
                 }
-
-                config->recent_tournaments[i].file_path = clone_string(config->recent_tournaments[i].file_path);
                 i++;
             }
         }

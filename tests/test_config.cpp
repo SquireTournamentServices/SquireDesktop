@@ -257,15 +257,28 @@ static int test_read_recent_tourns_no_file()
     }
 
     fclose(w);
+    fclose(r);
+
+    // Write and free the config
+    ASSERT(pipe(fid) == 0);
+    r = fdopen(fid[0], "r");
+    w = fdopen(fid[1], "w");
+
+    write_config(&config, w);
+    fclose(w);
 
     ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
     free_config(&config);
-    
     memset(&config, 0, sizeof(config));
+
+    // Read the config
     init_config(&config, r);
     ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
     for (int i = 0; i < config.recent_tournament_count; i++) {
-        ASSERT(strcmp(config.recent_tournaments[i].name, t.name) == 0);
+        ASSERT(config.recent_tournaments[i].name == NULL);
+        ASSERT(config.recent_tournaments[i].pairing_sys == NULL);
+        ASSERT(config.recent_tournaments[i].file_path != NULL);
+        ASSERT(strcmp(config.recent_tournaments[i].file_path, t.file_path) == 0);
     }
 
     free_config(&config);
