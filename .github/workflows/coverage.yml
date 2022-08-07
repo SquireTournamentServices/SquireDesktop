@@ -101,15 +101,6 @@ jobs:
           cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
           valgrind python3 astyle qt6-l10n-tools \
           libgl1-mesa-dev libjemalloc-dev
-          
-    - name: Make Release
-      shell: bash
-      run : |
-        rm -rf build
-        mkdir -p build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=RELEASE
-        cmake --build . -j
         
     - name: Run Tests and Coverage
       shell: bash
