@@ -288,6 +288,58 @@ static int test_read_recent_tourns_no_file()
 
 }
 
+#define TEST_FILE_NAME "Tournament 1234567890"
+#define TEST_FILE_PAIRING "Fluid"
+#define TEST_FILE "config_test_tournament.tourn"
+static int test_recent_tourn_with_file()
+{
+    config_t config = DEFAULT_CONFIG;
+    static int last = config.recent_tournament_count;
+
+    recent_tournament_t t;
+    t.name = "test name"; // not used
+    t.pairing_sys = "swiss"; // not used
+    t.file_path = TEST_FILE;
+
+    int fid[2];
+    ASSERT(pipe(fid) == 0);
+    FILE *r = fdopen(fid[0], "r");
+    FILE *w = fdopen(fid[1], "w");
+
+    ASSERT(add_recent_tourn(&config, t, w));
+    fclose(w);
+
+    char *data =read_all_f(r);
+    ASSERT(data != NULL);
+    fclose(r);
+    free(data);
+
+    // Write and free the config
+    ASSERT(pipe(fid) == 0);
+    r = fdopen(fid[0], "r");
+    w = fdopen(fid[1], "w");
+
+    write_config(&config, w);
+    fclose(w);
+
+    ASSERT(config.recent_tournament_count == 1);
+    free_config(&config);
+    memset(&config, 0, sizeof(config));
+
+    // Read the config
+    init_config(&config, r);
+    ASSERT(config.recent_tournament_count == 1);
+    ASSERT(strcmp(config.recent_tournaments->name, TEST_FILE_NAME) == 0);
+    ASSERT(strcmp(config.recent_tournaments->pairing_sys, TEST_FILE_PAIRING) == 0);
+    ASSERT(strcmp(config.recent_tournaments->file_path, TEST_FILE) == 0);
+
+    free_config(&config);
+    fclose(r);
+
+    return 1;
+
+}
+
 static int test_pairing_types_str()
 {
     ASSERT(strcmp("Fluid Round", pairing_sys_str(FLUID_TOURN)) == 0);
@@ -306,7 +358,8 @@ SUB_TEST(config_cpp_tests,
 {&test_init_default_settings, "Test init with default settings"},
 {&test_add_recent_tourn_to_and_over_limit, "Adds MAXIMMUM_RECENT_LIST_SIZE + 1 recent tournaments"},
 {&test_add_recent_tourn, "Test add recent tourn"},
-{&test_read_recent_tourns_no_file, "Test read config with recent tourns"},
+{&test_read_recent_tourns_no_file, "Test read config with recent tourns and no files"},
+{&test_recent_tourn_with_file, "Test read config with recent tourns and files"},
 {&test_pairing_types_str, "Test pairing_sys_str"}
         )
 

@@ -400,6 +400,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
     PUBLIC ${LIBS}
     PRIVATE squire_core nlohmann_json::nlohmann_json)
 
+  file(COPY config_test_tournament.tourn DESTINATION ${CMAKE_BINARY_DIR})
   file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})
   file(COPY mem_tests.py DESTINATION ${CMAKE_BINARY_DIR})
 
