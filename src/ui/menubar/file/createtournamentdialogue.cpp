@@ -2,7 +2,7 @@
 #include "./ui_createtournamentdialogue.h"
 #include "./random_names.h"
 #include "../../../ffi_utils.h"
-#include "../../../io_utils.h"
+#include "../../../utils.h"
 #include <QFileDialog>
 #include <QMessageBox>
 
