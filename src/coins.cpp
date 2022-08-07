@@ -98,7 +98,7 @@ dice_roll_ret_t roll_dice(int sides, int number, int *status)
     return ret;
 }
 
-void free_dice_roll_ret (dice_roll_ret_t ret)
+void free_dice_roll_ret(dice_roll_ret_t ret)
 {
     if (ret.results != NULL) {
         free(ret.results);
