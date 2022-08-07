@@ -258,12 +258,10 @@ static int test_read_recent_tourns_no_file()
 
     fclose(w);
 
-    char *data =read_all_f(r);
-    ASSERT(data != NULL);
     ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
-    free(data);
     free_config(&config);
     
+    memset(&config, 0, sizeof(config));
     init_config(&config, r);
     ASSERT(config.recent_tournament_count == MAXIMUM_RECENT_LIST_SIZE);
     for (int i = 0; i < config.recent_tournament_count; i++) {
@@ -277,6 +275,13 @@ static int test_read_recent_tourns_no_file()
 
 }
 
+static int test_pairing_types_str()
+{
+    ASSERT(strcmp("Fluid Round", pairing_sys_str(FLUID_TOURN)) == 0);
+    ASSERT(strcmp("Swiss", pairing_sys_str(SWISS_TOURN)) == 0);
+    return 1;
+}
+
 SUB_TEST(config_cpp_tests,
 {&test_default_tourn, "Test default tourn settings"},
 {&test_free_error, "Test free error case"},
@@ -287,6 +292,7 @@ SUB_TEST(config_cpp_tests,
 {&test_default_config_write, "Test default config write"},
 {&test_init_default_settings, "Test init with default settings"},
 {&test_add_recent_tourn_to_and_over_limit, "Adds MAXIMMUM_RECENT_LIST_SIZE + 1 recent tournaments"},
-{&test_read_recent_tourns_no_file, "Test read config with recent tourns"}
+{&test_read_recent_tourns_no_file, "Test read config with recent tourns"},
+{&test_pairing_types_str, "Test pairing_sys_str"}
         )
 
