@@ -155,6 +155,7 @@ set(MAIN_FILES
     ./testing_h/logger.cpp
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
+    ./src/filerable_list.hpp
     ./src/utils.cpp
     ./src/utils.h
     ./src/coins.cpp
@@ -211,7 +212,6 @@ set(PROJECT_SOURCES
     ./src/ui/widgets/recenttournamentwidget.cpp
     ./src/ui/widgets/recenttournamentwidget.h
     ./src/ui/widgets/recenttournamentwidget.ui
-    ./src/ui/utils/filerable_list.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES
