@@ -369,6 +369,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   # /usr/bin/gcc) set(CMAKE_CXX_COMPILER /usr/bin/g++)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -DTEST")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -DTEST")
+  set(GCOVR_EXCLUDE 
+    "build/*"
+    "tests/*"
+    "src/main.cpp"
+    "src/ui/*")
 
   append_coverage_compiler_flags()
   setup_target_for_coverage_gcovr_xml(
@@ -377,10 +382,16 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
     EXECUTABLE
     SquireDesktopTests
     EXCLUDE
-    "build/*"
-    "tests/*"
-    "src/main.cpp"
-    "src/ui/*")
+    ${GCOVR_EXCLUDE})
+
+  setup_target_for_coverage_gcovr_xml(
+    NAME
+    coverage-ffi
+    EXECUTABLE
+    SquireDesktopFFITests
+    EXCLUDE
+    ${GCOVR_EXCLUDE})
+
   # tests, set the flags manually
   set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_DEBUG})
   set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_DEBUG})

@@ -114,7 +114,7 @@ jobs:
     
     - uses: codecov/codecov-action@v2.1.0
       with:
-        file: build/coverage.xml
+        files: build/coverage.xml,build/coverage-ffi.xml
         name: codecov-umbrella # optional
 
     - name: Perform CodeQL Analysis
