@@ -3,8 +3,6 @@
 #include <string>
 #include <algorithm>
 
-#define NULL_FILTER NULL
-
 /*
    A list of objects that can be filtered using the bool matches(std::string) method
    of class T. Example matches usage may just check if the input and a field are the
@@ -16,8 +14,8 @@ class FilteredList
 {
 public:
     FilteredList(); // For deferred construction
-    FilteredList(std::vector<T> base, bool (*current_sort)(T &a, T &b));
-    void setBase(std::vecotr<T> base);
+    FilteredList(std::vector<T> base, bool (*current_sort)(const T &a, const T &b));
+    void setBase(std::vector<T> base);
     void filter(std::string query);
     void sort(bool (*current_sort)(T &a, T &b));
     void insert(T element);
@@ -27,8 +25,10 @@ private:
     std::vector<T> original;
     std::vector<T> filtered;
     std::string lastSearch;
-    bool (*current_sort)(T &a, T &b); // Comparison function
-    void insert_to_vect(std::vector<T> &t, element T);
+    bool (*current_sort)(const T &a, const T &b); // Comparison function
+    void insertToVect(std::vector<T> &t, T element);
+    void removeFromVect(T element);
+    int getIndex(T element);
 };
 
 template <class T>
@@ -38,7 +38,7 @@ FilteredList<T>::FilteredList()
 }
 
 template <class T>
-FilteredList<T>::FilteredList(std::vector<T> base, bool (*current_sort)(T &a, T &b))
+FilteredList<T>::FilteredList(std::vector<T> base, bool (*current_sort)(const T &a, const T &b))
 {
     this->current_sort = current_sort;
     std::stable_sort(base.begin(), base.end(), current_sort);
@@ -67,7 +67,7 @@ void FilteredList<T>::filter(std::string query)
 }
 
 template <class T>
-void FilteredList::sort(bool (*current_sort)(T &a, T &b))
+void FilteredList<T>::sort(bool (*current_sort)(T &a, T &b))
 {
     this->current_sort = current_sort;
     std::stable_sort(this->original.begin(), this->original.end(), current_sort);
@@ -75,9 +75,9 @@ void FilteredList::sort(bool (*current_sort)(T &a, T &b))
 }
 
 template <class T>
-void FilteredList::insert_to_vect(std::vector<T> &vec, T element)
+void FilteredList<T>::insertToVect(std::vector<T> &vec, T element)
 {
-    if (this->current_sort == NULL_FILTER || vec.size() == 0) {
+    if (vec.size() == 0) {
         vec.push_back(element);
     } else {
         int min = 0;
@@ -87,7 +87,7 @@ void FilteredList::insert_to_vect(std::vector<T> &vec, T element)
             i = (max - min) / 2;
 
             // Greater than or equal
-            if (this->current_sort(vec.at(i), T)) {
+            if (this->current_sort(vec.at(i), element)) {
                 min = i + 1;
             } else {
                 max = i - 1;
@@ -105,7 +105,7 @@ void FilteredList::insert_to_vect(std::vector<T> &vec, T element)
 }
 
 template <class T>
-void FilteredList::insert(T element)
+void FilteredList<T>::insert(T element)
 {
     this->insert_to_vect(this->original, element);
     if (element.matches(this->lastSearch)) {
@@ -131,5 +131,51 @@ template <class T>
 std::vector<T> FilteredList<T>::getFiltered() const
 {
     return this->filtered;
+}
+
+template <class T>
+static int __binary_search(std::vector<T> &vec, T &item, int s1, int s2) {
+    if (s1 > s2) {
+        return -1;
+    }
+
+    int middle = (s1 + s2) / 2;
+
+    if (item == vec.at(middle)) {
+        return middle;
+    }
+
+    if (item > vec.at(middle)) {
+        return __binary_search(vec, item, middle + 1, s2);
+    } else {
+        return __binary_search(vec, item, s1, middle - 1);
+    }
+}
+
+template <class T>
+int binary_search(std::vector<T> &vec, T &item)
+{
+    return __binary_search(vec, item, 0, vec.size() - 1);
+}
+
+template <class T>
+void FilteredList<T>::removeFromVect(T element)
+{
+    int index_filtered = this->getIndex(element);
+    if (index_filtered != -1) {
+        this->Filtered.remove(index_filtered);
+    }
+
+    // Binary search in main list
+    int i = binary_search(this->original, element);
+    if (i != -1) {
+        this->original.remove(i);
+    }
+}
+
+template <class T>
+int FilteredList<T>::getIndex(T element)
+{
+    return binary_search(this->original, element);
 }
 

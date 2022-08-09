@@ -219,6 +219,8 @@ set(TESTING_SOURCES
     ./testing_h/testing.cpp
     ./testing_h/testing.h
     ./tests/main.cpp
+    ./tests/test_filter_list.cpp
+    ./tests/test_filter_list.h
     ./tests/test_coins.cpp
     ./tests/test_coins.h
     ./tests/test_config.cpp
