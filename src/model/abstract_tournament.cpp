@@ -80,6 +80,7 @@ Tournament::~Tournament()
 
 void Tournament::close()
 {
+    emit this->onClose();
     squire_core::close_tourn(this->tid);
 }
 
@@ -195,6 +196,18 @@ std::vector<Player> Tournament::players()
     free(player_ptr);
 
     return players;
+}
+
+void Tournament::emitAllProps()
+{
+    emit onPlayersChanged(this->players());
+    emit onNameChanged(this->name());
+    emit onUseTableNumberChanged(this->use_table_number());
+    emit onFormatChanged(this->format());
+    emit onMinDeckCountChanged(this->min_deck_count());
+    emit onMaxDeckCountChanged(this->max_deck_count());
+    emit onPairingTypeChanged(this->pairing_type());
+    emit onSaveLocationChanged(this->save_location());
 }
 
 Tournament &Tournament::operator=(const Tournament &t)

@@ -47,6 +47,7 @@ public:
     Player addPlayer(std::string name, bool *status);
     std::vector<Player> players();
     void close();
+    void emitAllProps(); // emits all props to force a UI change
     Tournament &operator=(const Tournament &t);
 protected:
     squire_core::sc_TournamentId tid;

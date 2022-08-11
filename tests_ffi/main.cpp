@@ -11,7 +11,6 @@
 
 int test_func()
 {
-    squire_core::init_squire_ffi(); // This is important!
     ASSERT(1 == 1);
     return 1;
 }
@@ -41,6 +40,7 @@ int main(int argc, char *argv[])
         {&test_tournament_ffi, "Tournament FFI Tests"},
     };
 
+    squire_core::init_squire_ffi(); // This is important!
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");
     lprintf(LOG_INFO, "%d/%ld tests failed.\n", failed_tests, sizeof(tests) / sizeof(*tests));
     return failed_tests > 0;
