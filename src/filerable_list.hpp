@@ -14,10 +14,10 @@ class FilteredList
 {
 public:
     FilteredList(); // For deferred construction
-    FilteredList(std::vector<T> base, bool (*current_sort)(const T &a, const T &b));
+    FilteredList(std::vector<T> base, int (*current_sort)(const T &a, const T &b));
     void setBase(std::vector<T> base);
     void filter(std::string query);
-    void sort(bool (*current_sort)(T &a, T &b));
+    void sort(int (*current_sort)(const T &a, const T &b));
     void insert(T element);
     std::vector<T> getFiltered() const;
     size_t size() const;
@@ -25,7 +25,7 @@ private:
     std::vector<T> original;
     std::vector<T> filtered;
     std::string lastSearch;
-    bool (*current_sort)(const T &a, const T &b); // Comparison function
+    int (*current_sort)(const T &a, const T &b); // Comparison function
     void insertToVect(std::vector<T> &t, T element);
     void removeFromVect(T element);
     int getIndex(T element);
@@ -38,18 +38,28 @@ FilteredList<T>::FilteredList()
 }
 
 template <class T>
-FilteredList<T>::FilteredList(std::vector<T> base, bool (*current_sort)(const T &a, const T &b))
+FilteredList<T>::FilteredList(std::vector<T> base, int (*current_sort)(const T &a, const T &b))
 {
-    this->current_sort = current_sort;
-    std::stable_sort(base.begin(), base.end(), current_sort);
-
     this->original = base;
-    this->filtered = base;
+    this->current_sort = current_sort;
+    std::stable_sort(this->original.begin(), this->original.end(), this->current_sort);
+
+    this->filter("");
+}
+
+template <class T>
+void FilteredList<T>::setBase(std::vector<T> base)
+{
+    this->original = base;
+    std::stable_sort(this->original.begin(), this->original.end(), this->current_sort);
+    this->filter(this->lastSearch);
 }
 
 template <class T>
 void FilteredList<T>::filter(std::string query)
 {
+    this->lastSearch = query;
+
     if (query == "") {
         this->filtered = this->original;
         return;
@@ -62,16 +72,14 @@ void FilteredList<T>::filter(std::string query)
             this->filtered.push_back(item);
         }
     }
-
-    this->lastSearch = query;
 }
 
 template <class T>
-void FilteredList<T>::sort(bool (*current_sort)(T &a, T &b))
+void FilteredList<T>::sort(int (*current_sort)(const T &a, const T &b))
 {
     this->current_sort = current_sort;
-    std::stable_sort(this->original.begin(), this->original.end(), current_sort);
-    std::stable_sort(this->filtered.begin(), this->filtered.end(), current_sort);
+    std::stable_sort(this->original.begin(), this->original.end(), this->current_sort);
+    std::stable_sort(this->filtered.begin(), this->filtered.end(), this->current_sort);
 }
 
 template <class T>
@@ -108,17 +116,9 @@ template <class T>
 void FilteredList<T>::insert(T element)
 {
     this->insert_to_vect(this->original, element);
-    if (element.matches(this->lastSearch)) {
+    if (this->lastSearch == "" || element.matches(this->lastSearch)) {
         this->insert_to_vect(this->filtered, element);
     }
-}
-
-template <class T>
-void FilteredList<T>::setBase(std::vector<T> base)
-{
-    std::stable_sort(base.begin(), base.end(), current_sort);
-    this->original = base;
-    this->filter(this->lastSearch);
 }
 
 template <class T>
