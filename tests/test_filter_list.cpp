@@ -46,6 +46,9 @@ static int test_init()
     FilteredList<Foo> flist = FilteredList(list, foo_sort);
     ASSERT(flist.getFiltered().size() == 2);
     ASSERT(flist.size() == 2);
+    for (int i = 0; i < 2; i++) {
+        ASSERT(flist.at(i) == flist.getFiltered()[i]);
+    }
 
     return 1;
 }
@@ -120,6 +123,7 @@ static int test_set_base()
     std::vector<Foo> list;
     list.push_back(a);
     FilteredList<Foo> flist = FilteredList(list, foo_sort);
+    ASSERT(flist.osize() == 1);
     ASSERT(flist.getFiltered().size() == 1);
     ASSERT(flist.getFiltered()[0] == a);
 
@@ -133,6 +137,7 @@ static int test_set_base()
 
     std::stable_sort(list.begin(), list.end(), foo_sort);
     ASSERT(flist.size() == 3);
+    ASSERT(flist.osize() == 3);
     ASSERT(flist.getFiltered().size() == 3);
     ASSERT(flist.getFiltered()[0] == list[0]);
     ASSERT(flist.getFiltered()[1] == list[1]);
@@ -140,6 +145,7 @@ static int test_set_base()
 
     // Tests filter is kept
     flist.filter(MATCH_STR);
+    ASSERT(flist.osize() == 3);
     ASSERT(flist.getFiltered().size() == 1);
 
     flist.setBase(list);
@@ -150,11 +156,103 @@ static int test_set_base()
     return 1;
 }
 
+static int test_insert()
+{
+    Foo a = Foo(MATCH_STR);
+    Foo c = Foo(MATCH_STR MATCH_STR MATCH_STR);
+
+    std::vector<Foo> list;
+    list.push_back(a);
+    FilteredList<Foo> flist = FilteredList(list, foo_sort);
+    ASSERT(flist.getFiltered().size() == 1);
+    ASSERT(flist.getFiltered()[0] == a);
+
+    // Tests sort is kept - 1
+    list.push_back(c);
+
+    flist.insert(c);
+    ASSERT(flist.osize() == 2);
+    ASSERT(flist.size() == 2);
+
+    // Check insert order was correct
+    std::stable_sort(list.begin(), list.end(), foo_sort);
+    ASSERT(flist.getFiltered()[0] == list[0]);
+    ASSERT(flist.getFiltered()[1] == list[1]);
+}
+
+static int test_insert_2()
+{
+    Foo a = Foo(MATCH_STR);
+    Foo b = Foo(MATCH_STR MATCH_STR);
+    Foo c = Foo(MATCH_STR MATCH_STR MATCH_STR);
+
+    std::vector<Foo> list;
+    list.push_back(a);
+    FilteredList<Foo> flist = FilteredList(list, foo_sort);
+    ASSERT(flist.size() == 1);
+    ASSERT(flist.osize() == 1);
+
+    // Tests sort is kept - 2
+    list.push_back(b);
+    list.push_back(c);
+
+    flist.insert(c);
+    ASSERT(flist.size() == 2);
+
+    flist.insert(b);
+    ASSERT(flist.size() == 3);
+
+    // Check insert order was correct
+    std::stable_sort(list.begin(), list.end(), foo_sort);
+    ASSERT(flist.getFiltered()[0] == list[0]);
+    ASSERT(flist.getFiltered()[1] == list[1]);
+    ASSERT(flist.getFiltered()[2] == list[2]);
+
+    return 1;
+}
+
+static int test_insert_3()
+{
+    Foo a = Foo(MATCH_STR);
+
+    std::vector<Foo> list;
+    FilteredList<Foo> flist = FilteredList(list, foo_sort);
+    ASSERT(flist.size() == 0);
+
+    flist.insert(a);
+    ASSERT(flist.size() == 1);
+    ASSERT(flist.at(0) == a);
+
+    return 1;
+}
+
+
+static int test_insert_4()
+{
+    Foo a = Foo(MATCH_STR);
+
+    std::vector<Foo> list;
+    FilteredList<Foo> flist = FilteredList(list, foo_sort);
+    ASSERT(flist.size() == 0);
+
+    for (int i = 0; i < 1000; i++) {
+        flist.insert(a);
+        ASSERT(flist.osize() == i + 1);
+        ASSERT(flist.size() == i + 1);
+    }
+
+    return 1;
+}
+
 SUB_TEST(filter_list_tests,
 {&test_init, "Test init"},
 {&test_search, "Test search"},
 {&test_sort, "Test sort"},
-{&test_set_base, "Test set base"}
+{&test_set_base, "Test set base"},
+{&test_insert, "Test insert"},
+{&test_insert_2, " Test insert 2"},
+{&test_insert_3, "Test insert 3"},
+{&test_insert_4, "Test insert 4"}
         )
 
 

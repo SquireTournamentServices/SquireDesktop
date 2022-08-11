@@ -20,7 +20,9 @@ public:
     void sort(int (*current_sort)(const T &a, const T &b));
     void insert(T element);
     std::vector<T> getFiltered() const;
+    size_t osize() const;
     size_t size() const;
+    T at(size_t i) const;
 private:
     std::vector<T> original;
     std::vector<T> filtered;
@@ -29,6 +31,10 @@ private:
     void insertToVect(std::vector<T> &t, T element);
     void removeFromVect(T element);
     int getIndex(T element);
+    int __no_err_binary_search(std::vector<T> &vec, T &item, int s1, int s2);
+    int no_err_binary_search(std::vector<T> &vec, T &item);
+    int __binary_search(std::vector<T> &vec, T &item, int s1, int s2);
+    int binary_search(std::vector<T> &vec, T &item);
 };
 
 template <class T>
@@ -83,42 +89,52 @@ void FilteredList<T>::sort(int (*current_sort)(const T &a, const T &b))
 }
 
 template <class T>
+int FilteredList<T>::__no_err_binary_search(std::vector<T> &vec, T &item, int s1, int s2)
+{
+    if (s1 > s2) {
+        return s1;
+    }
+
+    int middle = (s1 + s2) / 2;
+
+    int r = this->current_sort(item, vec.at(middle));
+    if (r == 0) {
+        return middle;
+    }
+
+    if (r < 0) {
+        return __no_err_binary_search(vec, item, middle + 1, s2);
+    } else {
+        return __no_err_binary_search(vec, item, s1, middle - 1);
+    }
+}
+
+template <class T>
+int FilteredList<T>::no_err_binary_search(std::vector<T> &vec, T &item)
+{
+    return __no_err_binary_search(vec, item, 0, vec.size() - 1);
+}
+
+template <class T>
 void FilteredList<T>::insertToVect(std::vector<T> &vec, T element)
 {
-    if (vec.size() == 0) {
-        vec.push_back(element);
-    } else {
-        int min = 0;
-        int max = vec.size();
-        int i = vec.size() / 2;
-        while (min < max) { // If equal then insert in place right?
-            i = (max - min) / 2;
-
-            // Greater than or equal
-            if (this->current_sort(vec.at(i), element)) {
-                min = i + 1;
-            } else {
-                max = i - 1;
-            }
-        }
-
-        if (i < 0) {
-            vec.push_front(element);
-        } else if (i >= vec.size()) {
-            vec.push_back(element);
-        } else {
-            vec.insert(i, element);
-        }
-    }
+    int index = this->no_err_binary_search(vec, element);
+    vec.insert(vec.begin() + index, element);
 }
 
 template <class T>
 void FilteredList<T>::insert(T element)
 {
-    this->insert_to_vect(this->original, element);
+    this->insertToVect(this->original, element);
     if (this->lastSearch == "" || element.matches(this->lastSearch)) {
-        this->insert_to_vect(this->filtered, element);
+        this->insertToVect(this->filtered, element);
     }
+}
+
+template <class T>
+size_t FilteredList<T>::osize() const
+{
+    return this->original.size();
 }
 
 template <class T>
@@ -134,18 +150,26 @@ std::vector<T> FilteredList<T>::getFiltered() const
 }
 
 template <class T>
-static int __binary_search(std::vector<T> &vec, T &item, int s1, int s2) {
+T FilteredList<T>::at(size_t i) const
+{
+    return this->filtered[i];
+}
+
+template <class T>
+int FilteredList<T>::__binary_search(std::vector<T> &vec, T &item, int s1, int s2)
+{
     if (s1 > s2) {
         return -1;
     }
 
     int middle = (s1 + s2) / 2;
 
-    if (item == vec.at(middle)) {
+    int r = this->current_sort(item, vec.at(middle));
+    if (r == 0) {
         return middle;
     }
 
-    if (item > vec.at(middle)) {
+    if (r > 0) {
         return __binary_search(vec, item, middle + 1, s2);
     } else {
         return __binary_search(vec, item, s1, middle - 1);
@@ -153,7 +177,7 @@ static int __binary_search(std::vector<T> &vec, T &item, int s1, int s2) {
 }
 
 template <class T>
-int binary_search(std::vector<T> &vec, T &item)
+int FilteredList<T>::binary_search(std::vector<T> &vec, T &item)
 {
     return __binary_search(vec, item, 0, vec.size() - 1);
 }
