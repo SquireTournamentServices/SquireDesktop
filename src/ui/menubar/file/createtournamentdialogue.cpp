@@ -95,7 +95,7 @@ void CreateTournamentDialogue::changeSaveLocation()
     dlg.setNameFilter(tr("All Squire Tournament files") + QString(" (*.json *" TOURNAMENT_EXTENTION ")"));
 
     if (dlg.exec()) {
-        ui->saveLocation->setText(dlg.directory().absolutePath() + dlg.selectedFiles().at(0));
+        ui->saveLocation->setText(dlg.selectedFiles().at(0));
     } else {
         QApplication::beep();
     }
