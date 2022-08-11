@@ -371,28 +371,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   # /usr/bin/gcc) set(CMAKE_CXX_COMPILER /usr/bin/g++)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -DTEST")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -DTEST")
-  set(GCOVR_EXCLUDE 
-    "build/*"
-    "tests/*"
-    "src/main.cpp"
-    "src/ui/*")
+  set(GCOVR_EXCLUDE "build/*" "tests/*" "src/main.cpp" "src/ui/*")
 
   append_coverage_compiler_flags()
   setup_target_for_coverage_gcovr_xml(
-    NAME
-    coverage
-    EXECUTABLE
-    SquireDesktopTests
-    EXCLUDE
-    ${GCOVR_EXCLUDE})
+    NAME coverage EXECUTABLE SquireDesktopTests EXCLUDE ${GCOVR_EXCLUDE})
 
   setup_target_for_coverage_gcovr_xml(
-    NAME
-    coverage-ffi
-    EXECUTABLE
-    SquireDesktopFFITests
-    EXCLUDE
-    ${GCOVR_EXCLUDE})
+    NAME coverage-ffi EXECUTABLE SquireDesktopFFITests EXCLUDE ${GCOVR_EXCLUDE})
 
   # tests, set the flags manually
   set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_DEBUG})
@@ -411,7 +397,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   target_link_libraries(
     SquireDesktopFFITests
     PUBLIC ${LIBS}
-    PRIVATE squire_core nlohmann_json::nlohmann_json)
+    PRIVATE squire_core nlohmann_json::nlohmann_json
+            Qt${QT_VERSION_MAJOR}::Widgets)
 
   file(COPY config_test_tournament.tourn DESTINATION ${CMAKE_BINARY_DIR})
   file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})

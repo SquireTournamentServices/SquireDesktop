@@ -3,9 +3,22 @@
 #include <squire_core/squire_core.h>
 #include <string>
 #include <vector>
+#include <QObject>
 
-class Tournament
+class Tournament : public QObject
 {
+    Q_OBJECT
+signals:
+    void onPlayerAdded(Player p);
+    void onPlayersChanged(std::vector<Player> players);
+    void onNameChanged(std::string str);
+    void onUseTableNumberChanged(bool utn);
+    void onFormatChanged(std::string str);
+    void onMinDeckCountChanged(int mdc);
+    void onMaxDeckCountChanged(int mdc);
+    void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
+    void onSaveLocationChanged(std::string str);
+    void onClose();
 public:
     /**
      * You probably do not want to use this, it is for deferred construction.
@@ -31,9 +44,10 @@ public:
     bool require_deck_reg();
     squire_core::sc_TournamentStatus status();
     std::string save_location();
-    squire_core::sc_PlayerId addPlayer(std::string name);
+    Player addPlayer(std::string name, bool *status);
     std::vector<Player> players();
     void close();
+    Tournament &operator=(const Tournament &t);
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;
@@ -42,6 +56,7 @@ protected:
 // Type alias
 class LocalTournament : public Tournament
 {
+    Q_OBJECT
 public:
     LocalTournament(std::string save_location, squire_core::sc_TournamentId tid); // Primary constructor
 };

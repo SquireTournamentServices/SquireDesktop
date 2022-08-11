@@ -3,8 +3,9 @@
 #include "../testing_h/testing.h"
 #include <string.h>
 
-class Foo {
-  public:
+class Foo
+{
+public:
     Foo(std::string a)
     {
         this->a = a;
@@ -25,15 +26,15 @@ bool foo_sort(const Foo &fooa, const Foo &foob)
 
 static int test_init()
 {
-  Foo a = Foo(MATCH_STR);
-  Foo b = Foo(MATCH_STR MATCH_STR);
+    Foo a = Foo(MATCH_STR);
+    Foo b = Foo(MATCH_STR MATCH_STR);
 
-  std::vector<Foo> list;
+    std::vector<Foo> list;
 
-  list.push_back(a);
-  list.push_back(b);
+    list.push_back(a);
+    list.push_back(b);
 
-  FilteredList<Foo> flist = FilteredList(list, foo_sort);
+    FilteredList<Foo> flist = FilteredList(list, foo_sort);
 }
 
 SUB_TEST(filter_list_tests,

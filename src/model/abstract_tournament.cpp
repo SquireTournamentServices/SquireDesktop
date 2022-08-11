@@ -54,11 +54,13 @@ bool new_tournament(std::string file,
 }
 
 Tournament::Tournament()
+    : QObject()
 {
 
 }
 
 Tournament::Tournament(const Tournament &t)
+    : QObject()
 {
     this->tid = t.tid;
     this->saveLocation = t.saveLocation;
@@ -163,9 +165,20 @@ squire_core::sc_TournamentStatus Tournament::status()
     return squire_core::tid_status(this->tid);
 }
 
-squire_core::sc_PlayerId Tournament::addPlayer(std::string name)
+Player Tournament::addPlayer(std::string name, bool *status)
 {
-    return squire_core::tid_add_player(this->tid, name.c_str());
+    squire_core::sc_PlayerId pid = squire_core::tid_add_player(this->tid, name.c_str());
+    if (!is_null_id(pid._0)) {
+        *status = true;
+        Player p = Player(pid, this->tid);
+        emit this->onPlayerAdded(p);
+        return p;
+    } else {
+        lprintf(LOG_ERROR, "Cannot add player %s\n", name.c_str());
+        *status = false;
+        Player p;
+        return p;
+    }
 }
 
 std::vector<Player> Tournament::players()
@@ -184,3 +197,7 @@ std::vector<Player> Tournament::players()
     return players;
 }
 
+Tournament &Tournament::operator=(const Tournament &t)
+{
+    return *this;
+}

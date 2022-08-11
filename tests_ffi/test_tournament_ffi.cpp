@@ -118,8 +118,11 @@ static int test_add_player()
     std::vector<Player> players = t.players();
     ASSERT(players.size() == 0);
 
-    squire_core::sc_PlayerId pid = t.addPlayer(TEST_NAME);
+    bool s;
+    squire_core::sc_PlayerId pid;
+    Player p = t.addPlayer(TEST_NAME, &s);
     ASSERT(!is_null_id(pid._0));
+    ASSERT(s);
 
     players = t.players();
     ASSERT(players.size() == 1);
@@ -132,7 +135,10 @@ static int test_add_player()
     }
 
     // Test that only one of each player name is valid
-    pid = t.addPlayer(TEST_NAME);
+    p = t.addPlayer(TEST_NAME, &s);
+
+    ASSERT(!s);
+    pid = p.id();
     players = t.players();
     ASSERT(players.size() == 1);
     ASSERT(is_null_id(pid._0));
