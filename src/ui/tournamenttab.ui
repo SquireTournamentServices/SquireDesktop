@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="container">
+    <layout class="QHBoxLayout" name="container" stretch="2,2">
      <item>
       <layout class="QVBoxLayout" name="left">
        <item>
@@ -27,6 +27,9 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetFixedSize</enum>
+         </property>
          <item>
           <widget class="QPushButton" name="tournamentSettings">
            <property name="text">
@@ -66,45 +69,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="matchSearch">
-         <property name="placeholderText">
-          <string>Search Matches</string>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QCheckBox" name="showFinishedMatches">
-           <property name="text">
-            <string>Show All Matches</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="popOutMatches">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Popout</string>
-           </property>
-           <property name="icon">
-            <iconset theme="video-display">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="matchesTable"/>
+        <widget class="QWidget" name="roundTable" native="true"/>
        </item>
       </layout>
      </item>
@@ -118,50 +83,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-         <property name="placeholderText">
-          <string>Search Players</string>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QCheckBox" name="checkBox">
-           <property name="text">
-            <string>Show All Players</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Popout</string>
-           </property>
-           <property name="icon">
-            <iconset theme="video-display"/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QTableView" name="playerListTable"/>
+        <widget class="QWidget" name="playerTable" native="true"/>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton">
@@ -179,7 +101,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="statusBar">
+    <layout class="QHBoxLayout" name="statusBar" stretch="0,0,0,0,0">
      <item>
       <widget class="QCheckBox" name="startedIndicator">
        <property name="text">

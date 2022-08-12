@@ -56,6 +56,16 @@ squire_core::sc_PlayerStatus Player::status()
     return squire_core::pid_status(this->pid, this->tid);
 }
 
+std::string Player::statusAsStr()
+{
+    switch(this->status()) {
+    case squire_core::sc_PlayerStatus::Registered:
+        return "Registered";
+    case squire_core::sc_PlayerStatus::Dropped:
+        return "Dropped";
+    }
+}
+
 squire_core::sc_PlayerId Player::id()
 {
     squire_core::sc_PlayerId ret;

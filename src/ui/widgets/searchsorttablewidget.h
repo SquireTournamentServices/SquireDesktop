@@ -20,6 +20,7 @@ public:
     ~sstw_qobject();
 public slots:
     void filter(QString query);
+    void addFilter();
 protected:
     void changeEvent(QEvent *e);
     bool isBoxSelected(int i);
@@ -45,7 +46,8 @@ public:
     //void removeDatum(T_DATA datum); //TODO
     void addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b));
     void addAdditionalFilter(std::string boxName, bool(*matches)(T_DATA a));
-    void filter(QString query);
+    void filter(QString query) override;
+    void addFilter() override;
 private:
     std::vector<bool (*)(T_DATA a)> additionalFilters;
     std::vector<int (*)(const T_DATA &a, const T_DATA &b)> sortAls;

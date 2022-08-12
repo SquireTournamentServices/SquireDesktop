@@ -1,3 +1,4 @@
+#include <QAbstractButton>
 #include "./searchsorttablewidget.h"
 #include "./ui_searchsorttablewidget.h"
 #include "./tablemodel.hpp"
@@ -49,9 +50,14 @@ void sstw_qobject::addBox(std::string boxName)
     QCheckBox *box = new QCheckBox(QString::fromStdString(boxName));
     this->addFilterBoxes.push_back(box);
     this->layout->addWidget(box);
+
+    connect(box, &QAbstractButton::pressed, this, &sstw_qobject::addFilter);
 }
 
 void sstw_qobject::filter(QString query)
+{}
+
+void sstw_qobject::addFilter()
 {}
 
 template <class T_MDL, class T_DATA>
@@ -63,6 +69,8 @@ SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> 
     this->data = data;
     this->flist = FilteredList<T_DATA>(data);
     this->tableModel = T_MDL(this->flist.getFiltered());
+
+    ui->table->setModel(this->tableModel);
 }
 
 template <class T_MDL, class T_DATA>
@@ -105,6 +113,12 @@ void SearchSortTableWidget<T_MDL, T_DATA>::filter(QString query)
 {
     this->flist.filter(query.toStdString());
     this->tableModel.setData(this->flist.getFiltered());
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::addFilter()
+{
+    this->filterList();
 }
 
 template <class T_MDL, class T_DATA>

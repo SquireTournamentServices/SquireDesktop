@@ -18,6 +18,7 @@ public:
     std::string name();
     std::string gameName();
     squire_core::sc_PlayerStatus status();
+    std::string statusAsStr();
     squire_core::sc_PlayerId id();
     squire_core::sc_TournamentId tourn_id();
     bool matches(std::string query);

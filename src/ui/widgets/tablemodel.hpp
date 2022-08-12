@@ -15,13 +15,18 @@ class TableModel : public QAbstractTableModel
 public:
     TableModel(std::vector<T> data)
     {
-        this->data = data;
+        this->mdldata = data;
     }
     ~TableModel() {}
     virtual size_t cols()
     {
         return -1;
     }
+    int rowCount(const QModelIndex &parent = QModelIndex());
+    int columnCount(const QModelIndex &parent = QModelIndex());
+    QVariant headerData(int section, Qt::Orientation orientation, int role);
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole);
+    Qt::ItemFlags flags(const QModelIndex &index);
 public slots:
     void rerender()
     {
@@ -34,6 +39,6 @@ public slots:
         this->data = data;
         this->rerender();
     }
-private:
-    std::vector<T> data;
+protected:
+    std::vector<T> mdldata;
 };

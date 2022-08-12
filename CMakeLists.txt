@@ -216,6 +216,8 @@ set(PROJECT_SOURCES
     ./src/ui/widgets/searchsorttablewidget.h
     ./src/ui/widgets/searchsorttablewidget.ui
     ./src/ui/widgets/tablemodel.hpp
+    ./src/ui/abstractmodels/playermodel.cpp
+    ./src/ui/abstractmodels/playermodel.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES
