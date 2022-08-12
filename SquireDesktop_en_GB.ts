@@ -472,6 +472,21 @@
     </message>
 </context>
 <context>
+    <name>SearchSortTableWidget</name>
+    <message>
+        <location filename="src/ui/widgets/searchsorttablewidget.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_searchsorttablewidget.h" line="70"/>
+        <source>Form</source>
+        <translation type="unfinished">Form</translation>
+    </message>
+    <message>
+        <location filename="src/ui/widgets/searchsorttablewidget.ui" line="20"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_searchsorttablewidget.h" line="71"/>
+        <source>Search...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingTab</name>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="14"/>

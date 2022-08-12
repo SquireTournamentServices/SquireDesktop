@@ -212,6 +212,10 @@ set(PROJECT_SOURCES
     ./src/ui/widgets/recenttournamentwidget.cpp
     ./src/ui/widgets/recenttournamentwidget.h
     ./src/ui/widgets/recenttournamentwidget.ui
+    ./src/ui/widgets/searchsorttablewidget.cpp
+    ./src/ui/widgets/searchsorttablewidget.h
+    ./src/ui/widgets/searchsorttablewidget.ui
+    ./src/ui/widgets/tablemodel.hpp
     ./src/main.cpp)
 
 set(TESTING_SOURCES
