@@ -11,6 +11,8 @@ sstw_qobject::sstw_qobject(Ui::SearchSortTableWidget *ui, QWidget *parent) :
 
     this->layout = new QVBoxLayout(ui->cont);
     this->layout->setAlignment(Qt::AlignTop);
+
+    connect(ui->searchbar, &QLineEdit::textChanged, this, &sstw_qobject::filter);
 }
 
 sstw_qobject::~sstw_qobject()
