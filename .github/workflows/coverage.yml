@@ -112,9 +112,9 @@ jobs:
         cmake --build . -j
         make coverage
     
-    - uses: codecov/codecov-action@v2.1.0
+    - uses: codecov/codecov-action@v3
       with:
-        files: build/coverage.xml,build/coverage-ffi.xml
+        files: ./build/coverage.xml,./build/coverage-ffi.xml
         name: codecov-umbrella # optional
 
     - name: Perform CodeQL Analysis

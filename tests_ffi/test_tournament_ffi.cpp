@@ -46,6 +46,7 @@ static int test_create_base()
     // Test it can be loaded
     Tournament t2;
     ASSERT(load_tournament(TEST_FILE, &t2));
+    t2.close();
 
     return 1;
 }

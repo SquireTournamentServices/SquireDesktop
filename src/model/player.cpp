@@ -1,7 +1,6 @@
 #include "./player.h"
 #include "../utils.h"
 #include <string.h>
-#include <jemalloc/jemalloc.h>
 
 Player::Player()
     : QObject()
@@ -36,7 +35,7 @@ std::string Player::name()
     }
 
     std::string ret = std::string(name);
-    free(name);
+    squire_core::sq_free(name, ret.size() + 1);
     return ret;
 }
 
@@ -48,9 +47,8 @@ std::string Player::gameName()
     }
 
     std::string ret = std::string(name);
-    free(name);
+    squire_core::sq_free(name, ret.size() + 1);
     return ret;
-
 }
 
 squire_core::sc_PlayerStatus Player::status()

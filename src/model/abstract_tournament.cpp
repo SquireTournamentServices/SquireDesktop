@@ -2,7 +2,6 @@
 #include "../ffi_utils.h"
 #include "../../testing_h/logger.h"
 #include <string.h>
-#include <jemalloc/jemalloc.h>
 #include <squire_core/squire_core.h>
 
 bool load_tournament(std::string file_name, Tournament *t)
@@ -80,6 +79,7 @@ Tournament::~Tournament()
 
 void Tournament::close()
 {
+    lprintf(LOG_INFO, "Closing tournament %s\n", this->name());
     emit this->onClose();
     squire_core::close_tourn(this->tid);
 }
@@ -104,7 +104,7 @@ std::string Tournament::name()
     }
 
     std::string ret = name;
-    free(name);
+    squire_core::sq_free(name, ret.size() + 1);
     return ret;
 }
 
@@ -121,7 +121,7 @@ std::string Tournament::format()
     }
 
     std::string ret = std::string(format);
-    free(format);
+    squire_core::sq_free(format, ret.size() + 1);
     return ret;
 }
 
@@ -193,7 +193,7 @@ std::vector<Player> Tournament::players()
     for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
         players.push_back(Player(player_ptr[i], this->tid));
     }
-    free(player_ptr);
+    squire_core::sq_free(player_ptr, players.size() + 1);
 
     return players;
 }
