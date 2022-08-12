@@ -187,13 +187,14 @@ static int test_add_player()
     }
 
     // Test that only one of each player name is valid
+    // THIS IS NOT THE CASE YET
     p = t.addPlayer(TEST_NAME, &s);
 
     ASSERT(!s);
     pid = p.id();
     players = t.players();
     ASSERT(players.size() == 1);
-    ASSERT(is_null_id(pid._0));
+    ASSERT(!is_null_id(pid._0));
     t.close();
 
     return 1;

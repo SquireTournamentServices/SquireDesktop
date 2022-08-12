@@ -83,7 +83,7 @@ Tournament::~Tournament()
 
 void Tournament::close()
 {
-    lprintf(LOG_INFO, "Closing tournament %s\n", this->name());
+    lprintf(LOG_INFO, "Closing tournament %s\n", this->name().c_str());
     emit this->onClose();
     squire_core::close_tourn(this->tid);
 }
