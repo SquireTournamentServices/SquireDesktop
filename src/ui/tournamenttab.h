@@ -1,7 +1,11 @@
 #pragma once
 #include "./abstracttabwidget.h"
-#include <QWidget>
 #include "../model/abstract_tournament.h"
+#include "../model/player.h"
+#include "./widgets/searchsorttablewidget.h"
+#include "./abstractmodels/playermodel.h"
+#include <QWidget>
+#include <QVBoxLayout>
 
 namespace Ui
 {
@@ -20,6 +24,9 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
+    QVBoxLayout *roundTableLayout;
+    QVBoxLayout *playerTableLayout;
+    SearchSortTableWidget<AbstractPlayerModel, Player> *playerTable;
     Ui::TournamentTab *ui;
     Tournament tourn;
 };

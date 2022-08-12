@@ -1,15 +1,15 @@
 #include <QAbstractButton>
 #include "./searchsorttablewidget.h"
-#include "./ui_searchsorttablewidget.h"
-#include "./tablemodel.hpp"
-#include "../../../testing_h/logger.h"
 
 sstw_qobject::sstw_qobject(Ui::SearchSortTableWidget *ui, QWidget *parent) :
     QWidget(parent)
 {
-    this->ui = ui;
     this->addFilterBoxes = std::vector<QCheckBox *>();
+}
 
+void sstw_qobject::finishSstwSetup(Ui::SearchSortTableWidget *ui)
+{
+    this->ui = ui;
     this->layout = new QVBoxLayout(ui->cont);
     this->layout->setAlignment(Qt::AlignTop);
 
@@ -59,95 +59,3 @@ void sstw_qobject::filter(QString query)
 
 void sstw_qobject::addFilter()
 {}
-
-template <class T_MDL, class T_DATA>
-SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> data, QWidget *parent) :
-    sstw_qobject(ui, parent),
-    ui(new Ui::SearchSortTableWidget)
-{
-    ui->setupUi(this);
-    this->data = data;
-    this->flist = FilteredList<T_DATA>(data);
-    this->tableModel = T_MDL(this->flist.getFiltered());
-
-    ui->table->setModel(this->tableModel);
-}
-
-template <class T_MDL, class T_DATA>
-SearchSortTableWidget<T_MDL, T_DATA>::~SearchSortTableWidget()
-{
-    delete ui;
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::setData()
-{
-    this->data = data;
-    this->filterList();
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::addDatum(T_DATA datum)
-{
-    this->data.push_back(datum);
-    this->filterList();
-}
-
-//void removeDatum(T_DATA datum); //TODO
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b))
-{
-    this->sortAls.push_back(sort_alg);
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::addAdditionalFilter(std::string boxName, bool(*matches)(T_DATA a))
-{
-    this->addBox(boxName);
-    this->additionalFilters.push_back(matches);
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::filter(QString query)
-{
-    this->flist.filter(query.toStdString());
-    this->tableModel.setData(this->flist.getFiltered());
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::addFilter()
-{
-    this->filterList();
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::filterList()
-{
-    std::vector<T_DATA> filtered;
-    for (int j = 0; j < this->data.size(); j++) {
-        for (int i = 0; i < this->additionalFilters.size(); i++) {
-            bool add = true;
-            if (this->isBoxSelected(i)) {
-                add = this->additionalFilters(this->data[j]);
-            }
-
-            if (add) {
-                filtered.push_back(this->data[j]);
-            }
-        }
-    }
-    this->flist.setBase(filtered);
-    this->tableModel.setData(this->flist.getFiltered());
-}
-
-template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::sortList(int colIndex)
-{
-    if (colIndex < this->sortAls.size()) {
-        this->flist.sort(this->sortAls[colIndex]);
-        this->tableModel.setData(this->flist.getFiltered());
-    } else {
-        lprintf(LOG_WARNING, "Index %d has no sorting algorithm\n", colIndex);
-    }
-}

@@ -5,12 +5,9 @@
 #include <vector>
 #include <string>
 #include "./tablemodel.hpp"
+#include "../../../testing_h/logger.h"
 #include "../../filerable_list.hpp"
-
-namespace Ui
-{
-class SearchSortTableWidget;
-}
+#include "./ui_searchsorttablewidget.h"
 
 class sstw_qobject : public QWidget
 {
@@ -18,9 +15,10 @@ class sstw_qobject : public QWidget
 public:
     explicit sstw_qobject(Ui::SearchSortTableWidget *ui, QWidget *parent = nullptr);
     ~sstw_qobject();
+    void finishSstwSetup(Ui::SearchSortTableWidget *ui);
 public slots:
-    void filter(QString query);
-    void addFilter();
+    virtual void filter(QString query);
+    virtual void addFilter();
 protected:
     void changeEvent(QEvent *e);
     bool isBoxSelected(int i);
@@ -53,7 +51,7 @@ private:
     std::vector<int (*)(const T_DATA &a, const T_DATA &b)> sortAls;
     std::vector<T_DATA> data;
     FilteredList<T_DATA> flist;
-    TableModel<T_DATA> tableModel; // type = T_MDL at init
+    TableModel<T_DATA> *tableModel; // type = T_MDL at init
     Ui::SearchSortTableWidget *ui;
 
     void filterList();
@@ -89,3 +87,97 @@ private:
     FilteredList<InventoryItem> items;
 };
   */
+
+template <class T_MDL, class T_DATA>
+SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> data, QWidget *parent) :
+    ui(new Ui::SearchSortTableWidget),
+    sstw_qobject(ui, parent)
+{
+    ui->setupUi(this);
+    this->finishSstwSetup(ui);
+    this->data = data;
+    this->flist = FilteredList<T_DATA>(this->data, NULL);
+    this->tableModel = new T_MDL(this->flist.getFiltered());
+
+    ui->table->setModel(this->tableModel);
+}
+
+template <class T_MDL, class T_DATA>
+SearchSortTableWidget<T_MDL, T_DATA>::~SearchSortTableWidget()
+{
+    delete ui;
+    delete this->tableModel;
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::setData()
+{
+    this->data = data;
+    this->filterList();
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::addDatum(T_DATA datum)
+{
+    this->data.push_back(datum);
+    this->filterList();
+}
+
+//void removeDatum(T_DATA datum); //TODO
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b))
+{
+    this->sortAls.push_back(sort_alg);
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::addAdditionalFilter(std::string boxName, bool(*matches)(T_DATA a))
+{
+    this->addBox(boxName);
+    this->additionalFilters.push_back(matches);
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::filter(QString query)
+{
+    this->flist.filter(query.toStdString());
+    this->tableModel->setData(this->flist.getFiltered());
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::addFilter()
+{
+    this->filterList();
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::filterList()
+{
+    std::vector<T_DATA> filtered;
+    for (int j = 0; j < this->data.size(); j++) {
+        for (int i = 0; i < this->additionalFilters.size(); i++) {
+            bool add = true;
+            if (this->isBoxSelected(i)) {
+                add = this->additionalFilters[i](this->data[j]);
+            }
+
+            if (add) {
+                filtered.push_back(this->data[j]);
+            }
+        }
+    }
+    this->flist.setBase(filtered);
+    this->tableModel->setData(this->flist.getFiltered());
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::sortList(int colIndex)
+{
+    if (colIndex < this->sortAls.size()) {
+        this->flist.sort(this->sortAls[colIndex]);
+        this->tableModel->setData(this->flist.getFiltered());
+    } else {
+        lprintf(LOG_WARNING, "Index %d has no sorting algorithm\n", colIndex);
+    }
+}
