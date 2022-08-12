@@ -4,33 +4,36 @@
 #include <string.h>
 #include <squire_core/squire_core.h>
 
-bool load_tournament(std::string file_name, Tournament *t)
+Tournament load_tournament(std::string file_name, bool *s)
 {
+    *s = false;
     squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name.c_str());
 
     if (is_null_id(tid._0)) {
         lprintf(LOG_ERROR, "Cannot load tournament %s - NULL UUID returned due to invalid file\n", file_name.c_str());
-        return false;
+        return Tournament();
     } else {
-        *t = LocalTournament(std::string(file_name), tid);
+        *s = true;
+        return LocalTournament(std::string(file_name), tid);
     }
 
-    return true;
+    return Tournament();
 }
 
-bool new_tournament(std::string file,
-                    std::string name,
-                    std::string format,
-                    squire_core::sc_TournamentPreset preset,
-                    bool use_table_number,
-                    int game_size,
-                    int min_deck_count,
-                    int max_deck_count,
-                    bool reg_open,
-                    bool require_check_in,
-                    bool require_deck_reg,
-                    Tournament *t)
+Tournament new_tournament(std::string file,
+                          std::string name,
+                          std::string format,
+                          squire_core::sc_TournamentPreset preset,
+                          bool use_table_number,
+                          int game_size,
+                          int min_deck_count,
+                          int max_deck_count,
+                          bool reg_open,
+                          bool require_check_in,
+                          bool require_deck_reg,
+                          bool *s)
 {
+    *s = false;
     squire_core::sc_TournamentId tid = squire_core::new_tournament_from_settings(file.c_str(),
                                        name.c_str(),
                                        format.c_str(),
@@ -44,12 +47,13 @@ bool new_tournament(std::string file,
                                        require_deck_reg);
 
     if (is_null_id(tid._0)) {
-        return false;
+        return Tournament();
     } else {
-        *t = LocalTournament(std::string(file), tid);
+        *s = true;
+        return LocalTournament(std::string(file), tid);
     }
 
-    return true;
+    return Tournament();
 }
 
 Tournament::Tournament()
@@ -103,7 +107,7 @@ std::string Tournament::name()
         return "";
     }
 
-    std::string ret = name;
+    std::string ret = std::string(name);
     squire_core::sq_free(name, ret.size() + 1);
     return ret;
 }

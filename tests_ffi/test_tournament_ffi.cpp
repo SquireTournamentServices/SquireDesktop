@@ -21,19 +21,23 @@ static int test_create_base()
     remove(TEST_FILE); // If the file exists delete it. might check for errors if I can be bothered later
 
     // Create tournament
-    Tournament t;
-    ASSERT(new_tournament(TEST_FILE,
-                          TEST_NAME,
-                          TEST_FORMAT,
-                          TEST_PRESET,
-                          TEST_BOOL,
-                          TEST_NUM_GAME_SIZE,
-                          TEST_NUM_MIN_DECKS,
-                          TEST_NUM_MAX_DECKS,
-                          TEST_BOOL,
-                          TEST_BOOL,
-                          TEST_BOOL,
-                          &t));
+    bool s;
+    Tournament t = new_tournament(TEST_FILE,
+                                  TEST_NAME,
+                                  TEST_FORMAT,
+                                  TEST_PRESET,
+                                  TEST_BOOL,
+                                  TEST_NUM_GAME_SIZE,
+                                  TEST_NUM_MIN_DECKS,
+                                  TEST_NUM_MAX_DECKS,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  &s);
+    ASSERT(s);
+    ASSERT(!is_null_id(t.id()._0));
+    print_id(t.id()._0);
+    puts("");
 
     // Close the tournament
     t.close();
@@ -44,8 +48,8 @@ static int test_create_base()
     fclose(f);
 
     // Test it can be loaded
-    Tournament t2;
-    ASSERT(load_tournament(TEST_FILE, &t2));
+    Tournament t2 = load_tournament(TEST_FILE, &s);
+    ASSERT(s);
     t2.close();
 
     return 1;
@@ -53,19 +57,20 @@ static int test_create_base()
 
 static int test_tournament_getters()
 {
-    Tournament t;
-    ASSERT(new_tournament(TEST_FILE ".2",
-                          TEST_NAME,
-                          TEST_FORMAT,
-                          TEST_PRESET,
-                          TEST_BOOL,
-                          TEST_NUM_GAME_SIZE,
-                          TEST_NUM_MIN_DECKS,
-                          TEST_NUM_MAX_DECKS,
-                          TEST_BOOL,
-                          TEST_BOOL,
-                          TEST_BOOL,
-                          &t));
+    bool s;
+    Tournament t = new_tournament(TEST_FILE ".2",
+                                  TEST_NAME,
+                                  TEST_FORMAT,
+                                  TEST_PRESET,
+                                  TEST_BOOL,
+                                  TEST_NUM_GAME_SIZE,
+                                  TEST_NUM_MIN_DECKS,
+                                  TEST_NUM_MAX_DECKS,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  &s);
+    ASSERT(s);
 
     ASSERT(t.name() == TEST_NAME);
     ASSERT(t.format() == TEST_FORMAT);
@@ -77,49 +82,95 @@ static int test_tournament_getters()
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(memcmp(player.tourn_id()._0, t.id()._0, sizeof(char[16])) == 0);
     }
+    t.close();
+
+    return 1;
+}
+
+static int test_tournament_getters_2()
+{
+    bool s;
+    Tournament t = new_tournament(TEST_FILE ".2",
+                                  TEST_NAME,
+                                  TEST_FORMAT,
+                                  TEST_PRESET,
+                                  TEST_BOOL,
+                                  TEST_NUM_GAME_SIZE,
+                                  TEST_NUM_MIN_DECKS,
+                                  TEST_NUM_MAX_DECKS,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  &s);
+    ASSERT(s);
+
+    // Close the tournament
+    t.close();
+
+    // Test it can be read
+    FILE *f = fopen(TEST_FILE, "r");
+    ASSERT(f != NULL);
+    fclose(f);
+
+    // Test it can be loaded
+    Tournament t2 = load_tournament(TEST_FILE, &s);
+    ASSERT(s);
+
+    ASSERT(t2.name() == TEST_NAME);
+    ASSERT(t2.format() == TEST_FORMAT);
+    ASSERT(t2.game_size() == TEST_NUM_GAME_SIZE);
+    ASSERT(t2.min_deck_count() == TEST_NUM_MIN_DECKS);
+    ASSERT(t2.max_deck_count() == TEST_NUM_MAX_DECKS);
+    std::vector<Player> players = t2.players();
+    for (Player player : players) {
+        ASSERT(!is_null_id(player.id()._0));
+        ASSERT(memcmp(player.tourn_id()._0, t2.id()._0, sizeof(char[16])) == 0);
+    }
+    t.close();
 
     return 1;
 }
 
 static int test_bad_tournament_create()
 {
-    Tournament t;
-    ASSERT(!new_tournament("",
-                           TEST_NAME,
-                           TEST_FORMAT,
-                           TEST_PRESET,
-                           TEST_BOOL,
-                           TEST_NUM_GAME_SIZE,
-                           TEST_NUM_MIN_DECKS,
-                           TEST_NUM_MAX_DECKS,
-                           TEST_BOOL,
-                           TEST_BOOL,
-                           TEST_BOOL,
-                           &t));
+    bool s;
+    Tournament t = new_tournament("",
+                                  TEST_NAME,
+                                  TEST_FORMAT,
+                                  TEST_PRESET,
+                                  TEST_BOOL,
+                                  TEST_NUM_GAME_SIZE,
+                                  TEST_NUM_MIN_DECKS,
+                                  TEST_NUM_MAX_DECKS,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  &s);
+    ASSERT(!s);
 
     return 1;
 }
 
 static int test_add_player()
 {
-    Tournament t;
-    ASSERT(new_tournament(TEST_FILE ".2",
-                          TEST_NAME,
-                          TEST_FORMAT,
-                          TEST_PRESET,
-                          TEST_BOOL,
-                          TEST_NUM_GAME_SIZE,
-                          TEST_NUM_MIN_DECKS,
-                          TEST_NUM_MAX_DECKS,
-                          TEST_BOOL,
-                          TEST_BOOL,
-                          TEST_BOOL,
-                          &t));
+    bool s;
+    Tournament t = new_tournament(TEST_FILE ".2",
+                                  TEST_NAME,
+                                  TEST_FORMAT,
+                                  TEST_PRESET,
+                                  TEST_BOOL,
+                                  TEST_NUM_GAME_SIZE,
+                                  TEST_NUM_MIN_DECKS,
+                                  TEST_NUM_MAX_DECKS,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  TEST_BOOL,
+                                  &s);
+    ASSERT(s);
 
     std::vector<Player> players = t.players();
     ASSERT(players.size() == 0);
 
-    bool s;
     squire_core::sc_PlayerId pid;
     Player p = t.addPlayer(TEST_NAME, &s);
     ASSERT(!is_null_id(pid._0));
@@ -151,6 +202,7 @@ static int test_add_player()
 SUB_TEST(test_tournament_ffi,
 {&test_create_base, "Test Create Tournament Base Case"},
 {&test_tournament_getters, "Test Tournament Getters"},
+{&test_tournament_getters_2, "Test Tournament Getters 2"},
 {&test_bad_tournament_create, "Test Bad Tournament Create"},
 {&test_add_player, "Test add player"}
         )

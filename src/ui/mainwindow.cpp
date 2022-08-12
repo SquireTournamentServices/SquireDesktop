@@ -276,9 +276,7 @@ void MainWindow::loadTournament()
         QString file = dlg.selectedFiles().at(0);
 
         lprintf(LOG_INFO, "Opening tournament %s\n", file.toStdString().c_str());
-        Tournament t;
-
-        good = load_tournament(file.toStdString(), &t);
+        Tournament t = load_tournament(file.toStdString(), &good);
         if (good) {
             TournamentTab *tourn_tab = new TournamentTab(t, this);
             ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
@@ -293,9 +291,8 @@ void MainWindow::loadTournament()
 
 void MainWindow::loadTournamentFromName(QString name)
 {
-    Tournament t;
-
-    bool good = load_tournament(name.toStdString(), &t);
+    bool good;
+    Tournament t = load_tournament(name.toStdString(), &good);
     if (good) {
         TournamentTab *tourn_tab = new TournamentTab(t, this);
         ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));

@@ -115,19 +115,19 @@ void CreateTournamentDialogue::onOkay()
 
     init_tourn_folder(this->config);
 
-    Tournament tourn;
-    bool valid = new_tournament(ui->saveLocation->text().toStdString(),
-                                ui->nameEdit->text().toStdString(),
-                                ui->formatEdit->text().toStdString(),
-                                preset,
-                                ui->useTableNumbers->isChecked(),
-                                ui->matchSize->value(),
-                                ui->minDeckCount->value(),
-                                ui->maxDeckCount->value(),
-                                ui->allowPlayerRegistration->isChecked(),
-                                ui->requirePlayerCheckins->isChecked(),
-                                ui->minDeckCount->value() == 0,
-                                &tourn);
+    bool valid;
+    Tournament tourn = new_tournament(ui->saveLocation->text().toStdString(),
+                                      ui->nameEdit->text().toStdString(),
+                                      ui->formatEdit->text().toStdString(),
+                                      preset,
+                                      ui->useTableNumbers->isChecked(),
+                                      ui->matchSize->value(),
+                                      ui->minDeckCount->value(),
+                                      ui->maxDeckCount->value(),
+                                      ui->allowPlayerRegistration->isChecked(),
+                                      ui->requirePlayerCheckins->isChecked(),
+                                      ui->minDeckCount->value() == 0,
+                                      &valid);
     if (valid) {
         lprintf(LOG_INFO, "Created tournament %s\n", ui->saveLocation->text().toStdString().c_str());
 
