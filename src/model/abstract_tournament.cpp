@@ -4,36 +4,32 @@
 #include <string.h>
 #include <squire_core/squire_core.h>
 
-Tournament load_tournament(std::string file_name, bool *s)
+Tournament *load_tournament(std::string file_name)
 {
-    *s = false;
     squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name.c_str());
 
     if (is_null_id(tid._0)) {
         lprintf(LOG_ERROR, "Cannot load tournament %s - NULL UUID returned due to invalid file\n", file_name.c_str());
-        return Tournament();
+        return nullptr;
     } else {
-        *s = true;
-        return LocalTournament(std::string(file_name), tid);
+        return new LocalTournament(std::string(file_name), tid);
     }
 
-    return Tournament();
+    return nullptr;
 }
 
-Tournament new_tournament(std::string file,
-                          std::string name,
-                          std::string format,
-                          squire_core::sc_TournamentPreset preset,
-                          bool use_table_number,
-                          int game_size,
-                          int min_deck_count,
-                          int max_deck_count,
-                          bool reg_open,
-                          bool require_check_in,
-                          bool require_deck_reg,
-                          bool *s)
+Tournament *new_tournament(std::string file,
+                           std::string name,
+                           std::string format,
+                           squire_core::sc_TournamentPreset preset,
+                           bool use_table_number,
+                           int game_size,
+                           int min_deck_count,
+                           int max_deck_count,
+                           bool reg_open,
+                           bool require_check_in,
+                           bool require_deck_reg)
 {
-    *s = false;
     squire_core::sc_TournamentId tid = squire_core::new_tournament_from_settings(file.c_str(),
                                        name.c_str(),
                                        format.c_str(),
@@ -47,19 +43,18 @@ Tournament new_tournament(std::string file,
                                        require_deck_reg);
 
     if (is_null_id(tid._0)) {
-        return Tournament();
+        return nullptr;
     } else {
-        *s = true;
-        return LocalTournament(std::string(file), tid);
+        return new LocalTournament(std::string(file), tid);
     }
 
-    return Tournament();
+    return nullptr;
 }
 
 Tournament::Tournament()
     : QObject()
 {
-
+    memset(&this->tid, 0, sizeof(this->tid));
 }
 
 Tournament::Tournament(const Tournament &t)

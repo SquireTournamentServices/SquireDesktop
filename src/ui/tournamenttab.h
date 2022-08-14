@@ -4,6 +4,7 @@
 #include "../model/player.h"
 #include "./widgets/searchsorttablewidget.h"
 #include "./abstractmodels/playermodel.h"
+#include <squire_core/squire_core.h>
 #include <QWidget>
 #include <QVBoxLayout>
 
@@ -15,11 +16,21 @@ class TournamentTab;
 class TournamentTab : public AbstractTabWidget
 {
 public:
-    explicit TournamentTab(Tournament tourn, QWidget *parent = nullptr);
+    explicit TournamentTab(Tournament *tourn, QWidget *parent = nullptr);
     ~TournamentTab();
 public slots:
     bool canExit();
 
+    // Tournamnet state change slots, see abstract_tournament.h
+    void onPlayerAdded(Player p);
+    void onPlayersChanged(std::vector<Player> players);
+    void onNameChanged(std::string str);
+    void onUseTableNumberChanged(bool utn);
+    void onFormatChanged(std::string str);
+    void onMinDeckCountChanged(int mdc);
+    void onMaxDeckCountChanged(int mdc);
+    void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
+    void onSaveLocationChanged(std::string str);
 protected:
     void changeEvent(QEvent *e);
 
@@ -28,6 +39,10 @@ private:
     QVBoxLayout *playerTableLayout;
     SearchSortTableWidget<AbstractPlayerModel, Player> *playerTable;
     Ui::TournamentTab *ui;
-    Tournament tourn;
+    Tournament *tourn;
+    std::string t_name;
+    std::string t_type;
+    std::string t_format;
+    void setStatus();
 };
 

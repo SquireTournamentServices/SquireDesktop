@@ -240,7 +240,7 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::addTab(QWidget *w, QString name)
 {
-    ui->tabWidget->addTab(w, name);
+    emit ui->tabWidget->addTab(w, name);
     emit ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 }
 
@@ -257,9 +257,9 @@ void MainWindow::newTournament()
     dlg->show();
 }
 
-QString MainWindow::getTournamentTabName(Tournament t)
+QString MainWindow::getTournamentTabName(Tournament *t)
 {
-    QString ret = QString::fromStdString(t.name()) + tr(" - Tournament");
+    QString ret = QString::fromStdString(t->name()) + tr(" - Tournament");
     return ret;
 }
 
@@ -276,7 +276,8 @@ void MainWindow::loadTournament()
         QString file = dlg.selectedFiles().at(0);
 
         lprintf(LOG_INFO, "Opening tournament %s\n", file.toStdString().c_str());
-        Tournament t = load_tournament(file.toStdString(), &good);
+        Tournament *t = load_tournament(file.toStdString());
+        good = t != nullptr;
         if (good) {
             TournamentTab *tourn_tab = new TournamentTab(t, this);
             ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
@@ -292,7 +293,8 @@ void MainWindow::loadTournament()
 void MainWindow::loadTournamentFromName(QString name)
 {
     bool good;
-    Tournament t = load_tournament(name.toStdString(), &good);
+    Tournament *t = load_tournament(name.toStdString());
+    good = t != nullptr;
     if (good) {
         TournamentTab *tourn_tab = new TournamentTab(t, this);
         ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
@@ -302,14 +304,14 @@ void MainWindow::loadTournamentFromName(QString name)
     }
 }
 
-void MainWindow::onTournamentAdded(Tournament t)
+void MainWindow::onTournamentAdded(Tournament *t)
 {
     FILE *f = fopen(CONFIG_FILE, "w");
 
     recent_tournament_t recent_t;
-    recent_t.file_path = clone_std_string(t.save_location());
-    recent_t.name = clone_std_string(t.name());
-    switch(t.pairing_type()) {
+    recent_t.file_path = clone_std_string(t->save_location());
+    recent_t.name = clone_std_string(t->name());
+    switch(t->pairing_type()) {
     case squire_core::sc_TournamentPreset::Fluid:
         recent_t.pairing_sys = clone_string(PAIRING_FLUID);
         break;

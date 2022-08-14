@@ -45,7 +45,7 @@ private:
     char *discord_thread_txt; // free if not-null on set.
 
     void addTab(QWidget *w, QString name);
-    QString getTournamentTabName(Tournament t);
+    QString getTournamentTabName(Tournament *t);
 private slots:
     void coinFlipUtility();
     void diceRollUtility();
@@ -59,5 +59,5 @@ private slots:
     void closeTab(int index);
     void setDiscordText(std::string txt);
 
-    void onTournamentAdded(Tournament t);
+    void onTournamentAdded(Tournament *t);
 };

@@ -39,7 +39,7 @@ class SearchSortTableWidget : public sstw_qobject
 public:
     explicit SearchSortTableWidget(std::vector<T_DATA> data, QWidget *parent = nullptr);
     ~SearchSortTableWidget();
-    void setData();
+    void setData(std::vector<T_DATA> data);
     void addDatum(T_DATA datum);
     //void removeDatum(T_DATA datum); //TODO
     void addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b));
@@ -110,7 +110,7 @@ SearchSortTableWidget<T_MDL, T_DATA>::~SearchSortTableWidget()
 }
 
 template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::setData()
+void SearchSortTableWidget<T_MDL, T_DATA>::setData(std::vector<T_DATA> data)
 {
     this->data = data;
     this->filterList();

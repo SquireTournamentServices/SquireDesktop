@@ -687,5 +687,15 @@
         <source>Tournament Status</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="111"/>
+        <source>Fluid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="114"/>
+        <source>Swiss</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

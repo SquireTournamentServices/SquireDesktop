@@ -63,17 +63,16 @@ public:
 };
 
 // Static util methods
-Tournament load_tournament(std::string file_name, bool *s);
-Tournament new_tournament(std::string file,
-                          std::string name,
-                          std::string format,
-                          squire_core::sc_TournamentPreset preset,
-                          bool use_table_number,
-                          int game_size,
-                          int min_deck_count,
-                          int max_deck_count,
-                          bool reg_open,
-                          bool require_check_in,
-                          bool require_deck_reg,
-                          bool *s);
+Tournament *load_tournament(std::string file_name);
+Tournament *new_tournament(std::string file,
+                           std::string name,
+                           std::string format,
+                           squire_core::sc_TournamentPreset preset,
+                           bool use_table_number,
+                           int game_size,
+                           int min_deck_count,
+                           int max_deck_count,
+                           bool reg_open,
+                           bool require_check_in,
+                           bool require_deck_reg);
 
