@@ -46,7 +46,7 @@ public:
     std::string save_location();
     Player addPlayer(std::string name, bool *status);
     std::vector<Player> players();
-    void close();
+    bool close();
     void emitAllProps(); // emits all props to force a UI change
     Tournament &operator=(const Tournament &t);
 protected:

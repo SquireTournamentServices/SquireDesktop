@@ -81,11 +81,11 @@ Tournament::~Tournament()
 
 }
 
-void Tournament::close()
+bool Tournament::close()
 {
     lprintf(LOG_INFO, "Closing tournament %s\n", this->name().c_str());
     emit this->onClose();
-    squire_core::close_tourn(this->tid);
+    return squire_core::close_tourn(this->tid);
 }
 
 std::string Tournament::save_location()

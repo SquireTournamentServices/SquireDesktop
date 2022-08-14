@@ -40,7 +40,7 @@ static int test_create_base()
     puts("");
 
     // Close the tournament
-    t.close();
+    ASSERT(t.close());
 
     // Test it can be read
     FILE *f = fopen(TEST_FILE, "r");
@@ -50,7 +50,7 @@ static int test_create_base()
     // Test it can be loaded
     Tournament t2 = load_tournament(TEST_FILE, &s);
     ASSERT(s);
-    t2.close();
+    ASSERT(t2.close());
 
     return 1;
 }
@@ -82,7 +82,7 @@ static int test_tournament_getters()
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(memcmp(player.tourn_id()._0, t.id()._0, sizeof(char[16])) == 0);
     }
-    t.close();
+    ASSERT(t.close());
 
     return 1;
 }
@@ -105,7 +105,7 @@ static int test_tournament_getters_2()
     ASSERT(s);
 
     // Close the tournament
-    t.close();
+    ASSERT(t.close());
 
     // Test it can be read
     FILE *f = fopen(TEST_FILE, "r");
@@ -126,7 +126,7 @@ static int test_tournament_getters_2()
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(memcmp(player.tourn_id()._0, t2.id()._0, sizeof(char[16])) == 0);
     }
-    t.close();
+    ASSERT(t2.close());
 
     return 1;
 }
@@ -195,7 +195,7 @@ static int test_add_player()
     players = t.players();
     ASSERT(players.size() == 1);
     ASSERT(!is_null_id(pid._0));
-    t.close();
+    ASSERT(t.close());
 
     return 1;
 }
