@@ -95,4 +95,16 @@ bool Player::matches(std::string query)
 
     return match;
 }
+  
+void *Player::getDefaultSort()
+{
+    return (void *) &playerNameSort;
+}
+
+int playerNameSort(const Player &a, const Player &b)
+{
+    Player pa(a);
+    Player pb(b);
+    return strcmp(pa.name().c_str(), pb.name().c_str());
+}
 

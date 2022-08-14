@@ -13,7 +13,7 @@ void sstw_qobject::finishSstwSetup(Ui::SearchSortTableWidget *ui)
     this->layout = new QVBoxLayout(ui->cont);
     this->layout->setAlignment(Qt::AlignTop);
 
-    connect(ui->searchbar, &QLineEdit::textChanged, this, &sstw_qobject::filter);
+    connect(ui->searchbar, &QLineEdit::textChanged, this, &sstw_qobject::onFilterChange);
 }
 
 sstw_qobject::~sstw_qobject()
@@ -54,7 +54,7 @@ void sstw_qobject::addBox(std::string boxName)
     connect(box, &QAbstractButton::pressed, this, &sstw_qobject::addFilter);
 }
 
-void sstw_qobject::filter(QString query)
+void sstw_qobject::onFilterChange(QString query)
 {}
 
 void sstw_qobject::addFilter()

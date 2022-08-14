@@ -12,16 +12,6 @@ AbstractPlayerModel::~AbstractPlayerModel()
 
 }
 
-size_t AbstractPlayerModel::cols()
-{
-    return COLS;
-}
-
-int AbstractPlayerModel::rowCount(const QModelIndex &parent) const
-{
-    return this->mdldata.size();
-}
-
 int AbstractPlayerModel::columnCount(const QModelIndex &parent) const
 {
     return COLS;
@@ -68,11 +58,5 @@ QVariant AbstractPlayerModel::data(const QModelIndex &index, int role) const
         return QVariant(QString::fromStdString(player.gameName()));
     }
     return QVariant();
-}
-
-Qt::ItemFlags AbstractPlayerModel::flags(const QModelIndex &index) const
-{
-    if(!index.isValid()) return Qt::ItemIsEnabled;
-    return QAbstractTableModel::flags(index) | Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 

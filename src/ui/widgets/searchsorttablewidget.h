@@ -17,7 +17,7 @@ public:
     ~sstw_qobject();
     void finishSstwSetup(Ui::SearchSortTableWidget *ui);
 public slots:
-    virtual void filter(QString query);
+    virtual void onFilterChange(QString query);
     virtual void addFilter();
 protected:
     void changeEvent(QEvent *e);
@@ -44,7 +44,7 @@ public:
     //void removeDatum(T_DATA datum); //TODO
     void addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b));
     void addAdditionalFilter(std::string boxName, bool(*matches)(T_DATA a));
-    void filter(QString query) override;
+    void onFilterChange(QString query) override;
     void addFilter() override;
 private:
     std::vector<bool (*)(T_DATA a)> additionalFilters;
@@ -96,7 +96,8 @@ SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> 
     ui->setupUi(this);
     this->finishSstwSetup(ui);
     this->data = data;
-    this->flist = FilteredList<T_DATA>(this->data, NULL);
+    this->flist = FilteredList<T_DATA>(this->data, (
+        int (*)(const T_DATA &, const T_DATA &)) T_DATA().getDefaultSort());
     this->tableModel = new T_MDL(this->flist.getFiltered());
 
     ui->table->setModel(this->tableModel);
@@ -139,7 +140,7 @@ void SearchSortTableWidget<T_MDL, T_DATA>::addAdditionalFilter(std::string boxNa
 }
 
 template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::filter(QString query)
+void SearchSortTableWidget<T_MDL, T_DATA>::onFilterChange(QString query)
 {
     this->flist.filter(query.toStdString());
     this->tableModel->setData(this->flist.getFiltered());
@@ -154,19 +155,21 @@ void SearchSortTableWidget<T_MDL, T_DATA>::addFilter()
 template <class T_MDL, class T_DATA>
 void SearchSortTableWidget<T_MDL, T_DATA>::filterList()
 {
+    // Only add an item when it matches all filters
     std::vector<T_DATA> filtered;
     for (int j = 0; j < this->data.size(); j++) {
+        bool add = true;
         for (int i = 0; i < this->additionalFilters.size(); i++) {
-            bool add = true;
             if (this->isBoxSelected(i)) {
-                add = this->additionalFilters[i](this->data[j]);
-            }
-
-            if (add) {
-                filtered.push_back(this->data[j]);
+                add &= this->additionalFilters[i](this->data[j]);
             }
         }
+
+        if (add) {
+            filtered.push_back(this->data[j]);
+        }
     }
+
     this->flist.setBase(filtered);
     this->tableModel->setData(this->flist.getFiltered());
 }

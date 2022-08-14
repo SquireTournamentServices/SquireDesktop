@@ -28,6 +28,8 @@ public:
     Tournament(const Tournament &t); // Copy constructor
     ~Tournament();
 
+    bool save();
+
     // Setters
     // TODO: setters
 

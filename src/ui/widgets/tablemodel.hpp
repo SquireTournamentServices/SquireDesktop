@@ -22,10 +22,6 @@ public:
         this->mdldata = data;
     }
     ~TableModel() {}
-    virtual size_t cols()
-    {
-        return -1;
-    }
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
         return this->mdldata.size();
@@ -33,12 +29,14 @@ public:
     // This needs overriding
     int columnCount(const QModelIndex &parent = QModelIndex()) const override
     {
-        return 0;
+        return 1;
     }
+    // This needs overriding
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override
     {
-        return QVariant();
+        return QVariant(tr("Error"));
     }
+    // This needs overriding
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
     {
         return QVariant();
@@ -56,7 +54,7 @@ public slots:
     void rerender()
     {
         QModelIndex topLeft = this->index(0, 0);
-        QModelIndex bottomRight = this->index(this->rowCount() - 1, this->cols() - 1);
+        QModelIndex bottomRight = this->index(this->rowCount() - 1, this->columnCount() - 1);
         emit this->dataChanged(topLeft, bottomRight);
     }
     void setData(std::vector<T> data)

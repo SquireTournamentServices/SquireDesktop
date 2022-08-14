@@ -86,7 +86,7 @@
         <widget class="QWidget" name="playerTable" native="true"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="addPlayer">
          <property name="text">
           <string>Add Player</string>
          </property>

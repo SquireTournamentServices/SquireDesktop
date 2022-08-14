@@ -171,6 +171,8 @@ Player Tournament::addPlayer(std::string name, bool *status)
     if (!is_null_id(pid._0)) {
         *status = true;
         Player p = Player(pid, this->tid);
+        lprintf(LOG_INFO, "Added player %s\n", p.name().c_str());
+        this->save();
         emit this->onPlayerAdded(p);
         return p;
     } else {
@@ -195,6 +197,17 @@ std::vector<Player> Tournament::players()
     squire_core::sq_free(player_ptr, players.size() + 1);
 
     return players;
+}
+
+bool Tournament::save()
+{
+    bool ret = squire_core::save_tourn(this->tid, this->saveLocation.c_str());
+    if (!ret) {
+        lprintf(LOG_ERROR, "Cannot save tournament as %s\n", this->saveLocation.c_str());
+    } else {
+        lprintf(LOG_INFO, "Saved %s as %s\n", this->name().c_str(), this->saveLocation.c_str());
+    }
+    return ret;
 }
 
 void Tournament::emitAllProps()

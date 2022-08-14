@@ -36,6 +36,7 @@ static int test_create_base()
     ASSERT(!is_null_id(t->id()._0));
     print_id(t->id()._0);
     puts("");
+    ASSERT(t->save());
 
     // Close the tournament
     ASSERT(t->close());
@@ -169,6 +170,7 @@ static int test_add_player()
     squire_core::sc_PlayerId pid;
     bool s;
     Player p = t->addPlayer(TEST_NAME, &s);
+    ASSERT(t->save());
     ASSERT(!is_null_id(pid._0));
     ASSERT(s);
 
@@ -191,6 +193,7 @@ static int test_add_player()
     players = t->players();
     ASSERT(players.size() == 1);
     ASSERT(!is_null_id(pid._0));
+    ASSERT(t->save());
     ASSERT(t->close());
     delete t;
 

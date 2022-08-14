@@ -16,7 +16,10 @@ public:
     squire_core::sc_PlayerId id();
     squire_core::sc_TournamentId tourn_id();
     bool matches(std::string query);
+    void *getDefaultSort();
 private:
     squire_core::sc_PlayerId pid;
     squire_core::sc_TournamentId tid;
 };
+
+int playerNameSort(const Player &a, const Player &b);

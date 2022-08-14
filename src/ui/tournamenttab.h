@@ -32,6 +32,10 @@ public slots:
     void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
     void onStatusChanged(squire_core::sc_TournamentStatus status);
+
+    // GUI slots
+    void addPlayerToTourn(std::string name);
+    void addPlayerClicked();
 protected:
     void changeEvent(QEvent *e);
 

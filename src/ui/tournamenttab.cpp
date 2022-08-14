@@ -1,6 +1,8 @@
 #include "./tournamenttab.h"
 #include "./ui_tournamenttab.h"
+#include "./tournament/addplayerdialogue.h"
 #include "../config.h"
+#include <QMessageBox>
 
 TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     AbstractTabWidget(parent),
@@ -13,7 +15,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->playerTableLayout = new QVBoxLayout(ui->playerTable);
     this->playerTableLayout->setAlignment(Qt::AlignTop);
 
-    std::vector<Player> players; // Emit all props will populate the table
+    std::vector<Player> players = this->tourn->players();
     this->playerTable = new SearchSortTableWidget<AbstractPlayerModel, Player>(players);
     this->playerTableLayout->addWidget(playerTable);
 
@@ -33,6 +35,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(this->tourn, &Tournament::onStatusChanged, this, &TournamentTab::onStatusChanged);
 
     this->tourn->emitAllProps();
+
+    // Connect GUI
+    connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
 }
 
 TournamentTab::~TournamentTab()
@@ -147,4 +152,26 @@ void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
         ui->statusIndicator->setText(tr("Cancelled"));
         break;
     }
+}
+
+void TournamentTab::addPlayerToTourn(std::string name)
+{
+    bool s;
+    this->tourn->addPlayer(name, &s);
+
+    if (!s) {
+        QMessageBox err;
+        err.setWindowTitle(tr("Cannot add player ") + QString::fromStdString(name));
+        err.setText(tr("Unable to add the player due to an internal error."));
+        err.exec();
+    }
+
+    // onAddPlayer is invoked by this->tourn
+}
+
+void TournamentTab::addPlayerClicked()
+{
+    AddPlayerDialogue dlg = AddPlayerDialogue(this);
+    connect(&dlg, &AddPlayerDialogue::onAddPlayer, this, &TournamentTab::addPlayerToTourn);
+    dlg.exec();
 }
