@@ -1,23 +1,23 @@
 #include "./playermodel.h"
 #define COLS 3
 
-AbstractPlayerModel::AbstractPlayerModel(std::vector<Player> players) :
+PlayerModel::PlayerModel(std::vector<Player> players) :
     TableModel<Player>(players)
 {
 
 }
 
-AbstractPlayerModel::~AbstractPlayerModel()
+PlayerModel::~PlayerModel()
 {
 
 }
 
-int AbstractPlayerModel::columnCount(const QModelIndex &parent) const
+int PlayerModel::columnCount(const QModelIndex &parent) const
 {
     return COLS;
 }
 
-QVariant AbstractPlayerModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant PlayerModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole) {
         return QVariant();
@@ -38,7 +38,7 @@ QVariant AbstractPlayerModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();
 }
 
-QVariant AbstractPlayerModel::data(const QModelIndex &index, int role) const
+QVariant PlayerModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || role != Qt::DisplayRole) {
         return QVariant();

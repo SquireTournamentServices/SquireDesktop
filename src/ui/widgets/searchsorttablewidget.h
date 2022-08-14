@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QCheckBox>
+#include <QItemSelectionModel>
 #include <vector>
 #include <string>
 #include "./tablemodel.hpp"
@@ -50,6 +51,7 @@ private:
     std::vector<bool (*)(T_DATA a)> additionalFilters;
     std::vector<int (*)(const T_DATA &a, const T_DATA &b)> sortAls;
     std::vector<T_DATA> data;
+    QItemSelectionModel *itemMdl;
     FilteredList<T_DATA> flist;
     TableModel<T_DATA> *tableModel; // type = T_MDL at init
     Ui::SearchSortTableWidget *ui;
@@ -97,8 +99,9 @@ SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> 
     this->finishSstwSetup(ui);
     this->data = data;
     this->flist = FilteredList<T_DATA>(this->data, (
-        int (*)(const T_DATA &, const T_DATA &)) T_DATA().getDefaultSort());
+                                           int (*)(const T_DATA &, const T_DATA &)) T_DATA().getDefaultSort());
     this->tableModel = new T_MDL(this->flist.getFiltered());
+    this->itemMdl = new QItemSelectionModel(this->tableModel);
 
     ui->table->setModel(this->tableModel);
 }
@@ -108,6 +111,7 @@ SearchSortTableWidget<T_MDL, T_DATA>::~SearchSortTableWidget()
 {
     delete ui;
     delete this->tableModel;
+    delete this->itemMdl;
 }
 
 template <class T_MDL, class T_DATA>

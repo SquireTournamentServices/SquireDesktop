@@ -42,7 +42,7 @@ protected:
 private:
     QVBoxLayout *roundTableLayout;
     QVBoxLayout *playerTableLayout;
-    SearchSortTableWidget<AbstractPlayerModel, Player> *playerTable;
+    SearchSortTableWidget<PlayerModel, Player> *playerTable;
     Ui::TournamentTab *ui;
     Tournament *tourn;
     std::string t_name;

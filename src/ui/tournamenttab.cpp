@@ -16,7 +16,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->playerTableLayout->setAlignment(Qt::AlignTop);
 
     std::vector<Player> players = this->tourn->players();
-    this->playerTable = new SearchSortTableWidget<AbstractPlayerModel, Player>(players);
+    this->playerTable = new SearchSortTableWidget<PlayerModel, Player>(players);
     this->playerTableLayout->addWidget(playerTable);
 
     this->roundTableLayout = new QVBoxLayout(ui->roundTable);

@@ -2,24 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_GB">
 <context>
-    <name>AbstractPlayerModel</name>
-    <message>
-        <location filename="src/ui/abstractmodels/playermodel.cpp" line="32"/>
-        <source>Status</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/abstractmodels/playermodel.cpp" line="34"/>
-        <source>Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/abstractmodels/playermodel.cpp" line="36"/>
-        <source>Game Name</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>AddPlayerDialogue</name>
     <message>
         <location filename="src/ui/tournament/addplayerdialogue.ui" line="14"/>
@@ -453,6 +435,24 @@
     </message>
 </context>
 <context>
+    <name>PlayerModel</name>
+    <message>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="32"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="34"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="36"/>
+        <source>Game Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RecentTournamentWidget</name>
     <message>
         <location filename="src/ui/widgets/recenttournamentwidget.ui" line="35"/>
@@ -628,14 +628,6 @@
     <message>
         <location filename="src/ui/menubar/file/settingtab.cpp" line="194"/>
         <source>Unsaved Settings Changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>T</name>
-    <message>
-        <location filename="src/ui/widgets/tablemodel.hpp" line="37"/>
-        <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

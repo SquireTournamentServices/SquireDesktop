@@ -95,7 +95,7 @@ bool Player::matches(std::string query)
 
     return match;
 }
-  
+
 void *Player::getDefaultSort()
 {
     return (void *) &playerNameSort;
