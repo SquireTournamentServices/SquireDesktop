@@ -62,6 +62,16 @@ std::string Player::statusAsStr()
         return "Dropped";
     }
 }
+    
+int Player::statusAsInt()
+{
+    switch(this->status()) {
+    case squire_core::sc_PlayerStatus::Registered:
+        return 0;
+    case squire_core::sc_PlayerStatus::Dropped:
+        return 1;
+    }
+}
 
 squire_core::sc_PlayerId Player::id()
 {
@@ -96,9 +106,20 @@ bool Player::matches(std::string query)
     return match;
 }
 
-void *Player::getDefaultSort()
+std::vecotr<int (*)(const Player &, const Player &)> player::getDefaultAlgs();
 {
-    return (void *) &playerNameSort;
+    std::vecotr<int (*)(const Player &, const Player &)> ret;
+    ret.push_back(&playerStatusSort);
+    ret.push_back(&playerNameSort);
+    ret.push_back(&playerGameNameSort);
+    return ret;
+}
+
+int playerStatusSort(const Player &a, const Player &b)
+{
+    Player pa(a);
+    Player pb(b);
+    return pa.statusAsInt() - pb.statusAsInt();
 }
 
 int playerNameSort(const Player &a, const Player &b)
@@ -106,5 +127,12 @@ int playerNameSort(const Player &a, const Player &b)
     Player pa(a);
     Player pb(b);
     return strcmp(pa.name().c_str(), pb.name().c_str());
+}
+
+int playerGameNameSort(const Player &a, const Player &b)
+{
+    Player pa(a);
+    Player pb(b);
+    return strcmp(pa.name().c_str(), pb.gameName().c_str());
 }
 
