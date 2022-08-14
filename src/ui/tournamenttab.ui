@@ -104,6 +104,9 @@
     <layout class="QHBoxLayout" name="statusBar" stretch="0,0,0,0,0">
      <item>
       <widget class="QCheckBox" name="startedIndicator">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Not Started</string>
        </property>

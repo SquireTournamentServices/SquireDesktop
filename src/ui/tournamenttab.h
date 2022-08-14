@@ -31,6 +31,7 @@ public slots:
     void onMaxDeckCountChanged(int mdc);
     void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
+    void onStatusChanged(squire_core::sc_TournamentStatus status);
 protected:
     void changeEvent(QEvent *e);
 

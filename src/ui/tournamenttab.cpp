@@ -30,6 +30,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(this->tourn, &Tournament::onMaxDeckCountChanged, this, &TournamentTab::onMaxDeckCountChanged);
     connect(this->tourn, &Tournament::onPairingTypeChanged, this, &TournamentTab::onPairingTypeChanged);
     connect(this->tourn, &Tournament::onSaveLocationChanged, this, &TournamentTab::onSaveLocationChanged);
+    connect(this->tourn, &Tournament::onStatusChanged, this, &TournamentTab::onStatusChanged);
 
     this->tourn->emitAllProps();
 }
@@ -122,3 +123,28 @@ void TournamentTab::onSaveLocationChanged(std::string str)
 
 }
 
+void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
+{
+    if (status == squire_core::sc_TournamentStatus::Started) {
+        ui->startedIndicator->setChecked(true);
+    } else {
+        ui->startedIndicator->setChecked(false);
+    }
+    switch(status) {
+    case squire_core::sc_TournamentStatus::Planned:
+        ui->statusIndicator->setText(tr("Planned"));
+        break;
+    case squire_core::sc_TournamentStatus::Started:
+        ui->statusIndicator->setText(tr("Started"));
+        break;
+    case squire_core::sc_TournamentStatus::Frozen:
+        ui->statusIndicator->setText(tr("Frozen"));
+        break;
+    case squire_core::sc_TournamentStatus::Ended:
+        ui->statusIndicator->setText(tr("Ended"));
+        break;
+    case squire_core::sc_TournamentStatus::Cancelled:
+        ui->statusIndicator->setText(tr("Cancelled"));
+        break;
+    }
+}

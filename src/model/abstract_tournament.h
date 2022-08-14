@@ -18,6 +18,7 @@ signals:
     void onMaxDeckCountChanged(int mdc);
     void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
+    void onStatusChanged(squire_core::sc_TournamentStatus status);
     void onClose();
 public:
     /**
@@ -48,7 +49,6 @@ public:
     std::vector<Player> players();
     bool close();
     void emitAllProps(); // emits all props to force a UI change
-    Tournament &operator=(const Tournament &t);
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;

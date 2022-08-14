@@ -207,9 +207,6 @@ void Tournament::emitAllProps()
     emit onMaxDeckCountChanged(this->max_deck_count());
     emit onPairingTypeChanged(this->pairing_type());
     emit onSaveLocationChanged(this->save_location());
+    emit onStatusChanged(this->status());
 }
 
-Tournament &Tournament::operator=(const Tournament &t)
-{
-    return *this;
-}

@@ -3,20 +3,17 @@
 #include <string.h>
 
 Player::Player()
-    : QObject()
 {
 
 }
 
 Player::Player(squire_core::sc_PlayerId pid, squire_core::sc_TournamentId tid)
-    : QObject()
 {
     this->pid = pid;
     this->tid = tid;
 }
 
 Player::Player(const Player &p)
-    : QObject()
 {
     this->pid = p.pid;
     this->tid = p.tid;
@@ -99,7 +96,3 @@ bool Player::matches(std::string query)
     return match;
 }
 
-Player &Player::operator=(const Player &p)
-{
-    return *this;
-}
