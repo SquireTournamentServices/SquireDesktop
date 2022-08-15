@@ -16,10 +16,11 @@ class sstw_qobject : public QWidget
 public:
     explicit sstw_qobject(Ui::SearchSortTableWidget *ui, QWidget *parent = nullptr);
     ~sstw_qobject();
-    void finishSstwSetup(Ui::SearchSortTableWidget *ui);
+    void finishSstwSetup(Ui::SearchSortTableWidget *ui, tm_qobject *sortObject);
 public slots:
     virtual void onFilterChange(QString query);
     virtual void addFilter();
+    virtual void sortChanged(int column, bool ascending);
 protected:
     void changeEvent(QEvent *e);
     bool isBoxSelected(int i);
@@ -47,9 +48,10 @@ public:
     void addAdditionalFilter(std::string boxName, bool(*matches)(T_DATA a));
     void onFilterChange(QString query) override;
     void addFilter() override;
+    void sortChanged(int column, bool ascending) override;
 private:
     std::vector<bool (*)(T_DATA a)> additionalFilters;
-    std::vector<int (*)(const T_DATA &a, const T_DATA &b)> sortAls;
+    std::vector<int (*)(const T_DATA &a, const T_DATA &b)> sortAlgs;
     std::vector<T_DATA> data;
     QItemSelectionModel *itemMdl;
     FilteredList<T_DATA> flist;
@@ -57,38 +59,8 @@ private:
     Ui::SearchSortTableWidget *ui;
 
     void filterList();
-    void sortList(int colIndex);
 };
-
-/*
-   // Sample class for T_MDL
-#pragma once
-#include <QAbstractTableModel>
-#include <QVariant>
-#include "../model/inventoryitem.h"
-#include "filteredlist.h"
-
-// name, amount
-#define INV_ITEM_TABLE_COLUMNS 2
-
-class InventoryItemTable : public QAbstractTableModel
-{
-    Q_OBJECT
-public:
-    explicit InventoryItemTable(std::list<InventoryItem> items, QObject *parent = nullptr);
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
-    InventoryItem getItem(int i) const;
-    void setItems(std::list<InventoryItem> items);
-    void filter(std::string filter);
-private:
-    void updateTable();
-    FilteredList<InventoryItem> items;
-};
-  */
+// See ../abstractmodels/playermodel.* for an example of how to implement this
 
 template <class T_MDL, class T_DATA>
 SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> data, QWidget *parent) :
@@ -96,13 +68,13 @@ SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> 
     sstw_qobject(ui, parent)
 {
     ui->setupUi(this);
-    this->finishSstwSetup(ui);
     this->data = data;
-    this->flist = FilteredList<T_DATA>(this->data, (
-                                           int (*)(const T_DATA &, const T_DATA &)) T_DATA().getDefaultSort());
+    this->sortAlgs = T_DATA().getDefaultAlgs();
+    this->flist = FilteredList<T_DATA>(this->data, this->sortAlgs.size() == 0 ? NULL : this->sortAlgs[0]);
     this->tableModel = new T_MDL(this->flist.getFiltered());
     this->itemMdl = new QItemSelectionModel(this->tableModel);
 
+    this->finishSstwSetup(ui, this->tableModel->getSortObject());
     ui->table->setModel(this->tableModel);
 }
 
@@ -179,12 +151,13 @@ void SearchSortTableWidget<T_MDL, T_DATA>::filterList()
 }
 
 template <class T_MDL, class T_DATA>
-void SearchSortTableWidget<T_MDL, T_DATA>::sortList(int colIndex)
+void SearchSortTableWidget<T_MDL, T_DATA>::sortChanged(int column, bool ascending)
 {
-    if (colIndex < this->sortAls.size()) {
-        this->flist.sort(this->sortAls[colIndex]);
+    this->flist.setAscending(ascending);
+    if (column < this->sortAlgs.size()) {
+        this->flist.sort(this->sortAlgs[column]);
         this->tableModel->setData(this->flist.getFiltered());
     } else {
-        lprintf(LOG_WARNING, "Index %d has no sorting algorithm\n", colIndex);
+        lprintf(LOG_WARNING, "Index %d has no sorting algorithm\n", column);
     }
 }

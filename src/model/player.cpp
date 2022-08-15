@@ -62,7 +62,7 @@ std::string Player::statusAsStr()
         return "Dropped";
     }
 }
-    
+
 int Player::statusAsInt()
 {
     switch(this->status()) {
@@ -106,9 +106,9 @@ bool Player::matches(std::string query)
     return match;
 }
 
-std::vecotr<int (*)(const Player &, const Player &)> player::getDefaultAlgs();
+std::vector<int (*)(const Player &, const Player &)> Player::getDefaultAlgs()
 {
-    std::vecotr<int (*)(const Player &, const Player &)> ret;
+    std::vector<int (*)(const Player &, const Player &)> ret;
     ret.push_back(&playerStatusSort);
     ret.push_back(&playerNameSort);
     ret.push_back(&playerGameNameSort);

@@ -23,18 +23,18 @@ public:
     size_t osize() const;
     size_t size() const;
     T at(size_t i) const;
+    void setAscending(bool asc);
 private:
     std::vector<T> original;
     std::vector<T> filtered;
     std::string lastSearch;
+    bool ascending;
     int (*current_sort)(const T &a, const T &b); // Comparison function
     void insertToVect(std::vector<T> &t, T element);
     void removeFromVect(T element);
     int getIndex(T element);
     int __no_err_binary_search(std::vector<T> &vec, T &item, int s1, int s2);
     int no_err_binary_search(std::vector<T> &vec, T &item);
-    int __binary_search(std::vector<T> &vec, T &item, int s1, int s2);
-    int binary_search(std::vector<T> &vec, T &item);
 };
 
 template <class T>
@@ -46,6 +46,7 @@ FilteredList<T>::FilteredList()
 template <class T>
 FilteredList<T>::FilteredList(std::vector<T> base, int (*current_sort)(const T &a, const T &b))
 {
+    this->ascending = true;
     this->original = base;
     this->current_sort = current_sort;
     std::stable_sort(this->original.begin(), this->original.end(), this->current_sort);
@@ -146,6 +147,13 @@ size_t FilteredList<T>::size() const
 template <class T>
 std::vector<T> FilteredList<T>::getFiltered() const
 {
+    if (!this->ascending) {
+        std::vector<T> ret = std::vector<T>();
+        for (long i = this->filtered.size() - 1; i >= 0; i--) {
+            ret.push_back(this->filtered[i]);
+        }
+        return ret;
+    }
     return this->filtered;
 }
 
@@ -153,33 +161,6 @@ template <class T>
 T FilteredList<T>::at(size_t i) const
 {
     return this->filtered[i];
-}
-
-template <class T>
-int FilteredList<T>::__binary_search(std::vector<T> &vec, T &item, int s1, int s2)
-{
-    if (s1 > s2) {
-        return -1;
-    }
-
-    int middle = (s1 + s2) / 2;
-
-    int r = this->current_sort(item, vec.at(middle));
-    if (r == 0) {
-        return middle;
-    }
-
-    if (r > 0) {
-        return __binary_search(vec, item, middle + 1, s2);
-    } else {
-        return __binary_search(vec, item, s1, middle - 1);
-    }
-}
-
-template <class T>
-int FilteredList<T>::binary_search(std::vector<T> &vec, T &item)
-{
-    return __binary_search(vec, item, 0, vec.size() - 1);
 }
 
 template <class T>
@@ -198,8 +179,7 @@ void FilteredList<T>::removeFromVect(T element)
 }
 
 template <class T>
-int FilteredList<T>::getIndex(T element)
+void FilteredList<T>::setAscending(bool asc)
 {
-    return binary_search(this->original, element);
+    this->ascending = asc;
 }
-

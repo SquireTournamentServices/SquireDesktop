@@ -18,7 +18,7 @@ public:
     squire_core::sc_PlayerId id();
     squire_core::sc_TournamentId tourn_id();
     bool matches(std::string query);
-    std::vecotr<int (*)(const Player &, const Player &)> getDefaultAlgs();
+    std::vector<int (*)(const Player &, const Player &)> getDefaultAlgs();
 private:
     squire_core::sc_PlayerId pid;
     squire_core::sc_TournamentId tid;

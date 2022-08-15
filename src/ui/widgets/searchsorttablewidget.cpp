@@ -7,13 +7,14 @@ sstw_qobject::sstw_qobject(Ui::SearchSortTableWidget *ui, QWidget *parent) :
     this->addFilterBoxes = std::vector<QCheckBox *>();
 }
 
-void sstw_qobject::finishSstwSetup(Ui::SearchSortTableWidget *ui)
+void sstw_qobject::finishSstwSetup(Ui::SearchSortTableWidget *ui, tm_qobject *sortObject)
 {
     this->ui = ui;
     this->layout = new QVBoxLayout(ui->cont);
     this->layout->setAlignment(Qt::AlignTop);
 
     connect(ui->searchbar, &QLineEdit::textChanged, this, &sstw_qobject::onFilterChange);
+    connect(sortObject, &tm_qobject::sortChanged, this, &sstw_qobject::sortChanged);
 }
 
 sstw_qobject::~sstw_qobject()
@@ -55,7 +56,17 @@ void sstw_qobject::addBox(std::string boxName)
 }
 
 void sstw_qobject::onFilterChange(QString query)
-{}
+{
+
+}
 
 void sstw_qobject::addFilter()
-{}
+{
+
+}
+
+void sstw_qobject::sortChanged(int column, bool ascending)
+{
+
+}
+
