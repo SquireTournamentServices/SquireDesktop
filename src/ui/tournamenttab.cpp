@@ -17,6 +17,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     std::vector<Player> players = this->tourn->players();
     this->playerTable = new SearchSortTableWidget<PlayerModel, Player>(players);
+
+    QString showActivePlayers = tr("Only Show Active Players");
+    this->playerTable->addAdditionalFilter(showActivePlayers.toStdString(), &playerIsActive);
     this->playerTableLayout->addWidget(playerTable);
 
     this->roundTableLayout = new QVBoxLayout(ui->roundTable);

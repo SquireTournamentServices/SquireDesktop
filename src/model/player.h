@@ -27,3 +27,5 @@ private:
 int playerStatusSort(const Player &a, const Player &b);
 int playerNameSort(const Player &a, const Player &b);
 int playerGameNameSort(const Player &a, const Player &b);
+bool playerIsActive(Player p);
+

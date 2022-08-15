@@ -136,3 +136,8 @@ int playerGameNameSort(const Player &a, const Player &b)
     return strcmp(pa.name().c_str(), pb.gameName().c_str());
 }
 
+bool playerIsActive(Player p)
+{
+    return p.status() != squire_core::sc_PlayerStatus::Dropped;
+}
+
