@@ -25,6 +25,8 @@ public slots:
     // Tournamnet state change slots, see abstract_tournament.h
     void onPlayerAdded(Player p);
     void onPlayersChanged(std::vector<Player> players);
+    void onRoundAdded(Round r);
+    void onRoundsChanged(std::vector<Round> rounds);
     void onNameChanged(std::string str);
     void onUseTableNumberChanged(bool utn);
     void onFormatChanged(std::string str);

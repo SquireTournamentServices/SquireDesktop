@@ -1,5 +1,6 @@
 #pragma once
 #include "./player.h"
+#include "./round.h"
 #include <squire_core/squire_core.h>
 #include <string>
 #include <vector>
@@ -11,6 +12,8 @@ class Tournament : public QObject
 signals:
     void onPlayerAdded(Player p);
     void onPlayersChanged(std::vector<Player> players);
+    void onRoundAdded(Round r);
+    void onRoundsChanged(std::vector<Round> rounds);
     void onNameChanged(std::string str);
     void onUseTableNumberChanged(bool utn);
     void onFormatChanged(std::string str);
@@ -49,6 +52,7 @@ public:
     std::string save_location();
     Player addPlayer(std::string name, bool *status);
     std::vector<Player> players();
+    std::vector<Round> rounds();
     bool close();
     void emitAllProps(); // emits all props to force a UI change
 protected:

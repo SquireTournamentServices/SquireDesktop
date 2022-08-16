@@ -164,8 +164,13 @@ set(MAIN_FILES
     ./src/config.h)
 
 set(FFI_FILES
-    ./src/ffi_utils.cpp ./src/ffi_utils.h ./src/model/player.cpp
-    ./src/model/player.h ./src/model/abstract_tournament.cpp
+    ./src/ffi_utils.cpp
+    ./src/ffi_utils.h
+    ./src/model/player.cpp
+    ./src/model/player.h
+    ./src/model/round.cpp
+    ./src/model/round.h
+    ./src/model/abstract_tournament.cpp
     ./src/model/abstract_tournament.h)
 
 set(PROJECT_SOURCES

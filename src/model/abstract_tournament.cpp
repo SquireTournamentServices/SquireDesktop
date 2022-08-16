@@ -199,6 +199,22 @@ std::vector<Player> Tournament::players()
     return players;
 }
 
+std::vector<Round> Tournament::rounds()
+{
+    std::vector<Round> rounds;
+    squire_core::sc_RoundId *round_ptr = (squire_core::sc_RoundId *) squire_core::tid_rounds(this->tid);
+    if (round_ptr == NULL) {
+        return rounds;
+    }
+
+    for (int i = 0; !is_null_id(round_ptr[i]._0); i++) {
+        rounds.push_back(Round(round_ptr[i], this->tid));
+    }
+    squire_core::sq_free(round_ptr, rounds.size() + 1);
+
+    return rounds;
+}
+
 bool Tournament::save()
 {
     bool ret = squire_core::save_tourn(this->tid, this->saveLocation.c_str());
