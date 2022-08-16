@@ -240,8 +240,8 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::addTab(QWidget *w, QString name)
 {
-    emit ui->tabWidget->addTab(w, name);
-    emit ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+    ui->tabWidget->addTab(w, name);
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 }
 
 void MainWindow::settings()
@@ -280,7 +280,7 @@ void MainWindow::loadTournament()
         good = t != nullptr;
         if (good) {
             TournamentTab *tourn_tab = new TournamentTab(t, this);
-            ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
+            this->addTab(tourn_tab, getTournamentTabName(t));
         }
     }
 
@@ -297,7 +297,7 @@ void MainWindow::loadTournamentFromName(QString name)
     good = t != nullptr;
     if (good) {
         TournamentTab *tourn_tab = new TournamentTab(t, this);
-        ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
+        this->addTab(tourn_tab, getTournamentTabName(t));
     } else {
         lprintf(LOG_ERROR, "Cannot load tournament.\n");
         QApplication::beep();
@@ -334,6 +334,6 @@ void MainWindow::onTournamentAdded(Tournament *t)
     this->dashboard->onTournamentAdded(recent_t);
 
     TournamentTab *tourn_tab = new TournamentTab(t, this);
-    ui->tabWidget->addTab(tourn_tab, getTournamentTabName(t));
+    this->addTab(tourn_tab, getTournamentTabName(t));
 }
 

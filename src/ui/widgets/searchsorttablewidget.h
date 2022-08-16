@@ -82,8 +82,8 @@ template <class T_MDL, class T_DATA>
 SearchSortTableWidget<T_MDL, T_DATA>::~SearchSortTableWidget()
 {
     delete ui;
-    delete this->tableModel;
     delete this->itemMdl;
+    delete this->tableModel;
 }
 
 template <class T_MDL, class T_DATA>
@@ -153,6 +153,7 @@ void SearchSortTableWidget<T_MDL, T_DATA>::filterList()
 template <class T_MDL, class T_DATA>
 void SearchSortTableWidget<T_MDL, T_DATA>::sortChanged(int column, bool ascending)
 {
+    column--;
     this->flist.setAscending(ascending);
     if (column < this->sortAlgs.size()) {
         this->flist.sort(this->sortAlgs[column]);
