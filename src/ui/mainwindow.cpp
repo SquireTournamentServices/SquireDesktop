@@ -35,34 +35,12 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
 
     // Application dashboard
     this->dashboard = new AppDashboardTab(*t, ui->tabWidget);
-    ui->tabWidget->addTab(this->dashboard, tr("Dashboard"));
+    this->addTab(this->dashboard, tr("Dashboard"));
     ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
     connect(this->dashboard, &AppDashboardTab::loadTournament, this, &MainWindow::loadTournamentFromName);
 
-    // Init menu bar
-    QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
-    QAction *newTournamentAction = fileMenu->addAction(tr("New Tournament"));
-    connect(newTournamentAction, &QAction::triggered, this, &MainWindow::newTournament);
-    connect(dashboard->ui->newTournament, &QPushButton::clicked, this, &MainWindow::newTournament);
-
-    QAction *loadTournamentAction = fileMenu->addAction(tr("Open Tournament"));
-    connect(loadTournamentAction, &QAction::triggered, this, &MainWindow::loadTournament);
-    connect(dashboard->ui->openTournament, &QPushButton::clicked, this, &MainWindow::loadTournament);
-
-    QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
-    connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);
-
-    QAction *exitAction = fileMenu->addAction(tr("&Exit"));
-    connect(exitAction, &QAction::triggered, this, &MainWindow::close);
-
-    // Rnd menu
-    QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
-    QAction *coinsAction = rndMenu->addAction(tr("&Flip Coins"));
-    connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
-
-    QAction *diceAction = rndMenu->addAction(tr("&Roll Dice"));
-    connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
+    this->addDefaultmenu();
 
     // Set tab closeinator
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
@@ -102,6 +80,34 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     }
 
     lprintf(LOG_INFO, "Application started fully.\n");
+}
+
+void MainWindow::addDefaultmenu()
+{
+    ui->menubar->clear();
+    QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
+    QAction *newTournamentAction = fileMenu->addAction(tr("New Tournament"));
+    connect(newTournamentAction, &QAction::triggered, this, &MainWindow::newTournament);
+    connect(dashboard->ui->newTournament, &QPushButton::clicked, this, &MainWindow::newTournament);
+
+    QAction *loadTournamentAction = fileMenu->addAction(tr("Open Tournament"));
+    connect(loadTournamentAction, &QAction::triggered, this, &MainWindow::loadTournament);
+    connect(dashboard->ui->openTournament, &QPushButton::clicked, this, &MainWindow::loadTournament);
+
+    QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
+    connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);
+
+    QAction *exitAction = fileMenu->addAction(tr("&Exit"));
+    connect(exitAction, &QAction::triggered, this, &MainWindow::close);
+
+    // Rnd menu
+    QMenu *rndMenu = ui->menubar->addMenu(tr("RNG"));
+    QAction *coinsAction = rndMenu->addAction(tr("&Flip Coins"));
+    connect(coinsAction, &QAction::triggered, this, &MainWindow::coinFlipUtility);
+
+    QAction *diceAction = rndMenu->addAction(tr("&Roll Dice"));
+    connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
+
 }
 
 void MainWindow::setDiscordText(std::string txt)
@@ -216,6 +222,19 @@ void MainWindow::diceRollUtility()
 
 void MainWindow::tabChanged(int index)
 {
+    if (index == -1) {
+        return;
+    }
+
+    this->addDefaultmenu();
+
+    QWidget *widget = ui->tabWidget->widget(index);
+    AbstractTabWidget *w = dynamic_cast<AbstractTabWidget *>(widget);
+
+    for (QMenu *menu : w->getMenus()) {
+        ui->menubar->addMenu(menu);
+    }
+
     this->setDiscordText((QString::fromStdString(PROJECT_NAME " - ") + ui->tabWidget->tabText(index)).toStdString());
 }
 
@@ -238,10 +257,16 @@ void MainWindow::closeTab(int index)
     }
 }
 
-void MainWindow::addTab(QWidget *w, QString name)
+void MainWindow::addTab(AbstractTabWidget *w, QString name)
 {
     ui->tabWidget->addTab(w, name);
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+    connect(w, &AbstractTabWidget::close, [this, w]() {
+        for (int i = 0; i < ui->tabWidget->count(); i++) {
+            QWidget *wid = ui->tabWidget->widget(i);
+            emit this->closeTab(i);
+        }
+    });
 }
 
 void MainWindow::settings()

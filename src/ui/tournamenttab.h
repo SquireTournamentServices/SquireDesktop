@@ -20,6 +20,7 @@ public:
     ~TournamentTab();
 public slots:
     bool canExit();
+    void closeTab();
 
     // Tournamnet state change slots, see abstract_tournament.h
     void onPlayerAdded(Player p);

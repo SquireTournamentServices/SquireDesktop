@@ -336,100 +336,100 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="44"/>
+        <location filename="src/ui/mainwindow.cpp" line="88"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="56"/>
+        <location filename="src/ui/mainwindow.cpp" line="100"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="53"/>
+        <location filename="src/ui/mainwindow.cpp" line="97"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="45"/>
+        <location filename="src/ui/mainwindow.cpp" line="89"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="49"/>
+        <location filename="src/ui/mainwindow.cpp" line="93"/>
         <source>Open Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="60"/>
+        <location filename="src/ui/mainwindow.cpp" line="104"/>
         <source>RNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="61"/>
+        <location filename="src/ui/mainwindow.cpp" line="105"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="64"/>
+        <location filename="src/ui/mainwindow.cpp" line="108"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="73"/>
-        <location filename="src/ui/mainwindow.cpp" line="80"/>
+        <location filename="src/ui/mainwindow.cpp" line="51"/>
+        <location filename="src/ui/mainwindow.cpp" line="58"/>
         <source>Squire Desktop Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="74"/>
-        <location filename="src/ui/mainwindow.cpp" line="81"/>
+        <location filename="src/ui/mainwindow.cpp" line="52"/>
+        <location filename="src/ui/mainwindow.cpp" line="59"/>
         <source>Squire Core Version: </source>
         <oldsource>Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="83"/>
+        <location filename="src/ui/mainwindow.cpp" line="61"/>
         <source> Copyright Monarch (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="250"/>
+        <location filename="src/ui/mainwindow.cpp" line="275"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="262"/>
+        <location filename="src/ui/mainwindow.cpp" line="287"/>
         <source> - Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="269"/>
+        <location filename="src/ui/mainwindow.cpp" line="294"/>
         <source>Open A Squire Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="272"/>
+        <location filename="src/ui/mainwindow.cpp" line="297"/>
         <source>All Squire Tournament files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/mainwindow.cpp" line="38"/>
-        <location filename="src/ui/mainwindow.cpp" line="97"/>
+        <location filename="src/ui/mainwindow.cpp" line="75"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="76"/>
+        <location filename="src/ui/mainwindow.cpp" line="54"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="77"/>
+        <location filename="src/ui/mainwindow.cpp" line="55"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>
@@ -693,47 +693,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="120"/>
+        <location filename="src/ui/tournamenttab.cpp" line="46"/>
+        <source>Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="47"/>
+        <source>Add player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="50"/>
+        <source>Close Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="133"/>
         <source>Fluid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="123"/>
+        <location filename="src/ui/tournamenttab.cpp" line="136"/>
         <source>Swiss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="143"/>
+        <location filename="src/ui/tournamenttab.cpp" line="156"/>
         <source>Planned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="146"/>
+        <location filename="src/ui/tournamenttab.cpp" line="159"/>
         <source>Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="149"/>
+        <location filename="src/ui/tournamenttab.cpp" line="162"/>
         <source>Frozen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="152"/>
+        <location filename="src/ui/tournamenttab.cpp" line="165"/>
         <source>Ended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="155"/>
+        <location filename="src/ui/tournamenttab.cpp" line="168"/>
         <source>Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="167"/>
+        <location filename="src/ui/tournamenttab.cpp" line="180"/>
         <source>Cannot add player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="168"/>
+        <location filename="src/ui/tournamenttab.cpp" line="181"/>
         <source>Unable to add the player due to an internal error.</source>
         <translation type="unfinished"></translation>
     </message>

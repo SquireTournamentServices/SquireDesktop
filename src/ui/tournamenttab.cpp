@@ -41,6 +41,14 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     // Connect GUI
     connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
+
+    // Add menu
+    QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
+    QAction *addPlayerAction = tournamentsMenu->addAction(tr("Add player"));
+    connect(addPlayerAction, &QAction::triggered, this, &TournamentTab::addPlayerClicked);
+
+    QAction *closeTournamentAction = tournamentsMenu->addAction(tr("Close Tournament"));
+    connect(closeTournamentAction, &QAction::triggered, this, &TournamentTab::closeTab);
 }
 
 TournamentTab::~TournamentTab()
@@ -62,6 +70,11 @@ void TournamentTab::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void TournamentTab::closeTab()
+{
+    emit this->close();
 }
 
 void TournamentTab::setStatus()

@@ -44,7 +44,8 @@ private:
     std::thread discord_thread;
     char *discord_thread_txt; // free if not-null on set.
 
-    void addTab(QWidget *w, QString name);
+    void addDefaultmenu();
+    void addTab(AbstractTabWidget *w, QString name);
     QString getTournamentTabName(Tournament *t);
 private slots:
     void coinFlipUtility();
