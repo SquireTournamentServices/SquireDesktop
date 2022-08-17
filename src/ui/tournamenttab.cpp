@@ -25,9 +25,18 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->roundTableLayout = new QVBoxLayout(ui->roundTable);
     this->roundTableLayout->setAlignment(Qt::AlignTop);
 
+    std::vector<Round> rounds = this->tourn->rounds();
+    this->roundTable = new SearchSortTableWidget<RoundModel, Round>(rounds);
+
+    QString showLiveRounds = tr("Only Show Rounds in Progress");
+    this->roundTable->addAdditionalFilter(showLiveRounds.toStdString(), &roundIsActive);
+    this->roundTableLayout->addWidget(this->roundTable);
+
     // Connect all slots
     connect(this->tourn, &Tournament::onPlayerAdded, this, &TournamentTab::onPlayerAdded);
     connect(this->tourn, &Tournament::onPlayersChanged, this, &TournamentTab::onPlayersChanged);
+    connect(this->tourn, &Tournament::onRoundAdded, this, &TournamentTab::onRoundAdded);
+    connect(this->tourn, &Tournament::onRoundsChanged, this, &TournamentTab::onRoundsChanged);
     connect(this->tourn, &Tournament::onNameChanged, this, &TournamentTab::onNameChanged);
     connect(this->tourn, &Tournament::onUseTableNumberChanged, this, &TournamentTab::onUseTableNumberChanged);
     connect(this->tourn, &Tournament::onFormatChanged, this, &TournamentTab::onFormatChanged);
@@ -49,6 +58,10 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     QAction *closeTournamentAction = tournamentsMenu->addAction(tr("Close Tournament"));
     connect(closeTournamentAction, &QAction::triggered, this, &TournamentTab::closeTab);
+
+    // Start timer
+    connect(&this->timeLeftUpdater, &QTimer::timeout, this, &TournamentTab::updateRoundTimer);
+    emit this->updateRoundTimer();
 }
 
 TournamentTab::~TournamentTab()
@@ -56,6 +69,7 @@ TournamentTab::~TournamentTab()
     delete ui;
     delete playerTable;
     delete playerTableLayout;
+    delete roundTable;
     delete roundTableLayout;
     delete tourn;
 }
@@ -97,6 +111,18 @@ void TournamentTab::onPlayerAdded(Player p)
 void TournamentTab::onPlayersChanged(std::vector<Player> players)
 {
     this->playerTable->setData(this->tourn->players());
+}
+
+void TournamentTab::onRoundAdded(Round r)
+{
+    this->roundTable->addDatum(r);
+    updateRoundTimer();
+}
+
+void TournamentTab::onRoundsChanged(std::vector<Round> rounds)
+{
+    this->roundTable->setData(rounds);
+    updateRoundTimer();
 }
 
 void TournamentTab::onNameChanged(std::string str)
@@ -190,4 +216,58 @@ void TournamentTab::addPlayerClicked()
     AddPlayerDialogue dlg = AddPlayerDialogue(this);
     connect(&dlg, &AddPlayerDialogue::onAddPlayer, this, &TournamentTab::addPlayerToTourn);
     dlg.exec();
+}
+
+void TournamentTab::updateRoundTimer()
+{
+    long max = 0;
+    long min = -1;
+    std::vector<Round> rounds;
+    this->roundTable->setData(rounds);
+
+    for (Round r : rounds) {
+        long tl = r.timeLeft();
+        if (tl < min || min == -1) {
+            min = tl;
+        }
+
+        long d = r.duration();
+        if (d > max) {
+            max = d;
+        }
+    }
+    if (min == -1) {
+        min = 0;
+    }
+
+    int seconds = min % 60;
+    int minutes = ((min / 60) % 60);
+    int hours = min / (60 * 60);
+
+    QString str = "";
+    if (hours < 10) {
+        str += "0";
+    }
+    str += QString::number(hours);
+    str += ":";
+
+    if (minutes < 10) {
+        str += "0";
+    }
+    str += QString::number(minutes);
+    str += ":";
+
+    if (seconds < 10) {
+        str += "0";
+    }
+    str += QString::number(seconds);
+    str += " " + tr("Left in Round");
+
+    ui->roundTimerLabel->setText(str);
+    if (max == 0) {
+        ui->progressBar->setValue(0);
+    } else {
+        ui->progressBar->setValue((100 * min) / max);
+    }
+    this->timeLeftUpdater.start(100);
 }

@@ -223,6 +223,8 @@ set(PROJECT_SOURCES
     ./src/ui/widgets/tablemodel.hpp
     ./src/ui/abstractmodels/playermodel.cpp
     ./src/ui/abstractmodels/playermodel.h
+    ./src/ui/abstractmodels/roundmodel.cpp
+    ./src/ui/abstractmodels/roundmodel.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES

@@ -4,9 +4,11 @@
 #include "../model/player.h"
 #include "./widgets/searchsorttablewidget.h"
 #include "./abstractmodels/playermodel.h"
+#include "./abstractmodels/roundmodel.h"
 #include <squire_core/squire_core.h>
 #include <QWidget>
 #include <QVBoxLayout>
+#include <QTimer>
 
 namespace Ui
 {
@@ -21,6 +23,7 @@ public:
 public slots:
     bool canExit();
     void closeTab();
+    void updateRoundTimer();
 
     // Tournamnet state change slots, see abstract_tournament.h
     void onPlayerAdded(Player p);
@@ -46,11 +49,13 @@ private:
     QVBoxLayout *roundTableLayout;
     QVBoxLayout *playerTableLayout;
     SearchSortTableWidget<PlayerModel, Player> *playerTable;
+    SearchSortTableWidget<RoundModel, Round> *roundTable;
     Ui::TournamentTab *ui;
     Tournament *tourn;
     std::string t_name;
     std::string t_type;
     std::string t_format;
+    QTimer timeLeftUpdater;
     void setStatus();
 };
 

@@ -101,7 +101,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="statusBar" stretch="0,0,0,0,0">
+    <layout class="QHBoxLayout" name="statusBar" stretch="0,0,0,0,0,0">
      <item>
       <widget class="QCheckBox" name="startedIndicator">
        <property name="enabled">
@@ -134,12 +134,19 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="roundTimerLabel">
+       <property name="text">
+        <string>Time Left in Round</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QProgressBar" name="progressBar">
        <property name="value">
         <number>24</number>
        </property>
        <property name="format">
-        <string notr="true">00:00:00 Left</string>
+        <string notr="true"/>
        </property>
       </widget>
      </item>

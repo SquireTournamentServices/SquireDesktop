@@ -11,11 +11,16 @@ public:
     ~Round();
     squire_core::sc_RoundId id();
     squire_core::sc_TournamentId tourn_id();
-    int timeLeft();
+    squire_core::sc_RoundStatus status();
+    long timeLeft();
+    long duration();
+    int matchNumber();
     bool matches(std::string query);
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
 private:
     squire_core::sc_TournamentId tid;
     squire_core::sc_RoundId rid;
 };
+
+bool roundIsActive(Round r);
 

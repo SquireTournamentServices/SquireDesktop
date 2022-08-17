@@ -37,17 +37,38 @@ squire_core::sc_TournamentId Round::tourn_id()
     return ret;
 }
 
-int Round::timeLeft()
+squire_core::sc_RoundStatus Round::status()
 {
+    return squire_core::rid_status(this->rid, this->tid);
+}
 
+long Round::timeLeft()
+{
+    return squire_core::rid_time_left(this->rid, this->tid);
+}
+
+long Round::duration()
+{
+    return squire_core::rid_duration(this->rid, this->tid);
+}
+
+int Round::matchNumber()
+{
+    return squire_core::rid_match_number(this->rid, this->tid);
 }
 
 bool Round::matches(std::string query)
 {
-
+    // TODO
 }
 
-std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs()
+std::vector<int (*)(const Round &, const Round &)> Round::getDefaultAlgs()
 {
+    // TODO
+}
 
+bool roundIsActive(Round r)
+{
+    squire_core::sc_RoundStatus s = r.status();
+    return s == squire_core::sc_RoundStatus::Open || s == squire_core::sc_RoundStatus::Uncertified;
 }
