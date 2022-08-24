@@ -181,8 +181,9 @@
     <message>
         <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="177"/>
         <location filename="build/SquireDesktop_autogen/include/ui_createtournamentdialogue.h" line="293"/>
-        <source>Require player checkins</source>
-        <translation></translation>
+        <source>Require Player Checkins</source>
+        <oldsource>Require player checkins</oldsource>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/createtournamentdialogue.ui" line="184"/>
@@ -511,13 +512,13 @@
     <name>SearchSortTableWidget</name>
     <message>
         <location filename="src/ui/widgets/searchsorttablewidget.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_searchsorttablewidget.h" line="72"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_searchsorttablewidget.h" line="73"/>
         <source>Form</source>
         <translation type="unfinished">Form</translation>
     </message>
     <message>
         <location filename="src/ui/widgets/searchsorttablewidget.ui" line="32"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_searchsorttablewidget.h" line="73"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_searchsorttablewidget.h" line="74"/>
         <source>Search...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -652,9 +653,81 @@
 <context>
     <name>TournamentChangeSettingsDialogue</name>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="16"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="44"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="207"/>
         <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="20"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="208"/>
+        <source>Tournament Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="34"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="209"/>
+        <source>Tournament Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="58"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="210"/>
+        <source>Match Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="68"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="211"/>
+        <source>Allow Player Registration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="75"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="212"/>
+        <source>Require Player Checkins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="127"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="213"/>
+        <source>0 (No Maximum)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="134"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="214"/>
+        <source>Minimum Deck Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="141"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="215"/>
+        <source>Maximum Deck Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="148"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="216"/>
+        <source>Points Loss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="155"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="217"/>
+        <source>Points Draw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="162"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="218"/>
+        <source>Points Bye</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="169"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="219"/>
+        <source>Points Win</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
