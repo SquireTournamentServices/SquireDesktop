@@ -284,5 +284,7 @@ void TournamentTab::updateRoundTimer()
 void TournamentTab::pairRoundsClicked()
 {
     this->tourn->pairRounds();
+
+    // onAddRound is invoked by tourn
 }
 
