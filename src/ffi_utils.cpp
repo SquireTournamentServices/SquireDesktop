@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "../testing_h/logger.h"
 
-bool is_null_id(unsigned char id[16])
+bool is_null_id(const unsigned char id[16])
 {
     unsigned char null_id[16];
     memset(null_id, 0, sizeof(null_id));
@@ -19,7 +19,7 @@ static inline char to_hex(char c)
     }
 }
 
-void print_id(unsigned char id[16])
+void print_id(const unsigned char id[16])
 {
     for (int i = 0; i < sizeof(id); i++) {
         char c0 = (id[i] >> 4) & 0xF;

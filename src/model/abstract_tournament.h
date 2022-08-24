@@ -31,10 +31,11 @@ public:
     Tournament(const Tournament &t); // Copy constructor
     ~Tournament();
 
+    Player addPlayer(std::string name, bool *status);
+    std::vector<Round> pairRounds();
     bool save();
-
-    // Setters
-    // TODO: setters
+    bool close();
+    void emitAllProps(); // emits all props to force a UI change
 
     // Getters
     squire_core::sc_TournamentId id();
@@ -50,11 +51,8 @@ public:
     bool require_deck_reg();
     squire_core::sc_TournamentStatus status();
     std::string save_location();
-    Player addPlayer(std::string name, bool *status);
     std::vector<Player> players();
     std::vector<Round> rounds();
-    bool close();
-    void emitAllProps(); // emits all props to force a UI change
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;

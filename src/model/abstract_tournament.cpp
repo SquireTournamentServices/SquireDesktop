@@ -226,9 +226,23 @@ bool Tournament::save()
     return ret;
 }
 
+std::vector<Round> Tournament::pairRounds()
+{
+    std::vector<Round> ret = std::vector<Round>();
+    const squire_core::sc_RoundId *rids = squire_core::tid_pair_round(this->tid);
+    for (int i = 0; !is_null_id(rids[i]._0); i++) {
+        Round rnd = Round(rids[i], this->tid);
+        ret.push_back(rnd);
+        emit onRoundAdded(rnd);
+    }
+
+    return ret;
+}
+
 void Tournament::emitAllProps()
 {
     emit onPlayersChanged(this->players());
+    emit onRoundsChanged(this->rounds());
     emit onNameChanged(this->name());
     emit onUseTableNumberChanged(this->use_table_number());
     emit onFormatChanged(this->format());
