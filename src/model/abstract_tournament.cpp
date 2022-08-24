@@ -229,12 +229,19 @@ bool Tournament::save()
 std::vector<Round> Tournament::pairRounds()
 {
     std::vector<Round> ret = std::vector<Round>();
-    const squire_core::sc_RoundId *rids = squire_core::tid_pair_round(this->tid);
+    squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::tid_pair_round(this->tid);
+    if (rids == NULL) {
+        lprintf(LOG_ERROR, "Cannot pair rounds\n");
+        return ret;
+    }
+
     for (int i = 0; !is_null_id(rids[i]._0); i++) {
         Round rnd = Round(rids[i], this->tid);
         ret.push_back(rnd);
         emit onRoundAdded(rnd);
     }
+    squire_core::sq_free(rids, ret.size() + 1);
+    this->save();
 
     return ret;
 }

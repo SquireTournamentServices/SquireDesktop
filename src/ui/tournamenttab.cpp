@@ -49,12 +49,16 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->tourn->emitAllProps();
 
     // Connect GUI
+    connect(ui->pairRound, &QPushButton::clicked, this, &TournamentTab::pairRoundsClicked);
     connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
     QAction *addPlayerAction = tournamentsMenu->addAction(tr("Add player"));
     connect(addPlayerAction, &QAction::triggered, this, &TournamentTab::addPlayerClicked);
+
+    QAction *pairRoundsAction = tournamentsMenu->addAction(tr("Pair Round"));
+    connect(pairRoundsAction, &QAction::triggered, this, &TournamentTab::pairRoundsClicked);
 
     QAction *closeTournamentAction = tournamentsMenu->addAction(tr("Close Tournament"));
     connect(closeTournamentAction, &QAction::triggered, this, &TournamentTab::closeTab);
@@ -271,3 +275,9 @@ void TournamentTab::updateRoundTimer()
     }
     this->timeLeftUpdater.start(100);
 }
+
+void TournamentTab::pairRoundsClicked()
+{
+    this->tourn->pairRounds();
+}
+

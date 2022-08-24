@@ -42,6 +42,7 @@ public slots:
     // GUI slots
     void addPlayerToTourn(std::string name);
     void addPlayerClicked();
+    void pairRoundsClicked();
 protected:
     void changeEvent(QEvent *e);
 
