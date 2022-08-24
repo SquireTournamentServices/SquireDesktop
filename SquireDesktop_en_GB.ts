@@ -748,42 +748,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="186"/>
+        <location filename="src/ui/tournamenttab.cpp" line="188"/>
         <source>Planned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="189"/>
+        <location filename="src/ui/tournamenttab.cpp" line="191"/>
         <source>Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="192"/>
+        <location filename="src/ui/tournamenttab.cpp" line="195"/>
         <source>Frozen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="195"/>
+        <location filename="src/ui/tournamenttab.cpp" line="198"/>
         <source>Ended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="198"/>
+        <location filename="src/ui/tournamenttab.cpp" line="201"/>
         <source>Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="210"/>
+        <location filename="src/ui/tournamenttab.cpp" line="215"/>
         <source>Cannot add player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="211"/>
+        <location filename="src/ui/tournamenttab.cpp" line="216"/>
         <source>Unable to add the player due to an internal error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="268"/>
+        <location filename="src/ui/tournamenttab.cpp" line="273"/>
         <source>Left in Round</source>
         <translation type="unfinished"></translation>
     </message>

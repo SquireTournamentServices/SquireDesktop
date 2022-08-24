@@ -181,12 +181,15 @@ void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
     } else {
         ui->startedIndicator->setChecked(false);
     }
+
+    bool canPairRounds = false;
     switch(status) {
     case squire_core::sc_TournamentStatus::Planned:
         ui->statusIndicator->setText(tr("Planned"));
         break;
     case squire_core::sc_TournamentStatus::Started:
         ui->statusIndicator->setText(tr("Started"));
+        canPairRounds = true;
         break;
     case squire_core::sc_TournamentStatus::Frozen:
         ui->statusIndicator->setText(tr("Frozen"));
@@ -198,6 +201,8 @@ void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
         ui->statusIndicator->setText(tr("Cancelled"));
         break;
     }
+
+    ui->pairRound->setDisabled(!canPairRounds);
 }
 
 void TournamentTab::addPlayerToTourn(std::string name)
