@@ -100,3 +100,4 @@ tm_qobject *TableModel<T>::getSortObject()
 {
     return this->sortIntermediate;
 }
+

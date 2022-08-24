@@ -1,6 +1,7 @@
 #include "./tournamenttab.h"
 #include "./ui_tournamenttab.h"
 #include "./tournament/addplayerdialogue.h"
+#include "./tournament/tournamentchangesettingsdialogue.h"
 #include "../config.h"
 #include <QMessageBox>
 
@@ -51,6 +52,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     // Connect GUI
     connect(ui->pairRound, &QPushButton::clicked, this, &TournamentTab::pairRoundsClicked);
     connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
+    connect(ui->tournamentSettings, &QPushButton::clicked, this, &TournamentTab::changeSettingsClicked);
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
@@ -59,6 +61,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     QAction *pairRoundsAction = tournamentsMenu->addAction(tr("Pair Round"));
     connect(pairRoundsAction, &QAction::triggered, this, &TournamentTab::pairRoundsClicked);
+
+    QAction *changeSettingsAction = tournamentsMenu->addAction(tr("Change Settings"));
+    connect(changeSettingsAction, &QAction::triggered, this, &TournamentTab::changeSettingsClicked);
 
     QAction *closeTournamentAction = tournamentsMenu->addAction(tr("Close Tournament"));
     connect(closeTournamentAction, &QAction::triggered, this, &TournamentTab::closeTab);
@@ -286,5 +291,11 @@ void TournamentTab::pairRoundsClicked()
     this->tourn->pairRounds();
 
     // onAddRound is invoked by tourn
+}
+
+void TournamentTab::changeSettingsClicked()
+{
+    TournamentChangeSettingsDialogue dlg = TournamentChangeSettingsDialogue(this->tourn, this);
+    dlg.exec();
 }
 

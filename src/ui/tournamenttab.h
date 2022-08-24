@@ -43,6 +43,7 @@ public slots:
     void addPlayerToTourn(std::string name);
     void addPlayerClicked();
     void pairRoundsClicked();
+    void changeSettingsClicked();
 protected:
     void changeEvent(QEvent *e);
 
