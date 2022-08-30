@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>431</height>
+    <width>328</width>
+    <height>469</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,68 +15,149 @@
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="tStatus">
      <property name="text">
-      <string>Tournament Name</string>
+      <string>Tournament Status</string>
+     </property>
+     <property name="buddy">
+      <cstring>statusEdit</cstring>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="nameEdit">
-     <property name="clearButtonEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Tournament Status</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
     <widget class="QComboBox" name="statusEdit"/>
    </item>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="1" column="1">
     <widget class="Line" name="line_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_3">
+   <item row="2" column="0">
+    <widget class="QLabel" name="mSize">
      <property name="text">
       <string>Match Size</string>
+     </property>
+     <property name="buddy">
+      <cstring>matchSize</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="matchSize"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="minDeckCount_2">
+     <property name="text">
+      <string>Minimum Deck Count</string>
+     </property>
+     <property name="buddy">
+      <cstring>minDeckCount</cstring>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QSpinBox" name="matchSize"/>
+    <widget class="QSpinBox" name="minDeckCount"/>
    </item>
-   <item row="6" column="1">
+   <item row="4" column="0">
+    <widget class="QLabel" name="maxDeckCount_2">
+     <property name="text">
+      <string>Maximum Deck Count</string>
+     </property>
+     <property name="buddy">
+      <cstring>maxDeckCount</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QSpinBox" name="maxDeckCount">
+     <property name="specialValueText">
+      <string>0 (No Maximum)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
     <widget class="QCheckBox" name="allowRegistrationEdit">
      <property name="text">
       <string>Allow Player Registration</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="6" column="1">
     <widget class="QCheckBox" name="requireCheckinsEdit">
      <property name="text">
       <string>Require Player Checkins</string>
      </property>
     </widget>
    </item>
+   <item row="10" column="1">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="pointsLoss">
+     <property name="text">
+      <string>Points Loss</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsLossEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QSpinBox" name="pointsLossEdit"/>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="pointsDraw">
+     <property name="text">
+      <string>Points Draw</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsDrawEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QSpinBox" name="pointsDrawEdit"/>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="pointsBye">
+     <property name="text">
+      <string>Points Bye</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsByeEdit</cstring>
+     </property>
+    </widget>
+   </item>
    <item row="13" column="1">
+    <widget class="QSpinBox" name="pointsByeEdit"/>
+   </item>
+   <item row="14" column="0">
+    <widget class="QLabel" name="pointsWin">
+     <property name="text">
+      <string>Points Win</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsWinEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
+    <widget class="QSpinBox" name="pointsWinEdit"/>
+   </item>
+   <item row="15" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -89,7 +170,7 @@
      </property>
     </spacer>
    </item>
-   <item row="14" column="0" colspan="2">
+   <item row="16" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -99,74 +180,30 @@
      </property>
     </widget>
    </item>
+   <item row="9" column="1">
+    <widget class="QSpinBox" name="startingTableNumberEdit"/>
+   </item>
    <item row="8" column="1">
-    <widget class="Line" name="line_3">
+    <widget class="QCheckBox" name="useTableNumbersEdit">
+     <property name="text">
+      <string>Use Table Numbers</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="Line" name="line_4">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
-    <widget class="QSpinBox" name="pointsLossEdit"/>
-   </item>
-   <item row="10" column="1">
-    <widget class="QSpinBox" name="pointsDrawEdit"/>
-   </item>
-   <item row="11" column="1">
-    <widget class="QSpinBox" name="pointsByeEdit"/>
-   </item>
-   <item row="12" column="1">
-    <widget class="QSpinBox" name="pointsWinEdit"/>
-   </item>
-   <item row="4" column="1">
-    <widget class="QSpinBox" name="minDeckCount"/>
-   </item>
-   <item row="5" column="1">
-    <widget class="QSpinBox" name="maxDeckCount">
-     <property name="specialValueText">
-      <string>0 (No Maximum)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Minimum Deck Count</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Maximum Deck Count</string>
-     </property>
-    </widget>
-   </item>
    <item row="9" column="0">
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="startingTableNumber">
      <property name="text">
-      <string>Points Loss</string>
+      <string>Starting Table Number</string>
      </property>
-    </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Points Draw</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="label_8">
-     <property name="text">
-      <string>Points Bye</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0">
-    <widget class="QLabel" name="label_9">
-     <property name="text">
-      <string>Points Win</string>
+     <property name="buddy">
+      <cstring>startingTableNumberEdit</cstring>
      </property>
     </widget>
    </item>

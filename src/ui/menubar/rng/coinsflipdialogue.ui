@@ -31,6 +31,9 @@
      <property name="wordWrap">
       <bool>true</bool>
      </property>
+     <property name="buddy">
+      <cstring>spinBox</cstring>
+     </property>
     </widget>
    </item>
    <item row="0" column="1">

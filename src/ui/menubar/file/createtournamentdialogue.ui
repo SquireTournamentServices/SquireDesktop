@@ -20,13 +20,6 @@
    <bool>false</bool>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Name</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1">
     <widget class="QLineEdit" name="nameEdit">
      <property name="clearButtonEnabled">
@@ -39,6 +32,9 @@
      <property name="text">
       <string>Format</string>
      </property>
+     <property name="buddy">
+      <cstring>formatEdit</cstring>
+     </property>
     </widget>
    </item>
    <item row="1" column="1">
@@ -47,6 +43,34 @@
       <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>Save As</string>
+     </property>
+     <property name="buddy">
+      <cstring>saveLocation</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="saveLocation"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveLocationButton">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="document-open">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="4" column="1">
     <widget class="QCheckBox" name="useTableNumbers">
@@ -72,10 +96,27 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="1">
+    <widget class="QRadioButton" name="swissRadio">
+     <property name="text">
+      <string>Swiss</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QRadioButton" name="fluidRoundRadio">
+     <property name="text">
+      <string>Fluid Round</string>
+     </property>
+    </widget>
+   </item>
    <item row="8" column="0">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Match Size</string>
+     </property>
+     <property name="buddy">
+      <cstring>matchSize</cstring>
      </property>
     </widget>
    </item>
@@ -91,6 +132,9 @@
      <property name="text">
       <string>Minimum Deck Count</string>
      </property>
+     <property name="buddy">
+      <cstring>minDeckCount</cstring>
+     </property>
     </widget>
    </item>
    <item row="9" column="1">
@@ -101,12 +145,32 @@
      <property name="text">
       <string>Maximum Deck Count</string>
      </property>
+     <property name="buddy">
+      <cstring>maxDeckCount</cstring>
+     </property>
     </widget>
    </item>
    <item row="10" column="1">
     <widget class="QSpinBox" name="maxDeckCount">
      <property name="specialValueText">
       <string>0 (No maximum)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QCheckBox" name="allowPlayerRegistration">
+     <property name="text">
+      <string>Allow Player Registration</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QCheckBox" name="requirePlayerCheckins">
+     <property name="text">
+      <string>Require Player Checkins</string>
      </property>
     </widget>
    </item>
@@ -117,10 +181,30 @@
      </property>
     </widget>
    </item>
+   <item row="15" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Points Loss</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsLoss</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="1">
+    <widget class="QSpinBox" name="pointsLoss">
+     <property name="minimum">
+      <number>-99</number>
+     </property>
+    </widget>
+   </item>
    <item row="16" column="0">
     <widget class="QLabel" name="label_8">
      <property name="text">
       <string>Points Draw</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsDraw</cstring>
      </property>
     </widget>
    </item>
@@ -135,6 +219,46 @@
     <widget class="QLabel" name="label_9">
      <property name="text">
       <string>Points Bye</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsBye</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="1">
+    <widget class="QSpinBox" name="pointsBye">
+     <property name="minimum">
+      <number>-99</number>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Points Win</string>
+     </property>
+     <property name="buddy">
+      <cstring>pointsWin</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="1">
+    <widget class="QSpinBox" name="pointsWin"/>
+   </item>
+   <item row="21" column="1">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="22" column="1">
+    <widget class="QCheckBox" name="hostOnline">
+     <property name="text">
+      <string>Host online (Coming Soon)</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -161,109 +285,15 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
-    <widget class="QCheckBox" name="allowPlayerRegistration">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Allow Player Registration</string>
+      <string>Name</string>
      </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="1">
-    <widget class="QCheckBox" name="requirePlayerCheckins">
-     <property name="text">
-      <string>Require Player Checkins</string>
+     <property name="buddy">
+      <cstring>nameEdit</cstring>
      </property>
     </widget>
-   </item>
-   <item row="22" column="1">
-    <widget class="QCheckBox" name="hostOnline">
-     <property name="text">
-      <string>Host online (Coming Soon)</string>
-     </property>
-     <property name="checkable">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLineEdit" name="saveLocation"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveLocationButton">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset theme="document-open">
-         <normaloff>.</normaloff>.</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_11">
-     <property name="text">
-      <string>Save As</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QRadioButton" name="swissRadio">
-     <property name="text">
-      <string>Swiss</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QRadioButton" name="fluidRoundRadio">
-     <property name="text">
-      <string>Fluid Round</string>
-     </property>
-    </widget>
-   </item>
-   <item row="17" column="1">
-    <widget class="QSpinBox" name="pointsBye">
-     <property name="minimum">
-      <number>-99</number>
-     </property>
-    </widget>
-   </item>
-   <item row="21" column="1">
-    <widget class="Line" name="line_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="1">
-    <widget class="QSpinBox" name="pointsLoss">
-     <property name="minimum">
-      <number>-99</number>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Points Loss</string>
-     </property>
-    </widget>
-   </item>
-   <item row="18" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Points Win</string>
-     </property>
-    </widget>
-   </item>
-   <item row="18" column="1">
-    <widget class="QSpinBox" name="pointsWin"/>
    </item>
   </layout>
  </widget>
