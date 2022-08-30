@@ -15,3 +15,8 @@ build/
 build-SquireDesktop-Desktop-Debug/
 build-SquireDesktop-Desktop-Release/
 *.orig
+
+cmake-build-debug/
+cmake-build-release/
+cmake-build-test/
+.idea/
