@@ -391,10 +391,10 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
 
   append_coverage_compiler_flags()
   setup_target_for_coverage_gcovr_xml(
-    NAME coverage EXECUTABLE SquireDesktopTests EXCLUDE ${GCOVR_EXCLUDE})
+    NAME coverage EXECUTABLE SquireDesktopTests EXCLUDE ${GCOVR_EXCLUDE} "src/model/*")
 
   setup_target_for_coverage_gcovr_xml(
-    NAME coverage-ffi EXECUTABLE SquireDesktopFFITests EXCLUDE ${GCOVR_EXCLUDE})
+    NAME coverage-ffi EXECUTABLE SquireDesktopFFITests EXCLUDE ${GCOVR_EXCLUDE} "src/*" INCLUDE "src/model/*")
 
   # tests, set the flags manually
   set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_DEBUG})
