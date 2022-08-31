@@ -1,5 +1,6 @@
 #include "tournamentchangesettingsdialogue.h"
 #include "ui_tournamentchangesettingsdialogue.h"
+#include <squire_core/squire_core.h>
 
 TournamentChangeSettingsDialogue::TournamentChangeSettingsDialogue(Tournament *tourn, QWidget *parent) :
     QDialog(parent),
@@ -27,3 +28,9 @@ void TournamentChangeSettingsDialogue::changeEvent(QEvent *e)
         break;
     }
 }
+
+void TournamentChangeSettingsDialogue::onApply()
+{
+
+}
+

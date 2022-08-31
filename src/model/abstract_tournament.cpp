@@ -165,6 +165,33 @@ squire_core::sc_TournamentStatus Tournament::status()
     return squire_core::tid_status(this->tid);
 }
 
+int Tournament::starting_table_number()
+{
+    return squire_core::tid_starting_table_number(this->tid);
+}
+
+bool Tournament::updateSettings(std::string format,
+                                int startingTableNumber,
+                                bool useTableNumber,
+                                int gameSize,
+                                int minDeckCount,
+                                int maxDeckCount,
+                                bool regOpen,
+                                bool requireCheckIn,
+                                bool requireDeckreg)
+{
+    return squire_core::tid_update_settings(this->tid,
+                                            format.c_str(),
+                                            startingTableNumber,
+                                            useTableNumber,
+                                            gameSize,
+                                            minDeckCount,
+                                            maxDeckCount,
+                                            regOpen,
+                                            requrieCheckIn,
+                                            requireDeckReg);
+}
+
 Player Tournament::addPlayer(std::string name, bool *status)
 {
     squire_core::sc_PlayerId pid = squire_core::tid_add_player(this->tid, name.c_str());

@@ -53,6 +53,16 @@ public:
     std::string save_location();
     std::vector<Player> players();
     std::vector<Round> rounds();
+    int starting_table_number();
+    bool updateSettings(std::string format,
+                        int startingTableNumber,
+                        bool useTableNumber,
+                        int gameSize,
+                        int minDeckCount,
+                        int maxDeckCount,
+                        bool regOpen,
+                        bool requireCheckIn,
+                        bool requireDeckreg);
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;
