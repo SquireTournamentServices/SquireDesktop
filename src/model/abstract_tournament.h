@@ -62,7 +62,7 @@ public:
                         int maxDeckCount,
                         bool regOpen,
                         bool requireCheckIn,
-                        bool requireDeckreg);
+                        bool requireDeckReg);
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;

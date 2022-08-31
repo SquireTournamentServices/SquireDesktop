@@ -178,7 +178,7 @@ bool Tournament::updateSettings(std::string format,
                                 int maxDeckCount,
                                 bool regOpen,
                                 bool requireCheckIn,
-                                bool requireDeckreg)
+                                bool requireDeckReg)
 {
     return squire_core::tid_update_settings(this->tid,
                                             format.c_str(),
@@ -188,7 +188,7 @@ bool Tournament::updateSettings(std::string format,
                                             minDeckCount,
                                             maxDeckCount,
                                             regOpen,
-                                            requrieCheckIn,
+                                            requireCheckIn,
                                             requireDeckReg);
 }
 

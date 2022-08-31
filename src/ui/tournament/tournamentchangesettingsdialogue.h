@@ -18,7 +18,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
 private slots:
-    onApply();
+    void onApply();
 private:
     Ui::TournamentChangeSettingsDialogue *ui;
     Tournament *tourn;
