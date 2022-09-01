@@ -924,12 +924,12 @@
     </message>
     <message>
         <location filename="src/ui/tournament/tournamentunsavederrordialogue.cpp" line="12"/>
-        <location filename="src/ui/tournament/tournamentunsavederrordialogue.cpp" line="53"/>
+        <location filename="src/ui/tournament/tournamentunsavederrordialogue.cpp" line="55"/>
         <source>Cannot save tournament </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentunsavederrordialogue.cpp" line="54"/>
+        <location filename="src/ui/tournament/tournamentunsavederrordialogue.cpp" line="56"/>
         <source>Cannot save tournament.</source>
         <translation type="unfinished"></translation>
     </message>

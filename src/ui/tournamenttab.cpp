@@ -258,7 +258,7 @@ void TournamentTab::updateRoundTimer()
     this->roundTable->setData(rounds);
 
     for (Round r : rounds) {
-        long tl = r.timeLeft();
+        long tl = r.time_left();
         if (tl < min || min == -1) {
             min = tl;
         }

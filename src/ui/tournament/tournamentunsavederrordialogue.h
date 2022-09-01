@@ -3,26 +3,27 @@
 #include <QDialog>
 #include <QAbstractButton>
 
-namespace Ui {
-  class TournamentUnsavedErrorDialogue;
+namespace Ui
+{
+class TournamentUnsavedErrorDialogue;
 }
 
 class TournamentUnsavedErrorDialogue : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit TournamentUnsavedErrorDialogue(Tournament *tourn, QWidget *parent = nullptr);
-  ~TournamentUnsavedErrorDialogue();
+    explicit TournamentUnsavedErrorDialogue(Tournament *tourn, QWidget *parent = nullptr);
+    ~TournamentUnsavedErrorDialogue();
 public slots:
-  void clicked(QAbstractButton *button);
+    void clicked(QAbstractButton *button);
 protected:
-  void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e);
 private:
-  void onSave();
-  void onCancel();
-  void onDiscard();
-  Tournament *tourn;
-  Ui::TournamentUnsavedErrorDialogue *ui;
+    void onSave();
+    void onCancel();
+    void onDiscard();
+    Tournament *tourn;
+    Ui::TournamentUnsavedErrorDialogue *ui;
 };
 

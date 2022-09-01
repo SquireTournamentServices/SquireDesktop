@@ -12,3 +12,8 @@ void LabelImage::setPixmap(const QPixmap &qPixmap, const QSize &size)
     _qPixmapScaled = _qPixmap.scaled(size, Qt::KeepAspectRatio);
     QLabel::setPixmap(_qPixmapScaled);
 }
+
+void LabelImage::setPixmap(const QPixmap &qPixmap)
+{
+    this->setPixmap(qPixmap, size());
+}

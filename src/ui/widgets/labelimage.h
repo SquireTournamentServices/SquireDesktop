@@ -8,20 +8,12 @@
 
 class LabelImage: public QLabel
 {
-
-private:
-    QPixmap _qPixmap, _qPixmapScaled;
-
 public:
-    void setPixmap(const QPixmap &qPixmap)
-    {
-        setPixmap(qPixmap, size());
-    }
-
+    void setPixmap(const QPixmap &qPixmap);
 protected:
     void resizeEvent(QResizeEvent *pQEvent) override;
-
 private:
+    QPixmap _qPixmap, _qPixmapScaled;
     void setPixmap(const QPixmap &qPixmap, const QSize &size);
 };
 

@@ -49,16 +49,22 @@ QVariant RoundModel::data(const QModelIndex &index, int role) const
     }
 
     Round round = this->mdldata[index.row()];
+
+    // These must not be in my case statement
+    long timeLeft;
+    int seconds, minutes, hours;
+    QString str;
+
     switch (index.column()) {
     case 0:
-        return QVariant(round.matchNumber());
+        return QVariant(round.match_number());
     case 1:
-        long timeLeft = round.timeLeft();
-        int seconds = timeLeft % 60;
-        int minutes = ((timeLeft / 60) % 60);
-        int hours = timeLeft / (60 * 60);
+        timeLeft = round.time_left();
+        seconds = timeLeft % 60;
+        minutes = ((timeLeft / 60) % 60);
+        hours = timeLeft / (60 * 60);
 
-        QString str = "";
+        str = "";
         if (hours < 10) {
             str += "0";
         }
@@ -77,6 +83,8 @@ QVariant RoundModel::data(const QModelIndex &index, int role) const
         str += seconds;
 
         return str;
+    case 2:
+        return QVariant(QString::fromStdString(round.players_as_str()));
     }
     return QVariant();
 }

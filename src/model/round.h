@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 #include <squire_core/squire_core.h>
 
@@ -12,15 +13,20 @@ public:
     squire_core::sc_RoundId id();
     squire_core::sc_TournamentId tourn_id();
     squire_core::sc_RoundStatus status();
-    long timeLeft();
+    long time_left();
     long duration();
-    int matchNumber();
+    int match_number();
     bool matches(std::string query);
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
+    std::vector<squire_core::sc_PlayerId> players();
+    std::string players_as_str();
 private:
     squire_core::sc_TournamentId tid;
     squire_core::sc_RoundId rid;
 };
 
 bool roundIsActive(Round r);
+int cmpRndMatchNo(const Round &ra, const Round &rb);
+int cmpRndTimeLeft(const Round &ra, const Round &rb);
+int cmpRndPlayers(const Round &ra, const Round &rb);
 
