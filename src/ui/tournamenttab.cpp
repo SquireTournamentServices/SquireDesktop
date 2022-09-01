@@ -48,6 +48,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(this->tourn, &Tournament::onPairingTypeChanged, this, &TournamentTab::onPairingTypeChanged);
     connect(this->tourn, &Tournament::onSaveLocationChanged, this, &TournamentTab::onSaveLocationChanged);
     connect(this->tourn, &Tournament::onStatusChanged, this, &TournamentTab::onStatusChanged);
+    connect(this->tourn, &Tournament::onRegOpenChanged, this, &TournamentTab::onRegOpenChanged);
     connect(this->tourn, &Tournament::onSaveStatusChanged, this, &TournamentTab::onSaveStatusChanged);
 
     this->tourn->emitAllProps();
@@ -320,5 +321,15 @@ void TournamentTab::changeSettingsClicked()
 void TournamentTab::onSaveStatusChanged(bool status)
 {
     this->onStatusChanged(this->tourn->status());
+}
+
+void TournamentTab::onRegOpenChanged(bool regOpen)
+{
+    if (regOpen) {
+        ui->addPlayer->setText(tr("Add Player"));
+    } else {
+        ui->addPlayer->setText(tr("Allow Player Registration to Add Players"));
+    }
+    ui->addPlayer->setDisabled(!regOpen);
 }
 

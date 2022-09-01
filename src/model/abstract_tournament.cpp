@@ -215,6 +215,7 @@ bool Tournament::updateSettings(std::string format,
              requireDeckReg,
              this->aid());
     if (s) {
+        emit this->onRegOpenChanged(this->reg_open());
         this->save();
     }
     return s;
@@ -327,6 +328,7 @@ void Tournament::emitAllProps()
     emit onPairingTypeChanged(this->pairing_type());
     emit onSaveLocationChanged(this->save_location());
     emit onStatusChanged(this->status());
+    emit this->onRegOpenChanged(this->reg_open());
     emit onSaveStatusChanged(this->saved);
 }
 

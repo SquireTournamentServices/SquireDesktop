@@ -24,6 +24,7 @@ signals:
     void onSaveLocationChanged(std::string str);
     void onStatusChanged(squire_core::sc_TournamentStatus status);
     void onSaveStatusChanged(bool saved);
+    void onRegOpenChanged(bool regOpen);
     void onClose();
 public:
     /**
