@@ -71,6 +71,22 @@ LocalTournament::LocalTournament(std::string save_location, squire_core::sc_Tour
     this->saveLocation = save_location;
 }
 
+squire_core::sc_AdminId Tournament::aid()
+{
+    lprintf(LOG_ERROR, "Null admin id passed to FFI\n");
+    squire_core::sc_AdminId id;
+    memset(id._0, 0, sizeof(id._0));
+    return id;
+}
+
+squire_core::sc_AdminId LocalTournament::aid()
+{
+    // TODO: Change to correct spoofed account
+    squire_core::sc_AdminId id;
+    memset(id._0, 0, sizeof(id._0));
+    return id;
+}
+
 Tournament::~Tournament()
 {
 
@@ -189,7 +205,8 @@ bool Tournament::updateSettings(std::string format,
                                             maxDeckCount,
                                             regOpen,
                                             requireCheckIn,
-                                            requireDeckReg);
+                                            requireDeckReg,
+                                            this->aid());
 }
 
 Player Tournament::addPlayer(std::string name, bool *status)

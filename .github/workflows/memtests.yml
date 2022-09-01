@@ -47,5 +47,5 @@ jobs:
         rm -rf *
         cmake .. -DCMAKE_BUILD_TYPE=TEST "-DCMAKE_C_COMPILER=/bin/gcc" "-DCMAKE_CXX_COMPILER=/bin/g++"
         cmake --build . -j
-        bash mem_tests.sh
+        ctest -V
     

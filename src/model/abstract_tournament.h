@@ -63,6 +63,7 @@ public:
                         bool regOpen,
                         bool requireCheckIn,
                         bool requireDeckReg);
+    virtual squire_core::sc_AdminId aid();
 protected:
     squire_core::sc_TournamentId tid;
     std::string saveLocation;
@@ -74,6 +75,7 @@ class LocalTournament : public Tournament
     Q_OBJECT
 public:
     LocalTournament(std::string save_location, squire_core::sc_TournamentId tid); // Primary constructor
+    squire_core::sc_AdminId aid() override;
 };
 
 // Static util methods
