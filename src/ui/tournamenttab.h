@@ -21,6 +21,14 @@ public:
     explicit TournamentTab(Tournament *tourn, QWidget *parent = nullptr);
     ~TournamentTab();
 public slots:
+    /**
+     * Asks if the tab can be closed.
+     * If the tournament is not saved then the user is prompted to save,
+     * failed saves call canExit() recursively until a valid input is entered.
+     *
+     * Discard will return true and, allow the unsaved tournament to be left as such.
+     * Cancel will return false.
+     */
     bool canExit();
     void closeTab();
     void updateRoundTimer();
@@ -38,6 +46,7 @@ public slots:
     void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
     void onStatusChanged(squire_core::sc_TournamentStatus status);
+    void onSaveStatusChanged(bool status);
 
     // GUI slots
     void addPlayerToTourn(std::string name);

@@ -2,7 +2,9 @@
 #include "./ui_tournamenttab.h"
 #include "./tournament/addplayerdialogue.h"
 #include "./tournament/tournamentchangesettingsdialogue.h"
+#include "./tournament/tournamentunsavederrordialogue.h"
 #include "../config.h"
+#include <QDialogButtonBox>
 #include <QMessageBox>
 
 TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
@@ -46,6 +48,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(this->tourn, &Tournament::onPairingTypeChanged, this, &TournamentTab::onPairingTypeChanged);
     connect(this->tourn, &Tournament::onSaveLocationChanged, this, &TournamentTab::onSaveLocationChanged);
     connect(this->tourn, &Tournament::onStatusChanged, this, &TournamentTab::onStatusChanged);
+    connect(this->tourn, &Tournament::onSaveStatusChanged, this, &TournamentTab::onSaveStatusChanged);
 
     this->tourn->emitAllProps();
 
@@ -108,8 +111,20 @@ void TournamentTab::setStatus()
 
 bool TournamentTab::canExit()
 {
-    this->tourn->close();
-    return true;
+    bool canExit = false;
+    if (this->tourn->isSaved()) {
+        canExit = true;
+    } else {
+        TournamentUnsavedErrorDialogue dlg = TournamentUnsavedErrorDialogue(this->tourn);
+        return dlg.exec() == 1;
+    }
+
+    if (canExit) {
+        this->tourn->close();
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void TournamentTab::onPlayerAdded(Player p)
@@ -207,6 +222,9 @@ void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
         break;
     }
 
+    if (!this->tourn->isSaved()) {
+        ui->statusIndicator->setText(ui->statusIndicator->text() + tr("* (Unsaved Changes)"));
+    }
     ui->pairRound->setDisabled(!canPairRounds);
 }
 
@@ -297,5 +315,10 @@ void TournamentTab::changeSettingsClicked()
 {
     TournamentChangeSettingsDialogue dlg = TournamentChangeSettingsDialogue(this->tourn, this);
     dlg.exec();
+}
+
+void TournamentTab::onSaveStatusChanged(bool status)
+{
+    this->onStatusChanged(this->tourn->status());
 }
 

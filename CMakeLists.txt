@@ -195,6 +195,9 @@ set(PROJECT_SOURCES
     ./src/ui/tournament/tournamentchangesettingsdialogue.cpp
     ./src/ui/tournament/tournamentchangesettingsdialogue.h
     ./src/ui/tournament/tournamentchangesettingsdialogue.ui
+    ./src/ui/tournament/tournamentunsavederrordialogue.cpp
+    ./src/ui/tournament/tournamentunsavederrordialogue.h
+    ./src/ui/tournament/tournamentunsavederrordialogue.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui

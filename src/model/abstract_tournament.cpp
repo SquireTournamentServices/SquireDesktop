@@ -55,6 +55,7 @@ Tournament::Tournament()
     : QObject()
 {
     memset(&this->tid, 0, sizeof(this->tid));
+    this->saved = false;
 }
 
 Tournament::Tournament(const Tournament &t)
@@ -62,6 +63,7 @@ Tournament::Tournament(const Tournament &t)
 {
     this->tid = t.tid;
     this->saveLocation = t.saveLocation;
+    this->saved = t.saved;
 }
 
 LocalTournament::LocalTournament(std::string save_location, squire_core::sc_TournamentId tid)
@@ -95,6 +97,11 @@ Tournament::~Tournament()
 bool Tournament::close()
 {
     lprintf(LOG_INFO, "Closing tournament %s\n", this->name().c_str());
+
+    // Warn about unsaved data
+    if (!saved) {
+        lprintf(LOG_WARNING, "The tournament '%s' has unsaved data which is now lost\n", this->name().c_str());
+    }
     emit this->onClose();
     return squire_core::close_tourn(this->tid);
 }
@@ -196,7 +203,7 @@ bool Tournament::updateSettings(std::string format,
                                 bool requireCheckIn,
                                 bool requireDeckReg)
 {
-    return squire_core::tid_update_settings(this->tid,
+    bool s = squire_core::tid_update_settings(this->tid,
                                             format.c_str(),
                                             startingTableNumber,
                                             useTableNumber,
@@ -207,6 +214,10 @@ bool Tournament::updateSettings(std::string format,
                                             requireCheckIn,
                                             requireDeckReg,
                                             this->aid());
+    if (s) {
+        this->save();
+    }
+    return s;
 }
 
 Player Tournament::addPlayer(std::string name, bool *status)
@@ -216,6 +227,7 @@ Player Tournament::addPlayer(std::string name, bool *status)
         *status = true;
         Player p = Player(pid, this->tid);
         lprintf(LOG_INFO, "Added player %s\n", p.name().c_str());
+        this->setSaveStatus(false);
         this->save();
         emit this->onPlayerAdded(p);
         return p;
@@ -261,11 +273,13 @@ std::vector<Round> Tournament::rounds()
 
 bool Tournament::save()
 {
+    this->setSaveStatus(false);
     bool ret = squire_core::save_tourn(this->tid, this->saveLocation.c_str());
     if (!ret) {
         lprintf(LOG_ERROR, "Cannot save tournament as %s\n", this->saveLocation.c_str());
     } else {
         lprintf(LOG_INFO, "Saved %s as %s\n", this->name().c_str(), this->saveLocation.c_str());
+        this->setSaveStatus(true);
     }
     return ret;
 }
@@ -290,6 +304,17 @@ std::vector<Round> Tournament::pairRounds()
     return ret;
 }
 
+void Tournament::setSaveStatus(bool status)
+{
+    this->saved = status;
+    emit onSaveStatusChanged(this->saved);
+}
+
+bool Tournament::isSaved()
+{
+    return this->saved;
+}
+
 void Tournament::emitAllProps()
 {
     emit onPlayersChanged(this->players());
@@ -302,5 +327,6 @@ void Tournament::emitAllProps()
     emit onPairingTypeChanged(this->pairing_type());
     emit onSaveLocationChanged(this->save_location());
     emit onStatusChanged(this->status());
+    emit onSaveStatusChanged(this->saved);
 }
 

@@ -6,6 +6,7 @@
 #include <vector>
 #include <QObject>
 
+// Important Developer Note: All operations that change data should call save().
 class Tournament : public QObject
 {
     Q_OBJECT
@@ -22,6 +23,7 @@ signals:
     void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
     void onStatusChanged(squire_core::sc_TournamentStatus status);
+    void onSaveStatusChanged(bool saved);
     void onClose();
 public:
     /**
@@ -64,7 +66,10 @@ public:
                         bool requireCheckIn,
                         bool requireDeckReg);
     virtual squire_core::sc_AdminId aid();
+    bool isSaved(); // Whether the tournament has been saved correctly.
 protected:
+    void setSaveStatus(bool status); // This is a wrapper to emit the correct signal and, change state correctly
+    bool saved;
     squire_core::sc_TournamentId tid;
     std::string saveLocation;
 };

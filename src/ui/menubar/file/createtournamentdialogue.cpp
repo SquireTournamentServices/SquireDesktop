@@ -127,6 +127,7 @@ void CreateTournamentDialogue::onOkay()
                                        ui->allowPlayerRegistration->isChecked(),
                                        ui->requirePlayerCheckins->isChecked(),
                                        ui->minDeckCount->value() == 0);
+    tourn->save();
     valid = tourn != nullptr;
     if (valid) {
         lprintf(LOG_INFO, "Created tournament %s\n", ui->saveLocation->text().toStdString().c_str());
