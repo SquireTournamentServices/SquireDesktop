@@ -71,11 +71,13 @@ static int test_tournament_getters()
                                    TEST_BOOL);
     ASSERT(t != nullptr);
 
+    ASSERT(t->starting_table_number() >= 0);
     ASSERT(t->name() == TEST_NAME);
     ASSERT(t->format() == TEST_FORMAT);
     ASSERT(t->game_size() == TEST_NUM_GAME_SIZE);
     ASSERT(t->min_deck_count() == TEST_NUM_MIN_DECKS);
     ASSERT(t->max_deck_count() == TEST_NUM_MAX_DECKS);
+    ASSERT(t->reg_open() == TEST_BOOL);
     std::vector<Player> players = t->players();
     for (Player player : players) {
         ASSERT(!is_null_id(player.id()._0));
@@ -120,6 +122,7 @@ static int test_tournament_getters_2()
     ASSERT(t2->game_size() == TEST_NUM_GAME_SIZE);
     ASSERT(t2->min_deck_count() == TEST_NUM_MIN_DECKS);
     ASSERT(t2->max_deck_count() == TEST_NUM_MAX_DECKS);
+    ASSERT(t->reg_open() == TEST_BOOL);
     std::vector<Player> players = t2->players();
     for (Player player : players) {
         ASSERT(!is_null_id(player.id()._0));
@@ -200,11 +203,65 @@ static int test_add_player()
     return 1;
 }
 
+int test_update_settings()
+{
+    Tournament *t = new_tournament(TEST_FILE,
+                                   TEST_NAME,
+                                   TEST_FORMAT,
+                                   TEST_PRESET,
+                                   TEST_BOOL,
+                                   TEST_NUM_GAME_SIZE,
+                                   TEST_NUM_MIN_DECKS,
+                                   TEST_NUM_MAX_DECKS,
+                                   TEST_BOOL,
+                                   TEST_BOOL,
+                                   TEST_BOOL);
+    ASSERT(t != nullptr);
+
+    // Update some settings
+    std::string format = "magic mike's magic format";
+    int startingTableNumber = 180;
+    bool useTableNumber = !TEST_BOOL;
+    int gameSize = TEST_NUM_GAME_SIZE + 2;
+    int minDeckCount = TEST_NUM_MIN_DECKS * 2;
+    int maxDeckCount = TEST_NUM_MAX_DECKS * 2;
+    bool regOpen = !TEST_BOOL;
+    bool requireCheckIn = !TEST_BOOL;
+    bool requireDeckReg = !TEST_BOOL;
+
+    ASSERT(t->updateSettings(format, 
+        startingTableNumber, 
+        useTableNumber, 
+        gameSize,
+        minDeckCount, 
+        maxDeckCount, 
+        regOpen, 
+        requireCheckIn, 
+        requireDeckReg));
+
+    ASSERT(t->starting_table_number() == startingTableNumber);
+    ASSERT(t->name() == TEST_NAME);
+    ASSERT(t->format() == format);
+    ASSERT(t->game_size() == gameSize);
+    ASSERT(t->min_deck_count() == minDeckCount);
+    ASSERT(t->max_deck_count() == maxDeckCount);
+    ASSERT(t->reg_open() == regOpen);
+    ASSERT(t->require_check_in() == requireCheckIn);
+    ASSERT(t->require_deck_reg() == requireDeckReg);
+
+    // Close the tournament
+    ASSERT(t->close());
+    delete t;
+
+  return 1;
+}
+
 SUB_TEST(test_tournament_ffi,
 {&test_create_base, "Test Create Tournament Base Case"},
 {&test_tournament_getters, "Test Tournament Getters"},
 {&test_tournament_getters_2, "Test Tournament Getters 2"},
 {&test_bad_tournament_create, "Test Bad Tournament Create"},
-{&test_add_player, "Test add player"}
+{&test_add_player, "Test add player"},
+{&test_update_settings, "Test update settings"}
         )
 
