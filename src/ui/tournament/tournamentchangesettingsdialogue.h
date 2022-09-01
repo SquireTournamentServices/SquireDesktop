@@ -14,11 +14,10 @@ class TournamentChangeSettingsDialogue : public QDialog
 public:
     explicit TournamentChangeSettingsDialogue(Tournament *tourn, QWidget *parent = nullptr);
     ~TournamentChangeSettingsDialogue();
-
+public slots:
+    void onApply();
 protected:
     void changeEvent(QEvent *e);
-private slots:
-    void onApply();
 private:
     Ui::TournamentChangeSettingsDialogue *ui;
     Tournament *tourn;

@@ -749,12 +749,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="68"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="70"/>
         <source>Cannot update settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="69"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="71"/>
         <source>Cannot update settings for </source>
         <translation type="unfinished"></translation>
     </message>
