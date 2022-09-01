@@ -654,92 +654,108 @@
     <name>TournamentChangeSettingsDialogue</name>
     <message>
         <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="230"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="243"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="20"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="231"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="244"/>
         <source>Tournament Status</source>
         <oldsource>Tournament Name</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="47"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="232"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="61"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="246"/>
         <source>Match Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="90"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="236"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="104"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="250"/>
         <source>Allow Player Registration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="97"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="237"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="111"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="251"/>
         <source>Require Player Checkins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="83"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="235"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="97"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="249"/>
         <source>0 (No Maximum)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="60"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="233"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="47"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="245"/>
+        <source>Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="74"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="247"/>
         <source>Minimum Deck Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="73"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="234"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="87"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="248"/>
         <source>Maximum Deck Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="111"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="238"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="152"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="254"/>
         <source>Points Loss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="124"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="239"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="165"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="255"/>
         <source>Points Draw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="137"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="240"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="178"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="256"/>
         <source>Points Bye</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="150"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="241"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="191"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="257"/>
         <source>Points Win</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="189"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="242"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="125"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="252"/>
         <source>Use Table Numbers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="203"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="243"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="132"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamentchangesettingsdialogue.h" line="253"/>
         <source>Starting Table Number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="12"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="13"/>
         <source>Changing Settings For </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="68"/>
+        <source>Cannot update settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="69"/>
+        <source>Cannot update settings for </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

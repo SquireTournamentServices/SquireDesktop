@@ -229,15 +229,15 @@ int test_update_settings()
     bool requireCheckIn = !TEST_BOOL;
     bool requireDeckReg = !TEST_BOOL;
 
-    ASSERT(t->updateSettings(format, 
-        startingTableNumber, 
-        useTableNumber, 
-        gameSize,
-        minDeckCount, 
-        maxDeckCount, 
-        regOpen, 
-        requireCheckIn, 
-        requireDeckReg));
+    ASSERT(t->updateSettings(format,
+                             startingTableNumber,
+                             useTableNumber,
+                             gameSize,
+                             minDeckCount,
+                             maxDeckCount,
+                             regOpen,
+                             requireCheckIn,
+                             requireDeckReg));
 
     ASSERT(t->starting_table_number() == startingTableNumber);
     ASSERT(t->name() == TEST_NAME);
@@ -253,7 +253,7 @@ int test_update_settings()
     ASSERT(t->close());
     delete t;
 
-  return 1;
+    return 1;
 }
 
 SUB_TEST(test_tournament_ffi,
