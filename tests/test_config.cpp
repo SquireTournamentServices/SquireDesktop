@@ -288,8 +288,8 @@ static int test_read_recent_tourns_no_file()
 
 }
 
-#define TEST_FILE_NAME "Tournament 1234567890"
-#define TEST_FILE_PAIRING "Fluid"
+#define TEST_FILE_NAME "Devilry: the Congress"
+#define TEST_FILE_PAIRING "Swiss"
 #define TEST_FILE "config_test_tournament.tourn"
 static int test_recent_tourn_with_file()
 {

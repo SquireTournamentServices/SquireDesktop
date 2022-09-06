@@ -10,6 +10,7 @@
 #include "./utils.h"
 #include "./config.h"
 
+#define TOURN_STYLE_TAG "style"
 #define TOURN_NAME_TAG "name"
 #define TOURN_PAIRING_TAG "pairing_sys"
 
@@ -62,7 +63,7 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
         tourn.at(TOURN_NAME_TAG).get_to(name);
         ret.name = clone_std_string(name);
 
-        nlohmann::json pairing = tourn.at(TOURN_PAIRING_TAG);
+        nlohmann::json pairing = tourn.at(TOURN_PAIRING_TAG).at(TOURN_STYLE_TAG);
         std::string sys;
         int i = 0;
         for (nlohmann::json::iterator it = pairing.begin(); it != pairing.end(); it++) {
@@ -70,15 +71,14 @@ static recent_tournament_t get_recent_tourn(char *name, int *status)
             i++;
         }
 
-        if (i != 1) {
-            goto cleanup;
-        }
         ret.pairing_sys = clone_std_string(sys);
-        if (ret.pairing_sys == NULL) {
+        if (ret.pairing_sys == NULL || strcmp(ret.pairing_sys, "") == 0) {
+            lprintf(LOG_ERROR, "No tournament system\n");
             goto cleanup;
         }
 
         if (ret.name == NULL) {
+            lprintf(LOG_ERROR, "No tournament name\n");
             goto cleanup;
         }
 

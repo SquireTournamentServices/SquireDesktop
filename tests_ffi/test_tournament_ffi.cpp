@@ -312,7 +312,7 @@ static int test_pair_round()
     Tournament *t = new_tournament(TEST_FILE ".2",
                                    TEST_NAME,
                                    TEST_FORMAT,
-                                   TEST_PRESET,
+                                   squire_core::sc_TournamentPreset::Swiss,
                                    TEST_BOOL,
                                    4,
                                    TEST_NUM_MIN_DECKS,

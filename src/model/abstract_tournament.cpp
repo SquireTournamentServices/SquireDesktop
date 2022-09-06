@@ -55,7 +55,7 @@ Tournament::Tournament()
     : QObject()
 {
     memset(&this->tid, 0, sizeof(this->tid));
-    this->saved = false;
+    this->save();
 }
 
 Tournament::Tournament(const Tournament &t)
@@ -356,6 +356,7 @@ bool Tournament::start()
 {
     bool r = squire_core::tid_start(this->tid, this->aid());
     emit this->onStatusChanged(this->status());
+    this->save();
     return r;
 }
 
@@ -363,6 +364,7 @@ bool Tournament::end()
 {
     bool r = squire_core::tid_end(this->tid, this->aid());
     emit this->onStatusChanged(this->status());
+    this->save();
     return r;
 }
 
@@ -370,6 +372,7 @@ bool Tournament::cancel()
 {
     bool r = squire_core::tid_cancel(this->tid, this->aid());
     emit this->onStatusChanged(this->status());
+    this->save();
     return r;
 }
 
@@ -377,6 +380,7 @@ bool Tournament::freeze()
 {
     bool r = squire_core::tid_freeze(this->tid, this->aid());
     emit this->onStatusChanged(this->status());
+    this->save();
     return r;
 }
 
@@ -384,6 +388,7 @@ bool Tournament::thaw()
 {
     bool r = squire_core::tid_thaw(this->tid, this->aid());
     emit this->onStatusChanged(this->status());
+    this->save();
     return r;
 }
 
@@ -410,7 +415,7 @@ void Tournament::emitAllProps()
     emit onPairingTypeChanged(this->pairing_type());
     emit onSaveLocationChanged(this->save_location());
     emit onStatusChanged(this->status());
-    emit this->onRegOpenChanged(this->reg_open());
+    emit onRegOpenChanged(this->reg_open());
     emit onSaveStatusChanged(this->saved);
 }
 

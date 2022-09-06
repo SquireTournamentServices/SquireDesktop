@@ -14,7 +14,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     ui->setupUi(this);
     this->tourn = tourn;
 
-    // Set tables up
+    // Add player table
     this->playerTableLayout = new QVBoxLayout(ui->playerTable);
     this->playerTableLayout->setAlignment(Qt::AlignTop);
 
@@ -25,6 +25,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->playerTable->addAdditionalFilter(showActivePlayers.toStdString(), &playerIsActive);
     this->playerTableLayout->addWidget(playerTable);
 
+    // Add round table
     this->roundTableLayout = new QVBoxLayout(ui->roundTable);
     this->roundTableLayout->setAlignment(Qt::AlignTop);
 

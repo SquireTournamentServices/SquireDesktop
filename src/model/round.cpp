@@ -104,7 +104,6 @@ std::vector<int (*)(const Round &, const Round &)> Round::getDefaultAlgs()
     ret.push_back(&cmpRndMatchNo);
     ret.push_back(&cmpRndTimeLeft);
     ret.push_back(&cmpRndPlayers);
-
     return ret;
 }
 
