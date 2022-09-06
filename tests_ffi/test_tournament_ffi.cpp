@@ -317,11 +317,11 @@ static int test_pair_round()
                                    4,
                                    TEST_NUM_MIN_DECKS,
                                    TEST_NUM_MAX_DECKS,
-                                   TEST_BOOL,
+                                   true,
                                    TEST_BOOL,
                                    TEST_BOOL);
     ASSERT(t != nullptr);
-    ASSERT(t->start());
+    ASSERT(t->reg_open());
 
     bool s = false;
     ASSERT(!is_null_id(t->addPlayer("Johnny", &s).id()._0));
@@ -337,6 +337,7 @@ static int test_pair_round()
     ASSERT(s);
 
     ASSERT(t->players().size() == t->game_size());
+    ASSERT(t->start());
 
     std::vector<Round> rounds = t->pairRounds();
     lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n", rounds.size(), t->players().size() / t->game_size());
