@@ -34,12 +34,6 @@ public:
     Tournament(const Tournament &t); // Copy constructor
     ~Tournament();
 
-    Player addPlayer(std::string name, bool *status);
-    std::vector<Round> pairRounds();
-    bool save();
-    bool close();
-    void emitAllProps(); // emits all props to force a UI change
-
     // Getters
     squire_core::sc_TournamentId id();
     std::string name();
@@ -57,6 +51,8 @@ public:
     std::vector<Player> players();
     std::vector<Round> rounds();
     int starting_table_number();
+
+    // Setters
     bool updateSettings(std::string format,
                         int startingTableNumber,
                         bool useTableNumber,
@@ -66,8 +62,20 @@ public:
                         bool regOpen,
                         bool requireCheckIn,
                         bool requireDeckReg);
+    bool start();
+    bool end();
+    bool cancel();
+    bool freeze();
+    bool thaw();
+    Player addPlayer(std::string name, bool *status);
+    std::vector<Round> pairRounds();
+
+    // Internal status things
+    bool save();
+    bool close();
     virtual squire_core::sc_AdminId aid();
     bool isSaved(); // Whether the tournament has been saved correctly.
+    void emitAllProps(); // emits all props to force a UI change
 protected:
     void setSaveStatus(bool status); // This is a wrapper to emit the correct signal and, change state correctly
     bool saved;

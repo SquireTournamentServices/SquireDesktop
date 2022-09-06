@@ -305,6 +305,41 @@ std::vector<Round> Tournament::pairRounds()
     return ret;
 }
 
+bool Tournament::start()
+{
+    bool r = squire_core::tid_start(this->tid, this->aid());
+    emit this->onStatusChanged(this->status());
+    return r;
+}
+
+bool Tournament::end()
+{
+    bool r = squire_core::tid_end(this->tid, this->aid());
+    emit this->onStatusChanged(this->status());
+    return r;
+}
+
+bool Tournament::cancel()
+{
+    bool r = squire_core::tid_cancel(this->tid, this->aid());
+    emit this->onStatusChanged(this->status());
+    return r;
+}
+
+bool Tournament::freeze()
+{
+    bool r = squire_core::tid_freeze(this->tid, this->aid());
+    emit this->onStatusChanged(this->status());
+    return r;
+}
+
+bool Tournament::thaw()
+{
+    bool r = squire_core::tid_thaw(this->tid, this->aid());
+    emit this->onStatusChanged(this->status());
+    return r;
+}
+
 void Tournament::setSaveStatus(bool status)
 {
     this->saved = status;
