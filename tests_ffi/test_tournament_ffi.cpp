@@ -352,6 +352,7 @@ static int test_pair_round()
     // Close the tournament
     ASSERT(t->close());
     delete t;
+    return 1;
 }
 
 SUB_TEST(test_tournament_ffi,
