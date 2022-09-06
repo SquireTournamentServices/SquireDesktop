@@ -321,6 +321,7 @@ static int test_pair_round()
                                    TEST_BOOL,
                                    TEST_BOOL);
     ASSERT(t != nullptr);
+    ASSERT(t->start());
 
     bool s = false;
     ASSERT(!is_null_id(t->addPlayer("Johnny", &s).id()._0));
