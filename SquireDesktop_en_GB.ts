@@ -659,22 +659,26 @@
     </message>
     <message>
         <location filename="src/model/abstract_tournament.cpp" line="230"/>
-        <source>Start</source>
+        <source>Started</source>
+        <oldsource>Start</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/model/abstract_tournament.cpp" line="232"/>
-        <source>Freeze</source>
+        <source>Frozon</source>
+        <oldsource>Freeze</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/model/abstract_tournament.cpp" line="234"/>
-        <source>End</source>
+        <source>Ended</source>
+        <oldsource>End</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/model/abstract_tournament.cpp" line="236"/>
-        <source>Cancel</source>
+        <source>Cancelled</source>
+        <oldsource>Cancel</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

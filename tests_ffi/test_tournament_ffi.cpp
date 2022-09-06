@@ -282,6 +282,7 @@ static int test_status_change()
     ASSERT(t->status() == squire_core::sc_TournamentStatus::Ended);
 
     ASSERT(t->close());
+    delete t;
 
     Tournament *t2 = new_tournament(TEST_FILE,
                                     TEST_NAME,
@@ -302,7 +303,53 @@ static int test_status_change()
     ASSERT(t2->status() == squire_core::sc_TournamentStatus::Cancelled);
     ASSERT(t2->close());
 
+    delete t2;
     return 1;
+}
+
+static int test_pair_round()
+{
+    Tournament *t = new_tournament(TEST_FILE ".2",
+                                   TEST_NAME,
+                                   TEST_FORMAT,
+                                   TEST_PRESET,
+                                   TEST_BOOL,
+                                   4,
+                                   TEST_NUM_MIN_DECKS,
+                                   TEST_NUM_MAX_DECKS,
+                                   TEST_BOOL,
+                                   TEST_BOOL,
+                                   TEST_BOOL);
+    ASSERT(t != nullptr);
+
+    bool s = false;
+    ASSERT(!is_null_id(t->addPlayer("Johnny", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(!is_null_id(t->addPlayer("Bing", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(!is_null_id(t->addPlayer("Borris", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(!is_null_id(t->addPlayer("Nick", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(t->players().size() == t->game_size());
+
+    std::vector<Round> rounds = t->pairRounds();
+    lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n", rounds.size(), t->players().size() / t->game_size());
+    ASSERT(rounds.size() == 1);
+
+    squire_core::sc_RoundId rid = rounds[0].id();
+    ASSERT(!is_null_id(rid._0));
+
+    ASSERT(t->rounds().size() == 1);
+    ASSERT(!is_null_id(t->rounds()[0].id()._0));
+
+    // Close the tournament
+    ASSERT(t->close());
+    delete t;
 }
 
 SUB_TEST(test_tournament_ffi,
@@ -312,6 +359,7 @@ SUB_TEST(test_tournament_ffi,
 {&test_bad_tournament_create, "Test Bad Tournament Create"},
 {&test_add_player, "Test add player"},
 {&test_update_settings, "Test update settings"},
-{&test_status_change, "Test status changes"}
+{&test_status_change, "Test status changes"},
+{&test_pair_round, "Test pair rounds"}
         )
 
