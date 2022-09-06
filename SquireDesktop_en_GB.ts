@@ -838,7 +838,7 @@
     <message>
         <location filename="src/ui/tournamenttab.ui" line="91"/>
         <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="208"/>
-        <location filename="src/ui/tournamenttab.cpp" line="330"/>
+        <location filename="src/ui/tournamenttab.cpp" line="336"/>
         <source>Add Player</source>
         <translation type="unfinished"></translation>
     </message>
@@ -941,12 +941,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="298"/>
+        <location filename="src/ui/tournamenttab.cpp" line="303"/>
         <source>Left in Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="332"/>
+        <location filename="src/ui/tournamenttab.cpp" line="304"/>
+        <source> (</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="304"/>
+        <source> Rounds)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="338"/>
         <source>Allow Player Registration to Add Players</source>
         <translation type="unfinished"></translation>
     </message>

@@ -68,19 +68,19 @@ QVariant RoundModel::data(const QModelIndex &index, int role) const
         if (hours < 10) {
             str += "0";
         }
-        str += hours;
+        str += QString::number(hours, 10);
         str += ":";
 
         if (minutes < 10) {
             str += "0";
         }
-        str += minutes;
+        str += QString::number(minutes, 10);
         str += ":";
 
         if (seconds < 10) {
             str += "0";
         }
-        str += seconds;
+        str += QString::number(seconds, 10);
 
         return str;
     case 2:

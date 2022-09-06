@@ -254,9 +254,10 @@ void TournamentTab::addPlayerClicked()
 
 void TournamentTab::updateRoundTimer()
 {
+    int roundCount = 0;
     long max = 0;
     long min = -1;
-    std::vector<Round> rounds;
+    std::vector<Round> rounds = this->tourn->rounds();
     this->roundTable->setData(rounds);
 
     for (Round r : rounds) {
@@ -268,6 +269,10 @@ void TournamentTab::updateRoundTimer()
         long d = r.duration();
         if (d > max) {
             max = d;
+        }
+
+        if (roundIsActive(r)) {
+            roundCount++;
         }
     }
     if (min == -1) {
@@ -296,6 +301,7 @@ void TournamentTab::updateRoundTimer()
     }
     str += QString::number(seconds);
     str += " " + tr("Left in Round");
+    str += tr(" (") + QString::number(roundCount, 10) + tr(" Rounds)");
 
     ui->roundTimerLabel->setText(str);
     if (max == 0) {
