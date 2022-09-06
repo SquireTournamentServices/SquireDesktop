@@ -193,6 +193,53 @@ int Tournament::starting_table_number()
     return squire_core::tid_starting_table_number(this->tid);
 }
 
+std::vector<squire_core::sc_TournamentStatus> Tournament::availableStatusChanges()
+{
+    std::vector<squire_core::sc_TournamentStatus> ret;
+    squire_core::sc_TournamentStatus s = this->status();
+    ret.push_back(s);
+
+    switch (s) {
+    case squire_core::sc_TournamentStatus::Planned:
+        ret.push_back(squire_core::sc_TournamentStatus::Started);
+        ret.push_back(squire_core::sc_TournamentStatus::Frozen);
+        ret.push_back(squire_core::sc_TournamentStatus::Cancelled);
+        break;
+    case squire_core::sc_TournamentStatus::Started:
+        ret.push_back(squire_core::sc_TournamentStatus::Frozen);
+        ret.push_back(squire_core::sc_TournamentStatus::Ended);
+        break;
+    // Frozen tournaments should show a FROZEN screen and, not use this method
+    case squire_core::sc_TournamentStatus::Frozen:
+        break;
+    case squire_core::sc_TournamentStatus::Ended:
+        break;
+    case squire_core::sc_TournamentStatus::Cancelled:
+        break;
+    }
+
+    return ret;
+}
+
+QString Tournament::statusToActionName(squire_core::sc_TournamentStatus status)
+{
+    switch (status) {
+    case squire_core::sc_TournamentStatus::Planned:
+        return tr("Planned");
+    case squire_core::sc_TournamentStatus::Started:
+        return tr("Started");
+    case squire_core::sc_TournamentStatus::Frozen:
+        return tr("Frozon");
+    case squire_core::sc_TournamentStatus::Ended:
+        return tr("Ended");
+    case squire_core::sc_TournamentStatus::Cancelled:
+        return tr("Cancelled");
+    }
+
+    lprintf(LOG_ERROR, "Cannot find status to action translation\n");
+    return tr("Error");
+}
+
 bool Tournament::updateSettings(std::string format,
                                 int startingTableNumber,
                                 bool useTableNumber,

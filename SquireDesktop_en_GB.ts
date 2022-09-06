@@ -651,6 +651,39 @@
     </message>
 </context>
 <context>
+    <name>Tournament</name>
+    <message>
+        <location filename="src/model/abstract_tournament.cpp" line="228"/>
+        <source>Planned</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/model/abstract_tournament.cpp" line="230"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/model/abstract_tournament.cpp" line="232"/>
+        <source>Freeze</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/model/abstract_tournament.cpp" line="234"/>
+        <source>End</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/model/abstract_tournament.cpp" line="236"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/model/abstract_tournament.cpp" line="240"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TournamentChangeSettingsDialogue</name>
     <message>
         <location filename="src/ui/tournament/tournamentchangesettingsdialogue.ui" line="14"/>
@@ -749,12 +782,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="70"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="101"/>
         <source>Cannot update settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="71"/>
+        <location filename="src/ui/tournament/tournamentchangesettingsdialogue.cpp" line="102"/>
         <source>Cannot update settings for </source>
         <translation type="unfinished"></translation>
     </message>

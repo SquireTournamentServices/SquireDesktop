@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <QObject>
+#include <QString>
 
 // Important Developer Note: All operations that change data should call save().
 class Tournament : public QObject
@@ -51,6 +52,10 @@ public:
     std::vector<Player> players();
     std::vector<Round> rounds();
     int starting_table_number();
+    std::vector<squire_core::sc_TournamentStatus> availableStatusChanges();
+
+    // Respects Translations, this is a GUI method
+    QString statusToActionName(squire_core::sc_TournamentStatus status);
 
     // Setters
     bool updateSettings(std::string format,

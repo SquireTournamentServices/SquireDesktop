@@ -1,5 +1,6 @@
 #include "tournamentchangesettingsdialogue.h"
 #include "ui_tournamentchangesettingsdialogue.h"
+#include "../../../testing_h/logger.h"
 #include <QMessageBox>
 #include <squire_core/squire_core.h>
 
@@ -9,8 +10,12 @@ TournamentChangeSettingsDialogue::TournamentChangeSettingsDialogue(Tournament *t
 {
     ui->setupUi(this);
     this->tourn = tourn;
-
     this->setWindowTitle(tr("Changing Settings For ") + QString::fromStdString(this->tourn->name()));
+    this->possibleStatusChanges = this->tourn->availableStatusChanges();
+    for (squire_core::sc_TournamentStatus s : this->possibleStatusChanges) {
+        QString str = this->tourn->statusToActionName(s);
+        ui->statusEdit->addItem(str);
+    }
 
     // Set the initial data
     ui->formatEdit->setText(QString::fromStdString(this->tourn->format()));
@@ -54,6 +59,8 @@ void TournamentChangeSettingsDialogue::onApply()
     bool requireCheckIn = ui->requireCheckinsEdit->isChecked();
     bool requireDeckReg = minDeckCount > 0;
 
+    squire_core::sc_TournamentStatus newStatus = this->possibleStatusChanges[ui->statusEdit->currentIndex()];
+
     bool res = this->tourn->updateSettings(format,
                                            startingTableNumber,
                                            useTableNumber,
@@ -63,6 +70,30 @@ void TournamentChangeSettingsDialogue::onApply()
                                            regOpen,
                                            requireCheckIn,
                                            requireDeckReg);
+    if (!res) {
+        lprintf(LOG_ERROR, "Cannot change tournament settings\n");
+    }
+
+    if (res && newStatus != this->tourn->status()) {
+        switch (newStatus) {
+        case squire_core::sc_TournamentStatus::Started:
+            res |= this->tourn->start();
+            break;
+        case squire_core::sc_TournamentStatus::Ended:
+            res |= this->tourn->end();
+            break;
+        case squire_core::sc_TournamentStatus::Cancelled:
+            res |= this->tourn->cancel();
+            break;
+        case squire_core::sc_TournamentStatus::Frozen:
+            res |= this->tourn->freeze();
+        }
+
+        if (!res) {
+            lprintf(LOG_ERROR, "Cannot change tournament status\n");
+        }
+    }
+
     if (res) {
         this->accept();
     } else {
