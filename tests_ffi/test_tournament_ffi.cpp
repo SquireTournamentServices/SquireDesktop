@@ -256,12 +256,62 @@ int test_update_settings()
     return 1;
 }
 
+static int test_status_change()
+{
+    Tournament *t = new_tournament(TEST_FILE,
+                                   TEST_NAME,
+                                   TEST_FORMAT,
+                                   TEST_PRESET,
+                                   TEST_BOOL,
+                                   TEST_NUM_GAME_SIZE,
+                                   TEST_NUM_MIN_DECKS,
+                                   TEST_NUM_MAX_DECKS,
+                                   TEST_BOOL,
+                                   TEST_BOOL,
+                                   TEST_BOOL);
+    ASSERT(t != nullptr);
+
+    // Test status things
+    ASSERT(t->start());
+    ASSERT(t->status() == squire_core::sc_TournamentStatus::Started);
+    ASSERT(t->freeze());
+    ASSERT(t->status() == squire_core::sc_TournamentStatus::Frozen);
+    ASSERT(t->thaw());
+    ASSERT(t->status() == squire_core::sc_TournamentStatus::Started);
+    ASSERT(t->end());
+    ASSERT(t->status() == squire_core::sc_TournamentStatus::Ended);
+
+    ASSERT(t->close());
+
+    Tournament *t2 = new_tournament(TEST_FILE,
+                                    TEST_NAME,
+                                    TEST_FORMAT,
+                                    TEST_PRESET,
+                                    TEST_BOOL,
+                                    TEST_NUM_GAME_SIZE,
+                                    TEST_NUM_MIN_DECKS,
+                                    TEST_NUM_MAX_DECKS,
+                                    TEST_BOOL,
+                                    TEST_BOOL,
+                                    TEST_BOOL);
+
+    ASSERT(t2 != nullptr);
+    ASSERT(t2->start());
+    ASSERT(t2->status() == squire_core::sc_TournamentStatus::Started);
+    ASSERT(t2->cancel());
+    ASSERT(t2->status() == squire_core::sc_TournamentStatus::Cancelled);
+    ASSERT(t2->close());
+
+    return 1;
+}
+
 SUB_TEST(test_tournament_ffi,
 {&test_create_base, "Test Create Tournament Base Case"},
 {&test_tournament_getters, "Test Tournament Getters"},
 {&test_tournament_getters_2, "Test Tournament Getters 2"},
 {&test_bad_tournament_create, "Test Bad Tournament Create"},
 {&test_add_player, "Test add player"},
-{&test_update_settings, "Test update settings"}
+{&test_update_settings, "Test update settings"},
+{&test_status_change, "Test status changes"}
         )
 
