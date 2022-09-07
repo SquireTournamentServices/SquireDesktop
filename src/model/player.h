@@ -11,7 +11,7 @@ public:
     Player(const Player &p);
     ~Player();
     std::string name();
-    std::string gameName();
+    std::string game_name();
     squire_core::sc_PlayerStatus status();
     std::string statusAsStr();
     int statusAsInt();

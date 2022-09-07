@@ -7,6 +7,7 @@
 #include "../testing_h/testing.h"
 #include "./sq_link_test.h"
 #include "./test_tournament_ffi.h"
+#include "./test_round_ffi.h"
 #include <squire_core/squire_core.h>
 
 int test_func()
@@ -36,8 +37,9 @@ int main(int argc, char *argv[])
     lprintf(LOG_INFO, "Running tests for Squire Desktop FFI %s for %s @ %s\n", VERSION, OS, REPO_URL);
     unit_test tests[] = {
         {&test_func, "Testing_h self test"},
-        {&sq_link_test, "SQ Link Test"},
+        {&sq_link_test, "SQ Link Test (debug test)"},
         {&test_tournament_ffi, "Tournament FFI Tests"},
+        {&test_round_ffi, "Round FFI Tests"}
     };
 
     squire_core::init_squire_ffi(); // This is important!

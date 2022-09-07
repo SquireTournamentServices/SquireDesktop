@@ -1,4 +1,5 @@
 #pragma once
+#include "./player.h"
 #include <string>
 #include <vector>
 #include <squire_core/squire_core.h>
@@ -18,7 +19,7 @@ public:
     int match_number();
     bool matches(std::string query);
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
-    std::vector<squire_core::sc_PlayerId> players();
+    std::vector<Player> players();
     std::string players_as_str();
 private:
     squire_core::sc_TournamentId tid;

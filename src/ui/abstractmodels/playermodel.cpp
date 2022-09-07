@@ -55,7 +55,7 @@ QVariant PlayerModel::data(const QModelIndex &index, int role) const
     case 1:
         return QVariant(QString::fromStdString(player.name()));
     case 2:
-        return QVariant(QString::fromStdString(player.gameName()));
+        return QVariant(QString::fromStdString(player.game_name()));
     }
     return QVariant();
 }

@@ -255,7 +255,9 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/sq_link_test.h
     ./tests_ffi/sq_link_test.cpp
     ./tests_ffi/test_tournament_ffi.h
-    ./tests_ffi/test_tournament_ffi.cpp)
+    ./tests_ffi/test_tournament_ffi.cpp
+    ./tests_ffi/test_round_ffi.h
+    ./tests_ffi/test_round_ffi.cpp)
 
 set(LIBS)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)

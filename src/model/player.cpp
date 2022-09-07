@@ -36,7 +36,7 @@ std::string Player::name()
     return ret;
 }
 
-std::string Player::gameName()
+std::string Player::game_name()
 {
     char *name = (char *)squire_core::pid_game_name(this->pid, this->tid);
     if (name == NULL) {
@@ -90,7 +90,7 @@ squire_core::sc_TournamentId Player::tourn_id()
 bool Player::matches(std::string query)
 {
     std::string pname = this->name();
-    std::string gname = this->gameName();
+    std::string gname = this->game_name();
     toLowerCase(pname);
     toLowerCase(gname);
     toLowerCase(query);
@@ -133,7 +133,7 @@ int playerGameNameSort(const Player &a, const Player &b)
 {
     Player pa(a);
     Player pb(b);
-    return strcmp(pa.name().c_str(), pb.gameName().c_str());
+    return strcmp(pa.name().c_str(), pb.game_name().c_str());
 }
 
 bool playerIsActive(Player p)

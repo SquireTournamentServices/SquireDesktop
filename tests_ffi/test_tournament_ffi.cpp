@@ -184,7 +184,7 @@ static int test_add_player()
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(memcmp(player.tourn_id()._0, t->id()._0, sizeof(char[16])) == 0);
         ASSERT(player.name() == TEST_NAME);
-        ASSERT(player.gameName() == TEST_NAME);
+        ASSERT(player.game_name() == TEST_NAME);
     }
 
     // Test that only one of each player name is valid
@@ -348,6 +348,7 @@ static int test_pair_round()
 
     ASSERT(t->rounds().size() == 1);
     ASSERT(!is_null_id(t->rounds()[0].id()._0));
+    ASSERT(memcmp(rounds[0].id()._0, rid._0, sizeof(rid._0)) == 0);
 
     // Close the tournament
     ASSERT(t->close());

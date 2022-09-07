@@ -5,13 +5,13 @@
     <name>AddPlayerDialogue</name>
     <message>
         <location filename="src/ui/tournament/addplayerdialogue.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_addplayerdialogue.h" line="69"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_addplayerdialogue.h" line="72"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournament/addplayerdialogue.ui" line="34"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_addplayerdialogue.h" line="70"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_addplayerdialogue.h" line="73"/>
         <source>Player Name</source>
         <translation type="unfinished"></translation>
     </message>

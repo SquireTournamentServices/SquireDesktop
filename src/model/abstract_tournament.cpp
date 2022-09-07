@@ -298,7 +298,7 @@ std::vector<Player> Tournament::players()
     for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
         players.push_back(Player(player_ptr[i], this->tid));
     }
-    squire_core::sq_free(player_ptr, players.size() + 1);
+    squire_core::sq_free(player_ptr, (players.size() + 1) * sizeof(*player_ptr));
 
     return players;
 }

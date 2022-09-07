@@ -1,4 +1,5 @@
 #include "./round.h"
+#include "../ffi_utils.h"
 #include <string.h>
 
 Round::Round()
@@ -62,16 +63,36 @@ bool Round::matches(std::string query)
     return true; // TODO : Change me
 }
 
-std::vector<squire_core::sc_PlayerId> Round::players()
+std::vector<Player> Round::players()
 {
-    // TODO: Change me
-    std::vector<squire_core::sc_PlayerId> ret;
+    std::vector<Player> ret;
+    squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::rid_players(this->rid, this->tid);
+
+    if (player_ptr == NULL) {
+        return ret;
+    }
+
+    for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
+        ret.push_back(Player(player_ptr[i], this->tid));
+    }
+
+    squire_core::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
     return ret;
 }
 
 std::string Round::players_as_str()
 {
-    return "Change me";
+    std::vector<Player> players = this->players();
+    std::string ret = "";
+
+    for (size_t i = 0; i < players.size(); i++) {
+        ret += players[i].name();
+        if (i != players.size() - 1) {
+            ret += ", ";
+        }
+    }
+
+    return ret;
 }
 
 int cmpRndMatchNo(const Round &ra, const Round &rb)
