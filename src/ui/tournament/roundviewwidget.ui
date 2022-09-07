@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RoundViewWidget</class>
+ <widget class="QWidget" name="RoundViewWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>865</width>
+    <height>587</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="topIndicator">
+     <item>
+      <widget class="QLabel" name="matchNumber">
+       <property name="text">
+        <string>Match #0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="roundStatus">
+       <property name="text">
+        <string>Round Status</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="timeExtesionLabel">
+       <property name="text">
+        <string>Time Extension</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <item>
+        <widget class="QSpinBox" name="timeExtensionEdit"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="extendTime">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Give Extension</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="matchResultLabel">
+       <property name="text">
+        <string>Match Result</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="matchResultEdit"/>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="matchWinnerEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="matchWinnerLabel">
+       <property name="text">
+        <string>Match Winner</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="timeExtensionTableLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Time Extensions Granted</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="timeExtensionTable" native="true"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="playersInRoundTableLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Players in Round</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="playerInRoundTable" native="true"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="bottomIndicator">
+     <item>
+      <widget class="QLabel" name="timeLeftLabel">
+       <property name="text">
+        <string>Time Left in Round</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="timeLeftProgressBar">
+       <property name="value">
+        <number>24</number>
+       </property>
+       <property name="format">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
