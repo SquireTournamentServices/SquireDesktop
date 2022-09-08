@@ -509,6 +509,114 @@
     </message>
 </context>
 <context>
+    <name>RoundViewWidget</name>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="183"/>
+        <source>Form</source>
+        <translation type="unfinished">Form</translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="22"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="184"/>
+        <source>Match #0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="36"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="185"/>
+        <source>Round Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="47"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="186"/>
+        <source>Time Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="68"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="187"/>
+        <source>Give Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="77"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="188"/>
+        <source>Match Result</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="90"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="189"/>
+        <source>Match Winner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="105"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="190"/>
+        <source>Time Extensions Granted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="121"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="191"/>
+        <source>Players in Round</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="133"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="192"/>
+        <source>Time Left in Round</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="46"/>
+        <source>Match #</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="48"/>
+        <source>0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="59"/>
+        <source>No Round Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="60"/>
+        <source>Match #--</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="73"/>
+        <source>Round is in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="76"/>
+        <source>Round is waiting results certification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="79"/>
+        <source>Round has been finished and, results are confirmed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="82"/>
+        <source>Round has been deleted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="111"/>
+        <source>Left in Round</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SearchSortTableWidget</name>
     <message>
         <location filename="src/ui/widgets/searchsorttablewidget.ui" line="14"/>
@@ -800,63 +908,63 @@
     <name>TournamentTab</name>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="202"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="210"/>
         <source>Form</source>
         <translation type="unfinished">Form</translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="24"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="203"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="211"/>
         <source>Tournament Name and Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="36"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="204"/>
+        <location filename="src/ui/tournamenttab.ui" line="39"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="212"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="47"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="205"/>
+        <location filename="src/ui/tournamenttab.ui" line="50"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="213"/>
         <location filename="src/ui/tournamenttab.cpp" line="67"/>
         <source>Pair Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="67"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="206"/>
+        <location filename="src/ui/tournamenttab.ui" line="76"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="214"/>
         <source>Matches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="81"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="207"/>
+        <location filename="src/ui/tournamenttab.ui" line="96"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="215"/>
         <source>Players</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="91"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="208"/>
+        <location filename="src/ui/tournamenttab.ui" line="106"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="216"/>
         <location filename="src/ui/tournamenttab.cpp" line="336"/>
         <source>Add Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="111"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="209"/>
+        <location filename="src/ui/tournamenttab.ui" line="126"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="217"/>
         <source>Not Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="125"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="210"/>
+        <location filename="src/ui/tournamenttab.ui" line="140"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="218"/>
         <source>Tournament Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="139"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="211"/>
+        <location filename="src/ui/tournamenttab.ui" line="154"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="219"/>
         <source>Time Left in Round</source>
         <translation type="unfinished"></translation>
     </message>

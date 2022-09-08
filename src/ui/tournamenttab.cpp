@@ -75,7 +75,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     // Start timer
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &TournamentTab::updateRoundTimer);
-    emit this->updateRoundTimer();
+    this->updateRoundTimer();
 }
 
 TournamentTab::~TournamentTab()
