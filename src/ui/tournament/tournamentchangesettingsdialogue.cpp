@@ -26,6 +26,7 @@ TournamentChangeSettingsDialogue::TournamentChangeSettingsDialogue(Tournament *t
     ui->maxDeckCountEdit->setValue(this->tourn->max_deck_count());
     ui->allowRegistrationEdit->setChecked(this->tourn->reg_open());
     ui->requireCheckinsEdit->setChecked(this->tourn->require_check_in());
+    ui->matchLengthEdit->setValue(this->tourn->round_length());
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &TournamentChangeSettingsDialogue::onApply);
 }
@@ -55,6 +56,7 @@ void TournamentChangeSettingsDialogue::onApply()
     int gameSize = ui->matchSizeEdit->value();
     int minDeckCount = ui->minDeckCountEdit->value();
     int maxDeckCount = ui->maxDeckCountEdit->value();
+    int matchLength = ui->matchLengthEdit->value();
     bool regOpen = ui->allowRegistrationEdit->isChecked();
     bool requireCheckIn = ui->requireCheckinsEdit->isChecked();
     bool requireDeckReg = minDeckCount > 0;
@@ -67,6 +69,7 @@ void TournamentChangeSettingsDialogue::onApply()
                                            gameSize,
                                            minDeckCount,
                                            maxDeckCount,
+                                           matchLength,
                                            regOpen,
                                            requireCheckIn,
                                            requireDeckReg);

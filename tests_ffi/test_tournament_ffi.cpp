@@ -14,6 +14,7 @@
 #define TEST_NUM_MIN_DECKS (TEST_NUM_GAME_SIZE + 1)
 #define TEST_NUM_MAX_DECKS (TEST_NUM_MIN_DECKS + 1)
 #define TEST_BOOL true
+#define TEST_ROUND_LENGTH 180
 
 static int test_create_base()
 {
@@ -225,6 +226,7 @@ int test_update_settings()
     int gameSize = TEST_NUM_GAME_SIZE + 2;
     int minDeckCount = TEST_NUM_MIN_DECKS * 2;
     int maxDeckCount = TEST_NUM_MAX_DECKS * 2;
+    int roundLength = TEST_ROUND_LENGTH;
     bool regOpen = !TEST_BOOL;
     bool requireCheckIn = !TEST_BOOL;
     bool requireDeckReg = !TEST_BOOL;
@@ -235,6 +237,7 @@ int test_update_settings()
                              gameSize,
                              minDeckCount,
                              maxDeckCount,
+                             roundLength,
                              regOpen,
                              requireCheckIn,
                              requireDeckReg));
@@ -248,6 +251,7 @@ int test_update_settings()
     ASSERT(t->reg_open() == regOpen);
     ASSERT(t->require_check_in() == requireCheckIn);
     ASSERT(t->require_deck_reg() == requireDeckReg);
+    ASSERT(t->round_length() == TEST_ROUND_LENGTH);
 
     // Close the tournament
     ASSERT(t->close());

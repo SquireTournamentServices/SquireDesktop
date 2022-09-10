@@ -168,6 +168,11 @@ squire_core::sc_TournamentPreset Tournament::pairing_type()
     return squire_core::sc_TournamentPreset(ret);
 }
 
+int Tournament::round_length()
+{
+    return squire_core::tid_round_length(this->tid);
+}
+
 bool Tournament::reg_open()
 {
     return squire_core::tid_reg_open(this->tid);
@@ -246,6 +251,7 @@ bool Tournament::updateSettings(std::string format,
                                 int gameSize,
                                 int minDeckCount,
                                 int maxDeckCount,
+                                int roundLength,
                                 bool regOpen,
                                 bool requireCheckIn,
                                 bool requireDeckReg)
@@ -257,6 +263,7 @@ bool Tournament::updateSettings(std::string format,
              gameSize,
              minDeckCount,
              maxDeckCount,
+             roundLength,
              regOpen,
              requireCheckIn,
              requireDeckReg,

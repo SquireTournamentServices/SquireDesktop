@@ -44,6 +44,7 @@ public:
     int min_deck_count();
     int max_deck_count();
     squire_core::sc_TournamentPreset pairing_type();
+    int round_length();
     bool reg_open();
     bool require_check_in();
     bool require_deck_reg();
@@ -64,6 +65,7 @@ public:
                         int gameSize,
                         int minDeckCount,
                         int maxDeckCount,
+                        int roundLength,
                         bool regOpen,
                         bool requireCheckIn,
                         bool requireDeckReg);
