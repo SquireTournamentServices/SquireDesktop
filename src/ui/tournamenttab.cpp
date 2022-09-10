@@ -36,6 +36,10 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->roundTable->addAdditionalFilter(showLiveRounds.toStdString(), &roundIsActive);
     this->roundTableLayout->addWidget(this->roundTable);
 
+    // Add information widgets
+    this->roundViewWidget = new RoundViewWidget(this->tourn, this);
+    ui->infoTabWidget->addTab(this->roundViewWidget, tr("Round Info"));
+
     // Connect all slots
     connect(this->tourn, &Tournament::onPlayerAdded, this, &TournamentTab::onPlayerAdded);
     connect(this->tourn, &Tournament::onPlayersChanged, this, &TournamentTab::onPlayersChanged);
@@ -58,6 +62,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(ui->pairRound, &QPushButton::clicked, this, &TournamentTab::pairRoundsClicked);
     connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
     connect(ui->tournamentSettings, &QPushButton::clicked, this, &TournamentTab::changeSettingsClicked);
+    connect(this->roundTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TournamentTab::roundSelected);
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
@@ -86,6 +91,7 @@ TournamentTab::~TournamentTab()
     delete roundTable;
     delete roundTableLayout;
     delete tourn;
+    delete roundViewWidget;
 }
 
 void TournamentTab::changeEvent(QEvent *e)
@@ -338,5 +344,15 @@ void TournamentTab::onRegOpenChanged(bool regOpen)
         ui->addPlayer->setText(tr("Allow Player Registration to Add Players"));
     }
     ui->addPlayer->setDisabled(!regOpen);
+}
+
+void TournamentTab::roundSelected(const QItemSelection &selected, const QItemSelection deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+    if (indexes.size() > 0) {
+        int index = indexes[0].row();
+        Round rnd = this->roundTable->getDataAt(index);
+        this->roundViewWidget->setRound(rnd);
+    }
 }
 

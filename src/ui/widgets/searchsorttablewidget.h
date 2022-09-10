@@ -49,6 +49,8 @@ public:
     void onFilterChange(QString query) override;
     void addFilter() override;
     void sortChanged(int column, bool ascending) override;
+    T_DATA getDataAt(int index);
+    QItemSelectionModel *selectionModel();
 private:
     std::vector<bool (*)(T_DATA a)> additionalFilters;
     std::vector<int (*)(const T_DATA &a, const T_DATA &b)> sortAlgs;
@@ -76,6 +78,7 @@ SearchSortTableWidget<T_MDL, T_DATA>::SearchSortTableWidget(std::vector<T_DATA> 
 
     this->finishSstwSetup(ui, this->tableModel->getSortObject());
     ui->table->setModel(this->tableModel);
+    ui->table->setSelectionModel(this->itemMdl);
 }
 
 template <class T_MDL, class T_DATA>
@@ -159,5 +162,22 @@ void SearchSortTableWidget<T_MDL, T_DATA>::sortChanged(int column, bool ascendin
         this->tableModel->setData(this->flist.getFiltered());
     } else {
         lprintf(LOG_WARNING, "Index %d has no sorting algorithm\n", column);
+    }
+}
+
+template <class T_MDL, class T_DATA>
+QItemSelectionModel *SearchSortTableWidget<T_MDL, T_DATA>::selectionModel()
+{
+    return this->itemMdl;
+}
+
+template <class T_MDL, class T_DATA>
+T_DATA SearchSortTableWidget<T_MDL, T_DATA>::getDataAt(int index)
+{
+    std::vector<T_DATA> tmp = this->flist.getFiltered();
+    if (index >= 0 && index < tmp.size()) {
+        return tmp[index];
+    } else {
+        return T_DATA();
     }
 }

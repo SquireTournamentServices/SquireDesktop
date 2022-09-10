@@ -87,28 +87,32 @@ void RoundViewWidget::displayRound()
     }
 
     // Timer
-    int seconds = timeLeft % 60;
-    int minutes = ((timeLeft / 60) % 60);
-    int hours = timeLeft / (60 * 60);
-
     QString timeLeftStr = "";
-    if (hours < 10) {
-        timeLeftStr += "0";
-    }
-    timeLeftStr += QString::number(hours);
-    timeLeftStr += ":";
+    if (timeLeft == 0) {
+        timeLeftStr = tr("Round has ended");
+    } else {
+        int seconds = timeLeft % 60;
+        int minutes = ((timeLeft / 60) % 60);
+        int hours = timeLeft / (60 * 60);
 
-    if (minutes < 10) {
-        timeLeftStr += "0";
-    }
-    timeLeftStr += QString::number(minutes);
-    timeLeftStr += ":";
+        if (hours < 10) {
+            timeLeftStr += "0";
+        }
+        timeLeftStr += QString::number(hours);
+        timeLeftStr += ":";
 
-    if (seconds < 10) {
-        timeLeftStr += "0";
+        if (minutes < 10) {
+            timeLeftStr += "0";
+        }
+        timeLeftStr += QString::number(minutes);
+        timeLeftStr += ":";
+
+        if (seconds < 10) {
+            timeLeftStr += "0";
+        }
+        timeLeftStr += QString::number(seconds);
+        timeLeftStr += " " + tr("Left in Round");
     }
-    timeLeftStr += QString::number(seconds);
-    timeLeftStr += " " + tr("Left in Round");
 
     // Render values in GUI
     ui->matchNumber->setText(numberStr);

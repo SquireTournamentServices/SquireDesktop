@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
+    <width>1025</width>
     <height>658</height>
    </rect>
   </property>
@@ -15,11 +15,17 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="container" stretch="2,2">
+    <layout class="QHBoxLayout" name="container" stretch="2,0,2">
      <item>
-      <layout class="QVBoxLayout" name="left">
+      <layout class="QVBoxLayout" name="left" stretch="1,1,1,1,0">
        <item>
         <widget class="QLabel" name="tournamentStatus">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>Tournament Name and Type</string>
          </property>
@@ -83,7 +89,33 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="right">
+      <layout class="QVBoxLayout" name="middle" stretch="1">
+       <item>
+        <widget class="QTabWidget" name="infoTabWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>1</horstretch>
+           <verstretch>1</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>250</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+         <property name="movable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="right" stretch="1,1,1">
        <item>
         <widget class="QLabel" name="label_2">
          <property name="sizePolicy">
