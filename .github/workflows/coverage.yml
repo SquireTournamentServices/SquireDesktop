@@ -111,6 +111,7 @@ jobs:
         cmake .. -DCMAKE_BUILD_TYPE=TEST "-DCMAKE_C_COMPILER=/bin/gcc" "-DCMAKE_CXX_COMPILER=/bin/g++"
         cmake --build . -j
         make coverage
+        make coverage-ffi
     
     - uses: codecov/codecov-action@v3
       with:
