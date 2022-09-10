@@ -56,7 +56,7 @@ QString RoundViewWidget::matchNumberToStr(int number)
 void RoundViewWidget::displayRound()
 {
     // Genereate state strings
-    QString statusStr = tr("No Round Selected");
+    QString statusStr = tr("No Match Selected");
     QString numberStr = tr("Match #--");
     int timeLeft = 0;
     int duration = 0;
@@ -70,16 +70,16 @@ void RoundViewWidget::displayRound()
         // Status
         switch(this->round.status()) {
         case squire_core::sc_RoundStatus::Open:
-            statusStr = tr("Round is in progress");
+            statusStr = tr("Match is in progress");
             break;
         case squire_core::sc_RoundStatus::Uncertified:
-            statusStr = tr("Round is waiting results certification");
+            statusStr = tr("Match is waiting results certification");
             break;
         case squire_core::sc_RoundStatus::Certified:
-            statusStr = tr("Round has been finished and, results are confirmed");
+            statusStr = tr("Match has been finished and, results are confirmed");
             break;
         case squire_core::sc_RoundStatus::Dead:
-            statusStr = tr("Round has been deleted");
+            statusStr = tr("Match has been deleted");
             break;
         }
     } else {
@@ -89,7 +89,7 @@ void RoundViewWidget::displayRound()
     // Timer
     QString timeLeftStr = "";
     if (timeLeft == 0) {
-        timeLeftStr = tr("Round has ended");
+        timeLeftStr = tr("Match has ended");
     } else {
         int seconds = timeLeft % 60;
         int minutes = ((timeLeft / 60) % 60);
@@ -111,7 +111,7 @@ void RoundViewWidget::displayRound()
             timeLeftStr += "0";
         }
         timeLeftStr += QString::number(seconds);
-        timeLeftStr += " " + tr("Left in Round");
+        timeLeftStr += " " + tr("Left in Match");
     }
 
     // Render values in GUI

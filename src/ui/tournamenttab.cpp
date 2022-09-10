@@ -38,7 +38,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     // Add information widgets
     this->roundViewWidget = new RoundViewWidget(this->tourn, this);
-    ui->infoTabWidget->addTab(this->roundViewWidget, tr("Round Info"));
+    ui->infoTabWidget->addTab(this->roundViewWidget, tr("Match Info"));
 
     this->playerViewWidget = new PlayerViewWidget(this->tourn, this);
     ui->infoTabWidget->addTab(this->playerViewWidget, tr("Player Info"));
