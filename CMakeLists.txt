@@ -201,6 +201,9 @@ set(PROJECT_SOURCES
     ./src/ui/tournament/roundviewwidget.cpp
     ./src/ui/tournament/roundviewwidget.h
     ./src/ui/tournament/roundviewwidget.ui
+    ./src/ui/tournament/playerviewwidget.cpp
+    ./src/ui/tournament/playerviewwidget.h
+    ./src/ui/tournament/playerviewwidget.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui

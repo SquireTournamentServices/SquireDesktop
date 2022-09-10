@@ -6,6 +6,7 @@
 #include "./abstractmodels/playermodel.h"
 #include "./abstractmodels/roundmodel.h"
 #include "./tournament/roundviewwidget.h"
+#include "./tournament/playerviewwidget.h"
 #include <squire_core/squire_core.h>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -66,6 +67,7 @@ private:
     SearchSortTableWidget<PlayerModel, Player> *playerTable;
     SearchSortTableWidget<RoundModel, Round> *roundTable;
     RoundViewWidget *roundViewWidget;
+    PlayerViewWidget *playerViewWidget;
     Ui::TournamentTab *ui;
     Tournament *tourn;
     std::string t_name;

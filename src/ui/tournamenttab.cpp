@@ -40,6 +40,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->roundViewWidget = new RoundViewWidget(this->tourn, this);
     ui->infoTabWidget->addTab(this->roundViewWidget, tr("Round Info"));
 
+    this->playerViewWidget = new PlayerViewWidget(this->tourn, this);
+    ui->infoTabWidget->addTab(this->playerViewWidget, tr("Player Info"));
+
     // Connect all slots
     connect(this->tourn, &Tournament::onPlayerAdded, this, &TournamentTab::onPlayerAdded);
     connect(this->tourn, &Tournament::onPlayersChanged, this, &TournamentTab::onPlayersChanged);
@@ -92,6 +95,7 @@ TournamentTab::~TournamentTab()
     delete roundTableLayout;
     delete tourn;
     delete roundViewWidget;
+    delete playerViewWidget;
 }
 
 void TournamentTab::changeEvent(QEvent *e)
@@ -285,29 +289,34 @@ void TournamentTab::updateRoundTimer()
         min = 0;
     }
 
-    int seconds = min % 60;
-    int minutes = ((min / 60) % 60);
-    int hours = min / (60 * 60);
-
     QString str = "";
-    if (hours < 10) {
-        str += "0";
-    }
-    str += QString::number(hours);
-    str += ":";
+    if (min == 0) {
+        str = tr("No Time");
+    } else {
+        int seconds = min % 60;
+        int minutes = ((min / 60) % 60);
+        int hours = min / (60 * 60);
 
-    if (minutes < 10) {
-        str += "0";
-    }
-    str += QString::number(minutes);
-    str += ":";
+        if (hours < 10) {
+            str += "0";
+        }
+        str += QString::number(hours);
+        str += ":";
 
-    if (seconds < 10) {
-        str += "0";
+        if (minutes < 10) {
+            str += "0";
+        }
+        str += QString::number(minutes);
+        str += ":";
+
+        if (seconds < 10) {
+            str += "0";
+        }
+        str += QString::number(seconds);
     }
-    str += QString::number(seconds);
+
     str += " " + tr("Left in Round");
-    str += tr(" (") + QString::number(roundCount, 10) + tr(" Rounds)");
+    str += tr(" (") + QString::number(roundCount, 10) + tr(" Matches)");
 
     ui->roundTimerLabel->setText(str);
     if (max == 0) {
