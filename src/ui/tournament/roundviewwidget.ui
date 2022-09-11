@@ -158,6 +158,16 @@
     <widget class="QWidget" name="playerInRoundTable" native="true"/>
    </item>
    <item>
+    <widget class="QPushButton" name="killMatch">
+     <property name="text">
+      <string>Kill Match</string>
+     </property>
+     <property name="icon">
+      <iconset theme="edit-delete"/>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="bottomIndicator">
      <item>
       <widget class="QLabel" name="timeLeftLabel">
