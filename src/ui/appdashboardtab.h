@@ -29,6 +29,8 @@ protected:
 private:
     LabelImage *banner;
     QVBoxLayout *layout;
+    QVBoxLayout *bannerLayout;
+    QPixmap pixmap;
 private slots:
     void openTournament(QString name);
 };

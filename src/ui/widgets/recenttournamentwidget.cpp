@@ -20,7 +20,6 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
         ui->type->setText(QString::fromStdString(std::string(t.pairing_sys)));
     }
 
-    QPixmap pixmap;
     if (t.name == NULL || t.pairing_sys == NULL) {
         ui->editTime->setText(tr("Error with: ") + QString(t.file_path));
         pixmap.loadFromData(WARNING_PNG, sizeof(WARNING_PNG));
@@ -39,14 +38,15 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
     this->img = new LabelImage();
     this->img->setPixmap(pixmap);
 
-    QVBoxLayout *layout = new QVBoxLayout(ui->frame);
-    layout->setAlignment(Qt::AlignTop);
-    layout->addWidget(this->img);
+    this->layout = new QVBoxLayout(ui->frame);
+    this->layout->setAlignment(Qt::AlignTop);
+    this->layout->addWidget(this->img);
 }
 
 RecentTournamentWidget::~RecentTournamentWidget()
 {
     delete ui;
+    delete layout;
     free(this->t.name);
     free(this->t.file_path);
     free(this->t.pairing_sys);

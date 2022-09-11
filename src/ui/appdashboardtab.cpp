@@ -19,20 +19,20 @@ AppDashboardTab::AppDashboardTab(config_t t, QWidget *parent) :
     }
 
     // Banner stuff
-    QPixmap pixmap;
     pixmap.loadFromData(BANNER_PNG, sizeof(BANNER_PNG));
 
     this->banner = new LabelImage();
-    banner->setPixmap(pixmap);
+    this->banner->setPixmap(pixmap);
 
-    QVBoxLayout *bannerLayout = new QVBoxLayout(ui->bannerView);
-    bannerLayout->setAlignment(Qt::AlignTop);
-    bannerLayout->addWidget(this->banner);
+    this->bannerLayout = new QVBoxLayout(ui->bannerView);
+    this->bannerLayout->setAlignment(Qt::AlignTop);
+    this->bannerLayout->addWidget(this->banner);
 }
 
 AppDashboardTab::~AppDashboardTab()
 {
     delete ui;
+    delete this->bannerLayout;
 }
 
 void AppDashboardTab::onTournamentAdded(recent_tournament_t t)

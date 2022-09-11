@@ -1,19 +1,31 @@
 #include "./labelimage.h"
 
+LabelImage::LabelImage(QWidget *parent)
+    : QLabel(parent)
+{
+
+}
+
+LabelImage::~LabelImage()
+{
+
+}
+
 void LabelImage::resizeEvent(QResizeEvent *pQEvent)
 {
     QLabel::resizeEvent(pQEvent);
-    setPixmap(_qPixmap, pQEvent->size());
+    this->setPixmap(this->pixmap, pQEvent->size());
 }
 
 void LabelImage::setPixmap(const QPixmap &qPixmap, const QSize &size)
 {
-    _qPixmap = qPixmap;
-    _qPixmapScaled = _qPixmap.scaled(size, Qt::KeepAspectRatio);
-    QLabel::setPixmap(_qPixmapScaled);
+    this->pixmap = qPixmap;
+    this->pixmapScaled = this->pixmap.scaled(size, Qt::KeepAspectRatio);
+    QLabel::setPixmap(this->pixmapScaled);
 }
 
 void LabelImage::setPixmap(const QPixmap &qPixmap)
 {
-    this->setPixmap(qPixmap, size());
+    this->setPixmap(qPixmap, this->size());
 }
+

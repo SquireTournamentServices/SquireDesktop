@@ -1,5 +1,6 @@
 #include "./round.h"
 #include "../ffi_utils.h"
+#include <string>
 #include <string.h>
 
 Round::Round()
@@ -60,7 +61,19 @@ int Round::match_number()
 
 bool Round::matches(std::string query)
 {
-    return true; // TODO : Change me
+    bool match = false;
+    std::vector<Player> roundPlayers = this->players();
+    for (size_t i = 0; i < roundPlayers.size() && !match; i++) {
+        match = roundPlayers[i].matches(query);
+    }
+
+    if (!match) {
+        std::string match_number_str = std::to_string(this->match_number());
+        match = query.find(match_number_str) != std::string::npos;
+        match |= match_number_str.find(query) != std::string::npos;
+    }
+
+    return match;
 }
 
 std::vector<Player> Round::players()

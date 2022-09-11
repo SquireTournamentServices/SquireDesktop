@@ -30,6 +30,7 @@ public slots:
 protected:
     void changeEvent(QEvent *e);
 private:
+    QString getStatusString();
     void displayPlayer();
 
     QTimer timeLeftUpdater;

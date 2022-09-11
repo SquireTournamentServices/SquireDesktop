@@ -13,6 +13,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 {
     ui->setupUi(this);
     this->tourn = tourn;
+    if (!this->tourn->isSaved()) {
+        this->tourn->save();
+    }
 
     // Add player table
     this->playerTableLayout = new QVBoxLayout(ui->playerTable);

@@ -1,5 +1,6 @@
 #include "playerviewwidget.h"
 #include "ui_playerviewwidget.h"
+#include <squire_core/squire_core.h>
 
 PlayerViewWidget::PlayerViewWidget(Tournament *tourn, QWidget *parent) :
     QWidget(parent),
@@ -43,11 +44,37 @@ void PlayerViewWidget::changeEvent(QEvent *e)
     }
 }
 
+QString PlayerViewWidget::getStatusString()
+{
+    QString base = QString::fromStdString(this->player.name())
+                   + " ("
+                   + QString::fromStdString(this->player.game_name())
+                   + ") - ";
+
+    switch(this->player.status()) {
+    case squire_core::sc_PlayerStatus::Registered:
+        base += tr("Active");
+        break;
+    case squire_core::sc_PlayerStatus::Dropped:
+        base += tr("Dropped");
+        break;
+    }
+
+    return base;
+}
+
 void PlayerViewWidget::displayPlayer()
 {
+    QString status = tr("No Player Selected");
     if (this->playerSelected) {
-
+        this->timeLeftUpdater.start(100);
+        status = this->getStatusString();
+        //TODO: Get rounds
+    } else {
+        this->roundTable->setData(std::vector<Round>());
     }
+
+    ui->playerStatus->setText(status);
 }
 
 void PlayerViewWidget::setPlayer(Player player)

@@ -2,6 +2,7 @@
 #include <QString>
 #include <QWidget>
 #include <QtGlobal>
+#include <QVBoxLayout>
 #include "./labelimage.h"
 #include "../../config.h"
 
@@ -35,5 +36,7 @@ private:
     Ui::RecentTournamentWidget *ui;
     recent_tournament_t t;
     LabelImage *img;
+    QVBoxLayout *layout;
+    QPixmap pixmap;
 };
 

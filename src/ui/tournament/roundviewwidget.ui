@@ -18,8 +18,17 @@
     <layout class="QHBoxLayout" name="topIndicator">
      <item>
       <widget class="QLabel" name="matchNumber">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Match #0</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
        </property>
       </widget>
      </item>
@@ -32,8 +41,17 @@
      </item>
      <item>
       <widget class="QLabel" name="roundStatus">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Round Status</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
        </property>
       </widget>
      </item>
@@ -94,6 +112,13 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="timeExtensionTableLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -108,6 +133,13 @@
    </item>
    <item>
     <widget class="QWidget" name="timeExtensionTable" native="true"/>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="playersInRoundTableLabel">

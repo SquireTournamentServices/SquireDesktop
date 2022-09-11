@@ -63,6 +63,7 @@ void RoundViewWidget::displayRound()
     int duration = 0;
 
     if (this->roundSelected) {
+        this->timeLeftUpdater.start(100);
         this->playerTable->setData(this->round.players());
         numberStr = matchNumberToStr(this->round.match_number());
         timeLeft = this->round.time_left();
@@ -126,8 +127,6 @@ void RoundViewWidget::displayRound()
     } else {
         ui->timeLeftProgressBar->setValue((100 * timeLeft) / duration);
     }
-
-    this->timeLeftUpdater.start(100);
 }
 
 void RoundViewWidget::onPlayersChanged(std::vector<Player>)
