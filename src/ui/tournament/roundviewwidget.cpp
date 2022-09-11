@@ -19,7 +19,8 @@ RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
 
     connect(this->tourn, &Tournament::onPlayersChanged, this, &RoundViewWidget::onPlayersChanged);
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &RoundViewWidget::displayRound);
-    this->displayRound(); // calls displayRound
+    connect(this->playerTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RoundViewWidget::onPlayerSelected);
+    this->displayRound();
 }
 
 RoundViewWidget::~RoundViewWidget()
@@ -139,5 +140,15 @@ void RoundViewWidget::setRound(Round round)
     this->round = round;
     this->roundSelected = true;
     this->displayRound();
+}
+
+void RoundViewWidget::onPlayerSelected(const QItemSelection &selected, const QItemSelection deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+    if (indexes.size() > 0) {
+        int index = indexes[0].row();
+        Player plyr = this->playerTable->getDataAt(index);
+        emit this->playerSelected(plyr);
+    }
 }
 

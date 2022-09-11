@@ -43,6 +43,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->playerViewWidget = new PlayerViewWidget(this->tourn, this);
     ui->infoTabWidget->addTab(this->playerViewWidget, tr("Player Info"));
 
+    connect(this->roundViewWidget, &RoundViewWidget::playerSelected, this->playerViewWidget, &PlayerViewWidget::setPlayer);
+    connect(this->playerViewWidget, &PlayerViewWidget::roundSelected, this->roundViewWidget, &RoundViewWidget::setRound);
+
     // Connect all slots
     connect(this->tourn, &Tournament::onPlayerAdded, this, &TournamentTab::onPlayerAdded);
     connect(this->tourn, &Tournament::onPlayersChanged, this, &TournamentTab::onPlayersChanged);
@@ -66,6 +69,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
     connect(ui->tournamentSettings, &QPushButton::clicked, this, &TournamentTab::changeSettingsClicked);
     connect(this->roundTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TournamentTab::roundSelected);
+    connect(this->playerTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TournamentTab::playerSelected);
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
@@ -362,6 +366,16 @@ void TournamentTab::roundSelected(const QItemSelection &selected, const QItemSel
         int index = indexes[0].row();
         Round rnd = this->roundTable->getDataAt(index);
         this->roundViewWidget->setRound(rnd);
+    }
+}
+
+void TournamentTab::playerSelected(const QItemSelection &selected, const QItemSelection deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+    if (indexes.size() > 0) {
+        int index = indexes[0].row();
+        Player plyr = this->playerTable->getDataAt(index);
+        this->playerViewWidget->setPlayer(plyr);
     }
 }
 

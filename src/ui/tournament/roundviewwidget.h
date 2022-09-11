@@ -20,8 +20,11 @@ class RoundViewWidget : public QWidget
 public:
     explicit RoundViewWidget(Tournament *tourn, QWidget *parent = nullptr);
     ~RoundViewWidget();
+signals:
+    void playerSelected(Player player);
 public slots:
     void setRound(Round round);
+    void onPlayerSelected(const QItemSelection &selected, const QItemSelection deselected);
     // Called when a player's details are changed
     void onPlayersChanged(std::vector<Player>);
 protected:
