@@ -69,7 +69,7 @@ void PlayerViewWidget::displayPlayer()
     if (this->playerSelected) {
         this->timeLeftUpdater.start(100);
         status = this->getStatusString();
-        //TODO: Get rounds
+        this->roundTable->setData(this->tourn->playerRounds(this->player));
     } else {
         this->roundTable->setData(std::vector<Round>());
     }

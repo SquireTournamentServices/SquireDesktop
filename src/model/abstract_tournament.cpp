@@ -326,6 +326,23 @@ std::vector<Round> Tournament::rounds()
     return rounds;
 }
 
+std::vector<Round> Tournament::playerRounds(Player player)
+{
+    std::vector<Round> ret;
+    squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::pid_rounds(player.id(), this->tid);
+    if (rids == NULL) {
+        return ret;
+    }
+
+    for (int i = 0; !is_null_id(rids[i]._0); i++) {
+        ret.push_back(Round(rids[i], this->tid));
+    }
+
+    squire_core::sq_free(rids, sizeof(*rids) * (ret.size() + 1));
+    return ret;
+}
+
+
 bool Tournament::save()
 {
     this->setSaveStatus(false);

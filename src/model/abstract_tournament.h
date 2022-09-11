@@ -52,6 +52,7 @@ public:
     std::string save_location();
     std::vector<Player> players();
     std::vector<Round> rounds();
+    std::vector<Round> playerRounds(Player player);
     int starting_table_number();
     std::vector<squire_core::sc_TournamentStatus> availableStatusChanges();
 
