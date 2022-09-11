@@ -217,8 +217,10 @@ void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
 {
     if (status == squire_core::sc_TournamentStatus::Started) {
         ui->startedIndicator->setChecked(true);
+        ui->startedIndicator->setText(tr("Started"));
     } else {
         ui->startedIndicator->setChecked(false);
+        ui->startedIndicator->setText(tr("Not Started"));
     }
 
     bool canPairRounds = false;
