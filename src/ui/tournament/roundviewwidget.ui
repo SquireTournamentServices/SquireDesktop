@@ -83,7 +83,11 @@
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <item>
-      <widget class="QSpinBox" name="timeExtensionEdit"/>
+      <widget class="QSpinBox" name="timeExtensionEdit">
+       <property name="suffix">
+        <string> minutes</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="extendTime">
@@ -97,11 +101,19 @@
         <string>Give Extension</string>
        </property>
        <property name="icon">
-        <iconset theme="appointment-new"/>
+        <iconset theme="appointment-new">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="Line" name="line_2">
@@ -145,7 +157,8 @@
         <string>Enter Results</string>
        </property>
        <property name="icon">
-        <iconset theme="document-open"/>
+        <iconset theme="document-open">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -155,6 +168,12 @@
     <layout class="QHBoxLayout" name="bottomIndicator">
      <item>
       <widget class="QLabel" name="timeLeftLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Time Left in Round</string>
        </property>

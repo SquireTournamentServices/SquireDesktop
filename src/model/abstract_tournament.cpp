@@ -321,7 +321,7 @@ std::vector<Round> Tournament::rounds()
     for (int i = 0; !is_null_id(round_ptr[i]._0); i++) {
         rounds.push_back(Round(round_ptr[i], this->tid));
     }
-    squire_core::sq_free(round_ptr, rounds.size() + 1);
+    squire_core::sq_free(round_ptr, sizeof(*round_ptr) *(rounds.size() + 1));
 
     return rounds;
 }

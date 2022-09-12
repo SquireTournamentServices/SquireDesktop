@@ -113,7 +113,14 @@ int cmpRndMatchNo(const Round &ra, const Round &rb)
     Round a = Round(ra);
     Round b = Round(rb);
 
-    return a.match_number() - b.match_number();
+    int diff = a.match_number() > b.match_number();
+    if (diff < 0) {
+        return -1;
+    } else if (diff > 0) {
+        return 1;
+    }
+
+    return 0;
 }
 
 int cmpRndTimeLeft(const Round &ra, const Round &rb)
@@ -121,7 +128,14 @@ int cmpRndTimeLeft(const Round &ra, const Round &rb)
     Round a = Round(ra);
     Round b = Round(rb);
 
-    return a.time_left() - b.time_left();
+    int diff = a.time_left() - b.time_left();
+    if (diff < 0) {
+        return -1;
+    } else if (diff > 0) {
+        return 1;
+    }
+
+    return 0;
 }
 
 int cmpRndPlayers(const Round &ra, const Round &rb)
