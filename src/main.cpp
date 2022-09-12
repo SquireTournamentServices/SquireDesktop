@@ -160,8 +160,8 @@ int main(int argc, char *argv[])
         ret = 1;
     }
 
-    lprintf(LOG_INFO, "Exiting application...\n");
     free_config(&config);
-    return ret;
+    lprintf(LOG_INFO, "Exiting application with status %d...\n", ret);
+    exit(ret);
 }
 

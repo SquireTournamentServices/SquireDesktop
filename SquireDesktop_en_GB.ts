@@ -1115,6 +1115,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui/tournamenttab.cpp" line="328"/>
+        <source> Active Matches)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="src/ui/tournamenttab.cpp" line="220"/>
         <location filename="src/ui/tournamenttab.cpp" line="232"/>
         <source>Started</source>
@@ -1163,11 +1168,6 @@
     <message>
         <location filename="src/ui/tournamenttab.cpp" line="328"/>
         <source> (</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/ui/tournamenttab.cpp" line="328"/>
-        <source> Matches)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
