@@ -56,7 +56,7 @@ void TournamentChangeSettingsDialogue::onApply()
     int gameSize = ui->matchSizeEdit->value();
     int minDeckCount = ui->minDeckCountEdit->value();
     int maxDeckCount = ui->maxDeckCountEdit->value();
-    int matchLength = ui->matchLengthEdit->value();
+    int matchLength = ui->matchLengthEdit->value() * 60;
     bool regOpen = ui->allowRegistrationEdit->isChecked();
     bool requireCheckIn = ui->requireCheckinsEdit->isChecked();
     bool requireDeckReg = minDeckCount > 0;

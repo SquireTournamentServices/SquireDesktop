@@ -58,68 +58,14 @@
     </layout>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="timeExtesionLabel">
-       <property name="text">
-        <string>Time Extension</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
-       <item>
-        <widget class="QSpinBox" name="timeExtensionEdit"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="extendTime">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Give Extension</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="matchResultLabel">
-       <property name="text">
-        <string>Match Result</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="matchResultEdit"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QComboBox" name="matchWinnerEdit"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="matchWinnerLabel">
-       <property name="text">
-        <string>Match Winner</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line_3">
+    <widget class="Line" name="line_4">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="timeExtensionTableLabel">
+    <widget class="QLabel" name="timeExtensionsLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -127,12 +73,35 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Time Extensions Granted</string>
+      <string>Time Extensions</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="timeExtensionTable" native="true"/>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <item>
+      <widget class="QSpinBox" name="timeExtensionEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="extendTime">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Give Extension</string>
+       </property>
+       <property name="icon">
+        <iconset theme="appointment-new"/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="Line" name="line_2">
@@ -158,14 +127,29 @@
     <widget class="QWidget" name="playerInRoundTable" native="true"/>
    </item>
    <item>
-    <widget class="QPushButton" name="killMatch">
-     <property name="text">
-      <string>Kill Match</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete"/>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="killMatch">
+       <property name="text">
+        <string>Kill Match</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-delete">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="enterResults">
+       <property name="text">
+        <string>Enter Results</string>
+       </property>
+       <property name="icon">
+        <iconset theme="document-open"/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="bottomIndicator">

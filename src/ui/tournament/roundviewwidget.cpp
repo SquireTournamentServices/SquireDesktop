@@ -89,10 +89,21 @@ void RoundViewWidget::displayRound()
     }
 
     // Timer
+    QString extentionStr = tr("Time Extensions") + " ";
     QString timeLeftStr = "";
     if (timeLeft == 0) {
         timeLeftStr = tr("Match has ended");
     } else {
+        int baseDuration = this->tourn->round_length();
+        int extention = timeLeft - baseDuration;
+        if (extention != 0) {
+            extentionStr += "(";
+            if (extention > 0) {
+                extentionStr += tr("+");
+            }
+            extentionStr += QString::number(extention) + " " + tr("Minutes Extension") + ")";
+        }
+
         int seconds = timeLeft % 60;
         int minutes = ((timeLeft / 60) % 60);
         int hours = timeLeft / (60 * 60);
@@ -120,7 +131,7 @@ void RoundViewWidget::displayRound()
     ui->matchNumber->setText(numberStr);
     ui->roundStatus->setText(statusStr);
     ui->timeLeftLabel->setText(timeLeftStr);
-    ui->timeExtensionEdit->setValue(0);
+    ui->timeExtensionsLabel->setText(extentionStr);
 
     if (duration == 0) {
         ui->timeLeftProgressBar->setValue(0);
