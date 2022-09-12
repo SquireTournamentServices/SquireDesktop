@@ -95,13 +95,13 @@ void RoundViewWidget::displayRound()
         timeLeftStr = tr("Match has ended");
     } else {
         int baseDuration = this->tourn->round_length();
-        int extention = timeLeft - baseDuration;
+        int extention = this->round.duration() - baseDuration;
         if (extention != 0) {
             extentionStr += "(";
             if (extention > 0) {
                 extentionStr += tr("+");
             }
-            extentionStr += QString::number(extention) + " " + tr("Minutes Extension") + ")";
+            extentionStr += QString::number(extention / 60) + " " + tr("Minutes Extension") + ")";
         }
 
         int seconds = timeLeft % 60;

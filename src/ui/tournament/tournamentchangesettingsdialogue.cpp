@@ -26,7 +26,7 @@ TournamentChangeSettingsDialogue::TournamentChangeSettingsDialogue(Tournament *t
     ui->maxDeckCountEdit->setValue(this->tourn->max_deck_count());
     ui->allowRegistrationEdit->setChecked(this->tourn->reg_open());
     ui->requireCheckinsEdit->setChecked(this->tourn->require_check_in());
-    ui->matchLengthEdit->setValue(this->tourn->round_length());
+    ui->matchLengthEdit->setValue(this->tourn->round_length() / 60);
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &TournamentChangeSettingsDialogue::onApply);
 }
