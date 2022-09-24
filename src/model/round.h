@@ -21,6 +21,7 @@ public:
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
     std::vector<Player> players();
     std::string players_as_str();
+    std::vector<squire_core::RoundResult> results();
 private:
     squire_core::sc_TournamentId tid;
     squire_core::sc_RoundId rid;

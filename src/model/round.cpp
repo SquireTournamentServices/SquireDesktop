@@ -93,6 +93,26 @@ std::vector<Player> Round::players()
     return ret;
 }
 
+std::vector<squire_core::RoundResult> Round::results()
+{
+    std::vector<squire_core::RoundResult> ret;
+    squire_core::RoundResult *results_ptr = (squire_core::RoundResult *) squire_core::rid_results(this->rid, this->tid);
+
+    if (results_ptr == NULL) {
+        return ret;
+    }
+
+    squire_core::RoundResult null_result;
+    memset(&null_result, 0, sizeof(null_result));
+
+    for (int i = 0; null_result != results_ptr[i]; i++) {
+        ret.push_back(results_ptr[i]);
+    }
+
+    squire_core::sq_free(result_ptr, (ret.size() + 1) * sizeof(*result_ptr));
+    return ret;
+}
+
 std::string Round::players_as_str()
 {
     std::vector<Player> players = this->players();
