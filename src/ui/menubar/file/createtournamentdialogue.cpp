@@ -133,7 +133,7 @@ void CreateTournamentDialogue::onOkay()
         lprintf(LOG_INFO, "Created tournament %s\n", ui->saveLocation->text().toStdString().c_str());
 
         this->onTournamentAdded(tourn); // This frees the malloc above.
-        emit this->close();
+        emit this->accept();
     } else {
         QMessageBox dlg(this);
         dlg.setText(tr("Error making new tournament"));

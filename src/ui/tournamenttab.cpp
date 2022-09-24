@@ -325,7 +325,7 @@ void TournamentTab::updateRoundTimer()
     }
 
     str += " " + tr("Left in Round");
-    str += tr(" (") + QString::number(roundCount, 10) + tr(" Matches)");
+    str += tr(" (") + QString::number(roundCount, 10) + tr(" Active Matches)");
 
     ui->roundTimerLabel->setText(str);
     if (max == 0) {

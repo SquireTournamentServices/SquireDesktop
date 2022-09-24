@@ -65,66 +65,96 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="timeExtensionsLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Time Extensions</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
-     </property>
-     <item>
-      <widget class="QSpinBox" name="timeExtensionEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="extendTime">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Give Extension</string>
-       </property>
-       <property name="icon">
-        <iconset theme="appointment-new"/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line_2">
+    <widget class="QSplitter" name="splitter">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
+     <widget class="QWidget" name="verticalWidget" native="true">
+      <layout class="QVBoxLayout" name="roundModifiers">
+       <item>
+        <widget class="QLabel" name="timeExtensionsLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Time Extensions</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="timeExtentionLayout">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
+         </property>
+         <item>
+          <widget class="QSpinBox" name="timeExtensionEdit">
+           <property name="suffix">
+            <string> minutes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="extendTime">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Give Extension</string>
+           </property>
+           <property name="icon">
+            <iconset theme="appointment-new">
+             <normaloff>.</normaloff>.</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="resultEntryWidget">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>843</width>
+            <height>311</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalWidget_2" native="true">
+      <layout class="QVBoxLayout" name="roundPlayers">
+       <item>
+        <widget class="QLabel" name="playersInRoundTableLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Players in Round</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="playerInRoundTable" native="true"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="playersInRoundTableLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Players in Round</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="playerInRoundTable" native="true"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -140,12 +170,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="enterResults">
+      <widget class="QPushButton" name="resetResults">
        <property name="text">
-        <string>Enter Results</string>
+        <string>Reset Results</string>
        </property>
        <property name="icon">
-        <iconset theme="document-open"/>
+        <iconset theme="edit-undo"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveResults">
+       <property name="text">
+        <string>Save Results</string>
+       </property>
+       <property name="icon">
+        <iconset theme="document-open">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -155,6 +196,12 @@
     <layout class="QHBoxLayout" name="bottomIndicator">
      <item>
       <widget class="QLabel" name="timeLeftLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Time Left in Round</string>
        </property>

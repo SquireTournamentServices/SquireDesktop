@@ -277,9 +277,10 @@ void MainWindow::settings()
 
 void MainWindow::newTournament()
 {
-    CreateTournamentDialogue dlg = CreateTournamentDialogue(this->config, this);
-    connect(&dlg, &CreateTournamentDialogue::onTournamentAdded, this, &MainWindow::onTournamentAdded);
-    dlg.exec();
+    CreateTournamentDialogue *dlg = new CreateTournamentDialogue(this->config, this);
+    connect(dlg, &CreateTournamentDialogue::onTournamentAdded, this, &MainWindow::onTournamentAdded);
+    dlg->exec();
+    delete dlg;
 }
 
 QString MainWindow::getTournamentTabName(Tournament *t)

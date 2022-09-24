@@ -157,7 +157,7 @@ template <class T_MDL, class T_DATA>
 void SearchSortTableWidget<T_MDL, T_DATA>::sortChanged(int column, bool ascending)
 {
     this->flist.setAscending(ascending);
-    if (column < this->sortAlgs.size()) {
+    if (column >= 0 && column < this->sortAlgs.size()) {
         this->flist.sort(this->sortAlgs[column]);
         this->tableModel->setData(this->flist.getFiltered());
     } else {
@@ -181,3 +181,4 @@ T_DATA SearchSortTableWidget<T_MDL, T_DATA>::getDataAt(int index)
         return T_DATA();
     }
 }
+
