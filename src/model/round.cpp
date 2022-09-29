@@ -192,18 +192,18 @@ RoundResults::RoundResults(Round round)
 
     std::vector<squire_core::sc_RoundResult> results = round.results();
     for (squire_core::sc_RoundResult res : results) {
-      switch(res.tag) {
-        case squire_core::sc_RoundResult::Wins:
-          this->playersWinMap[res.wins._0] = res.wins._1; // this looks ugly :(
-          break;
-        case squire_core::sc_RoundResult::Draw:
-          this->drawCount += res.draws._0; // This is because multiple draws could happen if stuff is borked
-          break;
-      }
+        switch(res.tag) {
+        case squire_core::sc_RoundResult::Tag::Wins:
+            this->playerWinsMap[Player(res.wins._0, round.tourn_id())] = res.wins._1; // this looks ugly :(
+            break;
+        case squire_core::sc_RoundResult::Tag::Draw:
+            this->drawCount += res.draw._0; // This is because multiple draws could happen if stuff is borked
+            break;
+        }
     }
 }
 
-~RoundResults()
+RoundResults::~RoundResults()
 {
 
 }
@@ -215,6 +215,6 @@ int RoundResults::draws()
 
 int RoundResults::resultFor(Player player)
 {
-    return this->playersWinMap[player.id()];
+    return this->playerWinsMap[player];
 }
 

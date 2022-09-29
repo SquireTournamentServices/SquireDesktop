@@ -70,7 +70,7 @@ static int test_round_getters()
 
     ASSERT(rounds[0].time_left() > 0);
     ASSERT(rounds[0].duration() > 0);
-    ASSERT(rounds[0].time_left() < rounds[0].duration());
+    ASSERT(rounds[0].time_left() <= rounds[0].duration());
     ASSERT(rounds[0].match_number() == 0);
     ASSERT(memcmp(rounds[0].tourn_id()._0, t->id()._0, sizeof(t->id()._0)) == 0);
     ASSERT(rounds[0].status() == squire_core::sc_RoundStatus::Open);
@@ -79,6 +79,9 @@ static int test_round_getters()
 
     std::vector<squire_core::sc_RoundResult> results = rounds[0].results();
     ASSERT(results.size() == 0);
+
+    RoundResults res = RoundResults(rounds[0]);
+    ASSERT(res.draws() == 0);
 
     // Close the tournament
     ASSERT(t->close());

@@ -42,7 +42,7 @@ public:
     int draws();
     int resultFor(Player player);
 private:
-    std::map<squire_core::sc_PlayerId, int> playerWinsMap;
+    std::map<Player, int> playerWinsMap;
     int drawCount;
 };
 
