@@ -559,9 +559,24 @@
 <context>
     <name>RoundResultWidget</name>
     <message>
-        <location filename="src/ui/tournament/roundresultwidget.ui" line="16"/>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="14"/>
         <source>Form</source>
         <translation type="unfinished">Form</translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="20"/>
+        <source>Player Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="27"/>
+        <source> wins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="34"/>
+        <source>Confirmed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

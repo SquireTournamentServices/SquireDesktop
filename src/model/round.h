@@ -2,6 +2,7 @@
 #include "./player.h"
 #include <string>
 #include <vector>
+#include <map>
 #include <squire_core/squire_core.h>
 
 class Round
@@ -31,4 +32,17 @@ bool roundIsActive(Round r);
 int cmpRndMatchNo(const Round &ra, const Round &rb);
 int cmpRndTimeLeft(const Round &ra, const Round &rb);
 int cmpRndPlayers(const Round &ra, const Round &rb);
+
+class RoundResults
+{
+public:
+    RoundResults();
+    RoundResults(Round round);
+    ~RoundResults();
+    int draws();
+    int resultFor(Player player);
+private:
+    std::map<squire_core::sc_PlayerId, int> playerWinsMap;
+    int drawCount;
+};
 

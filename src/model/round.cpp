@@ -180,3 +180,41 @@ bool roundIsActive(Round r)
     squire_core::sc_RoundStatus s = r.status();
     return s == squire_core::sc_RoundStatus::Open || s == squire_core::sc_RoundStatus::Uncertified;
 }
+
+RoundResults::RoundResults()
+{
+
+}
+
+RoundResults::RoundResults(Round round)
+{
+    this->drawCount = 0;
+
+    std::vector<squire_core::sc_RoundResult> results = round.results();
+    for (squire_core::sc_RoundResult res : results) {
+      switch(res.tag) {
+        case squire_core::sc_RoundResult::Wins:
+          this->playersWinMap[res.wins._0] = res.wins._1; // this looks ugly :(
+          break;
+        case squire_core::sc_RoundResult::Draw:
+          this->drawCount += res.draws._0; // This is because multiple draws could happen if stuff is borked
+          break;
+      }
+    }
+}
+
+~RoundResults()
+{
+
+}
+
+int RoundResults::draws()
+{
+    return this->drawCount;
+}
+
+int RoundResults::resultFor(Player player)
+{
+    return this->playersWinMap[player.id()];
+}
+
