@@ -55,6 +55,7 @@ public:
     std::vector<Round> playerRounds(Player player);
     int starting_table_number();
     std::vector<squire_core::sc_TournamentStatus> availableStatusChanges();
+    bool recordResult(Round round, squire_core::sc_RoundResult result);
 
     // Respects Translations, this is a GUI method
     QString statusToActionName(squire_core::sc_TournamentStatus status);

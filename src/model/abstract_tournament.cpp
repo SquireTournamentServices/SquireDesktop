@@ -427,6 +427,11 @@ bool Tournament::isSaved()
     return this->saved;
 }
 
+bool Tournament::recordResult(Round round, squire_core::sc_RoundResult result)
+{
+    return rid_record_result(round.id(), this->tid, result, this->aid());
+}
+
 void Tournament::emitAllProps()
 {
     emit onPlayersChanged(this->players());

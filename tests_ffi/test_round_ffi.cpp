@@ -16,6 +16,9 @@
 #define TEST_NUM_MAX_DECKS (TEST_NUM_MIN_DECKS + 1)
 #define TEST_BOOL true
 
+#define DRAWS 10
+#define WINS(i) i
+
 static int test_round_getters()
 {
     Tournament *t = new_tournament(TEST_FILE ".2",
@@ -83,6 +86,26 @@ static int test_round_getters()
     RoundResults res = RoundResults(rounds[0]);
     ASSERT(res.draws() == 0);
 
+    // Test the draws
+    squire_core::sc_RoundResult newres = squire_core::sc_RoundResult::Draw(DRAWS);
+    ASSERT(t->recordResult(rounds[0], newres));
+
+    res = RoundResults(rounds[0]);
+    ASSERT(res.draws() == DRAWS);
+
+    // Test record results
+    int i = 0;
+    for (Player p : rounds[0].players()) {
+        squire_core::sc_RoundResult res = squire_core::sc_RoundResult::Wins(p.id(), WINS(i));
+        ASSERT(t->recordResult(rounds[0], res));
+
+        RoundResults results = RoundResults(rounds[0]);
+        ASSERT(results.resultFor(p) == WINS(i));
+        i++;
+    }
+
+    ASSERT(res.draws() == DRAWS);
+
     // Close the tournament
     ASSERT(t->close());
     delete t;
@@ -90,5 +113,5 @@ static int test_round_getters()
 }
 
 SUB_TEST(test_round_ffi,
-{&test_round_getters, "Test Round Getters"}
+{&test_round_getters, "Test Round Method, ignore this monolithic function :D"}
         )
