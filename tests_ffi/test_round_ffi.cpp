@@ -77,6 +77,9 @@ static int test_round_getters()
     ASSERT(rounds[0].players_as_str() != "");
     ASSERT(roundIsActive(rounds[0]));
 
+    std::vector<squire_core::sc_RoundResult> results = rounds[0].results();
+    ASSERT(results.size() == 0);
+
     // Close the tournament
     ASSERT(t->close());
     delete t;

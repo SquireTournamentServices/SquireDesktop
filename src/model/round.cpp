@@ -93,23 +93,23 @@ std::vector<Player> Round::players()
     return ret;
 }
 
-std::vector<squire_core::RoundResult> Round::results()
+std::vector<squire_core::sc_RoundResult> Round::results()
 {
-    std::vector<squire_core::RoundResult> ret;
-    squire_core::RoundResult *results_ptr = (squire_core::RoundResult *) squire_core::rid_results(this->rid, this->tid);
+    std::vector<squire_core::sc_RoundResult> ret;
+    squire_core::sc_RoundResult *results_ptr = (squire_core::sc_RoundResult *) squire_core::rid_results(this->rid, this->tid);
 
     if (results_ptr == NULL) {
         return ret;
     }
 
-    squire_core::RoundResult null_result;
+    squire_core::sc_RoundResult null_result = squire_core::sc_RoundResult::Draw(5); // This is then changed out
     memset(&null_result, 0, sizeof(null_result));
 
-    for (int i = 0; null_result != results_ptr[i]; i++) {
+    for (int i = 0; memcmp(&null_result, &results_ptr[i], sizeof(null_result)) != 0; i++) {
         ret.push_back(results_ptr[i]);
     }
 
-    squire_core::sq_free(result_ptr, (ret.size() + 1) * sizeof(*result_ptr));
+    squire_core::sq_free(results_ptr, (ret.size() + 1) * sizeof(*results_ptr));
     return ret;
 }
 
