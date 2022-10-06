@@ -12,6 +12,7 @@ public:
     ~Player();
     std::string name();
     std::string game_name();
+    std::string all_names(); // An aggregate of all game names and aliases
     squire_core::sc_PlayerStatus status();
     std::string statusAsStr();
     int statusAsInt();

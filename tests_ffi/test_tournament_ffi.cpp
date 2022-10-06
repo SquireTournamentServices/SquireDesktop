@@ -301,8 +301,6 @@ static int test_status_change()
                                     TEST_BOOL);
 
     ASSERT(t2 != nullptr);
-    ASSERT(t2->start());
-    ASSERT(t2->status() == squire_core::sc_TournamentStatus::Started);
     ASSERT(t2->cancel());
     ASSERT(t2->status() == squire_core::sc_TournamentStatus::Cancelled);
     ASSERT(t2->close());

@@ -119,7 +119,7 @@ std::string Round::players_as_str()
     std::string ret = "";
 
     for (size_t i = 0; i < players.size(); i++) {
-        ret += players[i].name();
+        ret += players[i].all_names();
         if (i != players.size() - 1) {
             ret += ", ";
         }

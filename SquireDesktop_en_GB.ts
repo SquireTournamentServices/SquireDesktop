@@ -486,17 +486,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="56"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="54"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="59"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="57"/>
         <source>Dropped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="68"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="66"/>
         <source>No Player Selected</source>
         <translation type="unfinished"></translation>
     </message>

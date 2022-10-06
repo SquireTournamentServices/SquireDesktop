@@ -46,10 +46,8 @@ void PlayerViewWidget::changeEvent(QEvent *e)
 
 QString PlayerViewWidget::getStatusString()
 {
-    QString base = QString::fromStdString(this->player.name())
-                   + " ("
-                   + QString::fromStdString(this->player.game_name())
-                   + ") - ";
+    QString base = QString::fromStdString(this->player.all_names())
+                   + " - ";
 
     switch(this->player.status()) {
     case squire_core::sc_PlayerStatus::Registered:

@@ -48,6 +48,18 @@ std::string Player::game_name()
     return ret;
 }
 
+std::string Player::all_names()
+{
+    std::string normal_name = this->name();
+    std::string alias_name = this->game_name();
+
+    if (normal_name == alias_name) {
+        return normal_name;
+    } else {
+        return normal_name + " (" + alias_name + ")";
+    }
+}
+
 squire_core::sc_PlayerStatus Player::status()
 {
     return squire_core::pid_status(this->pid, this->tid);
