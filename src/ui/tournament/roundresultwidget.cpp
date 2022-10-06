@@ -11,9 +11,9 @@ RoundResultWidget::RoundResultWidget(RoundResults *results, Player player, QWidg
     this->results = results;
 
     ui->winSpinBox->setValue(results->resultFor(this->player));
-    ui->playerName->setText(QString::fromStdString(this->player->name() + "(" + this->player->game_name() + ")"));
+    ui->playerName->setText(QString::fromStdString(this->player.name() + "(" + this->player.game_name() + ")"));
     bool conf = results->isConfirmed(this->player);
-    ui->confirmedIndicator->setDisabled(!conf);
+    ui->confirmedIndicator->setDisabled(conf);
     ui->confirmedIndicator->setChecked(conf);
 }
 

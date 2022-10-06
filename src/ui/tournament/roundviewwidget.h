@@ -7,6 +7,7 @@
 #include "../../model/player.h"
 #include "../widgets/searchsorttablewidget.h"
 #include "../abstractmodels/playermodel.h"
+#include "./roundresultwidget.h"
 
 namespace Ui
 {
@@ -31,14 +32,18 @@ protected:
     void changeEvent(QEvent *e);
 private:
     void displayRound();
+    void displayTime();
     QString matchNumberToStr(int number);
 
     QTimer timeLeftUpdater;
     QVBoxLayout *playerTableLayout;
     SearchSortTableWidget<PlayerModel, Player> *playerTable;
+    QVBoxLayout *resultsLayout;
     Ui::RoundViewWidget *ui;
     Tournament *tourn;
     Round round;
     bool roundSelected;
+    RoundResults *results;
+    std::vector<RoundResultWidget *> resultWidgets;
 };
 

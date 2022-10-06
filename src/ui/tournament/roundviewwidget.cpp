@@ -17,14 +17,26 @@ RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
     this->playerTable = new SearchSortTableWidget<PlayerModel, Player>(players);
     this->playerTableLayout->addWidget(playerTable);
 
+    // Init the results
+    this->resultsLayout = new QVBoxLayout(ui->resultEntryWidget);
+    this->resultsLayout->setAlignment(Qt::AlignTop);
+
     connect(this->tourn, &Tournament::onPlayersChanged, this, &RoundViewWidget::onPlayersChanged);
-    connect(&this->timeLeftUpdater, &QTimer::timeout, this, &RoundViewWidget::displayRound);
+    connect(&this->timeLeftUpdater, &QTimer::timeout, this, &RoundViewWidget::displayTime);
     connect(this->playerTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RoundViewWidget::onPlayerSelected);
     this->displayRound();
+
+    this->results = new RoundResults();
 }
 
 RoundViewWidget::~RoundViewWidget()
 {
+    for (RoundResultWidget *w : this->resultWidgets) {
+        this->resultsLayout->removeWidget(w);
+        delete w;
+    }
+    delete results;
+
     delete playerTable;
     delete playerTableLayout;
     delete ui;
@@ -59,15 +71,11 @@ void RoundViewWidget::displayRound()
     // Genereate state strings
     QString statusStr = tr("No Match Selected");
     QString numberStr = tr("Match #--");
-    int timeLeft = 0;
-    int duration = 0;
 
     if (this->roundSelected) {
         this->timeLeftUpdater.start(100);
         this->playerTable->setData(this->round.players());
         numberStr = matchNumberToStr(this->round.match_number());
-        timeLeft = this->round.time_left();
-        duration = this->round.duration();
 
         // Status
         switch(this->round.status()) {
@@ -86,6 +94,44 @@ void RoundViewWidget::displayRound()
         }
     } else {
         this->playerTable->setData(std::vector<Player>());
+    }
+
+    this->displayTime();
+
+    // Render values in GUI
+    ui->matchNumber->setText(numberStr);
+    ui->roundStatus->setText(statusStr);
+
+    // Results
+    for (RoundResultWidget *w : this->resultWidgets) {
+        this->resultsLayout->removeWidget(w);
+        delete w;
+    }
+    delete this->results;
+
+    this->resultWidgets = std::vector<RoundResultWidget *>();
+    this->results = new RoundResults(this->round);
+
+    for (Player p : this->round.players()) {
+        RoundResultWidget *w = new RoundResultWidget(this->results, p, this);
+        this->resultWidgets.push_back(w);
+        this->resultsLayout->addWidget(w);
+    }
+}
+
+void RoundViewWidget::displayTime()
+{
+    int timeLeft = 0;
+    int duration = 0;
+    if (this->roundSelected) {
+        timeLeft = this->round.time_left();
+        duration = this->round.duration();
+    }
+
+    if (duration == 0) {
+        ui->timeLeftProgressBar->setValue(0);
+    } else {
+        ui->timeLeftProgressBar->setValue((100 * timeLeft) / duration);
     }
 
     // Timer
@@ -126,18 +172,8 @@ void RoundViewWidget::displayRound()
         timeLeftStr += QString::number(seconds);
         timeLeftStr += " " + tr("Left in Match");
     }
-
-    // Render values in GUI
-    ui->matchNumber->setText(numberStr);
-    ui->roundStatus->setText(statusStr);
     ui->timeLeftLabel->setText(timeLeftStr);
     ui->timeExtensionsLabel->setText(extentionStr);
-
-    if (duration == 0) {
-        ui->timeLeftProgressBar->setValue(0);
-    } else {
-        ui->timeLeftProgressBar->setValue((100 * timeLeft) / duration);
-    }
 }
 
 void RoundViewWidget::onPlayersChanged(std::vector<Player>)
