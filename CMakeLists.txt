@@ -78,23 +78,6 @@ if(UNIX)
     # macOS Due to the special bundle structure ignore the prefix eventually set
     # by the user.
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/release)
-
-    # Force ccache usage if available
-    get_property(RULE_LAUNCH_COMPILE GLOBAL PROPERTY RULE_LAUNCH_COMPILE)
-    if(RULE_LAUNCH_COMPILE)
-      message(STATUS "Force enabling CCache usage under macOS")
-      # Set up wrapper scripts
-      configure_file("${COCKATRICE_CMAKE_PATH}/launch-c.in" launch-c)
-      configure_file("${COCKATRICE_CMAKE_PATH}/launch-cxx.in" launch-cxx)
-      execute_process(COMMAND chmod a+rx "${CMAKE_BINARY_DIR}/launch-c"
-                              "${CMAKE_BINARY_DIR}/launch-cxx")
-
-      # Set Xcode project attributes to route compilation through our scripts
-      set(CMAKE_XCODE_ATTRIBUTE_CC "${CMAKE_BINARY_DIR}/launch-c")
-      set(CMAKE_XCODE_ATTRIBUTE_CXX "${CMAKE_BINARY_DIR}/launch-cxx")
-      set(CMAKE_XCODE_ATTRIBUTE_LD "${CMAKE_BINARY_DIR}/launch-c")
-      set(CMAKE_XCODE_ATTRIBUTE_LDPLUSPLUS "${CMAKE_BINARY_DIR}/launch-cxx")
-    endif()
   else()
     # Linux / BSD
     if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -120,9 +103,9 @@ if(MSVC)
 else()
   # Compiler settings compiler flags
   set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic")
-  set(CMAKE_C_FLAGS_DEBUG "-g -O0 ${COMPILER_FLAGS} -DDEBUG")
+  set(CMAKE_C_FLAGS_DEBUG "-g -Og ${COMPILER_FLAGS} -DDEBUG")
   set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
-  set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
+  set(CMAKE_C_FLAGS_RELEASE "-Ofast ${COMPILER_FLAGS}")
   set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
 endif()
 
