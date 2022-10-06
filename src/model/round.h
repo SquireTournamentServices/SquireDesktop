@@ -21,6 +21,7 @@ public:
     bool matches(std::string query);
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
     std::vector<Player> players();
+    // TODO: get player confirmations
     std::string players_as_str();
     std::vector<squire_core::sc_RoundResult> results();
 private:
@@ -41,8 +42,12 @@ public:
     ~RoundResults();
     int draws();
     int resultFor(Player player);
+    bool isConfirmed(Player player);
+    Round getRound();
 private:
     std::map<Player, int> playerWinsMap;
+    std::map<Player, bool> confirmsMap;
     int drawCount;
+    Round round;
 };
 

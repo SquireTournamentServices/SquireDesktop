@@ -189,12 +189,22 @@ RoundResults::RoundResults()
 RoundResults::RoundResults(Round round)
 {
     this->drawCount = 0;
+    this->round = round;
+    this->playerWinsMap = std::map<Player, int>();
+    this->confirmsMap = std::map<Player, bool>();
 
-    std::vector<squire_core::sc_RoundResult> results = round.results();
+    for (Player p : this->round.players()) {
+        this->confirmsMap[p] = false;
+        this->playerWinsMap[p] = 0;
+    }
+
+    // TODO: Player confirmation here
+
+    std::vector<squire_core::sc_RoundResult> results = this->round.results();
     for (squire_core::sc_RoundResult res : results) {
         switch(res.tag) {
         case squire_core::sc_RoundResult::Tag::Wins:
-            this->playerWinsMap[Player(res.wins._0, round.tourn_id())] = res.wins._1; // this looks ugly :(
+            this->playerWinsMap[Player(res.wins._0, this->round.tourn_id())] = res.wins._1; // this looks ugly :(
             break;
         case squire_core::sc_RoundResult::Tag::Draw:
             this->drawCount += res.draw._0; // This is because multiple draws could happen if stuff is borked
@@ -216,5 +226,15 @@ int RoundResults::draws()
 int RoundResults::resultFor(Player player)
 {
     return this->playerWinsMap[player];
+}
+
+bool RoundResults::isConfirmed(Player player)
+{
+    return this->confirmsMap[player];
+}
+
+Round RoundResults::getRound()
+{
+    return this->round;
 }
 

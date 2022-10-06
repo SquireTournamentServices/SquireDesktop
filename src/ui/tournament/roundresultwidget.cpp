@@ -1,11 +1,20 @@
 #include "roundresultwidget.h"
 #include "ui_roundresultwidget.h"
 
-RoundResultWidget::RoundResultWidget(QWidget *parent) :
+RoundResultWidget::RoundResultWidget(RoundResults *results, Player player, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RoundResultWidget)
 {
     ui->setupUi(this);
+
+    this->player = player;
+    this->results = results;
+
+    ui->winSpinBox->setValue(results->resultFor(this->player));
+    ui->playerName->setText(QString::fromStdString(this->player->name() + "(" + this->player->game_name() + ")"));
+    bool conf = results->isConfirmed(this->player);
+    ui->confirmedIndicator->setDisabled(!conf);
+    ui->confirmedIndicator->setChecked(conf);
 }
 
 RoundResultWidget::~RoundResultWidget()
@@ -23,4 +32,14 @@ void RoundResultWidget::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+int RoundResultWidget::newWins()
+{
+    return ui->winSpinBox->value();
+}
+
+bool RoundResultWidget::confirmed()
+{
+    return ui->confirmedIndicator->isChecked();
 }
