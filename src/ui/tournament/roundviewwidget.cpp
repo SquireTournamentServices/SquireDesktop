@@ -24,9 +24,8 @@ RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
     connect(this->tourn, &Tournament::onPlayersChanged, this, &RoundViewWidget::onPlayersChanged);
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &RoundViewWidget::displayTime);
     connect(this->playerTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RoundViewWidget::onPlayerSelected);
-    this->displayRound();
-
     this->results = new RoundResults();
+    this->displayRound();
 }
 
 RoundViewWidget::~RoundViewWidget()
@@ -117,6 +116,8 @@ void RoundViewWidget::displayRound()
         this->resultWidgets.push_back(w);
         this->resultsLayout->addWidget(w);
     }
+
+    ui->drawsEdit->setValue(this->results->draws());
 }
 
 void RoundViewWidget::displayTime()

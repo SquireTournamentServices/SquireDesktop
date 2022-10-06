@@ -116,6 +116,33 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="drawsLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Draws</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="drawsEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QScrollArea" name="scrollArea">
          <property name="widgetResizable">
           <bool>true</bool>
@@ -125,8 +152,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>843</width>
-            <height>311</height>
+            <width>827</width>
+            <height>241</height>
            </rect>
           </property>
          </widget>
@@ -175,7 +202,8 @@
         <string>Reset Results</string>
        </property>
        <property name="icon">
-        <iconset theme="edit-undo"/>
+        <iconset theme="edit-undo">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
