@@ -41,6 +41,8 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     connect(this->dashboard, &AppDashboardTab::loadTournament, this, &MainWindow::loadTournamentFromName);
 
     this->addDefaultmenu();
+    connect(dashboard->ui->openTournament, &QPushButton::clicked, this, &MainWindow::loadTournament);
+    connect(dashboard->ui->newTournament, &QPushButton::clicked, this, &MainWindow::newTournament);
 
     // Set tab closeinator
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
@@ -88,11 +90,9 @@ void MainWindow::addDefaultmenu()
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
     QAction *newTournamentAction = fileMenu->addAction(tr("New Tournament"));
     connect(newTournamentAction, &QAction::triggered, this, &MainWindow::newTournament);
-    connect(dashboard->ui->newTournament, &QPushButton::clicked, this, &MainWindow::newTournament);
 
     QAction *loadTournamentAction = fileMenu->addAction(tr("Open Tournament"));
     connect(loadTournamentAction, &QAction::triggered, this, &MainWindow::loadTournament);
-    connect(dashboard->ui->openTournament, &QPushButton::clicked, this, &MainWindow::loadTournament);
 
     QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
     connect(settingsAction, &QAction::triggered, this, &MainWindow::settings);

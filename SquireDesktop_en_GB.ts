@@ -337,7 +337,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="88"/>
+        <location filename="src/ui/mainwindow.cpp" line="90"/>
         <source>File</source>
         <translation></translation>
     </message>
@@ -353,12 +353,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="89"/>
+        <location filename="src/ui/mainwindow.cpp" line="91"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="93"/>
+        <location filename="src/ui/mainwindow.cpp" line="94"/>
         <source>Open Tournament</source>
         <translation></translation>
     </message>
@@ -380,20 +380,20 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="51"/>
-        <location filename="src/ui/mainwindow.cpp" line="58"/>
+        <location filename="src/ui/mainwindow.cpp" line="53"/>
+        <location filename="src/ui/mainwindow.cpp" line="60"/>
         <source>Squire Desktop Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="52"/>
-        <location filename="src/ui/mainwindow.cpp" line="59"/>
+        <location filename="src/ui/mainwindow.cpp" line="54"/>
+        <location filename="src/ui/mainwindow.cpp" line="61"/>
         <source>Squire Core Version: </source>
         <oldsource>Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="61"/>
+        <location filename="src/ui/mainwindow.cpp" line="63"/>
         <source> Copyright Monarch (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>
@@ -419,18 +419,18 @@
     </message>
     <message>
         <location filename="src/ui/mainwindow.cpp" line="38"/>
-        <location filename="src/ui/mainwindow.cpp" line="75"/>
+        <location filename="src/ui/mainwindow.cpp" line="77"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="54"/>
+        <location filename="src/ui/mainwindow.cpp" line="56"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="55"/>
+        <location filename="src/ui/mainwindow.cpp" line="57"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>
