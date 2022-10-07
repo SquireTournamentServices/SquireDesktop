@@ -173,6 +173,7 @@ void RoundViewWidget::displayTime()
         timeLeftStr += QString::number(seconds);
         timeLeftStr += " " + tr("Left in Match");
     }
+
     ui->timeLeftLabel->setText(timeLeftStr);
     ui->timeExtensionsLabel->setText(extentionStr);
 }

@@ -277,7 +277,7 @@ void TournamentTab::updateRoundTimer()
     long max = 0;
     long min = -1;
     std::vector<Round> rounds = this->tourn->rounds();
-    this->roundTable->setData(rounds);
+    this->roundTable->refreshTable();
 
     for (Round r : rounds) {
         long tl = r.time_left();

@@ -28,11 +28,11 @@ public slots:
     void onPlayerSelected(const QItemSelection &selected, const QItemSelection deselected);
     // Called when a player's details are changed
     void onPlayersChanged(std::vector<Player>);
+    void displayTime();
 protected:
     void changeEvent(QEvent *e);
 private:
     void displayRound();
-    void displayTime();
     QString matchNumberToStr(int number);
 
     QTimer timeLeftUpdater;

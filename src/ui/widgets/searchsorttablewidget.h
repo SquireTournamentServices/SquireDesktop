@@ -42,6 +42,7 @@ public:
     explicit SearchSortTableWidget(std::vector<T_DATA> data, QWidget *parent = nullptr);
     ~SearchSortTableWidget();
     void setData(std::vector<T_DATA> data);
+    void refreshTable();
     void addDatum(T_DATA datum);
     //void removeDatum(T_DATA datum); //TODO
     void addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b));
@@ -180,5 +181,14 @@ T_DATA SearchSortTableWidget<T_MDL, T_DATA>::getDataAt(int index)
     } else {
         return T_DATA();
     }
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::refreshTable()
+{
+    QModelIndex topLeft = this->tableModel->index(0, 0);
+    QModelIndex botRight = this->tableModel->index(this->tableModel->rowCount(), this->tableModel->columnCount());
+
+    this->tableModel->dataChanged(topLeft, botRight);
 }
 

@@ -21,7 +21,7 @@ PlayerViewWidget::PlayerViewWidget(Tournament *tourn, QWidget *parent) :
     this->roundTableLayout->addWidget(roundTable);
 
     connect(this->tourn, &Tournament::onPlayersChanged, this, &PlayerViewWidget::onPlayersChanged);
-    connect(&this->timeLeftUpdater, &QTimer::timeout, this, &PlayerViewWidget::displayPlayer);
+    connect(&this->timeLeftUpdater, &QTimer::timeout, this, &PlayerViewWidget::displayTime);
     connect(this->roundTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PlayerViewWidget::onRoundSelected);
 
     this->displayPlayer();
@@ -61,6 +61,11 @@ QString PlayerViewWidget::getStatusString()
     return base;
 }
 
+void PlayerViewWidget::displayTime()
+{
+    this->roundTable->refreshTable();
+}
+
 void PlayerViewWidget::displayPlayer()
 {
     QString status = tr("No Player Selected");
@@ -72,6 +77,7 @@ void PlayerViewWidget::displayPlayer()
         this->roundTable->setData(std::vector<Round>());
     }
 
+    this->displayTime();
     ui->playerStatus->setText(status);
 }
 

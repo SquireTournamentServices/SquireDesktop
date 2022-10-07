@@ -496,7 +496,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="66"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="71"/>
         <source>No Player Selected</source>
         <translation type="unfinished"></translation>
     </message>
