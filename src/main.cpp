@@ -85,6 +85,8 @@ static void handler(int sig)
 
 int main(int argc, char *argv[])
 {
+    lprintf(LOG_INFO, "Starting...\n");
+
 #ifdef USE_BACKTRACE
     lprintf(LOG_INFO, "Crash detection is enbaled in this build!\n");
 
