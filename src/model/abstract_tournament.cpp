@@ -4,6 +4,13 @@
 #include <string.h>
 #include <squire_core/squire_core.h>
 
+static squire_core::sc_AdminId local_aid()
+{
+    squire_core::sc_AdminId id;
+    memset(id._0, 0, sizeof(id._0));
+    return id;
+}
+
 Tournament *load_tournament(std::string file_name)
 {
     squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name.c_str());
@@ -42,6 +49,11 @@ Tournament *new_tournament(std::string file,
                                        require_check_in,
                                        require_deck_reg);
 
+    squire_core::sc_AdminId laid = local_aid();
+    if (!squire_core::tid_add_admin_local(tid, "System User", *(squire_core::sc_UserAccountId*) (void *) &laid)) {
+        lprintf(LOG_ERROR, "Cannot add system user\n");
+    }
+
     if (is_null_id(tid._0)) {
         return nullptr;
     } else {
@@ -76,9 +88,7 @@ LocalTournament::LocalTournament(std::string save_location, squire_core::sc_Tour
 squire_core::sc_AdminId Tournament::aid()
 {
     lprintf(LOG_ERROR, "Null admin id passed to FFI\n");
-    squire_core::sc_AdminId id;
-    memset(id._0, 0, sizeof(id._0));
-    return id;
+    return local_aid();
 }
 
 squire_core::sc_AdminId LocalTournament::aid()
