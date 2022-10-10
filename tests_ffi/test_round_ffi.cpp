@@ -93,8 +93,10 @@ static int test_round_getters()
     res = RoundResults(rounds[0]);
     results = rounds[0].results();
 
-    lprintf(LOG_INFO, "There are %d draws, execting %d\n", res.draws(), DRAWS);
+    lprintf(LOG_INFO, "There are %d draws, expecting %d\n", res.draws(), DRAWS);
     ASSERT(results.size() == 0);
+    ASSERT(rounds[0].draws() == DRAWS);
+    ASSERT(rounds[0].draws() == res.draws());
     ASSERT(res.draws() == DRAWS);
 
     // Test record results
