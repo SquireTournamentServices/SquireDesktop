@@ -7,7 +7,7 @@
 static squire_core::sc_AdminId local_aid()
 {
     squire_core::sc_AdminId id;
-    memset(id._0, 0, sizeof(id._0));
+    memset(id._0, 0x21, sizeof(id._0));
     return id;
 }
 
@@ -443,7 +443,7 @@ bool Tournament::isSaved()
 bool Tournament::recordResult(Round round, squire_core::sc_RoundResult result)
 {
     squire_core::sc_AdminId laid = this->aid();
-    bool r = rid_record_result(round.id(), this->tid, result, laid);
+    bool r = rid_record_result(round.id(), this->tid, laid, result);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
     return r;
