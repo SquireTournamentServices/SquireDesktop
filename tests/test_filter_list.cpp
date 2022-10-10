@@ -178,6 +178,7 @@ static int test_insert()
     std::stable_sort(list.begin(), list.end(), foo_sort);
     ASSERT(flist.getFiltered()[0] == list[0]);
     ASSERT(flist.getFiltered()[1] == list[1]);
+    return 1;
 }
 
 static int test_insert_2()
@@ -207,7 +208,6 @@ static int test_insert_2()
     ASSERT(flist.getFiltered()[0] == list[0]);
     ASSERT(flist.getFiltered()[1] == list[1]);
     ASSERT(flist.getFiltered()[2] == list[2]);
-
     return 1;
 }
 
@@ -222,7 +222,6 @@ static int test_insert_3()
     flist.insert(a);
     ASSERT(flist.size() == 1);
     ASSERT(flist.at(0) == a);
-
     return 1;
 }
 
@@ -240,7 +239,6 @@ static int test_insert_4()
         ASSERT(flist.osize() == i + 1);
         ASSERT(flist.size() == i + 1);
     }
-
     return 1;
 }
 
