@@ -21,7 +21,7 @@ public:
     bool matches(std::string query);
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
     std::vector<Player> players();
-    // TODO: get player confirmations
+    std::vector<Player> confirmed_players();
     std::string players_as_str();
     std::vector<squire_core::sc_RoundResult> results();
 private:

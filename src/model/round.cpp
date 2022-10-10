@@ -93,6 +93,24 @@ std::vector<Player> Round::players()
     return ret;
 }
 
+std::vector<Player> Round::confirmed_players()
+{
+    std::vector<Player> ret;
+    squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::rid_confirmed_players(this->rid, this->tid);
+
+    if (player_ptr == NULL) {
+        return ret;
+    }
+
+    for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
+        ret.push_back(Player(player_ptr[i], this->tid));
+    }
+
+    squire_core::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
+    return ret;
+    
+}
+
 std::vector<squire_core::sc_RoundResult> Round::results()
 {
     std::vector<squire_core::sc_RoundResult> ret;
@@ -198,7 +216,9 @@ RoundResults::RoundResults(Round round)
         this->playerWinsMap[p] = 0;
     }
 
-    // TODO: Player confirmation here
+    for (Player p : this->round.confirmed_players()) {
+        this->confirmsMap[p] = true;
+    }
 
     std::vector<squire_core::sc_RoundResult> results = this->round.results();
     for (squire_core::sc_RoundResult res : results) {
