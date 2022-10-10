@@ -1,6 +1,6 @@
 #include "./abstract_tournament.h"
 #include "../ffi_utils.h"
-#include "../../testing_h/logger.h"
+#include "../../testing_h/testing.h"
 #include <string.h>
 #include <squire_core/squire_core.h>
 
@@ -442,8 +442,19 @@ bool Tournament::isSaved()
 
 bool Tournament::recordResult(Round round, squire_core::sc_RoundResult result)
 {
+    ASSERT(result.tag == squire_core::sc_RoundResult::Tag::Draw);
     squire_core::sc_AdminId laid = this->aid();
     bool r = rid_record_result(round.id(), this->tid, laid, result);
+    emit onRoundsChanged(this->rounds()); // TODO: emit something better
+    this->save();
+    return r;
+}
+
+bool Tournament::recordDraws(Round round, int draws)
+{
+    squire_core::sc_RoundResult res = squire_core::sc_RoundResult::Draw(p.id(), draws);
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = rid_record_result(round.id(), this->tid, laid, res);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
     return r;

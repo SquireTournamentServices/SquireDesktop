@@ -1,5 +1,6 @@
 #include "./round.h"
 #include "../ffi_utils.h"
+#include "../../testing_h/logger.h"
 #include <string>
 #include <string.h>
 
@@ -120,7 +121,7 @@ std::vector<squire_core::sc_RoundResult> Round::results()
         return ret;
     }
 
-    squire_core::sc_RoundResult null_result = squire_core::sc_RoundResult::Draw(5); // This is then changed out
+    squire_core::sc_RoundResult null_result = squire_core::sc_RoundResult::Draw(0); // This is then changed out
     memset(&null_result, 0, sizeof(null_result));
 
     for (int i = 0; memcmp(&null_result, &results_ptr[i], sizeof(null_result)) != 0; i++) {
@@ -129,6 +130,11 @@ std::vector<squire_core::sc_RoundResult> Round::results()
 
     squire_core::sq_free(results_ptr, (ret.size() + 1) * sizeof(*results_ptr));
     return ret;
+}
+
+int Round::draws()
+{
+    return squire_core::rid_draws(this->rid, this->tid);
 }
 
 std::string Round::players_as_str()
@@ -206,8 +212,8 @@ RoundResults::RoundResults()
 
 RoundResults::RoundResults(Round round)
 {
-    this->drawCount = 0;
     this->round = round;
+    this->drawCount = this->round.draws();
     this->playerWinsMap = std::map<Player, int>();
     this->confirmsMap = std::map<Player, bool>();
 
@@ -227,7 +233,7 @@ RoundResults::RoundResults(Round round)
             this->playerWinsMap[Player(res.wins._0, this->round.tourn_id())] = res.wins._1; // this looks ugly :(
             break;
         case squire_core::sc_RoundResult::Tag::Draw:
-            this->drawCount += res.draw._0; // This is because multiple draws could happen if stuff is borked
+            lprintf(LOG_ERROR, "Draw round results should not appear here.\n");
             break;
         }
     }

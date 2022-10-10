@@ -19,6 +19,7 @@ public:
     long duration();
     int match_number();
     bool matches(std::string query);
+    int draws();
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
     std::vector<Player> players();
     std::vector<Player> confirmed_players();

@@ -88,10 +88,13 @@ static int test_round_getters()
     ASSERT(res.draws() == 0);
 
     // Test the draws
-    squire_core::sc_RoundResult newres = squire_core::sc_RoundResult::Draw(DRAWS);
-    ASSERT(t->recordResult(rounds[0], newres));
+    ASSERT(t->recordDraws(rounds[0], DRAWS));
 
     res = RoundResults(rounds[0]);
+    results = rounds[0].results();
+
+    lprintf(LOG_INFO, "There are %d draws, execting %d\n", res.draws(), DRAWS);
+    ASSERT(results.size() == 0);
     ASSERT(res.draws() == DRAWS);
 
     // Test record results
@@ -105,7 +108,9 @@ static int test_round_getters()
         i++;
     }
 
+    results = rounds[0].results();
     ASSERT(res.draws() == DRAWS);
+    ASSERT(results.size() == rounds[0].players().size());
 
     // Close the tournament
     ASSERT(t->close());
