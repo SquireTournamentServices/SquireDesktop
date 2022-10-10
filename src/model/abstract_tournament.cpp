@@ -452,7 +452,7 @@ bool Tournament::recordResult(Round round, squire_core::sc_RoundResult result)
 
 bool Tournament::recordDraws(Round round, int draws)
 {
-    squire_core::sc_RoundResult res = squire_core::sc_RoundResult::Draw(p.id(), draws);
+    squire_core::sc_RoundResult res = squire_core::sc_RoundResult::Draw(draws);
     squire_core::sc_AdminId laid = this->aid();
     bool r = rid_record_result(round.id(), this->tid, laid, res);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
