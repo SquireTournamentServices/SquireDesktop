@@ -102,8 +102,7 @@ static int test_round_getters()
     // Test record results
     int i = 0;
     for (Player p : rounds[0].players()) {
-        squire_core::sc_RoundResult res = squire_core::sc_RoundResult::Wins(p.id(), WINS(i));
-        ASSERT(t->recordResult(rounds[0], res));
+        ASSERT(t->recordResult(rounds[0], p.id(), WINS(i)));
 
         RoundResults results = RoundResults(rounds[0]);
         ASSERT(results.resultFor(p) == WINS(i));

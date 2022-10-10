@@ -440,11 +440,10 @@ bool Tournament::isSaved()
     return this->saved;
 }
 
-bool Tournament::recordResult(Round round, squire_core::sc_RoundResult result)
+bool Tournament::recordResult(Round round, squire_core::sc_PlayerId pid, int wins)
 {
-    ASSERT(result.tag != squire_core::sc_RoundResult::Tag::Draw);
     squire_core::sc_AdminId laid = this->aid();
-    bool r = rid_record_result(round.id(), this->tid, laid, result);
+    bool r = rid_record_result(round.id(), this->tid, laid, pid, wins);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
     return r;
