@@ -24,7 +24,6 @@ static int test_eof_1()
     free(ret);
 
     ASSERT(fclose(r) == 0);
-
     return 1;
 }
 
@@ -49,7 +48,6 @@ static int test_matching()
     free(ret);
 
     ASSERT(fclose(r) == 0);
-
     return 1;
 }
 
@@ -74,7 +72,6 @@ static int test_matching_long()
     free(ret);
 
     ASSERT(fclose(r) == 0);
-
     return 1;
 }
 
@@ -85,6 +82,7 @@ static int test_to_lower_case()
     std::string str = UPPER_STRING;
     toLowerCase(str);
     ASSERT(LOWER_STRING == str);
+    return 1;
 }
 
 static int test_to_upper_case()
@@ -92,6 +90,7 @@ static int test_to_upper_case()
     std::string str = LOWER_STRING;
     toUpperCase(str);
     ASSERT(UPPER_STRING == str);
+    return 1;
 }
 
 SUB_TEST(utils_cpp_test,
