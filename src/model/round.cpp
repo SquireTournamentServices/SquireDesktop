@@ -108,7 +108,7 @@ std::vector<Player> Round::confirmed_players()
 
     squire_core::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
     return ret;
-    
+
 }
 
 std::vector<squire_core::sc_RoundResult> Round::results()
