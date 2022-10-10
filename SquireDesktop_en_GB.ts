@@ -869,36 +869,32 @@
 <context>
     <name>Tournament</name>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="243"/>
+        <location filename="src/model/abstract_tournament.cpp" line="240"/>
         <source>Planned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="245"/>
+        <location filename="src/model/abstract_tournament.cpp" line="242"/>
         <source>Started</source>
-        <oldsource>Start</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="247"/>
+        <location filename="src/model/abstract_tournament.cpp" line="244"/>
         <source>Frozon</source>
-        <oldsource>Freeze</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="249"/>
+        <location filename="src/model/abstract_tournament.cpp" line="246"/>
         <source>Ended</source>
-        <oldsource>End</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="251"/>
+        <location filename="src/model/abstract_tournament.cpp" line="248"/>
         <source>Cancelled</source>
-        <oldsource>Cancel</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="255"/>
+        <location filename="src/model/abstract_tournament.cpp" line="252"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>

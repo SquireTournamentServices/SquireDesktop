@@ -34,6 +34,7 @@ static int test_round_getters()
                                    TEST_BOOL);
     ASSERT(t != nullptr);
     ASSERT(t->reg_open());
+    ASSERT(t->save());
 
     bool s = false;
     ASSERT(!is_null_id(t->addPlayer("Johnny", &s).id()._0));

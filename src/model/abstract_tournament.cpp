@@ -50,7 +50,7 @@ Tournament *new_tournament(std::string file,
                                        require_deck_reg);
 
     squire_core::sc_AdminId laid = local_aid();
-    if (!squire_core::tid_add_admin_local(tid, "System User", *(squire_core::sc_UserAccountId*) (void *) &laid)) {
+    if (!squire_core::tid_add_admin_local(tid, "System User", laid, *(squire_core::sc_UserAccountId *) &laid)) {
         lprintf(LOG_ERROR, "Cannot add system user\n");
     }
 
@@ -87,16 +87,13 @@ LocalTournament::LocalTournament(std::string save_location, squire_core::sc_Tour
 
 squire_core::sc_AdminId Tournament::aid()
 {
-    lprintf(LOG_ERROR, "Null admin id passed to FFI\n");
+    lprintf(LOG_ERROR, "System user admin id passed to FFI errouneously\n");
     return local_aid();
 }
 
 squire_core::sc_AdminId LocalTournament::aid()
 {
-    // TODO: Change to correct spoofed account
-    squire_core::sc_AdminId id;
-    memset(id._0, 0, sizeof(id._0));
-    return id;
+    return local_aid();
 }
 
 Tournament::~Tournament()
@@ -266,6 +263,7 @@ bool Tournament::updateSettings(std::string format,
                                 bool requireCheckIn,
                                 bool requireDeckReg)
 {
+    squire_core::sc_AdminId laid = this->aid();
     bool s = squire_core::tid_update_settings(this->tid,
              format.c_str(),
              startingTableNumber,
@@ -277,7 +275,7 @@ bool Tournament::updateSettings(std::string format,
              regOpen,
              requireCheckIn,
              requireDeckReg,
-             this->aid());
+             laid);
     if (s) {
         emit this->onRegOpenChanged(this->reg_open());
         this->save();
@@ -388,7 +386,8 @@ std::vector<Round> Tournament::pairRounds()
 
 bool Tournament::start()
 {
-    bool r = squire_core::tid_start(this->tid, this->aid());
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = squire_core::tid_start(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
     return r;
@@ -396,7 +395,8 @@ bool Tournament::start()
 
 bool Tournament::end()
 {
-    bool r = squire_core::tid_end(this->tid, this->aid());
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = squire_core::tid_end(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
     return r;
@@ -404,7 +404,8 @@ bool Tournament::end()
 
 bool Tournament::cancel()
 {
-    bool r = squire_core::tid_cancel(this->tid, this->aid());
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = squire_core::tid_cancel(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
     return r;
@@ -412,7 +413,8 @@ bool Tournament::cancel()
 
 bool Tournament::freeze()
 {
-    bool r = squire_core::tid_freeze(this->tid, this->aid());
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = squire_core::tid_freeze(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
     return r;
@@ -420,7 +422,8 @@ bool Tournament::freeze()
 
 bool Tournament::thaw()
 {
-    bool r = squire_core::tid_thaw(this->tid, this->aid());
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = squire_core::tid_thaw(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
     return r;
@@ -439,7 +442,11 @@ bool Tournament::isSaved()
 
 bool Tournament::recordResult(Round round, squire_core::sc_RoundResult result)
 {
-    return rid_record_result(round.id(), this->tid, result, this->aid());
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = rid_record_result(round.id(), this->tid, result, laid);
+    emit onRoundsChanged(this->rounds()); // TODO: emit something better
+    this->save();
+    return r;
 }
 
 void Tournament::emitAllProps()
