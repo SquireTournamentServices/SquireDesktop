@@ -131,7 +131,7 @@ bool operator<(const Player &a, const Player &b)
 {
     Player pa(a);
     Player pb(b);
-    return memcmp(pa.id()._0, pb.id()._0, sizeof(pa.id()._0));
+    return memcmp(pa.id()._0, pb.id()._0, sizeof(pa.id()._0)) < 0;
 }
 
 int playerStatusSort(const Player &a, const Player &b)

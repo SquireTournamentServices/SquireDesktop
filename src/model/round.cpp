@@ -94,6 +94,11 @@ std::vector<Player> Round::players()
     return ret;
 }
 
+int Round::resultFor(Player p)
+{
+    return squire_core::rid_result_for(this->rid, this->tid, p.id());
+}
+
 std::vector<Player> Round::confirmed_players()
 {
     std::vector<Player> ret;
@@ -110,26 +115,6 @@ std::vector<Player> Round::confirmed_players()
     squire_core::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
     return ret;
 
-}
-
-std::vector<squire_core::sc_RoundResult> Round::results()
-{
-    std::vector<squire_core::sc_RoundResult> ret;
-    squire_core::sc_RoundResult *results_ptr = (squire_core::sc_RoundResult *) squire_core::rid_results(this->rid, this->tid);
-
-    if (results_ptr == NULL) {
-        return ret;
-    }
-
-    squire_core::sc_RoundResult null_result = squire_core::sc_RoundResult::Draw(0); // This is then changed out
-    memset(&null_result, 0, sizeof(null_result));
-
-    for (int i = 0; memcmp(&null_result, &results_ptr[i], sizeof(null_result)) != 0; i++) {
-        ret.push_back(results_ptr[i]);
-    }
-
-    squire_core::sq_free(results_ptr, (ret.size() + 1) * sizeof(*results_ptr));
-    return ret;
 }
 
 int Round::draws()
@@ -219,23 +204,11 @@ RoundResults::RoundResults(Round round)
 
     for (Player p : this->round.players()) {
         this->confirmsMap[p] = false;
-        this->playerWinsMap[p] = 0;
+        this->playerWinsMap[p] = this->round.resultFor(p);
     }
 
     for (Player p : this->round.confirmed_players()) {
         this->confirmsMap[p] = true;
-    }
-
-    std::vector<squire_core::sc_RoundResult> results = this->round.results();
-    for (squire_core::sc_RoundResult res : results) {
-        switch(res.tag) {
-        case squire_core::sc_RoundResult::Tag::Wins:
-            this->playerWinsMap[Player(res.wins._0, this->round.tourn_id())] = res.wins._1; // this looks ugly :(
-            break;
-        case squire_core::sc_RoundResult::Tag::Draw:
-            lprintf(LOG_ERROR, "Draw round results should not appear here.\n");
-            break;
-        }
     }
 }
 

@@ -19,12 +19,12 @@ public:
     long duration();
     int match_number();
     bool matches(std::string query);
+    int resultFor(Player p);
     int draws();
     std::vector<int (*)(const Round &, const Round &)> getDefaultAlgs();
     std::vector<Player> players();
     std::vector<Player> confirmed_players();
     std::string players_as_str();
-    std::vector<squire_core::sc_RoundResult> results();
 private:
     squire_core::sc_TournamentId tid;
     squire_core::sc_RoundId rid;

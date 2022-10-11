@@ -55,7 +55,7 @@ public:
     std::vector<Round> rounds();
     std::vector<Round> playerRounds(Player player);
     std::vector<squire_core::sc_TournamentStatus> availableStatusChanges();
-    bool recordResult(Round round, squire_core::sc_PlayerId pid, int wins);
+    bool recordResult(Round round, Player p, int wins);
     bool recordDraws(Round round, int draws);
 
     // Respects Translations, this is a GUI method

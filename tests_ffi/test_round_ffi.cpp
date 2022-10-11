@@ -81,20 +81,14 @@ static int test_round_getters()
     ASSERT(rounds[0].players_as_str() != "");
     ASSERT(roundIsActive(rounds[0]));
 
-    std::vector<squire_core::sc_RoundResult> results = rounds[0].results();
-    ASSERT(results.size() == 0);
-
     RoundResults res = RoundResults(rounds[0]);
     ASSERT(res.draws() == 0);
 
     // Test the draws
     ASSERT(t->recordDraws(rounds[0], DRAWS));
-
     res = RoundResults(rounds[0]);
-    results = rounds[0].results();
 
     lprintf(LOG_INFO, "There are %d draws, expecting %d\n", res.draws(), DRAWS);
-    ASSERT(results.size() == 0);
     ASSERT(rounds[0].draws() == DRAWS);
     ASSERT(rounds[0].draws() == res.draws());
     ASSERT(res.draws() == DRAWS);
@@ -102,16 +96,14 @@ static int test_round_getters()
     // Test record results
     int i = 0;
     for (Player p : rounds[0].players()) {
-        ASSERT(t->recordResult(rounds[0], p.id(), WINS(i)));
+        ASSERT(t->recordResult(rounds[0], p, WINS(i)));
 
-        RoundResults results = RoundResults(rounds[0]);
-        ASSERT(results.resultFor(p) == WINS(i));
+        res = RoundResults(rounds[0]);
+        lprintf(LOG_INFO, "There are %d wins, expecting %d\n", res.resultFor(p), WINS(i));
+        ASSERT(res.resultFor(p) == WINS(i));
         i++;
     }
-
-    results = rounds[0].results();
     ASSERT(res.draws() == DRAWS);
-    ASSERT(results.size() == rounds[0].players().size());
 
     // Close the tournament
     ASSERT(t->close());
