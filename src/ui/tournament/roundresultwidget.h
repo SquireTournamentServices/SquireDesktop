@@ -16,12 +16,13 @@ public:
     ~RoundResultWidget();
     int newWins();
     bool confirmed();
+    Player player();
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::RoundResultWidget *ui;
     RoundResults *results;
-    Player player;
+    Player p;
 };
 

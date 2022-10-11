@@ -29,6 +29,7 @@ public slots:
     // Called when a player's details are changed
     void onPlayersChanged(std::vector<Player>);
     void displayTime();
+    void onResultsSave();
 protected:
     void changeEvent(QEvent *e);
 private:

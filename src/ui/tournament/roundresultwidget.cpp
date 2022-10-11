@@ -7,12 +7,12 @@ RoundResultWidget::RoundResultWidget(RoundResults *results, Player player, QWidg
 {
     ui->setupUi(this);
 
-    this->player = player;
+    this->p = player;
     this->results = results;
 
-    ui->winSpinBox->setValue(results->resultFor(this->player));
-    ui->playerName->setText(QString::fromStdString(this->player.all_names()));
-    bool conf = results->isConfirmed(this->player);
+    ui->winSpinBox->setValue(results->resultFor(this->p));
+    ui->playerName->setText(QString::fromStdString(this->p.all_names()));
+    bool conf = results->isConfirmed(this->p);
     ui->confirmedIndicator->setDisabled(conf);
     ui->confirmedIndicator->setChecked(conf);
 }
@@ -42,4 +42,9 @@ int RoundResultWidget::newWins()
 bool RoundResultWidget::confirmed()
 {
     return ui->confirmedIndicator->isChecked();
+}
+
+Player RoundResultWidget::player()
+{
+    return this->p;
 }

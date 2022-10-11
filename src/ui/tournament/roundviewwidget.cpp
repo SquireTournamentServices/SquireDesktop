@@ -1,5 +1,6 @@
 #include "./roundviewwidget.h"
 #include "./ui_roundviewwidget.h"
+#include <QMessageBox>
 
 RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
     QWidget(parent),
@@ -26,6 +27,9 @@ RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
     connect(this->playerTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RoundViewWidget::onPlayerSelected);
     this->results = new RoundResults();
     this->displayRound();
+
+    connect(ui->saveResults, &QPushButton::clicked, this, &RoundViewWidget::onResultsSave);
+    connect(ui->resetResults, &QPushButton::clicked, this, &RoundViewWidget::displayRound);
 }
 
 RoundViewWidget::~RoundViewWidget()
@@ -200,3 +204,29 @@ void RoundViewWidget::onPlayerSelected(const QItemSelection &selected, const QIt
     }
 }
 
+void RoundViewWidget::onResultsSave()
+{
+    bool s = this->tourn->recordDraws(this->round, ui->drawsEdit->value());
+    if (!s) {
+        QMessageBox msg;
+        msg.setWindowTitle(tr("Cannot save draws"));
+        msg.setText(tr("Cannot save draws"));
+        msg.exec();
+    }
+
+    for (RoundResultWidget *w : this->resultWidgets) {
+        bool confirmed = w->confirmed();
+        int wins = w->newWins();
+
+        bool s = this->tourn->recordResult(this->round, w->player(), wins);
+        if (!s) {
+            QMessageBox msg;
+            msg.setWindowTitle(tr("Cannot save results for - ")
+                               + QString::fromStdString(w->player().all_names()));
+            msg.setText(tr("Cannot save results for - ")
+                        + QString::fromStdString(w->player().all_names()));
+            msg.exec();
+            return;
+        }
+    }
+}
