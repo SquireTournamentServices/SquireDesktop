@@ -59,6 +59,8 @@ public slots:
 
     void roundSelected(const QItemSelection &selected, const QItemSelection deselected);
     void playerSelected(const QItemSelection &selected, const QItemSelection deselected);
+
+    void confirmAllMatches();
 protected:
     void changeEvent(QEvent *e);
 

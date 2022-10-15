@@ -237,20 +237,15 @@ void RoundViewWidget::onResultsSave()
 
 void RoundViewWidget::confirmMatch()
 {
-    bool s = true;
     for (Player p : this->round.players()) {
         bool r = this->tourn->confirmPlayer(this->round, p);
         if (!r) {
             lprintf(LOG_ERROR, "Cannot confirm results for %s\n", p.all_names());
-            s = false;
-            break;
+            QMessageBox msg;
+            msg.setWindowTitle(tr("Cannot confirm all results in match."));
+            msg.setText(tr("Cannot confirm all result for player ") + QString::fromStdString(p.all_names()));
+            msg.exec();
+            return;
         }
-    }
-
-    if (!s) {
-        QMessageBox msg;
-        msg.setWindowTitle(tr("Cannot confirm all results in match."));
-        msg.setText(tr("Cannot confirm all results in match."));
-        msg.exec();
     }
 }

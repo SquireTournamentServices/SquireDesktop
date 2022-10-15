@@ -88,6 +88,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     QAction *closeTournamentAction = tournamentsMenu->addAction(tr("Close Tournament"));
     connect(closeTournamentAction, &QAction::triggered, this, &TournamentTab::closeTab);
 
+    QAction *confirmAllMatchesAction = tournamentsMenu->addAction(tr("Confirm All Matches"));
+    connect(confirmAllMatchesAction, &QAction::triggered, this, &TournamentTab::confirmAllMatches);
+
     // Start timer
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &TournamentTab::updateRoundTimer);
     this->updateRoundTimer();
@@ -384,3 +387,21 @@ void TournamentTab::playerSelected(const QItemSelection &selected, const QItemSe
     }
 }
 
+void TournamentTab::confirmAllMatches()
+{
+    for (Round r : this->tourn->rounds()) {
+        for (Player p : r.players()) {
+            bool res = this->tourn->confirmPlayer(r, p);
+            if (!res) {
+                QMessageBox msg;
+                msg.setText(tr("Cannot confirm player ") +
+                            QString::fromStdString(p.all_names()) +
+                            tr(" in round ") +
+                            QString::number(r.match_number()));
+                msg.setWindowTitle(tr("Cannot confirm all rounds."));
+                msg.exec();
+                return;
+            }
+        }
+    }
+}
