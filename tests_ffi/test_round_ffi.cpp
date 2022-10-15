@@ -100,11 +100,6 @@ static int test_round_getters()
     for (Player p : rounds[0].players()) {
         lprintf(LOG_INFO, "Testing recording results for player %s\n", p.all_names());
         ASSERT(t->recordResult(rounds[0], p, WINS(i)));
-        ASSERT(t->confirmPlayer(rounds[0], p));
-
-        size_t exp = i + 1;
-        size_t conf_num = rounds[0].confirmed_players().size();
-        lprintf(LOG_INFO, "There are %ld confirmations, expecting %d\n", conf_num, exp);
         ASSERT(conf_num == exp);
 
         res = RoundResults(rounds[0]);
@@ -112,7 +107,12 @@ static int test_round_getters()
         ASSERT(res.resultFor(p) == WINS(i));
         i++;
     }
+    ASSERT(rounds[0].confirmed_players().size() == 0);
     ASSERT(res.draws() == DRAWS);
+
+    for (Player p : rounds[0].players()) {
+        ASSERT(t->confirmPlayer(rounds[0], p));
+    }
     ASSERT(rounds[0].confirmed_players().size() == rounds[0].players().size());
 
     // Close the tournament
