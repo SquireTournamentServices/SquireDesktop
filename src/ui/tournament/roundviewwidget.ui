@@ -153,7 +153,7 @@
             <x>0</x>
             <y>0</y>
             <width>827</width>
-            <height>241</height>
+            <height>258</height>
            </rect>
           </property>
          </widget>
@@ -193,6 +193,16 @@
        <property name="icon">
         <iconset theme="edit-delete">
          <normaloff>.</normaloff>.</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="confirmMatch">
+       <property name="text">
+        <string>Confirm Match</string>
+       </property>
+       <property name="icon">
+        <iconset theme="go-jump"/>
        </property>
       </widget>
      </item>

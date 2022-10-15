@@ -30,6 +30,7 @@ public slots:
     void onPlayersChanged(std::vector<Player>);
     void displayTime();
     void onResultsSave();
+    void confirmMatch();
 protected:
     void changeEvent(QEvent *e);
 private:
