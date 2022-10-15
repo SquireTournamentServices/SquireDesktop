@@ -70,6 +70,7 @@ static int test_round_getters()
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(player.name() != "");
         ASSERT(player.game_name() != "");
+        ASSERT(player.all_names() != "");
     }
 
     ASSERT(rounds[0].time_left() > 0);
@@ -80,6 +81,7 @@ static int test_round_getters()
     ASSERT(rounds[0].status() == squire_core::sc_RoundStatus::Open);
     ASSERT(rounds[0].players_as_str() != "");
     ASSERT(roundIsActive(rounds[0]));
+    ASSERT(rounds[0].confirmed_players().size() == 0);
 
     RoundResults res = RoundResults(rounds[0]);
     ASSERT(res.draws() == 0);
@@ -96,7 +98,14 @@ static int test_round_getters()
     // Test record results
     int i = 0;
     for (Player p : rounds[0].players()) {
+        lprintf(LOG_INFO, "Testing recording results for player %s\n", p.all_names());
         ASSERT(t->recordResult(rounds[0], p, WINS(i)));
+        ASSERT(t->confirmPlayer(rounds[0], p));
+
+        size_t exp = i + 1;
+        size_t conf_num = rounds[0].confirmed_players().size();
+        lprintf(LOG_INFO, "There are %ld confirmations, expecting %d\n", conf_num, exp);
+        ASSERT(conf_num == exp);
 
         res = RoundResults(rounds[0]);
         lprintf(LOG_INFO, "There are %d wins, expecting %d\n", res.resultFor(p), WINS(i));
@@ -104,6 +113,7 @@ static int test_round_getters()
         i++;
     }
     ASSERT(res.draws() == DRAWS);
+    ASSERT(rounds[0].confirmed_players().size() == rounds[0].players().size());
 
     // Close the tournament
     ASSERT(t->close());

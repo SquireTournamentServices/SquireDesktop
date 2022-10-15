@@ -730,8 +730,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="224"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="226"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="228"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="230"/>
         <source>Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>

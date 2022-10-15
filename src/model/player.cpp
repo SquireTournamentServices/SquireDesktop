@@ -73,6 +73,7 @@ std::string Player::statusAsStr()
     case squire_core::sc_PlayerStatus::Dropped:
         return "Dropped";
     }
+    return "Error";
 }
 
 int Player::statusAsInt()
@@ -83,6 +84,7 @@ int Player::statusAsInt()
     case squire_core::sc_PlayerStatus::Dropped:
         return 1;
     }
+    return -1;
 }
 
 squire_core::sc_PlayerId Player::id()

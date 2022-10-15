@@ -219,6 +219,10 @@ void RoundViewWidget::onResultsSave()
         int wins = w->newWins();
 
         bool s = this->tourn->recordResult(this->round, w->player(), wins);
+        if (confirmed && s) {
+            s = this->tourn->confirmPlayer(this->round, w->player());
+        }
+
         if (!s) {
             QMessageBox msg;
             msg.setWindowTitle(tr("Cannot save results for - ")
