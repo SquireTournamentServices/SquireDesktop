@@ -100,7 +100,6 @@ static int test_round_getters()
     for (Player p : rounds[0].players()) {
         lprintf(LOG_INFO, "Testing recording results for player %s\n", p.all_names());
         ASSERT(t->recordResult(rounds[0], p, WINS(i)));
-        ASSERT(conf_num == exp);
 
         res = RoundResults(rounds[0]);
         lprintf(LOG_INFO, "There are %d wins, expecting %d\n", res.resultFor(p), WINS(i));
