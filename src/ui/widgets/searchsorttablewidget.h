@@ -19,6 +19,7 @@ public:
     void finishSstwSetup(Ui::SearchSortTableWidget *ui, tm_qobject *sortObject);
 public slots:
     virtual void onFilterChange(QString query);
+    virtual void filterSelected(int i);
     virtual void addFilter();
     virtual void sortChanged(int column, bool ascending);
 protected:
@@ -49,6 +50,7 @@ public:
     void addAdditionalFilter(std::string boxName, bool(*matches)(T_DATA a));
     void onFilterChange(QString query) override;
     void addFilter() override;
+    void filterSelected(int i) override;
     void sortChanged(int column, bool ascending) override;
     T_DATA getDataAt(int index);
     QItemSelectionModel *selectionModel();
@@ -110,6 +112,7 @@ template <class T_MDL, class T_DATA>
 void SearchSortTableWidget<T_MDL, T_DATA>::addSortAlg(int (*sort_alg)(const T_DATA &a, const T_DATA &b))
 {
     this->sortAls.push_back(sort_alg);
+    this->addFilter();
 }
 
 template <class T_MDL, class T_DATA>
@@ -128,6 +131,12 @@ void SearchSortTableWidget<T_MDL, T_DATA>::onFilterChange(QString query)
 
 template <class T_MDL, class T_DATA>
 void SearchSortTableWidget<T_MDL, T_DATA>::addFilter()
+{
+    this->filterList();
+}
+
+template <class T_MDL, class T_DATA>
+void SearchSortTableWidget<T_MDL, T_DATA>::filterSelected(int i)
 {
     this->filterList();
 }

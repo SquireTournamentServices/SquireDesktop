@@ -35,7 +35,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     std::vector<Round> rounds = this->tourn->rounds();
     this->roundTable = new SearchSortTableWidget<RoundModel, Round>(rounds);
 
-    QString showLiveRounds = tr("Only Show Rounds in Progress");
+    QString showLiveRounds = tr("Only Show Active Rounds");
     this->roundTable->addAdditionalFilter(showLiveRounds.toStdString(), &roundIsActive);
     this->roundTableLayout->addWidget(this->roundTable);
 
@@ -168,6 +168,7 @@ void TournamentTab::onRoundAdded(Round r)
 void TournamentTab::onRoundsChanged(std::vector<Round> rounds)
 {
     this->roundTable->setData(rounds);
+    this->roundViewWidget->rerender();
     updateRoundTimer();
 }
 

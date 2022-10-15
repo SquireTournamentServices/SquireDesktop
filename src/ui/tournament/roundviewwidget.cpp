@@ -70,6 +70,11 @@ QString RoundViewWidget::matchNumberToStr(int number)
     return base;
 }
 
+void RoundViewWidget::rerender()
+{
+    this->displayRound();
+}
+
 void RoundViewWidget::displayRound()
 {
     // Genereate state strings
@@ -241,10 +246,12 @@ void RoundViewWidget::confirmMatch()
         bool r = this->tourn->confirmPlayer(this->round, p);
         if (!r) {
             lprintf(LOG_ERROR, "Cannot confirm results for %s\n", p.all_names());
+
             QMessageBox msg;
             msg.setWindowTitle(tr("Cannot confirm all results in match."));
             msg.setText(tr("Cannot confirm all result for player ") + QString::fromStdString(p.all_names()));
             msg.exec();
+
             return;
         }
     }

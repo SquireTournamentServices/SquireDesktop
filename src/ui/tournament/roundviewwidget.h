@@ -21,6 +21,7 @@ class RoundViewWidget : public QWidget
 public:
     explicit RoundViewWidget(Tournament *tourn, QWidget *parent = nullptr);
     ~RoundViewWidget();
+    void rerender();
 signals:
     void playerSelected(Player player);
 public slots:
