@@ -120,6 +120,56 @@ static int test_round_getters()
     return 1;
 }
 
+static int test_round_kill()
+{
+    Tournament *t = new_tournament(TEST_FILE ".2",
+                                   TEST_NAME,
+                                   TEST_FORMAT,
+                                   squire_core::sc_TournamentPreset::Swiss,
+                                   TEST_BOOL,
+                                   4,
+                                   TEST_NUM_MIN_DECKS,
+                                   TEST_NUM_MAX_DECKS,
+                                   true,
+                                   TEST_BOOL,
+                                   TEST_BOOL);
+    ASSERT(t != nullptr);
+    ASSERT(t->reg_open());
+    ASSERT(t->save());
+
+    bool s = false;
+    ASSERT(!is_null_id(t->addPlayer("Johnny", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(!is_null_id(t->addPlayer("Bing", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(!is_null_id(t->addPlayer("Borris", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(!is_null_id(t->addPlayer("Nick", &s).id()._0));
+    ASSERT(s);
+
+    ASSERT(t->players().size() == t->game_size());
+    ASSERT(t->start());
+
+    std::vector<Round> rounds = t->pairRounds();
+    lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n", rounds.size(), t->players().size() / t->game_size());
+    ASSERT(rounds.size() == t->players().size() / t->game_size());
+    ASSERT(rounds.size() > 0);
+
+    squire_core::sc_RoundId rid = rounds[0].id();
+    ASSERT(!is_null_id(rid._0));
+
+    ASSERT(t->rounds().size() == 1);
+    ASSERT(t->killRound(rounds[0]));
+
+    ASSERT(t->rounds().size() == 1);
+
+    return 1;
+}
+
 SUB_TEST(test_round_ffi,
-{&test_round_getters, "Test Round Method, ignore this monolithic function :D"}
+{&test_round_getters, "Test Round Method, ignore this monolithic function :D"},
+{&test_round_kill, "Test killing a round"}
         )

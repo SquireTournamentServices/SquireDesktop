@@ -32,6 +32,8 @@ public slots:
     void displayTime();
     void onResultsSave();
     void confirmMatch();
+    void confirmKill();
+    void kill();
 protected:
     void changeEvent(QEvent *e);
 private:

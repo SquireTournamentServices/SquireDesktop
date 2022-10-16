@@ -58,6 +58,7 @@ public:
     bool recordResult(Round round, Player p, int wins);
     bool recordDraws(Round round, int draws);
     bool confirmPlayer(Round round, Player p);
+    bool killRound(Round round);
 
     // Respects Translations, this is a GUI method
     QString statusToActionName(squire_core::sc_TournamentStatus status);

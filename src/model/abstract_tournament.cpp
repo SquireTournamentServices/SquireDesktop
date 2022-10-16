@@ -467,6 +467,15 @@ bool Tournament::confirmPlayer(Round round, Player p)
     return r;
 }
 
+bool Tournament::killRound(Round round)
+{
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = rid_kill(round.id(), this->tid, laid);
+    emit onRoundsChanged(this->rounds());
+    this->save();
+    return r;
+}
+
 void Tournament::emitAllProps()
 {
     emit onPlayersChanged(this->players());

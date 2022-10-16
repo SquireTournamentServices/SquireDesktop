@@ -31,6 +31,7 @@ RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
     connect(ui->saveResults, &QPushButton::clicked, this, &RoundViewWidget::onResultsSave);
     connect(ui->resetResults, &QPushButton::clicked, this, &RoundViewWidget::displayRound);
     connect(ui->confirmMatch, &QPushButton::clicked, this, &RoundViewWidget::confirmMatch);
+    connect(ui->killMatch, &QPushButton::clicked, this, &RoundViewWidget::confirmKill);
 }
 
 RoundViewWidget::~RoundViewWidget()
@@ -256,3 +257,27 @@ void RoundViewWidget::confirmMatch()
         }
     }
 }
+
+void RoundViewWidget::confirmKill()
+{
+    QMessageBox msg;
+    msg.setWindowTitle(tr("Are you sure you want to kill round ") + QString::number(this->round.match_number()));
+    msg.setText(tr("Are you sure you want to kill round ") + QString::number(this->round.match_number()));
+    msg.addButton(QMessageBox::Ok);
+    msg.addButton(QMessageBox::Cancel);
+
+    connect(&msg, &QMessageBox::accepted, this, &RoundViewWidget::kill);
+    msg.exec();
+}
+
+void RoundViewWidget::kill()
+{
+    bool r = this->tourn->killRound(this->round);
+    if (!r) {
+        QMessageBox msg;
+        msg.setWindowTitle(tr("Cannot kill round ") + QString::number(this->round.match_number()));
+        msg.setText(tr("Cannot kill round ") + QString::number(this->round.match_number()));
+        msg.exec();
+    }
+}
+
