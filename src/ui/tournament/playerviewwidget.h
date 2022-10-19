@@ -28,6 +28,7 @@ public slots:
     void onPlayersChanged(std::vector<Player> players);
     void onRoundSelected(const QItemSelection &selected, const QItemSelection deselected);
     void displayTime();
+    void dropPlayer();
 protected:
     void changeEvent(QEvent *e);
 private:

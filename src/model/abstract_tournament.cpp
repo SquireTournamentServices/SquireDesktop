@@ -476,6 +476,15 @@ bool Tournament::killRound(Round round)
     return r;
 }
 
+bool Tournament::dropPlayer(Player p)
+{
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = tid_drop_player(this->tid, p.id(), laid);
+    emit this->onPlayersChanged(this->players());
+    this->save();
+    return r;
+}
+
 void Tournament::emitAllProps()
 {
     emit onPlayersChanged(this->players());

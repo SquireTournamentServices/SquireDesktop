@@ -80,6 +80,7 @@ public:
     bool freeze();
     bool thaw();
     Player addPlayer(std::string name, bool *status);
+    bool dropPlayer(Player p);
     std::vector<Round> pairRounds();
 
     // Internal status things

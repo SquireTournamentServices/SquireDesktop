@@ -197,6 +197,8 @@ static int test_add_player()
     players = t->players();
     ASSERT(players.size() == 1);
     ASSERT(!is_null_id(pid._0));
+
+    ASSERT(t->dropPlayer(t->players()[0]));
     ASSERT(t->save());
     ASSERT(t->close());
     delete t;
@@ -363,7 +365,7 @@ SUB_TEST(test_tournament_ffi,
 {&test_tournament_getters, "Test Tournament Getters"},
 {&test_tournament_getters_2, "Test Tournament Getters 2"},
 {&test_bad_tournament_create, "Test Bad Tournament Create"},
-{&test_add_player, "Test add player"},
+{&test_add_player, "Test add, drop player"},
 {&test_update_settings, "Test update settings"},
 {&test_status_change, "Test status changes"},
 {&test_pair_round, "Test pair rounds"}

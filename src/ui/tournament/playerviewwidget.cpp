@@ -1,5 +1,6 @@
 #include "playerviewwidget.h"
 #include "ui_playerviewwidget.h"
+#include <QMessageBox>
 #include <squire_core/squire_core.h>
 
 PlayerViewWidget::PlayerViewWidget(Tournament *tourn, QWidget *parent) :
@@ -23,6 +24,7 @@ PlayerViewWidget::PlayerViewWidget(Tournament *tourn, QWidget *parent) :
     connect(this->tourn, &Tournament::onPlayersChanged, this, &PlayerViewWidget::onPlayersChanged);
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &PlayerViewWidget::displayTime);
     connect(this->roundTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &PlayerViewWidget::onRoundSelected);
+    connect(ui->dropButton, &QPushButton::clicked, this, &PlayerViewWidget::dropPlayer);
 
     this->displayPlayer();
 }
@@ -103,3 +105,13 @@ void PlayerViewWidget::onPlayersChanged(std::vector<Player> players)
     this->displayPlayer();
 }
 
+void PlayerViewWidget::dropPlayer()
+{
+    bool s = this->tourn->dropPlayer(this->player);
+    if (!s) {
+        QMessageBox msg;
+        msg.setWindowTitle(tr("Cannot drop player ") + QString::fromStdString(this->player.all_names()));
+        msg.setText(tr("Cannot drop player ") + QString::fromStdString(this->player.all_names()));
+        msg.exec();
+    }
+}

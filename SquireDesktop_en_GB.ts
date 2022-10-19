@@ -486,18 +486,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="54"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="56"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="57"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="59"/>
         <source>Dropped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerviewwidget.cpp" line="71"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="73"/>
         <source>No Player Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="113"/>
+        <location filename="src/ui/tournament/playerviewwidget.cpp" line="114"/>
+        <source>Cannot drop player </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
