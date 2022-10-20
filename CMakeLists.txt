@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.9)
 project(
   SquireDesktop
   VERSION 0.1
-  LANGUAGES CXX)
+  LANGUAGES C CXX)
 
 set(REPO_URL "https://github.com/MonarchDevelopment/SquireDesktop")
 
@@ -144,7 +144,9 @@ set(MAIN_FILES
     ./src/coins.cpp
     ./src/coins.h
     ./src/config.cpp
-    ./src/config.h)
+    ./src/config.h
+    ./src/timers.cpp
+    ./src/timers.h)
 
 set(FFI_FILES
     ./src/ffi_utils.cpp
@@ -237,7 +239,9 @@ set(TESTING_SOURCES
     ./tests/test_config.cpp
     ./tests/test_config.h
     ./tests/test_utils.cpp
-    ./tests/test_utils.h)
+    ./tests/test_utils.h
+    ./tests/test_timers.cpp
+    ./tests/test_timers.h)
 
 set(FFI_TESTING_SOURCES
     ${MAIN_FILES}
