@@ -68,3 +68,18 @@ int resume_timer(sq_timer_t *t)
     return 1;
 }
 
+long time_left(sq_timer_t *t)
+{
+    long now = time(NULL);
+    long ret = t->duration - now - t->start_time;
+    long offset = 0;
+    for (size_t i = 0; i < t->interrupts_len; i++) {
+        if (t->interrupts[i].end == SQ_TIMER_INTERRUPT_T_NO_END) {
+            offset += now - t->interrupts[i].start;
+        } else {
+            offset += t->interrupts[i].end - t->interrupts[i].end;
+        }
+    }
+
+    return ret + offset;
+}

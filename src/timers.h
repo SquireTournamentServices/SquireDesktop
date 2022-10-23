@@ -20,5 +20,6 @@ typedef struct sq_timer_t {
 void init_timer(sq_timer_t *t, long duration, bool start_now);
 void free_timer(sq_timer_t *t);
 int pause_timer(sq_timer_t *t);
-int  resume_timer(sq_timer_t *t);
+int resume_timer(sq_timer_t *t);
+long time_left(sq_timer_t *t);
 
