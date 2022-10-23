@@ -2,6 +2,7 @@
   "name": "squiredesktop",
   "version-string": "1.0.0",
   "dependencies": [
-    "openssl-windows"
+    "openssl-windows",
+    "qt5"
   ]
 }
