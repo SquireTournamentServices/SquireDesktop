@@ -13,12 +13,12 @@ typedef struct sq_timer_interrupt_t {
 typedef struct sq_timer_t {
     long duration;
     long start_time;
-    int interrupts_len;
+    size_t interrupts_len;
     sq_timer_interrupt_t *interrupts;
 } sq_timer_t;
 
 void init_timer(sq_timer_t *t, long duration, bool start_now);
 void free_timer(sq_timer_t *t);
-void pause_timer(sq_timer_t *t);
-void resume_timer(sq_timer_t *t);
+int pause_timer(sq_timer_t *t);
+int  resume_timer(sq_timer_t *t);
 
