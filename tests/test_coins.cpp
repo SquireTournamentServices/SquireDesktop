@@ -1,3 +1,4 @@
+#include <time.h>
 #include "../src/coins.h"
 #include "./test_coins.h"
 
@@ -49,9 +50,31 @@ static int test_dice()
     return 1;
 }
 
+static int test_coins_perf()
+{
+    long start = time(NULL);
+    ASSERT(test_coins());
+    long end = time(NULL);
+
+    ASSERT(end - start <= 5);
+    return 1;
+}
+
+static int test_dice_perf()
+{
+    long start = time(NULL);
+    ASSERT(test_dice());
+    long end = time(NULL);
+
+    ASSERT(end - start <= 5);
+    return 1;
+}
+
 SUB_TEST(coins_cpp_test,
 {&test_coins, "flip coins"},
 {&test_krark_coins, "flip krark coins"},
-{&test_dice, "dice rolling"}
+{&test_dice, "dice rolling"},
+{&test_coins_perf, "coins perf test"},
+{&test_dice_perf, "dice perf test"}
         )
 
