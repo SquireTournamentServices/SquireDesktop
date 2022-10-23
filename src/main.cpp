@@ -22,10 +22,12 @@ static void print_error_system_information()
     lprintf(LOG_ERROR, "Squire Desktop Version: " VERSION "\n");
     lprintf(LOG_ERROR, "Squire Core Version: " SQ_VERSION "\n");
 
+#ifdef UNIX
     char buffer[1024];
     if (gethostname(buffer, sizeof(buffer)) == 0) {
         lprintf(LOG_ERROR, "Hostname: %s\n", buffer);
     }
+#endif
 
     // Example QT_VERSION: 05 0f 05
     int qt_api = (QT_VERSION >> 16) & 0xff;
