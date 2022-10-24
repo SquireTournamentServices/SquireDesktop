@@ -1,5 +1,6 @@
 #include "./playerscoremodel.h"
-#define COLS 1
+// Name, match points, game points, mwp, gwp, opp_mwp, opp_gwp
+#define COLS 7
 
 PlayerScoreModel::PlayerScoreModel(std::vector<PlayerScore> playerScores) :
     TableModel<PlayerScore>(playerScores)
@@ -30,6 +31,18 @@ QVariant PlayerScoreModel::headerData(int section, Qt::Orientation orientation, 
     switch (section) {
     case 0:
         return QVariant(tr("Player"));
+    case 1:
+        return QVariant(tr("Match Points"));
+    case 2:
+        return QVariant(tr("Game Points"));
+    case 3:
+        return QVariant(tr("Match Win %"));
+    case 4:
+        return QVariant(tr("Game Win %"));
+    case 5:
+        return QVariant(tr("Opp Match Win %"));
+    case 6:
+        return QVariant(tr("Opp Game Win %"));
     }
     return QVariant();
 }
@@ -48,6 +61,18 @@ QVariant PlayerScoreModel::data(const QModelIndex &index, int role) const
     switch (index.column()) {
     case 0:
         return QVariant(QString::fromStdString(p.player().all_names()));
+    case 1:
+        return QVariant(p.score().match_points);
+    case 2:
+        return QVariant(p.score().game_points);
+    case 3:
+        return QVariant(p.score().mwp);
+    case 4:
+        return QVariant(p.score().gwp);
+    case 5:
+        return QVariant(p.score().opp_mwp);
+    case 6:
+        return QVariant(p.score().opp_gwp);
     }
     return QVariant();
 }

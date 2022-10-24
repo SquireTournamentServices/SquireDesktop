@@ -450,8 +450,38 @@
 <context>
     <name>PlayerScoreModel</name>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="32"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="33"/>
         <source>Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="35"/>
+        <source>Match Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="37"/>
+        <source>Game Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="39"/>
+        <source>Match Win %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="41"/>
+        <source>Game Win %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="43"/>
+        <source>Opp Match Win %</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="45"/>
+        <source>Opp Game Win %</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
