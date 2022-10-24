@@ -318,9 +318,9 @@ std::vector<Player> Tournament::players()
     return players;
 }
 
-std::vector<squire_core::sc_PlayerScore<squire_core::sc_StandardScore>> Tournament::standings()
+std::vector<PlayerScore> Tournament::standings()
 {
-    std::vector<squire_core::sc_PlayerScore<squire_core::sc_StandardScore>> ret;
+    std::vector<PlayerScore> ret;
     squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *standings_ptr =
         (squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *) squire_core::tid_standings(this->tid);
     if (standings_ptr == NULL) {
@@ -328,7 +328,7 @@ std::vector<squire_core::sc_PlayerScore<squire_core::sc_StandardScore>> Tourname
     }
 
     for (int i = 0; !is_null_id(standings_ptr[i].pid._0); i++) {
-        ret.push_back(standings_ptr[i]);
+        ret.push_back(PlayerScore(Player(standings_ptr[i].pid, this->tid), standings_ptr[i].score));
     }
 
     squire_core::sq_free(standings_ptr, (ret.size() + 1) * sizeof * standings_ptr);

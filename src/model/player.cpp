@@ -162,3 +162,28 @@ bool playerIsActive(Player p)
     return p.status() != squire_core::sc_PlayerStatus::Dropped;
 }
 
+PlayerScore::PlayerScore()
+{
+
+}
+
+PlayerScore::PlayerScore(Player p, squire_core::sc_StandardScore s)
+{
+  this->p = p;
+  this->s = s;
+}
+
+PlayerScore::~PlayerScore()
+{
+
+}
+
+Player PlayerScore::player()
+{
+  return this->p;
+}
+
+squire_core::sc_StandardScore PlayerScore::score()
+{
+  return this->s;
+}

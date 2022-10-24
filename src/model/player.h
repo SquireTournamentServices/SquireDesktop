@@ -31,3 +31,15 @@ int playerNameSort(const Player &a, const Player &b);
 int playerGameNameSort(const Player &a, const Player &b);
 bool playerIsActive(Player p);
 
+class PlayerScore
+{
+public:
+    PlayerScore();
+    PlayerScore(Player p, squire_core::sc_StandardScore s);
+    ~PlayerScore();
+    Player player();
+    squire_core::sc_StandardScore score();
+private:
+    Player p;
+    squire_core::sc_StandardScore s;
+};
