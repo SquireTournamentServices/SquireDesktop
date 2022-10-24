@@ -49,18 +49,20 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
 
     // Set version label
+    this->versionLabel = new QLabel(this);
+    ui->statusbar->addWidget(this->versionLabel);
 #if QT_VERSION >= 0x050e00
-    ui->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
-                              + tr("Squire Core Version: ") + SQ_VERSION
-                              + " | OS: " + OS + " | ["
-                              + tr("Github Repo") + "](" + REPO_URL + ") | "
-                              + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
-    ui->versionLabel->setTextFormat(Qt::MarkdownText);
+    this->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
+                                + tr("Squire Core Version: ") + SQ_VERSION
+                                + " | OS: " + OS + " | ["
+                                + tr("Github Repo") + "](" + REPO_URL + ") | "
+                                + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
+    this->versionLabel->setTextFormat(Qt::MarkdownText);
 #else
-    ui->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
-                              + tr("Squire Core Version: ") + SQ_VERSION
-                              + " | OS: " + OS + " | "
-                              + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2022"));
+    this->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
+                                + tr("Squire Core Version: ") + SQ_VERSION
+                                + " | OS: " + OS + " | "
+                                + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2022"));
 #endif
 
     QCoreApplication::setOrganizationName("Monarch");
@@ -205,6 +207,7 @@ MainWindow::~MainWindow()
         free(this->dc_info);
     }
 
+    delete this->versionLabel;
     delete ui;
 }
 

@@ -47,6 +47,7 @@ private:
     void addDefaultmenu();
     void addTab(AbstractTabWidget *w, QString name);
     QString getTournamentTabName(Tournament *t);
+    QLabel *versionLabel;
 private slots:
     void coinFlipUtility();
     void diceRollUtility();

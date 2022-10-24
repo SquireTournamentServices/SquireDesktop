@@ -326,111 +326,105 @@
     <name>MainWindow</name>
     <message>
         <location filename="src/ui/mainwindow.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_mainwindow.h" line="80"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_mainwindow.h" line="69"/>
         <source>MainWindow</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.ui" line="24"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_mainwindow.h" line="81"/>
-        <source>Version info, replaced at startup - don&apos;t translate</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/ui/mainwindow.cpp" line="90"/>
+        <location filename="src/ui/mainwindow.cpp" line="92"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="100"/>
+        <location filename="src/ui/mainwindow.cpp" line="102"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="97"/>
+        <location filename="src/ui/mainwindow.cpp" line="99"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="91"/>
+        <location filename="src/ui/mainwindow.cpp" line="93"/>
         <source>New Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="94"/>
+        <location filename="src/ui/mainwindow.cpp" line="96"/>
         <source>Open Tournament</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="104"/>
+        <location filename="src/ui/mainwindow.cpp" line="106"/>
         <source>RNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="105"/>
+        <location filename="src/ui/mainwindow.cpp" line="107"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="108"/>
+        <location filename="src/ui/mainwindow.cpp" line="110"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="53"/>
-        <location filename="src/ui/mainwindow.cpp" line="60"/>
+        <location filename="src/ui/mainwindow.cpp" line="55"/>
+        <location filename="src/ui/mainwindow.cpp" line="62"/>
         <source>Squire Desktop Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="54"/>
-        <location filename="src/ui/mainwindow.cpp" line="61"/>
+        <location filename="src/ui/mainwindow.cpp" line="56"/>
+        <location filename="src/ui/mainwindow.cpp" line="63"/>
         <source>Squire Core Version: </source>
         <oldsource>Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="63"/>
+        <location filename="src/ui/mainwindow.cpp" line="65"/>
         <source> Copyright Monarch (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="275"/>
+        <location filename="src/ui/mainwindow.cpp" line="278"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="288"/>
+        <location filename="src/ui/mainwindow.cpp" line="291"/>
         <source> - Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="295"/>
+        <location filename="src/ui/mainwindow.cpp" line="298"/>
         <source>Open A Squire Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="298"/>
+        <location filename="src/ui/mainwindow.cpp" line="301"/>
         <source>All Squire Tournament files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/mainwindow.cpp" line="38"/>
-        <location filename="src/ui/mainwindow.cpp" line="77"/>
+        <location filename="src/ui/mainwindow.cpp" line="79"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="56"/>
+        <location filename="src/ui/mainwindow.cpp" line="58"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="57"/>
+        <location filename="src/ui/mainwindow.cpp" line="59"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>
