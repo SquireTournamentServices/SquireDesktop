@@ -448,6 +448,14 @@
     </message>
 </context>
 <context>
+    <name>PlayerScoreModel</name>
+    <message>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="32"/>
+        <source>Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PlayerViewWidget</name>
     <message>
         <location filename="src/ui/tournament/playerviewwidget.ui" line="14"/>

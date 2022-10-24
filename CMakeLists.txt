@@ -225,6 +225,8 @@ set(PROJECT_SOURCES
     ./src/ui/abstractmodels/playermodel.h
     ./src/ui/abstractmodels/roundmodel.cpp
     ./src/ui/abstractmodels/roundmodel.h
+    ./src/ui/abstractmodels/playerscoremodel.cpp
+    ./src/ui/abstractmodels/playerscoremodel.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES

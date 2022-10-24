@@ -169,8 +169,8 @@ PlayerScore::PlayerScore()
 
 PlayerScore::PlayerScore(Player p, squire_core::sc_StandardScore s)
 {
-  this->p = p;
-  this->s = s;
+    this->p = p;
+    this->s = s;
 }
 
 PlayerScore::~PlayerScore()
@@ -180,10 +180,10 @@ PlayerScore::~PlayerScore()
 
 Player PlayerScore::player()
 {
-  return this->p;
+    return this->p;
 }
 
 squire_core::sc_StandardScore PlayerScore::score()
 {
-  return this->s;
+    return this->s;
 }
