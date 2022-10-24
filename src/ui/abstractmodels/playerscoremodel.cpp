@@ -47,6 +47,16 @@ QVariant PlayerScoreModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
+#define __DECIMAL_POINTS 1
+#define DECIMAL_POINTS pow(10, __DECIMAL_POINTS)
+
+static QVariant formatPercentage(double p)
+{
+    double perc = floor(p * 100 * DECIMAL_POINTS) / DECIMAL_POINTS;
+    QString ret = QString::number(perc) + tr("%");
+    return QVariant(ret);
+}
+
 QVariant PlayerScoreModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || role != Qt::DisplayRole) {
@@ -66,13 +76,13 @@ QVariant PlayerScoreModel::data(const QModelIndex &index, int role) const
     case 2:
         return QVariant(p.score().game_points);
     case 3:
-        return QVariant(p.score().mwp);
+        return formatPercentage(p.score().mwp);
     case 4:
-        return QVariant(p.score().gwp);
+        return formatPercentage(p.score().gwp);
     case 5:
-        return QVariant(p.score().opp_mwp);
+        return formatPercentage(p.score().opp_mwp);
     case 6:
-        return QVariant(p.score().opp_gwp);
+        return formatPercentage(p.score().opp_gwp);
     }
     return QVariant();
 }

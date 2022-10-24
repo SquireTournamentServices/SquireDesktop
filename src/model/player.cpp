@@ -187,3 +187,14 @@ squire_core::sc_StandardScore PlayerScore::score()
 {
     return this->s;
 }
+    
+std::vector<int (*)(const PlayerScore &, const PlayerScore &)> PlayerScore::getDefaultAlgs()
+{
+  std::vector<int (*)(const PlayerScore &, const PlayerScore &)> ret;
+  return ret;
+}
+
+bool operator<(const PlayerScore &a, const PlayerScore &b)
+{
+    return a < b;
+}

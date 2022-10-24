@@ -39,6 +39,8 @@ public:
     ~PlayerScore();
     Player player();
     squire_core::sc_StandardScore score();
+    std::vector<int (*)(const PlayerScore &, const PlayerScore &)> getDefaultAlgs();
+    friend bool operator<(const PlayerScore &a, const PlayerScore &b);
 private:
     Player p;
     squire_core::sc_StandardScore s;
