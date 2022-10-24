@@ -196,6 +196,7 @@ static int test_add_player()
     pid = p.id();
     players = t->players();
     ASSERT(players.size() == 1);
+    ASSERT(t->standings().size() != players.size());
     ASSERT(!is_null_id(pid._0));
 
     ASSERT(t->dropPlayer(t->players()[0]));

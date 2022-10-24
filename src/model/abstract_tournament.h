@@ -59,6 +59,7 @@ public:
     bool recordDraws(Round round, int draws);
     bool confirmPlayer(Round round, Player p);
     bool killRound(Round round);
+    std::vector<squire_core::sc_PlayerScore<squire_core::sc_StandardScore>> standings();
 
     // Respects Translations, this is a GUI method
     QString statusToActionName(squire_core::sc_TournamentStatus status);

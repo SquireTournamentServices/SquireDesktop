@@ -313,9 +313,27 @@ std::vector<Player> Tournament::players()
     for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
         players.push_back(Player(player_ptr[i], this->tid));
     }
-    squire_core::sq_free(player_ptr, (players.size() + 1) * sizeof(*player_ptr));
+    squire_core::sq_free(player_ptr, (players.size() + 1) * sizeof * player_ptr);
 
     return players;
+}
+
+std::vector<squire_core::sc_PlayerScore<squire_core::sc_StandardScore>> Tournament::standings()
+{
+    std::vector<squire_core::sc_PlayerScore<squire_core::sc_StandardScore>> ret;
+    squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *standings_ptr =
+        (squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *) squire_core::tid_standings(this->tid);
+    if (standings_ptr == NULL) {
+        return ret;
+    }
+
+    for (int i = 0; !is_null_id(standings_ptr[i].pid._0); i++) {
+        ret.push_back(standings_ptr[i]);
+    }
+
+    squire_core::sq_free(standings_ptr, (ret.size() + 1) * sizeof * standings_ptr);
+
+    return ret;
 }
 
 std::vector<Round> Tournament::rounds()
@@ -329,7 +347,7 @@ std::vector<Round> Tournament::rounds()
     for (int i = 0; !is_null_id(round_ptr[i]._0); i++) {
         rounds.push_back(Round(round_ptr[i], this->tid));
     }
-    squire_core::sq_free(round_ptr, sizeof(*round_ptr) *(rounds.size() + 1));
+    squire_core::sq_free(round_ptr, sizeof * round_ptr * (rounds.size() + 1));
 
     return rounds;
 }
