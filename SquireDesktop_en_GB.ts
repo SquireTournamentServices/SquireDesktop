@@ -450,37 +450,37 @@
 <context>
     <name>PlayerScoreModel</name>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="33"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="34"/>
         <source>Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="35"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="36"/>
         <source>Match Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="37"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="38"/>
         <source>Game Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="39"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="40"/>
         <source>Match Win %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="41"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="42"/>
         <source>Game Win %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="43"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="44"/>
         <source>Opp Match Win %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="45"/>
+        <location filename="src/ui/abstractmodels/playerscoremodel.cpp" line="46"/>
         <source>Opp Game Win %</source>
         <translation type="unfinished"></translation>
     </message>

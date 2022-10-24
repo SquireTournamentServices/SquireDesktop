@@ -1,4 +1,5 @@
 #include "./playerscoremodel.h"
+#include <math.h>
 // Name, match points, game points, mwp, gwp, opp_mwp, opp_gwp
 #define COLS 7
 
@@ -53,7 +54,7 @@ QVariant PlayerScoreModel::headerData(int section, Qt::Orientation orientation, 
 static QVariant formatPercentage(double p)
 {
     double perc = floor(p * 100 * DECIMAL_POINTS) / DECIMAL_POINTS;
-    QString ret = QString::number(perc) + tr("%");
+    QString ret = QString::number(perc) + "%";
     return QVariant(ret);
 }
 
