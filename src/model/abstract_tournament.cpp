@@ -293,6 +293,7 @@ Player Tournament::addPlayer(std::string name, bool *status)
         this->setSaveStatus(false);
         this->save();
         emit this->onPlayerAdded(p);
+        emit this->onPlayersChanged(this->players());
         return p;
     } else {
         lprintf(LOG_ERROR, "Cannot add player %s\n", name.c_str());

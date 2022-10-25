@@ -213,6 +213,10 @@ void RoundViewWidget::onPlayerSelected(const QItemSelection &selected, const QIt
 
 void RoundViewWidget::onResultsSave()
 {
+    if (!this->roundSelected) {
+        return;
+    }
+
     bool s = this->tourn->recordDraws(this->round, ui->drawsEdit->value());
     if (!s) {
         QMessageBox msg;
