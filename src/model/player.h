@@ -35,6 +35,7 @@ class PlayerScore
 {
 public:
     PlayerScore();
+    PlayerScore(const PlayerScore &p);
     PlayerScore(Player p, squire_core::sc_StandardScore s);
     ~PlayerScore();
     Player player();

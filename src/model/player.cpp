@@ -173,9 +173,22 @@ PlayerScore::PlayerScore(Player p, squire_core::sc_StandardScore s)
     this->s = s;
 }
 
+PlayerScore::PlayerScore(const PlayerScore &p)
+{
+    this->p = p.p;
+    this->s = p.s;
+}
+
 PlayerScore::~PlayerScore()
 {
 
+}
+
+static int playerScoreNameSort(const PlayerScore &a, const PlayerScore &b)
+{
+    PlayerScore pa(a);
+    PlayerScore pb(b);
+    return strcmp(pa.player().all_names().c_str(), pb.player().all_names().c_str());
 }
 
 Player PlayerScore::player()
@@ -187,11 +200,103 @@ squire_core::sc_StandardScore PlayerScore::score()
 {
     return this->s;
 }
-    
+
+/**
+ * This macro doesn't work and, I'm very sad.
+ **/
+/*
+// Util macro, read these
+// https://renenyffenegger.ch/notes/development/languages/C-C-plus-plus/preprocessor/macros/__VA_ARGS__/index
+// http://saadahmad.ca/cc-preprocessor-metaprogramming-recursion/
+// http://saadahmad.ca/cc-preprocessor-metaprogramming-lists-and-for_each/
+#define PASS_ON(...) __VA_ARGS__
+#define EMPTY()
+
+// Tail recursion sorting function generator
+#define __ALG_FUNC() ALG_FUNC
+#define ALG_FUNC(a, ...) \
+static int a(const PlayerScore &a, const PlayerScore &b) \
+{ \
+    PlayerScore pa(a); \
+    PlayerScore pb(b); \
+    return pa.score().a - pb.score().a; \
+} \
+__ALG_FUNC EMPTY () () (__VA_ARGS__)
+
+// Tail recursion push back generator for output list
+#define __PUSH_ALGS() PUSH_ALGS
+#define PUSH_ALGS(a, ...) \
+    ret.push_back(&a); \
+__PUSH_ALGS EMPTY () () (__VA_ARGS__)
+
+// Wrapper for the whole thing that makes the correct output function
+#define _PASS(x) PASS_ON(PASS_ON(PASS_ON(PASS_ON(PASS_ON(x)))))
+#define GEN_ALGS(...) \
+_PASS(PASS_ON(ALG_FUNC)(__VA_ARGS__)) \
+std::vector<int (*)(const PlayerScore &, const PlayerScore &)> PlayerScore::getDefaultAlgs() \
+{ \
+  std::vector<int (*)(const PlayerScore &, const PlayerScore &)> ret; \
+  ret.push_back(&playerScoreNameSort); \
+  _PASS(PASS_ON(PUSH_ALGS)(__VA_ARGS__)) \
+  return ret; \
+}
+
+GEN_ALGS(match_points, game_points, mwp, gwp, opp_mwp, opp_gwp)
+*/
+
+static int match_points(const PlayerScore &match_points, const PlayerScore &b)
+{
+    PlayerScore pa(match_points);
+    PlayerScore pb(b);
+    return pa.score().match_points - pb.score().match_points;
+}
+
+static int game_points(const PlayerScore &game_points, const PlayerScore &b)
+{
+    PlayerScore pa(game_points);
+    PlayerScore pb(b);
+    return pa.score().game_points - pb.score().game_points;
+}
+
+static int mwp(const PlayerScore &mwp, const PlayerScore &b)
+{
+    PlayerScore pa(mwp);
+    PlayerScore pb(b);
+    return pa.score().mwp - pb.score().mwp;
+}
+
+static int gwp(const PlayerScore &gwp, const PlayerScore &b)
+{
+    PlayerScore pa(gwp);
+    PlayerScore pb(b);
+    return pa.score().gwp - pb.score().gwp;
+}
+
+static int opp_mwp(const PlayerScore &opp_mwp, const PlayerScore &b)
+{
+    PlayerScore pa(opp_mwp);
+    PlayerScore pb(b);
+    return pa.score().opp_mwp - pb.score().opp_mwp;
+}
+
+static int opp_gwp(const PlayerScore &opp_gwp, const PlayerScore &b)
+{
+    PlayerScore pa(opp_gwp);
+    PlayerScore pb(b);
+    return pa.score().opp_gwp - pb.score().opp_gwp;
+}
+
 std::vector<int (*)(const PlayerScore &, const PlayerScore &)> PlayerScore::getDefaultAlgs()
 {
-  std::vector<int (*)(const PlayerScore &, const PlayerScore &)> ret;
-  return ret;
+    std::vector<int (*)(const PlayerScore &, const PlayerScore &)> ret;
+    ret.push_back(&playerScoreNameSort);
+    ret.push_back(&match_points);
+    ret.push_back(&game_points);
+    ret.push_back(&mwp);
+    ret.push_back(&gwp);
+    ret.push_back(&opp_mwp);
+    ret.push_back(&opp_gwp);
+    return ret;
 }
 
 bool operator<(const PlayerScore &a, const PlayerScore &b)
