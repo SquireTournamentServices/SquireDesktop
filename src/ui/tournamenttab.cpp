@@ -3,6 +3,7 @@
 #include "./tournament/addplayerdialogue.h"
 #include "./tournament/tournamentchangesettingsdialogue.h"
 #include "./tournament/tournamentunsavederrordialogue.h"
+#include "./tournament/standingsboardwidget.h"
 #include "../config.h"
 #include <QDialogButtonBox>
 #include <QMessageBox>
@@ -90,6 +91,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     QAction *confirmAllMatchesAction = tournamentsMenu->addAction(tr("Confirm All Matches"));
     connect(confirmAllMatchesAction, &QAction::triggered, this, &TournamentTab::confirmAllMatches);
+
+    QAction *showStandingsAction = tournamentsMenu->addAction(tr("Show Standings"));
+    connect(showStandingsAction, &QAction::triggered, this, &TournamentTab::showStandings);
 
     // Start timer
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &TournamentTab::updateRoundTimer);
@@ -405,4 +409,10 @@ void TournamentTab::confirmAllMatches()
             }
         }
     }
+}
+
+void TournamentTab::showStandings()
+{
+    StandingsBoardWidget *w = new StandingsBoardWidget(this->tourn, this);
+    w->show();
 }

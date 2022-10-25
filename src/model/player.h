@@ -40,6 +40,7 @@ public:
     ~PlayerScore();
     Player player();
     squire_core::sc_StandardScore score();
+    bool matches(std::string query);
     std::vector<int (*)(const PlayerScore &, const PlayerScore &)> getDefaultAlgs();
     friend bool operator<(const PlayerScore &a, const PlayerScore &b);
 private:

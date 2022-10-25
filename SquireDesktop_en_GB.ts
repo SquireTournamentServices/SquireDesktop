@@ -945,6 +945,20 @@
     </message>
 </context>
 <context>
+    <name>StandingsBoardWidget</name>
+    <message>
+        <location filename="src/ui/tournament/standingsboardwidget.ui" line="14"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_standingsboardwidget.h" line="46"/>
+        <source>Form</source>
+        <translation type="unfinished">Form</translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/standingsboardwidget.cpp" line="11"/>
+        <source> Standings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Tournament</name>
     <message>
         <location filename="src/model/abstract_tournament.cpp" line="240"/>
@@ -1121,7 +1135,7 @@
     <message>
         <location filename="src/ui/tournamenttab.ui" line="56"/>
         <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="246"/>
-        <location filename="src/ui/tournamenttab.cpp" line="82"/>
+        <location filename="src/ui/tournamenttab.cpp" line="83"/>
         <source>Pair Round</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1140,14 +1154,14 @@
     <message>
         <location filename="src/ui/tournamenttab.ui" line="138"/>
         <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="249"/>
-        <location filename="src/ui/tournamenttab.cpp" line="364"/>
+        <location filename="src/ui/tournamenttab.cpp" line="368"/>
         <source>Add Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="158"/>
         <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="250"/>
-        <location filename="src/ui/tournamenttab.cpp" line="227"/>
+        <location filename="src/ui/tournamenttab.cpp" line="231"/>
         <source>Not Started</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1164,141 +1178,146 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="27"/>
+        <location filename="src/ui/tournamenttab.cpp" line="28"/>
         <source>Only Show Active Players</source>
         <oldsource>Show All Players</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="38"/>
+        <location filename="src/ui/tournamenttab.cpp" line="39"/>
         <source>Only Show Active Rounds</source>
         <oldsource>Show All Rounds</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="44"/>
+        <location filename="src/ui/tournamenttab.cpp" line="45"/>
         <source>Match Info</source>
         <oldsource>Round Info</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="47"/>
+        <location filename="src/ui/tournamenttab.cpp" line="48"/>
         <source>Player Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="78"/>
+        <location filename="src/ui/tournamenttab.cpp" line="79"/>
         <source>Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="79"/>
+        <location filename="src/ui/tournamenttab.cpp" line="80"/>
         <source>Add player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="85"/>
+        <location filename="src/ui/tournamenttab.cpp" line="86"/>
         <source>Change Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="88"/>
+        <location filename="src/ui/tournamenttab.cpp" line="89"/>
         <source>Close Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="91"/>
+        <location filename="src/ui/tournamenttab.cpp" line="92"/>
         <source>Confirm All Matches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="206"/>
+        <location filename="src/ui/tournamenttab.cpp" line="95"/>
+        <source>Show Standings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.cpp" line="210"/>
         <source>Fluid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="209"/>
+        <location filename="src/ui/tournamenttab.cpp" line="213"/>
         <source>Swiss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="233"/>
+        <location filename="src/ui/tournamenttab.cpp" line="237"/>
         <source>Planned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="332"/>
+        <location filename="src/ui/tournamenttab.cpp" line="336"/>
         <source> Active Matches)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="398"/>
+        <location filename="src/ui/tournamenttab.cpp" line="402"/>
         <source>Cannot confirm player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="400"/>
+        <location filename="src/ui/tournamenttab.cpp" line="404"/>
         <source> in round </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="402"/>
+        <location filename="src/ui/tournamenttab.cpp" line="406"/>
         <source>Cannot confirm all rounds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="224"/>
-        <location filename="src/ui/tournamenttab.cpp" line="236"/>
+        <location filename="src/ui/tournamenttab.cpp" line="228"/>
+        <location filename="src/ui/tournamenttab.cpp" line="240"/>
         <source>Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="240"/>
+        <location filename="src/ui/tournamenttab.cpp" line="244"/>
         <source>Frozen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="243"/>
+        <location filename="src/ui/tournamenttab.cpp" line="247"/>
         <source>Ended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="246"/>
+        <location filename="src/ui/tournamenttab.cpp" line="250"/>
         <source>Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="251"/>
+        <location filename="src/ui/tournamenttab.cpp" line="255"/>
         <source>* (Unsaved Changes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="263"/>
+        <location filename="src/ui/tournamenttab.cpp" line="267"/>
         <source>Cannot add player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="264"/>
+        <location filename="src/ui/tournamenttab.cpp" line="268"/>
         <source>Unable to add the player due to an internal error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="307"/>
+        <location filename="src/ui/tournamenttab.cpp" line="311"/>
         <source>No Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="331"/>
+        <location filename="src/ui/tournamenttab.cpp" line="335"/>
         <source>Left in Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="332"/>
+        <location filename="src/ui/tournamenttab.cpp" line="336"/>
         <source> (</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="366"/>
+        <location filename="src/ui/tournamenttab.cpp" line="370"/>
         <source>Allow Player Registration to Add Players</source>
         <translation type="unfinished"></translation>
     </message>

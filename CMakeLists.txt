@@ -192,6 +192,9 @@ set(PROJECT_SOURCES
     ./src/ui/tournament/playerviewwidget.cpp
     ./src/ui/tournament/playerviewwidget.h
     ./src/ui/tournament/playerviewwidget.ui
+    ./src/ui/tournament/standingsboardwidget.cpp
+    ./src/ui/tournament/standingsboardwidget.h
+    ./src/ui/tournament/standingsboardwidget.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui

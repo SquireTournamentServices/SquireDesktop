@@ -327,7 +327,8 @@ std::vector<PlayerScore> Tournament::standings()
         return ret;
     }
 
-    for (int i = 0; !is_null_id(standings_ptr[i].pid._0); i++) {
+    size_t len = this->players().size();
+    for (size_t i = 0; !is_null_id(standings_ptr[i].pid._0) && i < len; i++) {
         ret.push_back(PlayerScore(Player(standings_ptr[i].pid, this->tid), standings_ptr[i].score));
     }
 

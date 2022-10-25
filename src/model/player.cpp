@@ -184,6 +184,14 @@ PlayerScore::~PlayerScore()
 
 }
 
+bool PlayerScore::matches(std::string query)
+{
+    if (this->p.matches(query)) {
+        return true;
+    }
+    return false;
+}
+
 static int playerScoreNameSort(const PlayerScore &a, const PlayerScore &b)
 {
     PlayerScore pa(a);
