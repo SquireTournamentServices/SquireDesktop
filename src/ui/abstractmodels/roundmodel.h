@@ -5,6 +5,7 @@
 
 class RoundModel : public TableModel<Round>
 {
+    Q_OBJECT
 public:
     RoundModel(std::vector<Round> rounds);
     ~RoundModel();

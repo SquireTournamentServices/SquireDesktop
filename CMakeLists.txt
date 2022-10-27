@@ -163,6 +163,8 @@ set(PROJECT_SOURCES
     ${MAIN_FILES}
     ${FFI_FILES}
     ./src/discord_game_sdk.h
+    ./src/init.cpp
+    ./src/init.h
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui

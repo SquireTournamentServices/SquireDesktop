@@ -432,17 +432,17 @@
 <context>
     <name>PlayerModel</name>
     <message>
-        <location filename="src/ui/abstractmodels/playermodel.cpp" line="32"/>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="49"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playermodel.cpp" line="34"/>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="51"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/abstractmodels/playermodel.cpp" line="36"/>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="53"/>
         <source>Game Name</source>
         <translation type="unfinished"></translation>
     </message>
