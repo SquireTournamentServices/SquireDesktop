@@ -779,30 +779,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="239"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="241"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="240"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="242"/>
         <source>Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="256"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="257"/>
         <source>Cannot confirm all results in match.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="257"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="258"/>
         <source>Cannot confirm all result for player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="268"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="269"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="270"/>
         <source>Are you sure you want to kill round </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="282"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="283"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="284"/>
         <source>Cannot kill round </source>
         <translation type="unfinished"></translation>
     </message>

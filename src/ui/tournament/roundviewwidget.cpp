@@ -225,7 +225,8 @@ void RoundViewWidget::onResultsSave()
         msg.exec();
     }
 
-    for (RoundResultWidget *w : this->resultWidgets) {
+    for (size_t i = 0; i < this->resultWidgets.size(); i++) {
+        RoundResultWidget *w = this->resultWidgets[i];
         bool confirmed = w->confirmed();
         int wins = w->newWins();
 
