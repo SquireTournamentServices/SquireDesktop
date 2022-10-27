@@ -252,46 +252,57 @@ std::vector<int (*)(const PlayerScore &, const PlayerScore &)> PlayerScore::getD
 GEN_ALGS(match_points, game_points, mwp, gwp, opp_mwp, opp_gwp)
 */
 
+static int __sort(int x)
+{
+    if (x < 0) {
+        return -1;
+    } else if (x == 0) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 static int match_points(const PlayerScore &match_points, const PlayerScore &b)
 {
     PlayerScore pa(match_points);
     PlayerScore pb(b);
-    return pa.score().match_points - pb.score().match_points;
+    return __sort(pa.score().match_points - pb.score().match_points);
 }
 
 static int game_points(const PlayerScore &game_points, const PlayerScore &b)
 {
     PlayerScore pa(game_points);
     PlayerScore pb(b);
-    return pa.score().game_points - pb.score().game_points;
+    return __sort(pa.score().game_points - pb.score().game_points);
 }
 
 static int mwp(const PlayerScore &mwp, const PlayerScore &b)
 {
     PlayerScore pa(mwp);
     PlayerScore pb(b);
-    return pa.score().mwp - pb.score().mwp;
+    return __sort(pa.score().mwp - pb.score().mwp);
 }
 
 static int gwp(const PlayerScore &gwp, const PlayerScore &b)
 {
     PlayerScore pa(gwp);
     PlayerScore pb(b);
-    return pa.score().gwp - pb.score().gwp;
+    return __sort(pa.score().gwp - pb.score().gwp);
 }
 
 static int opp_mwp(const PlayerScore &opp_mwp, const PlayerScore &b)
 {
     PlayerScore pa(opp_mwp);
     PlayerScore pb(b);
-    return pa.score().opp_mwp - pb.score().opp_mwp;
+    return __sort(pa.score().opp_mwp - pb.score().opp_mwp);
 }
 
 static int opp_gwp(const PlayerScore &opp_gwp, const PlayerScore &b)
 {
     PlayerScore pa(opp_gwp);
     PlayerScore pb(b);
-    return pa.score().opp_gwp - pb.score().opp_gwp;
+    return __sort(pa.score().opp_gwp - pb.score().opp_gwp);
 }
 
 std::vector<int (*)(const PlayerScore &, const PlayerScore &)> PlayerScore::getDefaultAlgs()
