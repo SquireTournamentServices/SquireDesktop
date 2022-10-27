@@ -214,6 +214,7 @@ void RoundViewWidget::onPlayerSelected(const QItemSelection &selected, const QIt
 void RoundViewWidget::onResultsSave()
 {
     if (!this->roundSelected) {
+        lprintf(LOG_ERROR, "No round selected\n");
         return;
     }
 
@@ -239,9 +240,10 @@ void RoundViewWidget::onResultsSave()
             QMessageBox msg;
             msg.setWindowTitle(tr("Cannot save results for - ")
                                + QString::fromStdString(w->player().all_names()));
-            msg.setText(tr("Cannot save results for - ")
+            msg.setText(tr("Aborting: Cannot save results for - ")
                         + QString::fromStdString(w->player().all_names()));
             msg.exec();
+            break;
         }
     }
 }

@@ -773,36 +773,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="223"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="224"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="225"/>
         <source>Cannot save draws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="240"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="242"/>
         <source>Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="257"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="244"/>
+        <source>Aborting: Cannot save results for - </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="260"/>
         <source>Cannot confirm all results in match.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="258"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="261"/>
         <source>Cannot confirm all result for player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="269"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="270"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="272"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="273"/>
         <source>Are you sure you want to kill round </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="283"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="284"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="286"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="287"/>
         <source>Cannot kill round </source>
         <translation type="unfinished"></translation>
     </message>
@@ -966,32 +970,32 @@
 <context>
     <name>Tournament</name>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="240"/>
+        <location filename="src/model/abstract_tournament.cpp" line="258"/>
         <source>Planned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="242"/>
+        <location filename="src/model/abstract_tournament.cpp" line="260"/>
         <source>Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="244"/>
+        <location filename="src/model/abstract_tournament.cpp" line="262"/>
         <source>Frozon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="246"/>
+        <location filename="src/model/abstract_tournament.cpp" line="264"/>
         <source>Ended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="248"/>
+        <location filename="src/model/abstract_tournament.cpp" line="266"/>
         <source>Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/model/abstract_tournament.cpp" line="252"/>
+        <location filename="src/model/abstract_tournament.cpp" line="270"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
