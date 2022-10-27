@@ -446,6 +446,11 @@
         <source>Game Name</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="src/ui/abstractmodels/playermodel.cpp" line="77"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PlayerScoreModel</name>
@@ -566,12 +571,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="18"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="34"/>
         <source>N/a</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="24"/>
+        <location filename="src/ui/widgets/recenttournamentwidget.cpp" line="40"/>
         <source>Error with: </source>
         <translation></translation>
     </message>

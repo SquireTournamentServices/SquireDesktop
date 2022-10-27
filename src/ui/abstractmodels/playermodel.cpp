@@ -74,7 +74,7 @@ QVariant PlayerModel::data(const QModelIndex &index, int role) const
         case squire_core::sc_PlayerStatus::Registered:
             return QVariant(*REGISTERED_STATUS_ICON);
         }
-        return QVariant("Error");
+        return QVariant(tr("Error"));
     case 1:
         return QVariant(QString::fromStdString(player.name()));
     case 2:

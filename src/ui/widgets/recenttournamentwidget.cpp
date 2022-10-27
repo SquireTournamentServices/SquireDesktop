@@ -5,6 +5,22 @@
 #include "./recenttournamentwidget.h"
 #include "./ui_recenttournamentwidget.h"
 
+static QPixmap *WARNING_PIXMAP;
+static QPixmap *FLUID_PIXMAP;
+static QPixmap *SWISS_PIXMAP;
+
+void recent_tourn_widget_init_icons()
+{
+    WARNING_PIXMAP = new QPixmap();
+    WARNING_PIXMAP->loadFromData(WARNING_PNG, sizeof(WARNING_PNG));
+
+    FLUID_PIXMAP = new QPixmap();
+    FLUID_PIXMAP->loadFromData(FLUID_PNG, sizeof(FLUID_PNG));
+
+    SWISS_PIXMAP = new QPixmap();
+    SWISS_PIXMAP->loadFromData(SWISS_PNG, sizeof(SWISS_PNG));
+}
+
 RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::RecentTournamentWidget)
@@ -22,16 +38,16 @@ RecentTournamentWidget::RecentTournamentWidget(recent_tournament_t t, QWidget *p
 
     if (t.name == NULL || t.pairing_sys == NULL) {
         ui->editTime->setText(tr("Error with: ") + QString(t.file_path));
-        pixmap.loadFromData(WARNING_PNG, sizeof(WARNING_PNG));
+        pixmap = *WARNING_PIXMAP;
     } else {
         char timeString[50];
         strftime(timeString, sizeof(timeString), "%x - %H:%M:%S %Z", &t.last_opened);
         ui->editTime->setText(QString(timeString));
 
         if (strcmp(t.pairing_sys, PAIRING_SWISS) == 0) {
-            pixmap.loadFromData(SWISS_PNG, sizeof(SWISS_PNG));
+            pixmap = *SWISS_PIXMAP;
         } else if (strcmp(t.pairing_sys, PAIRING_FLUID) == 0) {
-            pixmap.loadFromData(FLUID_PNG, sizeof(FLUID_PNG));
+            pixmap = *FLUID_PIXMAP;
         }
     }
 

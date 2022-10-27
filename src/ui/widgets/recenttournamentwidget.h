@@ -40,3 +40,4 @@ private:
     QPixmap pixmap;
 };
 
+void recent_tourn_widget_init_icons();
