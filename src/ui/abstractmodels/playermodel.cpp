@@ -57,7 +57,7 @@ QVariant PlayerModel::headerData(int section, Qt::Orientation orientation, int r
 
 QVariant PlayerModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || role != Qt::DisplayRole) {
+    if (!index.isValid() || (role != Qt::DisplayRole && role != Qt::DecorationRole)) {
         return QVariant();
     }
 
