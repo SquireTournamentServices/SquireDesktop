@@ -218,33 +218,45 @@ void RoundViewWidget::onResultsSave()
         return;
     }
 
-    bool s = this->tourn->recordDraws(this->round, ui->drawsEdit->value());
-    if (!s) {
-        QMessageBox msg;
-        msg.setWindowTitle(tr("Cannot save draws"));
-        msg.setText(tr("Cannot save draws"));
-        msg.exec();
-    }
+    int draws = ui->drawsEdit->value();
+    std::vector<Player> players;
+    std::vector<int> wins;
+    std::vector<bool> confirms;
 
     for (size_t i = 0; i < this->resultWidgets.size(); i++) {
         RoundResultWidget *w = this->resultWidgets[i];
         bool confirmed = w->confirmed();
-        int wins = w->newWins();
+        int winc = w->newWins();
 
-        bool s = this->tourn->recordResult(this->round, w->player(), wins);
-        if (confirmed && s) {
-            s = this->tourn->confirmPlayer(this->round, w->player());
+        players.push_back(w->player());
+        wins.push_back(winc);
+        confirms.push_back(confirmed);
+    }
+
+    for (size_t i = 0; i < players.size() && i < wins.size() && i < confirms.size(); i++) {
+        bool s = this->tourn->recordResult(this->round, players[i], wins[i]);
+        if (confirms[i] && s) {
+            s = this->tourn->confirmPlayer(this->round, players[i]);
         }
 
         if (!s) {
             QMessageBox msg;
             msg.setWindowTitle(tr("Cannot save results for - ")
-                               + QString::fromStdString(w->player().all_names()));
+                               + QString::fromStdString(players[i].all_names()));
             msg.setText(tr("Aborting: Cannot save results for - ")
-                        + QString::fromStdString(w->player().all_names()));
+                        + QString::fromStdString(players[i].all_names()));
             msg.exec();
-            break;
+            return;
         }
+    }
+
+    bool s = this->tourn->recordDraws(this->round, draws);
+
+    if (!s) {
+        QMessageBox msg;
+        msg.setWindowTitle(tr("Cannot save draws"));
+        msg.setText(tr("Cannot save draws"));
+        msg.exec();
     }
 }
 

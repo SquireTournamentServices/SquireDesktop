@@ -773,40 +773,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="224"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="225"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="257"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="258"/>
         <source>Cannot save draws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="242"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="244"/>
         <source>Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="244"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="246"/>
         <source>Aborting: Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="260"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="271"/>
         <source>Cannot confirm all results in match.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="261"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="272"/>
         <source>Cannot confirm all result for player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="272"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="273"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="283"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="284"/>
         <source>Are you sure you want to kill round </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="286"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="287"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="297"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="298"/>
         <source>Cannot kill round </source>
         <translation type="unfinished"></translation>
     </message>
