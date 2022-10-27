@@ -598,25 +598,25 @@
     <name>RoundResultWidget</name>
     <message>
         <location filename="src/ui/tournament/roundresultwidget.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="60"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="61"/>
         <source>Form</source>
         <translation type="unfinished">Form</translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundresultwidget.ui" line="20"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="61"/>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="32"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="62"/>
         <source>Player Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundresultwidget.ui" line="27"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="62"/>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="39"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="63"/>
         <source> wins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundresultwidget.ui" line="34"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="63"/>
+        <location filename="src/ui/tournament/roundresultwidget.ui" line="46"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundresultwidget.h" line="64"/>
         <source>Confirmed</source>
         <translation type="unfinished"></translation>
     </message>
