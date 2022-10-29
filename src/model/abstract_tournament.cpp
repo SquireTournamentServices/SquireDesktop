@@ -129,6 +129,7 @@ std::string Tournament::name()
 {
     char *name = (char *) squire_core::tid_name(this->tid);
     if (name == NULL) {
+        lprintf(LOG_ERROR, "Cannot get tournament name\n");
         return "";
     }
 
@@ -146,6 +147,7 @@ std::string Tournament::format()
 {
     char *format = (char *) squire_core::tid_format(this->tid);
     if (format == NULL) {
+        lprintf(LOG_ERROR, "Cannot get tournament format\n");
         return "";
     }
 
@@ -156,17 +158,29 @@ std::string Tournament::format()
 
 int Tournament::game_size()
 {
-    return squire_core::tid_game_size(this->tid);
+    int ret =  squire_core::tid_game_size(this->tid);
+    if (ret == -1) {
+        lprintf(LOG_ERROR, "Cannot get tournament game size\n");
+    }
+    return ret;
 }
 
 int Tournament::min_deck_count()
 {
-    return squire_core::tid_min_deck_count(this->tid);
+    int ret = squire_core::tid_min_deck_count(this->tid);
+    if (ret == -1) {
+        lprintf(LOG_ERROR, "Cannot get tournament min deck count\n");
+    }
+    return ret;
 }
 
 int Tournament::max_deck_count()
 {
-    return squire_core::tid_max_deck_count(this->tid);
+    int ret = squire_core::tid_max_deck_count(this->tid);
+    if (ret == -1) {
+        lprintf(LOG_ERROR, "Cannot get tournament max deck count\n");
+    }
+    return ret;
 }
 
 squire_core::sc_TournamentPreset Tournament::pairing_type()
@@ -177,7 +191,11 @@ squire_core::sc_TournamentPreset Tournament::pairing_type()
 
 int Tournament::round_length()
 {
-    return squire_core::tid_round_length(this->tid);
+    int ret = squire_core::tid_round_length(this->tid);
+    if (ret == -1) {
+        lprintf(LOG_ERROR, "Cannot get tournament round length\n");
+    }
+    return ret;
 }
 
 bool Tournament::reg_open()
@@ -279,6 +297,8 @@ bool Tournament::updateSettings(std::string format,
     if (s) {
         emit this->onRegOpenChanged(this->reg_open());
         this->save();
+    } else {
+        lprintf(LOG_ERROR, "Cannot update tournament settings\n");
     }
     return s;
 }
@@ -293,6 +313,7 @@ Player Tournament::addPlayer(std::string name, bool *status)
         this->setSaveStatus(false);
         this->save();
         emit this->onPlayerAdded(p);
+        emit this->onPlayersChanged(this->players());
         return p;
     } else {
         lprintf(LOG_ERROR, "Cannot add player %s\n", name.c_str());
@@ -307,6 +328,7 @@ std::vector<Player> Tournament::players()
     std::vector<Player> players;
     squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::tid_players(this->tid);
     if (player_ptr == NULL) {
+        lprintf(LOG_ERROR, "Cannot get tournament players\n");
         return players;
     }
 
@@ -324,6 +346,7 @@ std::vector<PlayerScore> Tournament::standings()
     squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *standings_ptr =
         (squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *) squire_core::tid_standings(this->tid);
     if (standings_ptr == NULL) {
+        lprintf(LOG_ERROR, "Cannot get tournament standings\n");
         return ret;
     }
 
@@ -342,6 +365,7 @@ std::vector<Round> Tournament::rounds()
     std::vector<Round> rounds;
     squire_core::sc_RoundId *round_ptr = (squire_core::sc_RoundId *) squire_core::tid_rounds(this->tid);
     if (round_ptr == NULL) {
+        lprintf(LOG_ERROR, "Cannot get tournament rounds\n");
         return rounds;
     }
 
@@ -358,6 +382,7 @@ std::vector<Round> Tournament::playerRounds(Player player)
     std::vector<Round> ret;
     squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::pid_rounds(player.id(), this->tid);
     if (rids == NULL) {
+        lprintf(LOG_ERROR, "Cannot get rounds for player\n");
         return ret;
     }
 
@@ -409,6 +434,10 @@ bool Tournament::start()
     bool r = squire_core::tid_start(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot start round\n");
+    }
     return r;
 }
 
@@ -418,6 +447,10 @@ bool Tournament::end()
     bool r = squire_core::tid_end(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot end round\n");
+    }
     return r;
 }
 
@@ -427,6 +460,10 @@ bool Tournament::cancel()
     bool r = squire_core::tid_cancel(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot cancel round\n");
+    }
     return r;
 }
 
@@ -436,6 +473,10 @@ bool Tournament::freeze()
     bool r = squire_core::tid_freeze(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot freeze round\n");
+    }
     return r;
 }
 
@@ -445,6 +486,10 @@ bool Tournament::thaw()
     bool r = squire_core::tid_thaw(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot defrost round\n");
+    }
     return r;
 }
 
@@ -465,6 +510,11 @@ bool Tournament::recordResult(Round round, Player p, int wins)
     bool r = rid_record_result(round.id(), this->tid, laid, p.id(), wins);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot record result for %s (%d)\n", p.all_names().c_str(), wins);
+    }
+
     return r;
 }
 
@@ -474,6 +524,10 @@ bool Tournament::recordDraws(Round round, int draws)
     bool r = rid_record_draws(round.id(), this->tid, laid, draws);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot record %d draws\n", draws);
+    }
     return r;
 }
 
@@ -483,6 +537,10 @@ bool Tournament::confirmPlayer(Round round, Player p)
     bool r = rid_confirm_player(round.id(), this->tid, laid, p.id());
     emit onRoundsChanged(this->rounds());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot confirm player\n");
+    }
     return r;
 }
 
@@ -492,6 +550,10 @@ bool Tournament::killRound(Round round)
     bool r = rid_kill(round.id(), this->tid, laid);
     emit onRoundsChanged(this->rounds());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot kill round\n");
+    }
     return r;
 }
 
@@ -501,6 +563,10 @@ bool Tournament::dropPlayer(Player p)
     bool r = tid_drop_player(this->tid, p.id(), laid);
     emit this->onPlayersChanged(this->players());
     this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot drop player\n");
+    }
     return r;
 }
 

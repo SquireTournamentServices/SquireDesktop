@@ -105,7 +105,7 @@ else()
   set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic")
   set(CMAKE_C_FLAGS_DEBUG "-g -Og ${COMPILER_FLAGS} -DDEBUG")
   set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
-  set(CMAKE_C_FLAGS_RELEASE "-Ofast ${COMPILER_FLAGS}")
+  set(CMAKE_C_FLAGS_RELEASE "-O2 ${COMPILER_FLAGS}")
   set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
 endif()
 
@@ -163,6 +163,8 @@ set(PROJECT_SOURCES
     ${MAIN_FILES}
     ${FFI_FILES}
     ./src/discord_game_sdk.h
+    ./src/init.cpp
+    ./src/init.h
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui

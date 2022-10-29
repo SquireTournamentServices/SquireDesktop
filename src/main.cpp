@@ -14,6 +14,7 @@
 #include "./ui/mainwindow.h"
 #include "./config.h"
 #include "../testing_h/logger.h"
+#include "./init.h"
 #include <squire_core/squire_core.h>
 
 static void print_error_system_information()
@@ -90,7 +91,7 @@ int main(int argc, char *argv[])
     lprintf(LOG_INFO, "Starting...\n");
 
 #ifdef USE_BACKTRACE
-    lprintf(LOG_INFO, "Crash detection is enbaled in this build!\n");
+    lprintf(LOG_INFO, "Crash detection is enabled in this build!\n");
 
     // Error catchinator 9000
     signal(SIGSEGV, &handler);
@@ -103,6 +104,10 @@ int main(int argc, char *argv[])
 
     // Qt init
     QApplication a(argc, argv);
+
+    lprintf(LOG_INFO, "Running shared asset init\n");
+    init();
+
     bool t = false;
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();

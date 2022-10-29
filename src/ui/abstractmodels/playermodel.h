@@ -5,6 +5,7 @@
 
 class PlayerModel : public TableModel<Player>
 {
+    Q_OBJECT
 public:
     PlayerModel(std::vector<Player> players);
     ~PlayerModel();
@@ -13,3 +14,4 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 };
 
+void player_model_init_icons();

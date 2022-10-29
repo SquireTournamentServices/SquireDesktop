@@ -5,6 +5,7 @@
 
 class PlayerScoreModel : public TableModel<PlayerScore>
 {
+    Q_OBJECT
 public:
     PlayerScoreModel(std::vector<PlayerScore> players);
     ~PlayerScoreModel();
