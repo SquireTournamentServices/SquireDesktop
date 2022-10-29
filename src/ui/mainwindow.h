@@ -62,4 +62,10 @@ private slots:
     void setDiscordText(std::string txt);
 
     void onTournamentAdded(Tournament *t);
+
+    // About qmenu stuffs
+    void viewWiki();
+    void reportIssue();
+    void viewGithub();
+    void joinDiscord();
 };

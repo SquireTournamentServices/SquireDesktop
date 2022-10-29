@@ -331,100 +331,120 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="92"/>
+        <location filename="src/ui/mainwindow.cpp" line="94"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="102"/>
+        <location filename="src/ui/mainwindow.cpp" line="104"/>
         <source>&amp;Exit</source>
         <oldsource>Exit</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="99"/>
+        <location filename="src/ui/mainwindow.cpp" line="101"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="93"/>
-        <source>New Tournament</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/ui/mainwindow.cpp" line="96"/>
-        <source>Open Tournament</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/ui/mainwindow.cpp" line="106"/>
+        <location filename="src/ui/mainwindow.cpp" line="108"/>
         <source>RNG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="107"/>
+        <location filename="src/ui/mainwindow.cpp" line="109"/>
         <source>&amp;Flip Coins</source>
         <oldsource>Flip Coins</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="110"/>
+        <location filename="src/ui/mainwindow.cpp" line="112"/>
         <source>&amp;Roll Dice</source>
         <oldsource>Roll Dice</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="55"/>
-        <location filename="src/ui/mainwindow.cpp" line="62"/>
+        <location filename="src/ui/mainwindow.cpp" line="57"/>
+        <location filename="src/ui/mainwindow.cpp" line="64"/>
         <source>Squire Desktop Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="56"/>
-        <location filename="src/ui/mainwindow.cpp" line="63"/>
+        <location filename="src/ui/mainwindow.cpp" line="58"/>
+        <location filename="src/ui/mainwindow.cpp" line="65"/>
         <source>Squire Core Version: </source>
         <oldsource>Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="65"/>
+        <location filename="src/ui/mainwindow.cpp" line="67"/>
         <source> Copyright Monarch (AGPL 3) 2022</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="278"/>
+        <location filename="src/ui/mainwindow.cpp" line="95"/>
+        <source>&amp;New Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="98"/>
+        <source>&amp;Open Tournament</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="116"/>
+        <source>Open &amp;Wiki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="119"/>
+        <source>View Source Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="122"/>
+        <source>Report An Issue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="125"/>
+        <source>Join Our Discord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/mainwindow.cpp" line="292"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="291"/>
+        <location filename="src/ui/mainwindow.cpp" line="305"/>
         <source> - Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="298"/>
+        <location filename="src/ui/mainwindow.cpp" line="312"/>
         <source>Open A Squire Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="301"/>
+        <location filename="src/ui/mainwindow.cpp" line="315"/>
         <source>All Squire Tournament files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="38"/>
-        <location filename="src/ui/mainwindow.cpp" line="79"/>
+        <location filename="src/ui/mainwindow.cpp" line="40"/>
+        <location filename="src/ui/mainwindow.cpp" line="81"/>
         <source>Dashboard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="58"/>
+        <location filename="src/ui/mainwindow.cpp" line="60"/>
         <source>Github Repo</source>
         <oldsource>[Github Repo]</oldsource>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/mainwindow.cpp" line="59"/>
+        <location filename="src/ui/mainwindow.cpp" line="61"/>
         <source> Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022</source>
         <translation></translation>
     </message>

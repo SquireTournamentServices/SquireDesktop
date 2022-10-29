@@ -19,6 +19,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QtGlobal>
+#include <QUrl>
+#include <QDesktopServices>
 
 MainWindow::MainWindow(config_t *t, QWidget *parent)
     : QMainWindow(parent)
@@ -90,10 +92,10 @@ void MainWindow::addDefaultmenu()
 {
     ui->menubar->clear();
     QMenu *fileMenu = ui->menubar->addMenu(tr("File"));
-    QAction *newTournamentAction = fileMenu->addAction(tr("New Tournament"));
+    QAction *newTournamentAction = fileMenu->addAction(tr("&New Tournament"));
     connect(newTournamentAction, &QAction::triggered, this, &MainWindow::newTournament);
 
-    QAction *loadTournamentAction = fileMenu->addAction(tr("Open Tournament"));
+    QAction *loadTournamentAction = fileMenu->addAction(tr("&Open Tournament"));
     connect(loadTournamentAction, &QAction::triggered, this, &MainWindow::loadTournament);
 
     QAction *settingsAction = fileMenu->addAction(tr("&Settings"));
@@ -110,6 +112,18 @@ void MainWindow::addDefaultmenu()
     QAction *diceAction = rndMenu->addAction(tr("&Roll Dice"));
     connect(diceAction, &QAction::triggered, this, &MainWindow::diceRollUtility);
 
+    QMenu *helpMenu = ui->menubar->addMenu("Help");
+    QAction *wikiAction = helpMenu->addAction(tr("Open &Wiki"));
+    connect(wikiAction, &QAction::triggered, this, &MainWindow::viewWiki);
+
+    QAction *sourceCodeAction = helpMenu->addAction(tr("View Source Code"));
+    connect(sourceCodeAction, &QAction::triggered, this, &MainWindow::viewGithub);
+
+    QAction *issuesAction = helpMenu->addAction(tr("Report An Issue"));
+    connect(issuesAction, &QAction::triggered, this, &MainWindow::reportIssue);
+
+    QAction *discordAction = helpMenu->addAction(tr("Join Our Discord"));
+    connect(discordAction, &QAction::triggered, this, &MainWindow::joinDiscord);
 }
 
 void MainWindow::setDiscordText(std::string txt)
@@ -366,3 +380,22 @@ void MainWindow::onTournamentAdded(Tournament *t)
     this->addTab(tourn_tab, getTournamentTabName(t));
 }
 
+void MainWindow::reportIssue()
+{
+    QDesktopServices::openUrl(QUrl(QString::fromStdString(REPO_URL "/issues")));
+}
+
+void MainWindow::viewGithub()
+{
+    QDesktopServices::openUrl(QUrl(QString::fromStdString(REPO_URL)));
+}
+
+void MainWindow::joinDiscord()
+{
+    QDesktopServices::openUrl(QUrl("https://discord.gg/XBeMBHhM3Y"));
+}
+
+void MainWindow::viewWiki()
+{
+    QDesktopServices::openUrl(QUrl(QString::fromStdString(REPO_URL "/wiki")));
+}
