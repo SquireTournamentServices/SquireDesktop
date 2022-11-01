@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"sync"
 )
 
 const MAX_BUFFER = 2000
@@ -28,8 +29,22 @@ func main() {
 	log.Printf("Crash reporter linked to %s and, sends to %s", exec_cmd, post_url)
 	cmd := exec.Command(exec_cmd)
 
-	//stdout, _ := cmd.StdoutPipe()
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	stderr, err := cmd.Stderrpip()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	cmd.Start()
+
+	// Start reader thread
+	go func() {
+
+	}()
 
 	// Keep a buffer of MAXbytes of program output
 	cmd.Wait()

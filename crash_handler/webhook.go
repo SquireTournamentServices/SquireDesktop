@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
-  "bytes"
 )
 
 const NAME = "Squire Desktop Error Reporter"
@@ -33,7 +33,7 @@ func SendWebhook(hook DiscordWebhookBase, url string) error {
 		return err
 	}
 
-  reader := bytes.NewReader(enc)
+	reader := bytes.NewReader(enc)
 	resp, err := http.Post(url, "application/json", reader)
 	if err != nil {
 		return err

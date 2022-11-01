@@ -6,7 +6,7 @@ ASSETS_FOLDER = "assets"
 HEADER_FILE = "assets.h"
 
 
-def escape(s: str) -> str:
+def escape(s):
     ret = ""
     for i in range(len(s) // 2):
         ret += "\\x"
