@@ -6,7 +6,7 @@
 #include "../../testing.h/testing.h"
 
 #define NO_START_VAL 180
-#define DEFAULT_EXEC "./SquireDesktop"
+#define DEFAULT_EXEC "SquireDesktop"
 #define LOG_FILE "squiredesktop.log"
 
 int main(int argc, char **argv)
