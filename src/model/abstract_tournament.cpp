@@ -411,7 +411,8 @@ bool Tournament::save()
 std::vector<Round> Tournament::pairRounds()
 {
     std::vector<Round> ret = std::vector<Round>();
-    squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::tid_pair_round(this->tid);
+    squire_core::sc_AdminId laid = this->aid();
+    squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::tid_pair_round(this->tid, laid);
     if (rids == NULL) {
         lprintf(LOG_ERROR, "Cannot pair rounds\n");
         return ret;
