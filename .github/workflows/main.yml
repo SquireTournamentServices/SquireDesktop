@@ -183,6 +183,7 @@ jobs:
           brew install "$qt_version" --force-bottle
           brew install llvm
           brew install gcc
+          brew install python3
           
       - name: Build on Xcode ${{matrix.xcode}}
         shell: bash
