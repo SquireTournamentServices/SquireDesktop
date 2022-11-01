@@ -155,6 +155,7 @@ bool init_config(config_t *config, FILE *f)
         config->user.user_token = clone_std_string(token);
 
         j.at(CONFIG_REMEMBER_USER).get_to(config->remember_user);
+        j.at(CONFIG_REPORT_CRASH).get_to(config->report_crashes);
 
         config->logged_in = name != "" && token != "";
 
@@ -186,11 +187,12 @@ bool init_config(config_t *config, FILE *f)
         status = true;
     } catch (std::exception &t) {
         lprintf(LOG_ERROR, "Cannot parse configuration file - %s\n", t.what());
+        status = false;
     }
 
     free(data);
 
-    if (valid_config(*config)) {
+    if (valid_config(*config) && status) {
         lprintf(LOG_INFO, "Confiuration is valid\n");
         init_tourn_folder(config);
     } else {
@@ -323,6 +325,7 @@ bool write_config(config_t *config, FILE *f)
     ret[CONFIG_REMEMBER_USER] = config->remember_user;
     ret[CONFIG_TOURN_SAVE_PATH] = to_std_string(config->tourn_save_path);
     ret[CONFIG_RECENT_TOURNS] = recent;
+    ret[CONFIG_REPORT_CRASH] = config->report_crashes;
 
     std::string output = ret.dump();
 

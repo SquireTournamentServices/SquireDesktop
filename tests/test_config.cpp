@@ -165,6 +165,7 @@ static int test_init_default_settings()
     ASSERT(strcmp(config.tourn_save_path, config_read.tourn_save_path) == 0);
     ASSERT(config_read.logged_in == config.logged_in);
     ASSERT(config_read.remember_user == config.remember_user);
+    ASSERT(config_read.report_crashes == config.report_crashes);
 
     free_config(&config);
     free_config(&config_read);

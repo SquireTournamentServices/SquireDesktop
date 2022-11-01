@@ -71,6 +71,7 @@ typedef struct tourn_settings_t {
 
 typedef struct config_t {
     squire_user_t user;
+    bool report_crashes;
     bool logged_in; // Whether .user is set.
     bool remember_user;
     char *tourn_save_path; // Default path to save the tournaments to
@@ -84,6 +85,7 @@ typedef struct config_t {
 #define DEFAULT_SAVE_PATH clone_string("tourns/")
 #define DEFAULT_CONFIG { \
   DEFAULT_USER,\
+  false,\
   false,\
   false,\
   DEFAULT_SAVE_PATH,\
@@ -117,6 +119,7 @@ typedef struct config_t {
 #define CONFIG_REMEMBER_USER "remember-user"
 #define CONFIG_TOURN_SAVE_PATH "tourn-save-path"
 #define CONFIG_RECENT_TOURNS "recently-opened"
+#define CONFIG_REPORT_CRASH "report-crashes"
 
 bool init_tourn_folder(config_t *config);
 bool init_config(config_t *config, FILE *f);

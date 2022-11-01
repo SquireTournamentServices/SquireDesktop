@@ -50,6 +50,7 @@ SettingTab::SettingTab(config_t *c, QWidget *parent) :
 
     connect(ui->swissRadio, &QAbstractButton::clicked, this, &SettingTab::onChange);
     connect(ui->fluidRadio, &QAbstractButton::clicked, this, &SettingTab::onChange);
+    connect(ui->reportCrashesEdit, &QAbstractButton::clicked, this, &SettingTab::onChange);
 
     // Connect the buttons
     connect(ui->buttonBox, &QDialogButtonBox::clicked, this, &SettingTab::onButtonClick);
@@ -109,6 +110,8 @@ void SettingTab::uiSetSettings()
     ui->winPointsSpinBox->setValue(c->default_settings.points_win);
     ui->lossPointsSpinBox->setValue(c->default_settings.points_loss);
 
+    ui->reportCrashesEdit->setChecked(c->report_crashes);
+
     switch (c->default_settings.type) {
     case SWISS_TOURN:
         ui->swissRadio->setChecked(true);
@@ -144,6 +147,7 @@ void SettingTab::onSave()
     tmp_config.default_settings.points_bye = ui->byePointsSpinBox->value();
     tmp_config.default_settings.points_loss = ui->lossPointsSpinBox->value();
     tmp_config.default_settings.points_win = ui->winPointsSpinBox->value();
+    tmp_config.report_crashes = ui->reportCrashesEdit->isChecked();
 
     if (ui->swissRadio->isChecked()) {
         tmp_config.default_settings.type = SWISS_TOURN;

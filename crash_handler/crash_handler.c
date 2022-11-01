@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include "./config_reader.h"
 #include "../../testing.h/testing.h"
 
 #define NO_START_VAL 180
@@ -34,6 +35,7 @@ int main(int argc, char **argv)
         dup2(fid[1], STDOUT_FILENO);
 
         execlp(exec_file, exec_file, "--crash-handler");
+        execl(exec_file, exec_file, "--crash-handler");
 
         // If the process has not been replaced then exec failed.
         lprintf(LOG_ERROR, "Cannot start %s. Errno %d (%s)\n", exec_file, errno, strerror(errno));
@@ -75,9 +77,27 @@ int main(int argc, char **argv)
         // If the program did not exit with code then handle errors
         // code 9 (sigkll) is also ignored.
         if (r == NO_START_VAL) {
-            return 1;
+            return 0;
         } else if (r != 0 && r != 9) {
             lprintf(LOG_ERROR, "Crash detected in squire desktop\n");
+
+            crash_handler_config_t conf;
+            FILE *f = fopen(CONFIG_FILE, "r");
+            int s = read_config(&conf, f);
+            if (f != NULL) {
+                fclose(f);
+            }
+
+            if (!s) {
+                lprintf(LOG_WARNING, "No valid configuration found, assuming that crash reports are off\n");
+            }
+
+            int report = conf.send_crash_report;
+            free_config(&conf);
+
+            if (report) {
+                lprintf(LOG_INFO, "Sending report...\n");
+            }
             return 1;
         }
     }
