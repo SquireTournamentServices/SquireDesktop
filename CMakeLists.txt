@@ -343,6 +343,16 @@ add_definitions(
 
 include_directories(include)
 
+# Make crash handler
+add_executable(crash_handler
+  ./crash_handler/crash_handler.c 
+  ./testing_h/ansi_colour.h
+  ./testing_h/testing.c
+  ./testing_h/testing.h
+  ./testing_h/logger.c 
+  ./testing_h/logger.h)
+
+# Build desktop app
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_add_executable(SquireDesktop MANUAL_FINALIZATION ${PROJECT_SOURCES})
   # Define target properties for Android with Qt 6 as: set_property(TARGET
