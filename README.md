@@ -13,6 +13,16 @@ Currently this is under development and, not released, please check back later!
 [Read the docs in full here](https://github.com/MonarchDevelopment/SquireDesktop/wiki)
 
 ### Installing from Binaries
+#### Windows
+**See releases.**
+
+#### Linux
+```sh
+# AUR https://aur.archlinux.org/packages/squire-desktop-git
+sudo pacman -S squire-desktop-git
+```
+
+#### Mac
 **See releases.**
 
 ### Installing from Sources
