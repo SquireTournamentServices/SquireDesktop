@@ -360,7 +360,7 @@ add_executable(
   ./testing_h/testing.h
   ./testing_h/logger.c
   ./testing_h/logger.h)
-target_link_libraries(crash_handler PRIVATE jansson)
+target_link_libraries(crash_handler PRIVATE jansson curl)
 
 # Build desktop app
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

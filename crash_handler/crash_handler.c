@@ -5,7 +5,7 @@
 #include <string.h>
 #include "./config_reader.h"
 #include "./webhooks.h"
-#include "../testing.h/testing.h"
+#include "../testing_h/testing.h"
 
 #define NO_START_VAL 180
 #define DEFAULT_EXEC "SquireDesktop"
@@ -116,6 +116,10 @@ int main(int argc, char **argv)
                 lprintf(LOG_INFO, "Sending report...\n");
 
                 char *log_buf_final = calloc(0, sizeof * log_buf_final * (sizeof * in_memory_log + 1));
+                if (log_buf_final == NULL) {
+                    lprintf(LOG_ERROR, "Cannot alloc webhook buffer.\n");
+                    return 1;
+                }
 
                 // Copy from the front to the buffer end.
                 // Case 1 - non-full buffer - b_ptr - f_ptr
@@ -132,7 +136,9 @@ int main(int argc, char **argv)
                 log_buf_final[j++] = 0;
 
                 // Send the message log then free.
-                send_webhook(log_buf_final);
+                if (!send_webhook(log_buf_final)) {
+                    lprintf(LOG_ERROR, "Cannot send crash report :(, please upload a log to github issues when you can\n)");
+                }
                 free(log_buf_final);
             }
             return 1;
