@@ -51,6 +51,7 @@ else()
 endif()
 
 if(WIN32)
+  add_definitions("-DWINDOWS")
   # Use vcpkg toolchain on Windows
   set(CMAKE_TOOLCHAIN_FILE
       ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake
@@ -74,11 +75,14 @@ endif()
 
 # Define a proper install path
 if(UNIX)
+  add_definitions("-DUNIX")
   if(APPLE)
     # macOS Due to the special bundle structure ignore the prefix eventually set
     # by the user.
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/release)
+    add_definitions("-DAPPLE")
   else()
+    add_definitions("-DLINUX") # bsd isnt real
     # Linux / BSD
     if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
       # fix package build
@@ -349,6 +353,8 @@ add_executable(
   ./crash_handler/crash_handler.c
   ./crash_handler/config_reader.c
   ./crash_handler/config_reader.h
+  ./crash_handler/webhooks.c
+  ./crash_handler/webhooks.h
   ./testing_h/ansi_colour.h
   ./testing_h/testing.c
   ./testing_h/testing.h
