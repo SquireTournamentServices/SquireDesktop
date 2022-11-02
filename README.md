@@ -18,8 +18,8 @@ Currently this is under development and, not released, please check back later!
 
 #### Linux
 ```sh
-# AUR https://aur.archlinux.org/packages/squire-desktop-git
-sudo pacman -S squire-desktop-git
+# AUR https://aur.archlinux.org/packages/squire-desktop-
+yay -S squire-desktop-git
 ```
 
 #### Mac
