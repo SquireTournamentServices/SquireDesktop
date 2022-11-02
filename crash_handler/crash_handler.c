@@ -4,11 +4,16 @@
 #include <errno.h>
 #include <string.h>
 #include "./config_reader.h"
-#include "../../testing.h/testing.h"
+#include "./webhooks.h"
+#include "../testing.h/testing.h"
 
 #define NO_START_VAL 180
 #define DEFAULT_EXEC "SquireDesktop"
 #define LOG_FILE "squiredesktop.log"
+#define DISCORD_MESSAGE_LIMIT 2000
+
+static char in_memory_log[DISCORD_MESSAGE_LIMIT];
+static size_t f_ptr, b_ptr;
 
 int main(int argc, char **argv)
 {
@@ -16,7 +21,7 @@ int main(int argc, char **argv)
     if (argc == 2) {
         exec_file = argv[1];
     } else if (argc > 2) {
-        lprintf(LOG_ERROR, "Usage %s <squire desktop file_ame>\n", argv[0]);
+        lprintf(LOG_ERROR, "Usage %s <squire desktop file_name>\n", argv[0]);
         return 1;
     }
 
@@ -46,6 +51,8 @@ int main(int argc, char **argv)
         // Close write end
         close(fid[1]);
 
+        f_ptr = b_ptr = 0;
+
         FILE *pipe_r = fdopen(fid[0], "rb");
         ASSERT(pipe_r != NULL);
 
@@ -61,6 +68,16 @@ int main(int argc, char **argv)
 
             fputc(c, log_file);
             fflush(log_file);
+
+            in_memory_log[b_ptr] = c;
+            b_ptr++;
+            b_ptr %= sizeof(in_memory_log);
+
+            // Truncate the log.
+            if (b_ptr == f_ptr) {
+                f_ptr++;
+                f_ptr %= sizeof(in_memory_log);
+            }
         }
         close(fid[0]);
 
@@ -97,6 +114,26 @@ int main(int argc, char **argv)
 
             if (report) {
                 lprintf(LOG_INFO, "Sending report...\n");
+
+                char *log_buf_final = calloc(0, sizeof * log_buf_final * (sizeof * in_memory_log + 1));
+
+                // Copy from the front to the buffer end.
+                // Case 1 - non-full buffer - b_ptr - f_ptr
+                // .... f ------> b .....
+                // Case 2 - full buffer - sizeof * in_memory_log - f_ptr
+                // ---> b f ------------>
+
+                // j is the log_buf_final index, i is the in_memory_log index.
+                size_t i, j = 0;
+                for (i = f_ptr; i != b_ptr; i++, i %= sizeof * in_memory_log, j++) {
+                    log_buf_final[j] = in_memory_log[i];
+                }
+                log_buf_final[j++] = in_memory_log[b_ptr];
+                log_buf_final[j++] = 0;
+
+                // Send the message log then free.
+                send_webhook(log_buf_final);
+                free(log_buf_final);
             }
             return 1;
         }
