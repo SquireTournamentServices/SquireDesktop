@@ -208,6 +208,7 @@ jobs:
             qt_version: '5.15.2'
             cmake_generator_platform: Win32
             qt_arch: msvc2019
+            qt_tools: "tools_openssl_x86"
 
           - target: Win7+-64bit
             arch: 64
@@ -215,6 +216,7 @@ jobs:
             qt_version: '5.15.2'
             cmake_generator_platform: x64
             qt_arch: msvc2019_64
+            qt_tools: "tools_openssl_x86"
 
           - target: Win10+-64bit
             arch: 64
@@ -223,6 +225,7 @@ jobs:
             cmake_generator_platform: x64
             qt_arch: msvc2019_64
             qt_modules: "qt5compat qtmultimedia qtwebsockets"
+            qt_tools: "tools_openssl_x86"
 
     name: ${{matrix.target}}
     needs: configure
@@ -259,6 +262,7 @@ jobs:
           version: ${{matrix.qt_version}}
           arch: win${{matrix.arch}}_${{matrix.qt_arch}}
           modules: ${{matrix.qt_modules}}
+          tools: ${{matrix.qt_tools}}
 
       - name: Run vcpkg
         uses: lukka/run-vcpkg@v10.2
