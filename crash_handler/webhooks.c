@@ -17,6 +17,6 @@
 
 int send_webhook(char *log_data)
 {
-    
+
     return 1;
 }
