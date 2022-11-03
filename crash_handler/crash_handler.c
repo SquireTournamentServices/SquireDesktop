@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #ifdef WINDOWS
 #include <io.h>
-#include <getopt.h> 
 #include <process.h>
 #else
 #include <unistd.h>
