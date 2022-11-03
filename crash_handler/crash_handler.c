@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef WINDOWS
+#include <io.h>
+#include <getopt.h> 
+#include <process.h>
+#else
 #include <unistd.h>
+#endif
 #include <errno.h>
 #include <string.h>
 #include "./config_reader.h"
