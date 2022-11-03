@@ -78,7 +78,7 @@ static int test_time_left()
     ASSERT(time_left(&t) < 2 + DURATION); // Should have started about now.
 
     for (int i = 0; i < MAX; i++) {
-        lprintf(LOG_INFO, "Testing resume, pause and, time left sorry. %ds left\n", MAX - i);
+        lprintf(LOG_INFO, "Testing resume and, pause. sorry %ds left\n", MAX - i);
         ASSERT(pause_timer(&t));
         sleep(1);
         ASSERT(resume_timer(&t));

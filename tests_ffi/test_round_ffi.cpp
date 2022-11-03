@@ -56,6 +56,7 @@ static int test_round_getters()
     lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n", rounds.size(), t->players().size() / t->game_size());
     ASSERT(rounds.size() == t->players().size() / t->game_size());
     ASSERT(rounds.size() > 0);
+    ASSERT(rounds.size() == t->rounds().size());
 
     squire_core::sc_RoundId rid = rounds[0].id();
     ASSERT(!is_null_id(rid._0));
@@ -66,7 +67,7 @@ static int test_round_getters()
 
     std::vector<Player> players = rounds[0].players();
     ASSERT(players.size() > 0);
-    ASSERT(players.size() == t->players().size());
+    ASSERT(players.size() % t->game_size());
     for (Player player : players) {
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(player.name() != "");
