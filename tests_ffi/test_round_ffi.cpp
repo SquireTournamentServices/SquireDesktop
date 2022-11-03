@@ -65,12 +65,14 @@ static int test_round_getters()
     ASSERT(memcmp(rounds[0].id()._0, rid._0, sizeof(rid._0)) == 0);
 
     std::vector<Player> players = rounds[0].players();
+    ASSERT(players.size() > 0;
     ASSERT(players.size() == t->players().size());
     for (Player player : players) {
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(player.name() != "");
         ASSERT(player.game_name() != "");
         ASSERT(player.all_names() != "");
+        ASSERT(t->playerRounds(player).size() == 1);
     }
 
     ASSERT(rounds[0].time_left() > 0);

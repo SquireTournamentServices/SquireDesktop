@@ -115,32 +115,69 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="right" stretch="1,1,1">
+      <layout class="QVBoxLayout" name="right" stretch="0">
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="currentIndex">
+          <number>0</number>
          </property>
-         <property name="text">
-          <string>Players</string>
+         <property name="movable">
+          <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="playerTable" native="true"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="addPlayer">
-         <property name="text">
-          <string>Add Player</string>
-         </property>
-         <property name="icon">
-          <iconset theme="folder-new">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
+         <widget class="QWidget" name="playersTab">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>1</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>364</width>
+            <height>576</height>
+           </size>
+          </property>
+          <attribute name="title">
+           <string>Players</string>
+          </attribute>
+          <widget class="QWidget" name="verticalWidget" native="true">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>311</width>
+             <height>441</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>1</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QWidget" name="playerTable" native="true"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="addPlayer">
+              <property name="text">
+               <string>Add Player</string>
+              </property>
+              <property name="icon">
+               <iconset theme="folder-new">
+                <normaloff>.</normaloff>.</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="standingsTab">
+          <attribute name="title">
+           <string>Standings</string>
+          </attribute>
+         </widget>
         </widget>
        </item>
       </layout>
