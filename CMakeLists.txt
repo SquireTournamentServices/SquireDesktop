@@ -266,7 +266,7 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/test_round_ffi.h
     ./tests_ffi/test_round_ffi.cpp)
 
-set(LIBS)
+set(LIBS "ssl")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)

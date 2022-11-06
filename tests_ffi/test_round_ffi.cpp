@@ -67,7 +67,7 @@ static int test_round_getters()
 
     std::vector<Player> players = rounds[0].players();
     ASSERT(players.size() > 0);
-    ASSERT(players.size() % t->game_size());
+    ASSERT(players.size() % t->game_size() == 0);
     for (Player player : players) {
         ASSERT(!is_null_id(player.id()._0));
         ASSERT(player.name() != "");
