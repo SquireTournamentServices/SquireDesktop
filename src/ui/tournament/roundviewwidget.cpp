@@ -32,6 +32,7 @@ RoundViewWidget::RoundViewWidget(Tournament *tourn, QWidget *parent) :
     connect(ui->resetResults, &QPushButton::clicked, this, &RoundViewWidget::displayRound);
     connect(ui->confirmMatch, &QPushButton::clicked, this, &RoundViewWidget::confirmMatch);
     connect(ui->killMatch, &QPushButton::clicked, this, &RoundViewWidget::confirmKill);
+    connect(ui->extendTime, &QPushButton::clicked, this, &RoundViewWidget::timeExtend);
 }
 
 RoundViewWidget::~RoundViewWidget()
@@ -300,3 +301,14 @@ void RoundViewWidget::kill()
     }
 }
 
+void RoundViewWidget::timeExtend()
+{
+    // The ui offers extensions in minutes, the ffi does seconds.
+    bool r = this->tourn->timeExtendRound(this->round, ui->timeExtensionEdit->value() * 60);
+    if (!r) {
+        QMessageBox msg;
+        msg.setWindowTitle(tr("Cannot extend round ") + QString::number(this->round.match_number()));
+        msg.setText(tr("Cannot extend round ") + QString::number(this->round.match_number()));
+        msg.exec();
+    }
+}

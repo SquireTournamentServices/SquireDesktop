@@ -650,183 +650,189 @@
     <name>RoundViewWidget</name>
     <message>
         <location filename="src/ui/tournament/roundviewwidget.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="283"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="292"/>
         <source>Form</source>
         <translation type="unfinished">Form</translation>
     </message>
     <message>
         <location filename="src/ui/tournament/roundviewwidget.ui" line="28"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="284"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="293"/>
         <source>Match #0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournament/roundviewwidget.ui" line="51"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="285"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="294"/>
         <source>Round Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournament/roundviewwidget.ui" line="83"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="286"/>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="150"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="295"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="151"/>
         <source>Time Extensions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournament/roundviewwidget.ui" line="95"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="287"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="296"/>
         <source> minutes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="108"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="288"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="117"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="297"/>
         <source>Give Extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="129"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="289"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="138"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="298"/>
         <source>Draws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="202"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="292"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="211"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="301"/>
         <source>Confirm Match</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="212"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="293"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="222"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="302"/>
         <source>Reset Results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="223"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="294"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="233"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="303"/>
         <source>Save Results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="175"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="290"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="184"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="299"/>
         <source>Players in Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="191"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="291"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="200"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="300"/>
         <source>Kill Match</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.ui" line="244"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="295"/>
+        <location filename="src/ui/tournament/roundviewwidget.ui" line="254"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_roundviewwidget.h" line="304"/>
         <source>Time Left in Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="64"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="65"/>
         <source>Match #</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="66"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="67"/>
         <source>0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="82"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="83"/>
         <source>No Match Selected</source>
         <oldsource>No Round Selected</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="83"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="84"/>
         <source>Match #--</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="93"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="94"/>
         <source>Match is in progress</source>
         <oldsource>Round is in progress</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="96"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="97"/>
         <source>Match is waiting results certification</source>
         <oldsource>Round is waiting results certification</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="99"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="100"/>
         <source>Match has been finished and, results are confirmed</source>
         <oldsource>Round has been finished and, results are confirmed</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="102"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="103"/>
         <source>Match has been deleted</source>
         <oldsource>Round has been deleted</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="153"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="154"/>
         <source>Match has ended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="160"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="161"/>
         <source>+</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="162"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="163"/>
         <source>Minutes Extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="185"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="186"/>
         <source>Left in Match</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="257"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="258"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="259"/>
         <source>Cannot save draws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="244"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="310"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="311"/>
+        <source>Cannot extend round </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="245"/>
         <source>Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="246"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="247"/>
         <source>Aborting: Cannot save results for - </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="271"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="272"/>
         <source>Cannot confirm all results in match.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="272"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="273"/>
         <source>Cannot confirm all result for player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="283"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="284"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="285"/>
         <source>Are you sure you want to kill round </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/roundviewwidget.cpp" line="297"/>
         <location filename="src/ui/tournament/roundviewwidget.cpp" line="298"/>
+        <location filename="src/ui/tournament/roundviewwidget.cpp" line="299"/>
         <source>Cannot kill round </source>
         <translation type="unfinished"></translation>
     </message>

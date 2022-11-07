@@ -94,6 +94,15 @@
            <property name="suffix">
             <string> minutes</string>
            </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>999</number>
+           </property>
+           <property name="value">
+            <number>15</number>
+           </property>
           </widget>
          </item>
          <item>
@@ -202,7 +211,8 @@
         <string>Confirm Match</string>
        </property>
        <property name="icon">
-        <iconset theme="go-jump"/>
+        <iconset theme="go-jump">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
