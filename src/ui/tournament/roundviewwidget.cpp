@@ -214,10 +214,7 @@ void RoundViewWidget::onPlayerSelected(const QItemSelection &selected, const QIt
 
 void RoundViewWidget::onResultsSave()
 {
-    if (!this->roundSelected) {
-        lprintf(LOG_ERROR, "No round selected\n");
-        return;
-    }
+    if (!this->roundSelected) return;
 
     int draws = ui->drawsEdit->value();
     std::vector<Player> players;
@@ -263,6 +260,8 @@ void RoundViewWidget::onResultsSave()
 
 void RoundViewWidget::confirmMatch()
 {
+    if (!this->roundSelected) return;
+
     for (Player p : this->round.players()) {
         bool r = this->tourn->confirmPlayer(this->round, p);
         if (!r) {
@@ -280,6 +279,8 @@ void RoundViewWidget::confirmMatch()
 
 void RoundViewWidget::confirmKill()
 {
+    if (!this->roundSelected) return;
+
     QMessageBox msg;
     msg.setWindowTitle(tr("Are you sure you want to kill round ") + QString::number(this->round.match_number()));
     msg.setText(tr("Are you sure you want to kill round ") + QString::number(this->round.match_number()));
@@ -292,6 +293,8 @@ void RoundViewWidget::confirmKill()
 
 void RoundViewWidget::kill()
 {
+    if (!this->roundSelected) return;
+
     bool r = this->tourn->killRound(this->round);
     if (!r) {
         QMessageBox msg;
@@ -303,6 +306,8 @@ void RoundViewWidget::kill()
 
 void RoundViewWidget::timeExtend()
 {
+    if (!this->roundSelected) return;
+
     // The ui offers extensions in minutes, the ffi does seconds.
     bool r = this->tourn->timeExtendRound(this->round, ui->timeExtensionEdit->value() * 60);
     if (!r) {
