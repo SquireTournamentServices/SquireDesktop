@@ -284,7 +284,7 @@ jobs:
           CMAKE_GENERATOR_PLATFORM: '${{matrix.cmake_generator_platform}}'
           QTDIR: '${{github.workspace}}\Qt\${{matrix.qt_version}}\win${{matrix.arch}}_${{matrix.qt_arch}}'
         run: |
-          "export PATH=$PATH;$GITHUB_WORKSPACE\\Qt\\Tools"
+          "export PATH=$PATH:$GITHUB_WORKSPACE\\Qt\\Tools"
           mkdir build
           cd build
           cmake ..
