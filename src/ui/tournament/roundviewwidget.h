@@ -33,6 +33,7 @@ public slots:
     void onResultsSave();
     void confirmMatch();
     void confirmKill();
+    void timeExtend();
     void kill();
 protected:
     void changeEvent(QEvent *e);

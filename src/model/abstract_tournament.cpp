@@ -558,6 +558,19 @@ bool Tournament::killRound(Round round)
     return r;
 }
 
+bool Tournament::timeExtendRound(Round round, size_t ext)
+{
+    squire_core::sc_AdminId laid = this->aid();
+    bool r = rid_time_extend(round.id(), this->tid, laid, ext);
+    emit onRoundsChanged(this->rounds());
+    this->save();
+
+    if (!r) {
+        lprintf(LOG_ERROR, "Cannot extend round\n");
+    }
+    return r;
+}
+
 bool Tournament::dropPlayer(Player p)
 {
     squire_core::sc_AdminId laid = this->aid();
