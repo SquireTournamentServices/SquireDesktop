@@ -15,6 +15,7 @@
 #define TEST_NUM_MIN_DECKS (TEST_NUM_GAME_SIZE + 1)
 #define TEST_NUM_MAX_DECKS (TEST_NUM_MIN_DECKS + 1)
 #define TEST_BOOL true
+#define TIME_EXT 100
 
 #define DRAWS 10
 #define WINS(i) i
@@ -78,7 +79,16 @@ static int test_round_getters()
 
     ASSERT(rounds[0].time_left() > 0);
     ASSERT(rounds[0].duration() > 0);
+
     ASSERT(rounds[0].time_left() <= rounds[0].duration());
+    long rtime_left = rounds[0].time_left();
+    ASSERT(t->timeExtendRound(rounds[0], TIME_EXT));
+    ASSERT(abs(rtime_left - rounds[0].time_left()) <= TIME_EXT);
+    ASSERT(rtime_left != rounds[0].time_left());
+
+    ASSERT(rounds[0].time_left() > 0);
+    ASSERT(rounds[0].duration() > 0);
+
     ASSERT(rounds[0].match_number() == 0);
     ASSERT(memcmp(rounds[0].tourn_id()._0, t->id()._0, sizeof(t->id()._0)) == 0);
     ASSERT(rounds[0].status() == squire_core::sc_RoundStatus::Open);

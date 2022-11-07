@@ -59,6 +59,7 @@ public:
     bool recordDraws(Round round, int draws);
     bool confirmPlayer(Round round, Player p);
     bool killRound(Round round);
+    bool timeExtendRound(Round round, size_t ext);
     std::vector<PlayerScore> standings();
 
     // Respects Translations, this is a GUI method
