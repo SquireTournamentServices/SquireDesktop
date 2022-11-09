@@ -7,21 +7,23 @@
 #define WEBHOOK_COLOUR 0xce0cff
 #define WEBHOOK_TITLE "Squire Desktop Crash Report"
 #define WEBHOOK_SUB_TITLE VERSION " running on " OS
+
+#define REPO_CDNURL "https://raw.githubusercontent.com/MonarchDevelopment/SquireDesktop/"
 #ifdef APPLE
-#define IMG_URL REPO_URL "/raw/main/assets/apple.png"
+#define IMG_URL REPO_CDNURL "main/assets/apple.png"
 #endif
 
 #ifdef WINDOWS
-#define IMG_URL REPO_URL "/raw/main/assets/windows.png"
+#define IMG_URL REPO_CDNURL "main/assets/windows.png"
 #endif
 
 #ifdef LINUX
-#define IMG_URL REPO_URL "/raw/main/assets/tux.png"
+#define IMG_URL REPO_CDNURL "main/assets/tux.png"
 #endif
 
 #define AUTHOR_NAME PROJECT_NAME " Crash Report"
 #define AUTHOR_URL REPO_URL
-#define ICON_URL REPO_URL "/raw/main/assets/icon.png"
+#define ICON_URL REPO_CDNURL "main/assets/icon.png"
 #define FIELDS_NAME "Operating System"
 #define TITLE "Version Information"
 #define DESCRIPTION VERSION
@@ -30,7 +32,7 @@
 int send_webhook(char *log_data, char *webhook_url)
 {
     // Create json object
-    json_t *fields_o = json_pack("{ss ss}", "name", FIELDS_NAME, "value", OS);
+    json_t *fields_o = json_pack("[{ss ss sb}]", "name", FIELDS_NAME, "value", OS, "inline", 0);
     if (fields_o == NULL) {
         lprintf(LOG_ERROR, "Cannot pack object\n");
         return 0;
