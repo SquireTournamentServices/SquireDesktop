@@ -22,8 +22,8 @@ int read_config(crash_handler_config_t *conf, FILE *f)
 
     int status = 0;
     if (val) {
-        if (json_is_integer(val)) {
-            conf->send_crash_report = json_integer_value(val);
+        if (json_is_boolean(val)) {
+            conf->send_crash_report = json_boolean_value(val);
             status = 1;
         }
 

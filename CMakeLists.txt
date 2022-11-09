@@ -349,7 +349,7 @@ include_directories(include)
 
 # Make crash handler
 add_executable(
-  crash_handler
+  sq_crash_handler
   ./crash_handler/crash_handler.c
   ./crash_handler/config_reader.c
   ./crash_handler/config_reader.h
@@ -360,7 +360,7 @@ add_executable(
   ./testing_h/testing.h
   ./testing_h/logger.c
   ./testing_h/logger.h)
-target_link_libraries(crash_handler PRIVATE jansson curl)
+target_link_libraries(sq_crash_handler PRIVATE jansson curl ssl crypto)
 
 # Build desktop app
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

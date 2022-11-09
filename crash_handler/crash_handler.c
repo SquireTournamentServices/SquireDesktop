@@ -15,7 +15,10 @@
 #define NO_START_VAL 180
 #define DEFAULT_EXEC "SquireDesktop"
 #define LOG_FILE "squiredesktop.log"
-#define DISCORD_MESSAGE_LIMIT 2000
+#define MSG_START "```ansi"
+#define MSG_END "```"
+#define DISCORD_WEBHOOK_URL "https://discord.com/api/webhooks/1039929537477222521/EZoDsiu0_-zlSwFmdT6S9M5GMznfJkQR86kjRObIy5ccnCQhNCAZd3pAvUS31AtOBMDW"
+#define DISCORD_MESSAGE_LIMIT (2000 - sizeof(MSG_START) - 1 - sizeof(MSG_END) - 1)
 
 static char in_memory_log[DISCORD_MESSAGE_LIMIT];
 static size_t f_ptr, b_ptr;
@@ -120,7 +123,7 @@ int main(int argc, char **argv)
             if (report) {
                 lprintf(LOG_INFO, "Sending report...\n");
 
-                char *log_buf_final = calloc(0, sizeof * log_buf_final * (sizeof * in_memory_log + 1));
+                char *log_buf_final = malloc(sizeof * log_buf_final * (sizeof * in_memory_log + 1 + strlen(MSG_START) + strlen(MSG_END)));
                 if (log_buf_final == NULL) {
                     lprintf(LOG_ERROR, "Cannot alloc webhook buffer.\n");
                     return 1;
@@ -133,15 +136,16 @@ int main(int argc, char **argv)
                 // ---> b f ------------>
 
                 // j is the log_buf_final index, i is the in_memory_log index.
-                size_t i, j = 0;
-                for (i = f_ptr; i != b_ptr; i++, i %= sizeof * in_memory_log, j++) {
+                size_t i = 0, j = strlen(MSG_START);
+                strcpy(log_buf_final, MSG_START);
+                for (i = f_ptr; i != b_ptr; i++, i %= sizeof(in_memory_log), j++) {
                     log_buf_final[j] = in_memory_log[i];
                 }
                 log_buf_final[j++] = in_memory_log[b_ptr];
-                log_buf_final[j++] = 0;
+                strcpy(log_buf_final + j, MSG_END);
 
                 // Send the message log then free.
-                if (!send_webhook(log_buf_final)) {
+                if (!send_webhook(log_buf_final, DISCORD_WEBHOOK_URL)) {
                     lprintf(LOG_ERROR, "Cannot send crash report :(, please upload a log to github issues when you can\n)");
                 }
                 free(log_buf_final);
