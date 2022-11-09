@@ -123,7 +123,7 @@ int main(int argc, char **argv)
             if (report) {
                 lprintf(LOG_INFO, "Sending report...\n");
 
-                char *log_buf_final = malloc(sizeof * log_buf_final * (sizeof * in_memory_log + 1 + strlen(MSG_START) + strlen(MSG_END)));
+                char *log_buf_final = malloc(sizeof(log_buf_final) * (sizeof(in_memory_log) + 1 + strlen(MSG_START) + strlen(MSG_END)));
                 if (log_buf_final == NULL) {
                     lprintf(LOG_ERROR, "Cannot alloc webhook buffer.\n");
                     return 1;
@@ -147,6 +147,8 @@ int main(int argc, char **argv)
                 // Send the message log then free.
                 if (!send_webhook(log_buf_final, DISCORD_WEBHOOK_URL)) {
                     lprintf(LOG_ERROR, "Cannot send crash report :(, please upload a log to github issues when you can\n)");
+                } else {
+                    lprintf(LOG_INFO, "Crash report sent successfully, the log file is still on disc.\n");
                 }
                 free(log_buf_final);
             }

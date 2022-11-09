@@ -856,106 +856,119 @@
     <name>SettingTab</name>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="238"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="250"/>
         <source>Form</source>
         <translation></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="20"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="239"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="251"/>
         <source>Tournament Save Location</source>
         <translation></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="48"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="241"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="253"/>
         <source>Default Minimum Deck Count</source>
         <oldsource>Default Deck Count</oldsource>
         <translation type="unfinished">Default Deck Count</translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="58"/>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="235"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="242"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="81"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="254"/>
         <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="256"/>
         <source> Decks</source>
         <translation> Decks</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="71"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="243"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="88"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="257"/>
         <source>Default Match Size</source>
         <translation>Default Match Size</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="81"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="244"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="98"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="258"/>
         <source> Players</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="104"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="245"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="121"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="259"/>
         <source>Default Draw Points</source>
         <translation>Default Draw Points</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="114"/>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="134"/>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="154"/>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="174"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="246"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="248"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="250"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="252"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="131"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="151"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="171"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="191"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="260"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="262"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="264"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="266"/>
         <source> Points</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="124"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="247"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="141"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="261"/>
         <source>Default Bye Points</source>
         <translation>Default Bye Points</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="144"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="249"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="161"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="263"/>
         <source>Default Loss Points</source>
         <translation>Default Loss Points</translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="164"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="251"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="181"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="265"/>
         <source>Default Win Points</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="198"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="253"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="215"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="268"/>
         <source>Swiss</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="208"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="254"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="225"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="269"/>
         <source>Fluid</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="215"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="255"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="265"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="271"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Fira Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Reporting crashes helps Monarch Development to improve Squire Desktop for all users. All crash reports contain no sensitive information and, are published securely to an internal developer channel. By turning this feature on you consent to having crash reports automatically sent to developers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="208"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="267"/>
         <source>Default Tournament Type</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/ui/menubar/file/settingtab.ui" line="242"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="257"/>
+        <location filename="src/ui/menubar/file/settingtab.ui" line="71"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="255"/>
         <source>Default Maximum Deck Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/menubar/file/settingtab.ui" line="252"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="258"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_settingtab.h" line="270"/>
         <source>Report Crashes</source>
         <translation type="unfinished"></translation>
     </message>
