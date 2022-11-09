@@ -16,7 +16,7 @@
 #endif
 
 #ifdef LINUX
-#define IMG_URL REPO_URL "/raw/main/assets/linux.png"
+#define IMG_URL REPO_URL "/raw/main/assets/tux.png"
 #endif
 
 #define AUTHOR_NAME PROJECT_NAME " Crash Report"
