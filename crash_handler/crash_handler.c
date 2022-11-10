@@ -19,6 +19,7 @@
 #define MSG_END "```"
 #define DISCORD_WEBHOOK_URL "https://discord.com/api/webhooks/1039929537477222521/EZoDsiu0_-zlSwFmdT6S9M5GMznfJkQR86kjRObIy5ccnCQhNCAZd3pAvUS31AtOBMDW"
 #define DISCORD_MESSAGE_LIMIT (2000 - sizeof(MSG_START) - 1 - sizeof(MSG_END) - 1)
+#define FAILED_START_MSG "Failed to start"
 
 static char in_memory_log[DISCORD_MESSAGE_LIMIT];
 static size_t f_ptr, b_ptr;
@@ -83,7 +84,7 @@ int main(int argc, char **argv)
                 special_char_status = 1;
             } else if (special_char_status > 0) {
                 special_char_status++;
-                special_char_status %= sizeof(ANSI_RED);
+                special_char_status %= sizeof(ANSI_RED) - 1;
             }
 
             if (special_char_status == 0) {
@@ -152,7 +153,14 @@ int main(int argc, char **argv)
                 for (i = f_ptr; i != b_ptr; i++, i %= sizeof(in_memory_log), j++) {
                     log_buf_final[j] = in_memory_log[i];
                 }
-                log_buf_final[j++] = in_memory_log[b_ptr];
+
+                if (f_ptr == b_ptr) {
+                    strcpy(log_buf_final + j, FAILED_START_MSG);
+                    j += strlen(FAILED_START_MSG);
+                } else {
+                    log_buf_final[j++] = in_memory_log[b_ptr];
+
+                }
                 strcpy(log_buf_final + j, MSG_END);
 
                 // Send the message log then free.
