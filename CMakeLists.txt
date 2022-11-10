@@ -134,6 +134,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(OpenSSL REQUIRED Crypto SSL)
 
 set(TS_FILES SquireDesktop_en_GB.ts)
 
@@ -360,7 +361,7 @@ add_executable(
   ./testing_h/testing.h
   ./testing_h/logger.c
   ./testing_h/logger.h)
-target_link_libraries(sq_crash_handler PRIVATE jansson curl ssl crypto)
+target_link_libraries(sq_crash_handler PRIVATE jansson curl OpenSSL::SSL OpenSSL::Crypto)
 
 # Build desktop app
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
