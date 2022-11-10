@@ -15,7 +15,7 @@
 #define NO_START_VAL 180
 #define DEFAULT_EXEC "SquireDesktop"
 #define LOG_FILE "squiredesktop.log"
-#define MSG_START "```ansi"
+#define MSG_START "```py"
 #define MSG_END "```"
 #define DISCORD_WEBHOOK_URL "https://discord.com/api/webhooks/1039929537477222521/EZoDsiu0_-zlSwFmdT6S9M5GMznfJkQR86kjRObIy5ccnCQhNCAZd3pAvUS31AtOBMDW"
 #define DISCORD_MESSAGE_LIMIT (2000 - sizeof(MSG_START) - 1 - sizeof(MSG_END) - 1)
@@ -70,6 +70,7 @@ int main(int argc, char **argv)
             return 1;
         }
 
+        int special_char_status = 0;
         for (int c; c = fgetc(pipe_r), c != EOF;) {
             fputc(c, stdout);
             fflush(stdout);
@@ -77,14 +78,24 @@ int main(int argc, char **argv)
             fputc(c, log_file);
             fflush(log_file);
 
-            in_memory_log[b_ptr] = c;
-            b_ptr++;
-            b_ptr %= sizeof(in_memory_log);
+            // Change status
+            if (c == ANSI_RED[0]) {
+                special_char_status = 1;
+            } else if (special_char_status > 0) {
+                special_char_status++;
+                special_char_status %= sizeof(ANSI_RED);
+            }
 
-            // Truncate the log.
-            if (b_ptr == f_ptr) {
-                f_ptr++;
-                f_ptr %= sizeof(in_memory_log);
+            if (special_char_status == 0) {
+                in_memory_log[b_ptr] = c;
+                b_ptr++;
+                b_ptr %= sizeof(in_memory_log);
+
+                // Truncate the log.
+                if (b_ptr == f_ptr) {
+                    f_ptr++;
+                    f_ptr %= sizeof(in_memory_log);
+                }
             }
         }
         close(fid[0]);
