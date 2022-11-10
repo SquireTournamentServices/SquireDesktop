@@ -87,15 +87,17 @@ int main(int argc, char **argv)
                 special_char_status %= sizeof(ANSI_RED) - 1;
             }
 
-            if (special_char_status == 0) {
-                in_memory_log[b_ptr] = c;
-                b_ptr++;
-                b_ptr %= sizeof(in_memory_log);
+            if (c != 0) {
+                if (special_char_status == 0) {
+                    in_memory_log[b_ptr] = c;
+                    b_ptr++;
+                    b_ptr %= sizeof(in_memory_log);
 
-                // Truncate the log.
-                if (b_ptr == f_ptr) {
-                    f_ptr++;
-                    f_ptr %= sizeof(in_memory_log);
+                    // Truncate the log.
+                    if (b_ptr == f_ptr) {
+                        f_ptr++;
+                        f_ptr %= sizeof(in_memory_log);
+                    }
                 }
             }
         }
