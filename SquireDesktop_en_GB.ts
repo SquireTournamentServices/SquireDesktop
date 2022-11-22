@@ -475,12 +475,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerlistwidget.cpp" line="90"/>
+        <location filename="src/ui/tournament/playerlistwidget.cpp" line="88"/>
         <source>Cannot add player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerlistwidget.cpp" line="91"/>
+        <location filename="src/ui/tournament/playerlistwidget.cpp" line="89"/>
         <source>Unable to add the player due to an internal error.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1225,7 +1225,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="src/ui/tournamenttab.ui" line="56"/>
         <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="222"/>
-        <location filename="src/ui/tournamenttab.cpp" line="78"/>
+        <location filename="src/ui/tournamenttab.cpp" line="79"/>
         <source>Pair Round</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1236,14 +1236,14 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="75"/>
+        <location filename="src/ui/tournamenttab.cpp" line="76"/>
         <source>Add Player</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="141"/>
         <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="224"/>
-        <location filename="src/ui/tournamenttab.cpp" line="226"/>
+        <location filename="src/ui/tournamenttab.cpp" line="227"/>
         <source>Not Started</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1277,68 +1277,68 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="74"/>
+        <location filename="src/ui/tournamenttab.cpp" line="75"/>
         <source>Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="81"/>
+        <location filename="src/ui/tournamenttab.cpp" line="82"/>
         <source>Change Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="84"/>
+        <location filename="src/ui/tournamenttab.cpp" line="85"/>
         <source>Close Tournament</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="87"/>
+        <location filename="src/ui/tournamenttab.cpp" line="88"/>
         <source>Confirm All Matches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="90"/>
+        <location filename="src/ui/tournamenttab.cpp" line="91"/>
         <source>Show Standings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="205"/>
+        <location filename="src/ui/tournamenttab.cpp" line="206"/>
         <source>Fluid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="208"/>
+        <location filename="src/ui/tournamenttab.cpp" line="209"/>
         <source>Swiss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="232"/>
+        <location filename="src/ui/tournamenttab.cpp" line="233"/>
         <source>Planned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="331"/>
+        <location filename="src/ui/tournamenttab.cpp" line="332"/>
         <source> Active Matches)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="387"/>
+        <location filename="src/ui/tournamenttab.cpp" line="388"/>
         <source>Cannot confirm player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="389"/>
+        <location filename="src/ui/tournamenttab.cpp" line="390"/>
         <source> in round </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="391"/>
+        <location filename="src/ui/tournamenttab.cpp" line="392"/>
         <source>Cannot confirm all rounds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="223"/>
-        <location filename="src/ui/tournamenttab.cpp" line="235"/>
+        <location filename="src/ui/tournamenttab.cpp" line="224"/>
+        <location filename="src/ui/tournamenttab.cpp" line="236"/>
         <source>Started</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1353,47 +1353,47 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="239"/>
+        <location filename="src/ui/tournamenttab.cpp" line="240"/>
         <source>Frozen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="242"/>
+        <location filename="src/ui/tournamenttab.cpp" line="243"/>
         <source>Ended</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="245"/>
+        <location filename="src/ui/tournamenttab.cpp" line="246"/>
         <source>Cancelled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="250"/>
+        <location filename="src/ui/tournamenttab.cpp" line="251"/>
         <source>* (Unsaved Changes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="262"/>
+        <location filename="src/ui/tournamenttab.cpp" line="263"/>
         <source>Cannot add player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="263"/>
+        <location filename="src/ui/tournamenttab.cpp" line="264"/>
         <source>Unable to add the player due to an internal error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="306"/>
+        <location filename="src/ui/tournamenttab.cpp" line="307"/>
         <source>No Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="330"/>
+        <location filename="src/ui/tournamenttab.cpp" line="331"/>
         <source>Left in Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.cpp" line="331"/>
+        <location filename="src/ui/tournamenttab.cpp" line="332"/>
         <source> (</source>
         <translation type="unfinished"></translation>
     </message>

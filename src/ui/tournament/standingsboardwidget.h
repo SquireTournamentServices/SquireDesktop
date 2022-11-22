@@ -18,9 +18,12 @@ class StandingsBoardWidget : public QDialog
 public:
     explicit StandingsBoardWidget(Tournament *tourn, QWidget *parent = nullptr);
     ~StandingsBoardWidget();
+signals:
+    void playerSelected(Player p);
 public slots:
     void roundsChanged(std::vector<Round>);
     void playersChanged(std::vector<Player>);
+    void onPlayerSelected(const QItemSelection &selected, const QItemSelection deselected);
 protected:
     void changeEvent(QEvent *e);
 private:

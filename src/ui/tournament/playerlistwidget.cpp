@@ -68,7 +68,6 @@ void PlayerListWidget::onRegOpenChanged(bool regOpen)
     ui->addPlayer->setDisabled(!regOpen);
 }
 
-
 void PlayerListWidget::onPlayerSelected(const QItemSelection &selected, const QItemSelection deselected)
 {
     QModelIndexList indexes = selected.indexes();
@@ -78,7 +77,6 @@ void PlayerListWidget::onPlayerSelected(const QItemSelection &selected, const QI
         emit this->playerSelected(plyr);
     }
 }
-
 
 void PlayerListWidget::addPlayerToTourn(std::string name)
 {

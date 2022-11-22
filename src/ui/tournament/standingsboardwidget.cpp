@@ -21,6 +21,8 @@ StandingsBoardWidget::StandingsBoardWidget(Tournament *tourn, QWidget *parent) :
     this->redrawStandingsBoard();
     connect(this->tourn, &Tournament::onRoundsChanged, this, &StandingsBoardWidget::roundsChanged);
     connect(this->tourn, &Tournament::onPlayersChanged, this, &StandingsBoardWidget::playersChanged);
+
+    connect(this->table->selectionModel(), &QItemSelectionModel::selectionChanged, this, &StandingsBoardWidget::onPlayerSelected);
 }
 
 StandingsBoardWidget::~StandingsBoardWidget()
@@ -53,4 +55,14 @@ void StandingsBoardWidget::roundsChanged(std::vector<Round>)
 void StandingsBoardWidget::playersChanged(std::vector<Player>)
 {
     this->redrawStandingsBoard();
+}
+
+void StandingsBoardWidget::onPlayerSelected(const QItemSelection &selected, const QItemSelection deselected)
+{
+    QModelIndexList indexes = selected.indexes();
+    if (indexes.size() > 0) {
+        int index = indexes[0].row();
+        Player plyr = this->table->getDataAt(index).player();
+        emit this->playerSelected(plyr);
+    }
 }

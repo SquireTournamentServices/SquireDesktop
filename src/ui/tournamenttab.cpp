@@ -69,6 +69,7 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     connect(ui->tournamentSettings, &QPushButton::clicked, this, &TournamentTab::changeSettingsClicked);
     connect(this->roundTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TournamentTab::roundSelected);
     connect(this->playerListWidget, &PlayerListWidget::playerSelected, this, &TournamentTab::playerSelected);
+    connect(this->standingsWidget, &StandingsBoardWidget::playerSelected, this, &TournamentTab::playerSelected);
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
