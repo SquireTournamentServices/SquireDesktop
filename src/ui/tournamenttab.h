@@ -3,11 +3,11 @@
 #include "../model/abstract_tournament.h"
 #include "../model/player.h"
 #include "./widgets/searchsorttablewidget.h"
-#include "./abstractmodels/playermodel.h"
 #include "./abstractmodels/roundmodel.h"
 #include "./tournament/roundviewwidget.h"
 #include "./tournament/playerviewwidget.h"
 #include "./tournament/playerlistwidget.h"
+#include "./tournament/standingsboardwidget.h"
 #include <squire_core/squire_core.h>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -70,6 +70,7 @@ private:
     RoundViewWidget *roundViewWidget;
     PlayerViewWidget *playerViewWidget;
     PlayerListWidget *playerListWidget;
+    StandingsBoardWidget *standingsWidget;
     Ui::TournamentTab *ui;
     Tournament *tourn;
     std::string t_name;

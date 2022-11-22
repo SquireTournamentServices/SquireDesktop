@@ -22,6 +22,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     this->playerListWidget = new PlayerListWidget(this->tourn, this);
     ui->playersAndScores->addTab(this->playerListWidget, tr("Players"));
 
+    this->standingsWidget = new StandingsBoardWidget(this->tourn, this);
+    ui->playersAndScores->addTab(this->standingsWidget, tr("Standings"));
+
     // Add round table
     this->roundTableLayout = new QVBoxLayout(ui->roundTable);
     this->roundTableLayout->setAlignment(Qt::AlignTop);
@@ -101,6 +104,7 @@ TournamentTab::~TournamentTab()
     delete roundViewWidget;
     delete playerViewWidget;
     delete playerListWidget;
+    delete standingsWidget;
 }
 
 void TournamentTab::changeEvent(QEvent *e)
