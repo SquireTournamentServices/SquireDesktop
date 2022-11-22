@@ -7,6 +7,7 @@
 #include "./abstractmodels/roundmodel.h"
 #include "./tournament/roundviewwidget.h"
 #include "./tournament/playerviewwidget.h"
+#include "./tournament/playerlistwidget.h"
 #include <squire_core/squire_core.h>
 #include <QWidget>
 #include <QVBoxLayout>
@@ -56,10 +57,8 @@ public slots:
     void addPlayerClicked();
     void pairRoundsClicked();
     void changeSettingsClicked();
-
+    void playerSelected(Player player);
     void roundSelected(const QItemSelection &selected, const QItemSelection deselected);
-    void playerSelected(const QItemSelection &selected, const QItemSelection deselected);
-
     void confirmAllMatches();
     void showStandings();
 protected:
@@ -67,11 +66,10 @@ protected:
 
 private:
     QVBoxLayout *roundTableLayout;
-    QVBoxLayout *playerTableLayout;
-    SearchSortTableWidget<PlayerModel, Player> *playerTable;
     SearchSortTableWidget<RoundModel, Round> *roundTable;
     RoundViewWidget *roundViewWidget;
     PlayerViewWidget *playerViewWidget;
+    PlayerListWidget *playerListWidget;
     Ui::TournamentTab *ui;
     Tournament *tourn;
     std::string t_name;

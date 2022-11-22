@@ -202,6 +202,9 @@ set(PROJECT_SOURCES
     ./src/ui/tournament/standingsboardwidget.cpp
     ./src/ui/tournament/standingsboardwidget.h
     ./src/ui/tournament/standingsboardwidget.ui
+    ./src/ui/tournament/playerlistwidget.h
+    ./src/ui/tournament/playerlistwidget.cpp
+    ./src/ui/tournament/playerlistwidget.ui
     ./src/ui/menubar/file/settingtab.cpp
     ./src/ui/menubar/file/settingtab.h
     ./src/ui/menubar/file/settingtab.ui
@@ -361,7 +364,8 @@ add_executable(
   ./testing_h/testing.h
   ./testing_h/logger.c
   ./testing_h/logger.h)
-target_link_libraries(sq_crash_handler PRIVATE jansson curl OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(sq_crash_handler PRIVATE jansson curl OpenSSL::SSL
+                                               OpenSSL::Crypto)
 
 # Build desktop app
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

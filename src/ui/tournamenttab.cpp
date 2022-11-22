@@ -18,16 +18,9 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
         this->tourn->save();
     }
 
-    // Add player table
-    this->playerTableLayout = new QVBoxLayout(ui->playerTable);
-    this->playerTableLayout->setAlignment(Qt::AlignTop);
-
-    std::vector<Player> players = this->tourn->players();
-    this->playerTable = new SearchSortTableWidget<PlayerModel, Player>(players);
-
-    QString showActivePlayers = tr("Only Show Active Players");
-    this->playerTable->addAdditionalFilter(showActivePlayers.toStdString(), &playerIsActive);
-    this->playerTableLayout->addWidget(playerTable);
+    // Add players and scores
+    this->playerListWidget = new PlayerListWidget(this->tourn, this);
+    ui->playersAndScores->addTab(this->playerListWidget, tr("Players"));
 
     // Add round table
     this->roundTableLayout = new QVBoxLayout(ui->roundTable);
@@ -70,14 +63,13 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     // Connect GUI
     connect(ui->pairRound, &QPushButton::clicked, this, &TournamentTab::pairRoundsClicked);
-    connect(ui->addPlayer, &QPushButton::clicked, this, &TournamentTab::addPlayerClicked);
     connect(ui->tournamentSettings, &QPushButton::clicked, this, &TournamentTab::changeSettingsClicked);
     connect(this->roundTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TournamentTab::roundSelected);
-    connect(this->playerTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TournamentTab::playerSelected);
+    connect(this->playerListWidget, &PlayerListWidget::playerSelected, this, &TournamentTab::playerSelected);
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
-    QAction *addPlayerAction = tournamentsMenu->addAction(tr("Add player"));
+    QAction *addPlayerAction = tournamentsMenu->addAction(tr("Add Player"));
     connect(addPlayerAction, &QAction::triggered, this, &TournamentTab::addPlayerClicked);
 
     QAction *pairRoundsAction = tournamentsMenu->addAction(tr("Pair Round"));
@@ -103,13 +95,12 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 TournamentTab::~TournamentTab()
 {
     delete ui;
-    delete playerTable;
-    delete playerTableLayout;
     delete roundTable;
     delete roundTableLayout;
     delete tourn;
     delete roundViewWidget;
     delete playerViewWidget;
+    delete playerListWidget;
 }
 
 void TournamentTab::changeEvent(QEvent *e)
@@ -155,12 +146,12 @@ bool TournamentTab::canExit()
 
 void TournamentTab::onPlayerAdded(Player p)
 {
-    this->playerTable->addDatum(p);
+
 }
 
 void TournamentTab::onPlayersChanged(std::vector<Player> players)
 {
-    this->playerTable->setData(this->tourn->players());
+
 }
 
 void TournamentTab::onRoundAdded(Round r)
@@ -364,12 +355,7 @@ void TournamentTab::onSaveStatusChanged(bool status)
 
 void TournamentTab::onRegOpenChanged(bool regOpen)
 {
-    if (regOpen) {
-        ui->addPlayer->setText(tr("Add Player"));
-    } else {
-        ui->addPlayer->setText(tr("Allow Player Registration to Add Players"));
-    }
-    ui->addPlayer->setDisabled(!regOpen);
+
 }
 
 void TournamentTab::roundSelected(const QItemSelection &selected, const QItemSelection deselected)
@@ -382,14 +368,9 @@ void TournamentTab::roundSelected(const QItemSelection &selected, const QItemSel
     }
 }
 
-void TournamentTab::playerSelected(const QItemSelection &selected, const QItemSelection deselected)
+void TournamentTab::playerSelected(Player player)
 {
-    QModelIndexList indexes = selected.indexes();
-    if (indexes.size() > 0) {
-        int index = indexes[0].row();
-        Player plyr = this->playerTable->getDataAt(index);
-        this->playerViewWidget->setPlayer(plyr);
-    }
+    this->playerViewWidget->setPlayer(player);
 }
 
 void TournamentTab::confirmAllMatches()
