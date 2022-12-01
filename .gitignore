@@ -1,22 +1,6 @@
-CMakeLists.txt.user
-CMakeLists.txt.user*
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
-_deps
+target/
 
-build/
-build-SquireDesktop-Desktop-Debug/
-build-SquireDesktop-Desktop-Release/
-*.orig
 
-cmake-build-debug/
-cmake-build-release/
-cmake-build-test/
-.idea/
+# Added by cargo
+
+/target

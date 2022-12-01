@@ -1,0 +1,19 @@
+[package]
+name = "squire_desktop"
+version = "0.1.0-pre-alpha.1"
+edition = "2021"
+license = "GPL-3.0"
+authors = ["TylerBloom <tylerbloom2222@gmail.com>"]
+
+
+[dependencies]
+# In-house deps
+mtgjson = { git = "https://github.com/TylerBloom/mtgjson-rust-sdk", rev="979ffccde3b0eecd230c2f067e18383ed804c5f3", default-features = false }
+squire_lib = { path = "../SquireCore/squire_lib" }
+
+iced = { version = "=0.5.2" }
+once_cell = { version = "1.16.0" }
+dashmap = { version = "5.0", features = ["serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.1", features = ["serde"] }
+itertools = { version = "0.10.0" }
