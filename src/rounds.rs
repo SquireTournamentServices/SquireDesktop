@@ -1,6 +1,6 @@
 use iced::{
-    widget::{Container, Text},
-    Element,
+    widget::{Container, Text, Row, Button},
+    Element, Length,
 };
 use itertools::Itertools;
 use squire_lib::{
@@ -10,7 +10,7 @@ use squire_lib::{
     tournament::Tournament,
 };
 
-use crate::{player::PlayerView, TournamentViewMessage};
+use crate::{player::PlayerView, TournamentViewMessage, ViewModeMessage};
 
 /// View of all players and some info about a specific player (i.e. decks, round, etc)
 #[derive(Debug, Default)]
@@ -48,20 +48,20 @@ pub(crate) enum RoundFilterMessage {
 /// Info about a specific round
 #[derive(Debug)]
 pub(crate) struct RoundSummaryView {
-    plyr: RoundView,
-    cursor: Option<RoundObjectView>,
+    pub(crate) plyr: RoundView,
+    pub(crate) cursor: Option<RoundObjectView>,
 }
 
 #[derive(Debug, Clone)]
 pub(crate) enum RoundSummaryMessage {
-    Round(Round),
+    Round(RoundId),
     Object(RoundObjectMessage),
 }
 
 /// Displays info about a round
 #[derive(Debug)]
 pub(crate) struct RoundView {
-    id: Round,
+    pub(crate) id: RoundId,
 }
 
 /// Encodes specific pieces of round info that is viewable
@@ -106,4 +106,29 @@ impl RoundsList {
                 .collect(),
         }
     }
+}
+
+impl RoundView {
+    pub(crate) fn view(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {
+        Container::new(Text::new("Insert ROUNDS VIEW text here...")).into()
+    }
+}
+
+pub(crate) fn round_list_entry(rnd: &Round) -> Button<'static, TournamentViewMessage> {
+    let children = vec![
+        Text::new(rnd.status.to_string())
+            .height(Length::Fill)
+            .width(Length::FillPortion(4))
+            .into(),
+        Text::new(format!("Table #{}", rnd.table_number))
+            .height(Length::Fill)
+            .width(Length::FillPortion(4))
+            .into(),
+        Text::new(format!("Match #{}", rnd.match_number))
+            .height(Length::Fill)
+            .width(Length::FillPortion(16))
+            .into(),
+    ];
+    let row = Row::with_children(children);
+    Button::new(row).on_press(RoundSummaryMessage::Round(rnd.id).into())
 }

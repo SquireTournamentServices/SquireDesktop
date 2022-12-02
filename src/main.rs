@@ -1,6 +1,7 @@
 #![allow(dead_code, unused)]
-use std::{borrow::Cow, fs};
+use std::{borrow::Cow, collections::HashMap, fs};
 
+use chrono::Utc;
 use dashmap::DashMap;
 use iced::{
     widget::{Button, Column, Container, Row, Text},
@@ -15,11 +16,13 @@ use rounds::AllRoundsMessage;
 use uuid::Uuid;
 
 use squire_lib::{
-    identifiers::TournamentId,
+    accounts::{SharingPermissions, SquireAccount},
+    identifiers::{TournamentId, UserAccountId},
     operations::TournOp,
     tournament::{Tournament, TournamentPreset},
 };
 
+mod utils;
 mod player;
 mod rounds;
 mod runtime;
@@ -35,14 +38,8 @@ const TOURN_ID: Uuid = Uuid::nil();
 
 pub fn main() -> iced::Result {
     let mut tourns = DashMap::new();
-    tourns.insert(
-        TOURN_ID.into(),
-        Tournament::from_preset(
-            "Test Tourn".to_string(),
-            TournamentPreset::Swiss,
-            "Pioneer".to_string(),
-        ),
-    );
+    let tourn = serde_json::from_str(fs::read_to_string("tourn.json").unwrap().as_str()).unwrap();
+    tourns.insert(TOURN_ID.into(), tourn);
     RUNTIME.set(SquireRuntime { tourns });
     TournamentView::run(Settings::default())
 }
@@ -176,15 +173,19 @@ impl Sandbox for TournamentView {
     }
 
     fn view(&self) -> Element<Self::Message> {
-        self.view_mode.view()
+        RUNTIME
+            .get()
+            .unwrap()
+            .tournament_query(self.id, |t| self.view_mode.view(t))
+            .unwrap()
     }
 }
 
 impl ViewMode {
-    fn view(&self) -> Element<TournamentViewMessage> {
+    fn view(&self, tourn: &Tournament) -> Element<TournamentViewMessage> {
         let panel = self.get_panel();
         let child = match self {
-            ViewMode::Players(plyrs) => plyrs.view(),
+            ViewMode::Players(plyrs) => plyrs.view(tourn),
             ViewMode::Rounds(rnds) => rnds.view(),
             ViewMode::Standings(standings) => standings.view(),
             ViewMode::Clock => Container::new(Text::new("Insert CLOCK text here...")),
