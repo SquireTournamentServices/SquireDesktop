@@ -15,7 +15,7 @@ use squire_lib::{
 /// The struct that contains everything needed to manage and query the tournament model.
 #[derive(Debug, Default)]
 pub struct SquireRuntime {
-    tourns: DashMap<TournamentId, Tournament>,
+    pub(crate) tourns: DashMap<TournamentId, Tournament>,
 }
 
 /// The enum that encodes what could go wrong while performing an action

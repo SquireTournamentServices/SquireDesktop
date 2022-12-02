@@ -2414,9 +2414,12 @@ dependencies = [
  "chrono",
  "dashmap",
  "iced",
+ "iced_native",
  "itertools",
  "mtgjson",
  "once_cell",
+ "serde",
+ "serde_json",
  "squire_lib",
  "uuid 1.2.2",
 ]

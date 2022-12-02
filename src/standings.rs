@@ -1,7 +1,14 @@
-use squire_lib::{
-    scoring::{StandardScore, Standings},
-    tournament::Tournament, identifiers::PlayerIdentifier,
+use iced::{
+    widget::{Container, Text},
+    Element,
 };
+use squire_lib::{
+    identifiers::PlayerIdentifier,
+    scoring::{StandardScore, Standings},
+    tournament::Tournament,
+};
+
+use crate::TournamentViewMessage;
 
 /// Displays info about a round
 #[derive(Debug)]
@@ -40,6 +47,10 @@ impl AllStandingsView {
             plyr_one: None,
             plyr_two: None,
         }
+    }
+
+    pub(crate) fn view(&self) -> Container<TournamentViewMessage> {
+        Container::new(Text::new("Insert STANDINGS text here...")).into()
     }
 }
 
