@@ -35,6 +35,7 @@ use crate::{
 
 static RUNTIME: OnceCell<SquireRuntime> = OnceCell::new();
 const TOURN_ID: Uuid = Uuid::nil();
+const ADMIN_ID: Uuid = Uuid::from_bytes([0x21, 0x63, 0xfb, 0xe6, 0xb0, 0x0c, 0x42, 0x07, 0x8e, 0x7b, 0x2d, 0x8d, 0xc5, 0xdc, 0x8b, 0xd7]);
 
 pub fn main() -> iced::Result {
     let mut tourns = DashMap::new();
@@ -166,9 +167,7 @@ impl Sandbox for TournamentView {
             (_, TournamentViewMessage::Cursor(ViewModeMessage::Select(ViewModeName::Settings))) => {
                 self.view_mode = ViewMode::Settings;
             }
-            _ => {
-                unreachable!("How did you get here??");
-            }
+            _ => {}
         }
     }
 
@@ -186,7 +185,7 @@ impl ViewMode {
         let panel = self.get_panel();
         let child = match self {
             ViewMode::Players(plyrs) => plyrs.view(tourn),
-            ViewMode::Rounds(rnds) => rnds.view(),
+            ViewMode::Rounds(rnds) => rnds.view(tourn),
             ViewMode::Standings(standings) => standings.view(),
             ViewMode::Clock => Container::new(Text::new("Insert CLOCK text here...")),
             ViewMode::Settings => Container::new(Text::new("Insert SETTINGS text here...")),

@@ -1,10 +1,14 @@
 use iced::{
-    widget::{Button, Column, Container, Row, Scrollable, Text},
+    alignment::Horizontal,
+    widget::{Button, Column, Container, Row, Scrollable, Text, TextInput, Toggler},
     Element, Length,
 };
+
 use itertools::Itertools;
 use squire_lib::{
+    admin::TournOfficialId,
     identifiers::{PlayerId, PlayerIdentifier, RoundId},
+    operations::{JudgeOp, TournOp},
     players::{Deck, Player, PlayerStatus},
     rounds::Round,
     tournament::Tournament,
@@ -12,7 +16,7 @@ use squire_lib::{
 
 use crate::{
     rounds::{round_list_entry, RoundView},
-    TournamentViewMessage, ViewModeMessage,
+    TournamentViewMessage, ViewModeMessage, ADMIN_ID,
 };
 
 /// View of all players and some info about a specific player (i.e. decks, round, etc)
@@ -31,21 +35,27 @@ pub(crate) enum AllPlayersMessage {
 /// Contains the ways in which the list of players can be filtered
 #[derive(Debug, Default)]
 pub(crate) struct PlayerFilter {
-    name: Option<String>,
-    status: Option<PlayerStatus>,
+    name_active: bool,
+    name: String,
+    status_active: bool,
+    status: PlayerStatus,
+    new_player_name: String,
 }
 
 #[derive(Debug, Clone)]
 pub(crate) enum PlayerFilterMessage {
+    NameActive(bool),
     Name(String),
+    StatusActive(bool),
     Status(PlayerStatus),
+    RegisterPlayerName(String),
 }
 
 /// Info about a specific player
 #[derive(Debug)]
 pub(crate) struct PlayerSummaryView {
-    plyr: PlayerView,
-    cursor: Option<PlayerObjectView>,
+    pub(crate) plyr: PlayerView,
+    pub(crate) cursor: Option<PlayerObjectView>,
 }
 
 #[derive(Debug, Clone)]
@@ -57,7 +67,7 @@ pub(crate) enum PlayerSummaryMessage {
 /// Displays info about a player
 #[derive(Debug)]
 pub(crate) struct PlayerView {
-    id: PlayerId,
+    pub(crate) id: PlayerId,
 }
 
 /// Encodes specific pieces of player info that is viewable
@@ -134,36 +144,111 @@ impl AllPlayersView {
 
 impl PlayerFilter {
     fn header(&self) -> Container<'static, TournamentViewMessage> {
-        Container::new(Text::new("Player list filter header text here..."))
+        let row = Row::with_children(vec![
+            Text::new("Status filter:".to_owned()).into(),
+            self.main_toggle().into(),
+            self.registered_toggle().into(),
+            self.dropped_toggle().into(),
+        ]);
+        let mut children = vec![
+            self.register_player().height(Length::FillPortion(5)).into(),
+            self.name_filter().height(Length::FillPortion(5)).into(),
+            row.height(Length::FillPortion(2)).into(),
+        ];
+        Container::new(Column::with_children(children))
+    }
+
+    fn register_player(&self) -> Container<'static, TournamentViewMessage> {
+        let id = TournOfficialId::Admin(ADMIN_ID.into());
+        let children = vec![
+            Text::new("Register player: ".to_owned()).into(),
+            TextInput::new("Player name", self.new_player_name.as_str(), |s| {
+                PlayerFilterMessage::RegisterPlayerName(s).into()
+            })
+            .on_submit(TournamentViewMessage::Operation(TournOp::JudgeOp(
+                id,
+                JudgeOp::RegisterGuest(self.new_player_name.clone()),
+            )))
+            .into(),
+        ];
+        Container::new(Row::with_children(children))
+    }
+
+    fn name_filter(&self) -> Container<'static, TournamentViewMessage> {
+        let children = vec![
+            Toggler::new(self.name_active, "Name: ".to_owned(), |b| {
+                PlayerFilterMessage::NameActive(b).into()
+            })
+            .text_alignment(Horizontal::Right)
+            .into(),
+            TextInput::new("Player name", self.name.as_str(), |s| {
+                PlayerFilterMessage::Name(s).into()
+            })
+            .into(),
+        ];
+        Container::new(Row::with_children(children))
+    }
+
+    fn main_toggle(&self) -> Toggler<'static, TournamentViewMessage> {
+        Toggler::new(self.status_active, "Apply: ".to_owned(), |b| {
+            PlayerFilterMessage::StatusActive(b).into()
+        })
+        .text_alignment(Horizontal::Right)
+    }
+
+    fn registered_toggle(&self) -> Toggler<'static, TournamentViewMessage> {
+        Toggler::new(
+            self.status == PlayerStatus::Registered,
+            "Registered: ".to_owned(),
+            |b| {
+                if b {
+                    PlayerFilterMessage::Status(PlayerStatus::Registered)
+                } else {
+                    PlayerFilterMessage::Status(PlayerStatus::Dropped)
+                }
+                .into()
+            },
+        )
+        .text_alignment(Horizontal::Right)
+    }
+
+    fn dropped_toggle(&self) -> Toggler<'static, TournamentViewMessage> {
+        Toggler::new(
+            self.status == PlayerStatus::Dropped,
+            "Dropped: ".to_owned(),
+            |b| {
+                if b {
+                    PlayerFilterMessage::Status(PlayerStatus::Dropped)
+                } else {
+                    PlayerFilterMessage::Status(PlayerStatus::Registered)
+                }
+                .into()
+            },
+        )
+        .text_alignment(Horizontal::Right)
     }
 
     /// Return true if the player passes through the filter
     fn filter(&self, plyr: &Player) -> bool {
-        let digest = self
-            .name
-            .as_ref()
-            .map(|n| plyr.name.contains(n))
-            .unwrap_or(true);
-        digest
+        self.name_active
+            .then(|| plyr.name.contains(&self.name))
+            .unwrap_or(true)
             && self
-                .status
-                .as_ref()
-                .map(|s| plyr.status == *s)
+                .status_active
+                .then_some(self.status == plyr.status)
                 .unwrap_or(true)
     }
 
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {
-        let mut list = Vec::with_capacity(tourn.get_player_count());
-        for plyr in tourn
+        let mut list = tourn
             .player_reg
             .players
             .values()
             .filter(|p| self.filter(p))
             .sorted_by(|a, b| Ord::cmp(&a.name, &b.name))
             .sorted_by(|a, b| Ord::cmp(&a.status, &b.status))
-        {
-            list.push(player_list_entry(plyr).height(Length::Units(30)).into());
-        }
+            .map(|plyr| player_list_entry(plyr).height(Length::Units(30)).into())
+            .collect();
         let children = vec![
             self.header()
                 .height(Length::FillPortion(1))
@@ -180,10 +265,19 @@ impl PlayerFilter {
     fn update(&mut self, msg: PlayerFilterMessage) {
         match msg {
             PlayerFilterMessage::Name(name) => {
-                self.name = Some(name);
+                self.name = name;
+            }
+            PlayerFilterMessage::NameActive(b) => {
+                self.name_active = b;
             }
             PlayerFilterMessage::Status(status) => {
-                self.status = Some(status);
+                self.status = status;
+            }
+            PlayerFilterMessage::StatusActive(b) => {
+                self.status_active = b;
+            }
+            PlayerFilterMessage::RegisterPlayerName(name) => {
+                self.new_player_name = name;
             }
         }
     }
@@ -213,7 +307,7 @@ impl PlayerSummaryView {
             self.cursor
                 .as_ref()
                 .map(|c| c.view(tourn))
-                .unwrap_or_else(|| Container::new(Text::new("Insert player object view here...")))
+                .unwrap_or_else(|| Container::new(Text::new("")))
                 .width(Length::FillPortion(1))
                 .into(),
         ];
@@ -247,10 +341,11 @@ impl PlayerView {
 
     fn decks_summary(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {
         let mut list = Vec::with_capacity(tourn.get_player_count());
-        for (name, _) in tourn.get_player_decks(&self.id.into()).unwrap() {
+        for name in tourn.get_player_decks(&self.id.into()).unwrap().keys() {
             list.push(
                 deck_list_entry(name.clone())
                     .height(Length::Units(30))
+                    .width(Length::Fill)
                     .into(),
             );
         }
@@ -274,19 +369,83 @@ impl PlayerView {
 impl PlayerObjectView {
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {
         match self {
-            PlayerObjectView::Deck(view) => {
-                view.view(tourn)
-            }
-            PlayerObjectView::Round(view) => {
-                view.view(tourn)
-            }
+            PlayerObjectView::Deck(view) => view.view(tourn),
+            PlayerObjectView::Round(view) => view.view(tourn),
         }
     }
 }
 
 impl DeckView {
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {
-        Container::new(Text::new("Insert DECK VIEW text here...")).into()
+        let deck = tourn
+            .get_player(&self.id.into())
+            .unwrap()
+            .get_deck(&self.name)
+            .unwrap();
+        let mut children = Vec::with_capacity(
+            3 + deck.commanders.len() + deck.mainboard.len() + deck.sideboard.len(),
+        );
+        if !deck.commanders.is_empty() {
+            children.push(
+                Text::new(format!("Commanders: {}", deck.commanders.len()))
+                    .horizontal_alignment(Horizontal::Center)
+                    .into(),
+            );
+        }
+        for (cmdr, n) in deck.commanders.set_iter() {
+            children.push(
+                Row::with_children(vec![
+                    Text::new(format!("{n}x "))
+                        .width(Length::FillPortion(1))
+                        .into(),
+                    Text::new(cmdr.get_name())
+                        .width(Length::FillPortion(19))
+                        .into(),
+                ])
+                .into(),
+            );
+        }
+        if !deck.mainboard.is_empty() {
+            children.push(
+                Text::new(format!("Mainboard: {}", deck.mainboard.len()))
+                    .horizontal_alignment(Horizontal::Center)
+                    .into(),
+            );
+        }
+        for (card, n) in deck.mainboard.set_iter() {
+            children.push(
+                Row::with_children(vec![
+                    Text::new(format!("{n}x "))
+                        .width(Length::FillPortion(1))
+                        .into(),
+                    Text::new(card.get_name())
+                        .width(Length::FillPortion(19))
+                        .into(),
+                ])
+                .into(),
+            );
+        }
+        if !deck.sideboard.is_empty() {
+            children.push(
+                Text::new(format!("Sideboard: {}", deck.sideboard.len()))
+                    .horizontal_alignment(Horizontal::Center)
+                    .into(),
+            );
+        }
+        for (card, n) in deck.sideboard.set_iter() {
+            children.push(
+                Row::with_children(vec![
+                    Text::new(format!("{n}x "))
+                        .width(Length::FillPortion(1))
+                        .into(),
+                    Text::new(card.get_name())
+                        .width(Length::FillPortion(19))
+                        .into(),
+                ])
+                .into(),
+            );
+        }
+        Container::new(Scrollable::new(Column::with_children(children))).into()
     }
 }
 
@@ -306,5 +465,6 @@ fn player_list_entry(plyr: &Player) -> Button<'static, TournamentViewMessage> {
 }
 
 fn deck_list_entry(name: String) -> Button<'static, TournamentViewMessage> {
-    Button::new(Text::new(name.clone())).on_press(PlayerObjectMessage::Deck(name.clone()).into())
+    Button::new(Text::new(name.clone()).horizontal_alignment(Horizontal::Center))
+        .on_press(PlayerObjectMessage::Deck(name.clone()).into())
 }
