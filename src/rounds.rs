@@ -1,5 +1,7 @@
+use std::fmt::Display;
+
 use iced::{
-    widget::{Button, Column, Container, Row, Scrollable, Text},
+    widget::{Button, Column, Container, PickList, Row, Scrollable, Text, TextInput},
     Element, Length,
 };
 use itertools::Itertools;
@@ -27,18 +29,17 @@ pub(crate) enum AllRoundsMessage {
 /// Contains the ways in which the list of rounds can be filtered
 #[derive(Debug, Default)]
 pub(crate) struct RoundsFilter {
-    ident_active: bool,
-    ident: RoundIdentifier,
-    status_active: bool,
-    status: RoundStatus,
+    input: String,
+    ident_type: RoundIdentType,
+    ident: Option<RoundIdentifier>,
+    status: Option<RoundStatus>,
 }
 
 #[derive(Debug, Clone)]
 pub(crate) enum RoundFilterMessage {
-    IdentActive(bool),
-    Ident(RoundIdentifier),
-    StatusActive(bool),
-    Status(RoundStatus),
+    Input(String),
+    IdentType(RoundIdentType),
+    Status(Option<RoundStatus>),
 }
 
 /// Info about a specific round
@@ -123,20 +124,77 @@ impl AllRoundsView {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum RoundStatusPicker {
+    None,
+    Active(RoundStatus),
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum RoundIdentType {
+    #[default]
+    None,
+    Number,
+    Table,
+}
+
 impl RoundsFilter {
     /// Return true if the player passes through the filter
     fn filter(&self, rnd: &Round) -> bool {
-        self.ident_active
-            .then(|| rnd.match_ident(self.ident))
+        (self.ident_type != RoundIdentType::None)
+            .then(|| self.ident.map(|i| rnd.match_ident(i)))
+            .flatten()
             .unwrap_or(true)
-            && self
-                .status_active
-                .then_some(self.status == rnd.status)
-                .unwrap_or(true)
+            && self.status.map(|s| s == rnd.status).unwrap_or(true)
+    }
+
+    fn status_selector(&self) -> Container<'static, TournamentViewMessage> {
+        let select = |s| match s {
+            RoundStatusPicker::None => RoundFilterMessage::Status(None).into(),
+            RoundStatusPicker::Active(s) => RoundFilterMessage::Status(Some(s)).into(),
+        };
+        let children = vec![
+            Text::new("Status: ".to_owned()).into(),
+            PickList::new(
+                &[
+                    RoundStatusPicker::None,
+                    RoundStatusPicker::Active(RoundStatus::Open),
+                    RoundStatusPicker::Active(RoundStatus::Certified),
+                    RoundStatusPicker::Active(RoundStatus::Dead),
+                ][..],
+                Some(self.status.into()),
+                select,
+            )
+            .into(),
+        ];
+        Container::new(Row::with_children(children))
+    }
+
+    fn ident_selector(&self) -> Container<'static, TournamentViewMessage> {
+        let ident_type = self.ident_type.clone();
+        let select = |t| RoundFilterMessage::IdentType(t).into();
+        let on_change = |s| RoundFilterMessage::Input(s).into();
+        let placeholder = self.ident_type.to_string();
+        let children = vec![
+            Text::new("Filter by ".to_owned()).into(),
+            PickList::new(
+                &[
+                    RoundIdentType::None,
+                    RoundIdentType::Number,
+                    RoundIdentType::Table,
+                ][..],
+                Some(self.ident_type),
+                select,
+            )
+            .into(),
+            TextInput::new(&placeholder, self.input.as_str(), on_change).into(),
+        ];
+        Container::new(Row::with_children(children))
     }
 
     fn header(&self) -> Container<'static, TournamentViewMessage> {
-        Container::new(Text::new("Insert ROUNDS FILTER text here...")).into()
+        let children = vec![self.status_selector().into(), self.ident_selector().into()];
+        Container::new(Column::with_children(children)).into()
     }
 
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {
@@ -163,17 +221,23 @@ impl RoundsFilter {
 
     fn update(&mut self, msg: RoundFilterMessage) {
         match msg {
-            RoundFilterMessage::StatusActive(b) => {
-                self.status_active = b;
+            RoundFilterMessage::Input(input) => {
+                self.ident = self.ident_type.ident(input.parse().ok());
+                self.input = input;
             }
             RoundFilterMessage::Status(status) => {
                 self.status = status;
             }
-            RoundFilterMessage::IdentActive(b) => {
-                self.ident_active = b;
-            }
-            RoundFilterMessage::Ident(ident) => {
-                self.ident = ident;
+            RoundFilterMessage::IdentType(t) => {
+                self.ident_type = t;
+                match t {
+                    RoundIdentType::None => {
+                        self.input.clear();
+                    }
+                    _ => {
+                        self.ident = self.ident_type.ident(self.input.parse().ok());
+                    }
+                }
             }
         }
     }
@@ -276,6 +340,7 @@ pub(crate) fn round_summary(
                 Text::new(plyr.name.clone()).into(),
             ]))
             .on_press(RoundObjectMessage::Player(plyr.id).into())
+            .width(Length::Fill)
             .into()
         })
         .collect();
@@ -294,6 +359,7 @@ pub(crate) fn round_summary(
                 .into(),
             ]))
             .on_press(RoundObjectMessage::Player(plyr.id).into())
+            .width(Length::Fill)
             .into()
         })
         .collect();
@@ -303,6 +369,7 @@ pub(crate) fn round_summary(
             Text::new(rnd.draws.to_string()).into(),
         ]))
         .on_press(RoundObjectMessage::Reset.into())
+        .width(Length::Fill)
         .into(),
     );
     let children = vec![
@@ -310,4 +377,46 @@ pub(crate) fn round_summary(
         Scrollable::new(Column::with_children(results)).into(),
     ];
     Container::new(Column::with_children(children))
+}
+
+impl RoundIdentType {
+    fn ident(&self, num: Option<u64>) -> Option<RoundIdentifier> {
+        match self {
+            RoundIdentType::None => None,
+            RoundIdentType::Number => num.map(|n| RoundIdentifier::Number(n)),
+            RoundIdentType::Table => num.map(|n| RoundIdentifier::Table(n)),
+        }
+    }
+}
+
+impl Display for RoundStatusPicker {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RoundStatusPicker::None => write!(f, "None"),
+            RoundStatusPicker::Active(status) => status.fmt(f),
+        }
+    }
+}
+
+impl Display for RoundIdentType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                RoundIdentType::None => "None",
+                RoundIdentType::Number => "Match Number",
+                RoundIdentType::Table => "Table Number",
+            }
+        )
+    }
+}
+
+impl Into<RoundStatusPicker> for Option<RoundStatus> {
+    fn into(self) -> RoundStatusPicker {
+        match self {
+            None => RoundStatusPicker::None,
+            Some(s) => RoundStatusPicker::Active(s),
+        }
+    }
 }
