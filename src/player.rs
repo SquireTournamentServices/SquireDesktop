@@ -1,6 +1,8 @@
+use std::fmt::Display;
+
 use iced::{
     alignment::Horizontal,
-    widget::{Button, Column, Container, Row, Scrollable, Text, TextInput, Toggler},
+    widget::{Button, Column, Container, Row, Scrollable, Text, TextInput, Toggler, PickList},
     Element, Length,
 };
 
@@ -37,8 +39,7 @@ pub(crate) enum AllPlayersMessage {
 pub(crate) struct PlayerFilter {
     name_active: bool,
     name: String,
-    status_active: bool,
-    status: PlayerStatus,
+    status: Option<PlayerStatus>,
     new_player_name: String,
 }
 
@@ -46,9 +47,15 @@ pub(crate) struct PlayerFilter {
 pub(crate) enum PlayerFilterMessage {
     NameActive(bool),
     Name(String),
-    StatusActive(bool),
-    Status(PlayerStatus),
+    Status(Option<PlayerStatus>),
     RegisterPlayerName(String),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub(crate) enum PlayerStatusPicker {
+    #[default]
+    None,
+    Active(PlayerStatus),
 }
 
 /// Info about a specific player
@@ -92,13 +99,6 @@ pub(crate) struct DeckView {
 }
 
 impl AllPlayersView {
-    pub(crate) fn from_tourn(tourn: &Tournament) -> Self {
-        Self {
-            filter: Default::default(),
-            selected_plyr: None,
-        }
-    }
-
     pub(crate) fn update(&mut self, msg: AllPlayersMessage) {
         match msg {
             AllPlayersMessage::Filter(msg) => {
@@ -145,15 +145,13 @@ impl AllPlayersView {
 impl PlayerFilter {
     fn header(&self) -> Container<'static, TournamentViewMessage> {
         let row = Row::with_children(vec![
-            Text::new("Status filter:".to_owned()).into(),
-            self.main_toggle().into(),
-            self.registered_toggle().into(),
-            self.dropped_toggle().into(),
+            Text::new("Filter by: ".to_owned()).into(),
+            self.status_selector().into(),
         ]);
         let mut children = vec![
             self.register_player().height(Length::FillPortion(5)).into(),
             self.name_filter().height(Length::FillPortion(5)).into(),
-            row.height(Length::FillPortion(2)).into(),
+            self.status_selector().height(Length::FillPortion(2)).into(),
         ];
         Container::new(Column::with_children(children))
     }
@@ -189,43 +187,25 @@ impl PlayerFilter {
         Container::new(Row::with_children(children))
     }
 
-    fn main_toggle(&self) -> Toggler<'static, TournamentViewMessage> {
-        Toggler::new(self.status_active, "Apply: ".to_owned(), |b| {
-            PlayerFilterMessage::StatusActive(b).into()
-        })
-        .text_alignment(Horizontal::Right)
-    }
-
-    fn registered_toggle(&self) -> Toggler<'static, TournamentViewMessage> {
-        Toggler::new(
-            self.status == PlayerStatus::Registered,
-            "Registered: ".to_owned(),
-            |b| {
-                if b {
-                    PlayerFilterMessage::Status(PlayerStatus::Registered)
-                } else {
-                    PlayerFilterMessage::Status(PlayerStatus::Dropped)
-                }
-                .into()
-            },
-        )
-        .text_alignment(Horizontal::Right)
-    }
-
-    fn dropped_toggle(&self) -> Toggler<'static, TournamentViewMessage> {
-        Toggler::new(
-            self.status == PlayerStatus::Dropped,
-            "Dropped: ".to_owned(),
-            |b| {
-                if b {
-                    PlayerFilterMessage::Status(PlayerStatus::Dropped)
-                } else {
-                    PlayerFilterMessage::Status(PlayerStatus::Registered)
-                }
-                .into()
-            },
-        )
-        .text_alignment(Horizontal::Right)
+    fn status_selector(&self) -> Container<'static, TournamentViewMessage> {
+        let select = |s| match s {
+            PlayerStatusPicker::None => PlayerFilterMessage::Status(None).into(),
+            PlayerStatusPicker::Active(s) => PlayerFilterMessage::Status(Some(s)).into(),
+        };
+        let children = vec![
+            Text::new("Status: ".to_owned()).into(),
+            PickList::new(
+                &[
+                    PlayerStatusPicker::None,
+                    PlayerStatusPicker::Active(PlayerStatus::Registered),
+                    PlayerStatusPicker::Active(PlayerStatus::Dropped),
+                ][..],
+                Some(self.status.into()),
+                select,
+            )
+            .into(),
+        ];
+        Container::new(Row::with_children(children))
     }
 
     /// Return true if the player passes through the filter
@@ -233,9 +213,8 @@ impl PlayerFilter {
         self.name_active
             .then(|| plyr.name.contains(&self.name))
             .unwrap_or(true)
-            && self
-                .status_active
-                .then_some(self.status == plyr.status)
+            && self.status
+                .map(|s| s == plyr.status)
                 .unwrap_or(true)
     }
 
@@ -272,9 +251,6 @@ impl PlayerFilter {
             }
             PlayerFilterMessage::Status(status) => {
                 self.status = status;
-            }
-            PlayerFilterMessage::StatusActive(b) => {
-                self.status_active = b;
             }
             PlayerFilterMessage::RegisterPlayerName(name) => {
                 self.new_player_name = name;

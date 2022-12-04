@@ -22,11 +22,11 @@ use squire_lib::{
     tournament::{Tournament, TournamentPreset},
 };
 
-mod utils;
 mod player;
 mod rounds;
 mod runtime;
 mod standings;
+mod utils;
 
 use crate::{
     player::AllPlayersView, rounds::AllRoundsView, runtime::SquireRuntime,
@@ -35,7 +35,9 @@ use crate::{
 
 static RUNTIME: OnceCell<SquireRuntime> = OnceCell::new();
 const TOURN_ID: Uuid = Uuid::nil();
-const ADMIN_ID: Uuid = Uuid::from_bytes([0x21, 0x63, 0xfb, 0xe6, 0xb0, 0x0c, 0x42, 0x07, 0x8e, 0x7b, 0x2d, 0x8d, 0xc5, 0xdc, 0x8b, 0xd7]);
+const ADMIN_ID: Uuid = Uuid::from_bytes([
+    0x21, 0x63, 0xfb, 0xe6, 0xb0, 0x0c, 0x42, 0x07, 0x8e, 0x7b, 0x2d, 0x8d, 0xc5, 0xdc, 0x8b, 0xd7,
+]);
 
 pub fn main() -> iced::Result {
     let mut tourns = DashMap::new();
@@ -46,7 +48,7 @@ pub fn main() -> iced::Result {
 }
 
 /// Displays a tournament
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct TournamentView {
     id: TournamentId,
     view_mode: ViewMode,
@@ -87,24 +89,11 @@ enum ViewModeMessage {
     Settings,
 }
 
-impl TournamentView {
-    fn from_tourn(tourn: &Tournament) -> Self {
-        Self {
-            id: TOURN_ID.into(),
-            view_mode: ViewMode::Players(AllPlayersView::from_tourn(tourn)),
-        }
-    }
-}
-
 impl Sandbox for TournamentView {
     type Message = TournamentViewMessage;
 
     fn new() -> Self {
-        RUNTIME
-            .get()
-            .unwrap()
-            .tournament_query(TOURN_ID.into(), TournamentView::from_tourn)
-            .unwrap()
+        Default::default()
     }
 
     fn title(&self) -> String {
@@ -123,49 +112,32 @@ impl Sandbox for TournamentView {
     }
 
     fn update(&mut self, message: Self::Message) {
-        let rt = RUNTIME.get().unwrap();
+        use TournamentViewMessage::*;
+        use ViewModeMessage::*;
         match (&mut self.view_mode, message) {
-            (_, TournamentViewMessage::Operation(op)) => {
+            (_, Operation(op)) => {
                 RUNTIME.get().unwrap().apply_operation(self.id, op).unwrap();
             }
-            (
-                ViewMode::Players(plyrs),
-                TournamentViewMessage::Cursor(ViewModeMessage::Players(msg)),
-            ) => {
+            (_, Cursor(Select(cursor))) => {
+                self.view_mode = match cursor {
+                    ViewModeName::Players => ViewMode::Players(Default::default()),
+                    ViewModeName::Rounds => ViewMode::Rounds(Default::default()),
+                    ViewModeName::Clock => ViewMode::Clock,
+                    ViewModeName::Settings => ViewMode::Settings,
+                    ViewModeName::Standings => ViewMode::Standings(
+                        RUNTIME
+                            .get()
+                            .unwrap()
+                            .tournament_query(self.id, AllStandingsView::from_tourn)
+                            .unwrap(),
+                    ),
+                };
+            }
+            (ViewMode::Players(plyrs), Cursor(Players(msg))) => {
                 plyrs.update(msg);
             }
-            (_, TournamentViewMessage::Cursor(ViewModeMessage::Select(ViewModeName::Players))) => {
-                self.view_mode = ViewMode::Players(
-                    rt.tournament_query(self.id, AllPlayersView::from_tourn)
-                        .unwrap(),
-                );
-            }
-            (
-                ViewMode::Rounds(rnds),
-                TournamentViewMessage::Cursor(ViewModeMessage::Rounds(msg)),
-            ) => {
+            (ViewMode::Rounds(rnds), Cursor(Rounds(msg))) => {
                 rnds.update(msg);
-            }
-            (_, TournamentViewMessage::Cursor(ViewModeMessage::Select(ViewModeName::Rounds))) => {
-                self.view_mode = ViewMode::Rounds(
-                    rt.tournament_query(self.id, AllRoundsView::from_tourn)
-                        .unwrap(),
-                );
-            }
-            (
-                _,
-                TournamentViewMessage::Cursor(ViewModeMessage::Select(ViewModeName::Standings)),
-            ) => {
-                self.view_mode = ViewMode::Standings(
-                    rt.tournament_query(self.id, AllStandingsView::from_tourn)
-                        .unwrap(),
-                );
-            }
-            (_, TournamentViewMessage::Cursor(ViewModeMessage::Select(ViewModeName::Clock))) => {
-                self.view_mode = ViewMode::Clock;
-            }
-            (_, TournamentViewMessage::Cursor(ViewModeMessage::Select(ViewModeName::Settings))) => {
-                self.view_mode = ViewMode::Settings;
             }
             _ => {}
         }
@@ -186,7 +158,7 @@ impl ViewMode {
         let child = match self {
             ViewMode::Players(plyrs) => plyrs.view(tourn),
             ViewMode::Rounds(rnds) => rnds.view(tourn),
-            ViewMode::Standings(standings) => standings.view(),
+            ViewMode::Standings(standings) => standings.view(tourn),
             ViewMode::Clock => Container::new(Text::new("Insert CLOCK text here...")),
             ViewMode::Settings => Container::new(Text::new("Insert SETTINGS text here...")),
         }
@@ -243,5 +215,14 @@ impl ViewMode {
 impl Default for ViewMode {
     fn default() -> Self {
         Self::Players(Default::default())
+    }
+}
+
+impl Default for TournamentView {
+    fn default() -> Self {
+        Self {
+            id: TOURN_ID.into(),
+            view_mode: Default::default(),
+        }
     }
 }

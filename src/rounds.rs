@@ -74,13 +74,6 @@ pub(crate) enum RoundObjectMessage {
 }
 
 impl AllRoundsView {
-    pub(crate) fn from_tourn(tourn: &Tournament) -> Self {
-        Self {
-            filter: Default::default(),
-            selected_rnd: None,
-        }
-    }
-
     pub(crate) fn update(&mut self, msg: AllRoundsMessage) {
         match msg {
             AllRoundsMessage::Filter(msg) => {
@@ -385,38 +378,6 @@ impl RoundIdentType {
             RoundIdentType::None => None,
             RoundIdentType::Number => num.map(|n| RoundIdentifier::Number(n)),
             RoundIdentType::Table => num.map(|n| RoundIdentifier::Table(n)),
-        }
-    }
-}
-
-impl Display for RoundStatusPicker {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            RoundStatusPicker::None => write!(f, "None"),
-            RoundStatusPicker::Active(status) => status.fmt(f),
-        }
-    }
-}
-
-impl Display for RoundIdentType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}",
-            match self {
-                RoundIdentType::None => "None",
-                RoundIdentType::Number => "Match Number",
-                RoundIdentType::Table => "Table Number",
-            }
-        )
-    }
-}
-
-impl Into<RoundStatusPicker> for Option<RoundStatus> {
-    fn into(self) -> RoundStatusPicker {
-        match self {
-            None => RoundStatusPicker::None,
-            Some(s) => RoundStatusPicker::Active(s),
         }
     }
 }
