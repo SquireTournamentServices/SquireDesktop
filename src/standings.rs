@@ -2,7 +2,7 @@ use std::fmt::format;
 
 use iced::{
     alignment::Horizontal,
-    widget::{Button, Column, Container, Row, Scrollable, Text},
+    widget::{Button, Column, Container, Row, Scrollable, Text, TextInput},
     Element, Length,
 };
 use num_traits::ToPrimitive;
@@ -35,6 +35,11 @@ pub(crate) struct StandingsFilter {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum AllStandingsMessage {
+    Filter(StandingsFilterMessage),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum StandingsFilterMessage {
     Name(String),
     Upper(String),
@@ -51,17 +56,30 @@ impl AllStandingsView {
         }
     }
 
+    pub(crate) fn update(&mut self, msg: AllStandingsMessage) {
+        match msg {
+            AllStandingsMessage::Filter(msg) => {
+                self.filter.update(msg);
+            }
+        }
+    }
+
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<TournamentViewMessage> {
         let children = self
             .standings
             .scores
             .iter()
-            .skip(self.filter.lower.unwrap_or_default())
             .rev()
             .enumerate()
-            .skip(self.filter.upper.unwrap_or_default())
-            .map(|(i, (id, score))| {
-                score_list_entry(i + 1, tourn.get_player(&(*id).into()).unwrap(), score)
+            .map(|(i, p)| (i + 1, p))
+            .filter(|(i, _)| *i >= self.filter.upper.unwrap_or(usize::MIN))
+            .filter(|(i, _)| *i <= self.filter.lower.unwrap_or(usize::MAX))
+            .filter_map(|(i, (id, score))| {
+                let plyr = tourn.get_player(&(*id).into()).unwrap();
+                self.filter.filter(plyr).then(|| (i, (plyr, score)))
+            })
+            .map(|(i, (plyr, score))| {
+                score_list_entry(i, plyr, score)
                     .height(Length::Units(30))
                     .width(Length::Fill)
                     .into()
@@ -73,7 +91,7 @@ impl AllStandingsView {
                 .height(Length::FillPortion(1))
                 .into(),
             Scrollable::new(Column::with_children(children))
-                .height(Length::FillPortion(4))
+                .height(Length::FillPortion(9))
                 .into(),
         ]))
     }
@@ -101,7 +119,15 @@ impl StandingsFilter {
     }
 
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<TournamentViewMessage> {
-        Container::new(Text::new("Insert STANDINGS FILTER header here..."))
+        let on_name = |s| StandingsFilterMessage::Name(s).into();
+        let on_lower = |s| StandingsFilterMessage::Lower(s).into();
+        let on_upper = |s| StandingsFilterMessage::Upper(s).into();
+        let children = vec![
+            TextInput::new("Player Name", self.name.as_str(), on_name).into(),
+            TextInput::new("Lowest Place", self.lower_input.as_str(), on_lower).into(),
+            TextInput::new("Highest Place", self.upper_input.as_str(), on_upper).into(),
+        ];
+        Container::new(Column::with_children(children))
     }
 }
 

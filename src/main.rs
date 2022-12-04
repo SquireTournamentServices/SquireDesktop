@@ -13,6 +13,7 @@ use iced_native::Color;
 use once_cell::sync::OnceCell;
 use player::AllPlayersMessage;
 use rounds::AllRoundsMessage;
+use standings::AllStandingsMessage;
 use uuid::Uuid;
 
 use squire_lib::{
@@ -84,7 +85,7 @@ enum ViewModeMessage {
     Select(ViewModeName),
     Players(AllPlayersMessage),
     Rounds(AllRoundsMessage),
-    Standings,
+    Standings(AllStandingsMessage),
     Clock,
     Settings,
 }
@@ -138,6 +139,9 @@ impl Sandbox for TournamentView {
             }
             (ViewMode::Rounds(rnds), Cursor(Rounds(msg))) => {
                 rnds.update(msg);
+            }
+            (ViewMode::Standings(standings), Cursor(Standings(msg))) => {
+                standings.update(msg);
             }
             _ => {}
         }

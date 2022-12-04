@@ -2,7 +2,7 @@ use std::fmt::Display;
 
 use iced::{
     alignment::Horizontal,
-    widget::{Button, Column, Container, Row, Scrollable, Text, TextInput, Toggler, PickList},
+    widget::{Button, Column, Container, PickList, Row, Scrollable, Text, TextInput, Toggler},
     Element, Length,
 };
 
@@ -213,9 +213,7 @@ impl PlayerFilter {
         self.name_active
             .then(|| plyr.name.contains(&self.name))
             .unwrap_or(true)
-            && self.status
-                .map(|s| s == plyr.status)
-                .unwrap_or(true)
+            && self.status.map(|s| s == plyr.status).unwrap_or(true)
     }
 
     pub(crate) fn view(&self, tourn: &Tournament) -> Container<'static, TournamentViewMessage> {

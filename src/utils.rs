@@ -3,8 +3,16 @@ use std::fmt::Display;
 use squire_lib::{players::PlayerStatus, rounds::RoundStatus};
 
 use crate::{
-    player::{AllPlayersMessage, PlayerFilterMessage, PlayerObjectMessage, PlayerSummaryMessage, PlayerStatusPicker},
-    TournamentViewMessage, ViewModeMessage, rounds::{RoundFilterMessage, AllRoundsMessage, RoundSummaryMessage, RoundObjectMessage, RoundStatusPicker, RoundIdentType},
+    player::{
+        AllPlayersMessage, PlayerFilterMessage, PlayerObjectMessage, PlayerStatusPicker,
+        PlayerSummaryMessage,
+    },
+    rounds::{
+        AllRoundsMessage, RoundFilterMessage, RoundIdentType, RoundObjectMessage,
+        RoundStatusPicker, RoundSummaryMessage,
+    },
+    standings::{AllStandingsMessage, StandingsFilterMessage},
+    TournamentViewMessage, ViewModeMessage,
 };
 
 impl Into<TournamentViewMessage> for PlayerFilterMessage {
@@ -31,17 +39,13 @@ impl Into<TournamentViewMessage> for PlayerObjectMessage {
 
 impl Into<TournamentViewMessage> for RoundFilterMessage {
     fn into(self) -> TournamentViewMessage {
-        TournamentViewMessage::Cursor(ViewModeMessage::Rounds(AllRoundsMessage::Filter(
-            self,
-        )))
+        TournamentViewMessage::Cursor(ViewModeMessage::Rounds(AllRoundsMessage::Filter(self)))
     }
 }
 
 impl Into<TournamentViewMessage> for RoundSummaryMessage {
     fn into(self) -> TournamentViewMessage {
-        TournamentViewMessage::Cursor(ViewModeMessage::Rounds(AllRoundsMessage::RoundCursor(
-            self,
-        )))
+        TournamentViewMessage::Cursor(ViewModeMessage::Rounds(AllRoundsMessage::RoundCursor(self)))
     }
 }
 
@@ -49,6 +53,14 @@ impl Into<TournamentViewMessage> for RoundObjectMessage {
     fn into(self) -> TournamentViewMessage {
         TournamentViewMessage::Cursor(ViewModeMessage::Rounds(AllRoundsMessage::RoundCursor(
             RoundSummaryMessage::Object(self),
+        )))
+    }
+}
+
+impl Into<TournamentViewMessage> for StandingsFilterMessage {
+    fn into(self) -> TournamentViewMessage {
+        TournamentViewMessage::Cursor(ViewModeMessage::Standings(AllStandingsMessage::Filter(
+            self,
         )))
     }
 }
