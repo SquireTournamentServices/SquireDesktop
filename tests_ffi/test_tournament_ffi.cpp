@@ -5,6 +5,7 @@
 #include <squire_core/squire_core.h>
 #include <unistd.h>
 #include <string.h>
+#include <string>
 
 #define TEST_FILE "test_tournament.tourn"
 #define TEST_NAME "Tournament 1234567890"
@@ -345,7 +346,9 @@ static int test_pair_round()
     ASSERT(t->start());
 
     std::vector<Round> rounds = t->pairRounds();
-    lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n", rounds.size(), t->players().size() / t->game_size());
+    lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n",
+            rounds.size(),
+            t->players().size() / t->game_size());
     ASSERT(rounds.size() == 1);
 
     squire_core::sc_RoundId rid = rounds[0].id();
@@ -361,6 +364,55 @@ static int test_pair_round()
     return 1;
 }
 
+int test_round_slips()
+{
+    Tournament *t = new_tournament(TEST_FILE ".3",
+                                   TEST_NAME,
+                                   TEST_FORMAT,
+                                   squire_core::sc_TournamentPreset::Swiss,
+                                   TEST_BOOL,
+                                   4,
+                                   TEST_NUM_MIN_DECKS,
+                                   TEST_NUM_MAX_DECKS,
+                                   true,
+                                   TEST_BOOL,
+                                   TEST_BOOL);
+    ASSERT(t != nullptr);
+    ASSERT(t->reg_open());
+
+    for (size_t i = 0; i < 4 * 20; i++) {
+        bool s = false;
+        ASSERT(!is_null_id(t->addPlayer("Player Number #" + std::to_string(i + 1), &s).id()._0));
+        ASSERT(s);
+    }
+
+    ASSERT(t->start());
+
+    std::vector<Round> rounds = t->pairRounds();
+    lprintf(LOG_INFO, "Paired %d rounds, was expected %d\n",
+            rounds.size(),
+            t->players().size() / t->game_size());
+
+    squire_core::sc_RoundId rid = rounds[0].id();
+    ASSERT(!is_null_id(rid._0));
+
+    ASSERT(!is_null_id(t->rounds()[0].id()._0));
+    ASSERT(memcmp(rounds[0].id()._0, rid._0, sizeof(rid._0)) == 0);
+    std::string html = t->roundSlipsHtml("");
+    ASSERT(html.size() != 0);
+
+    FILE *f = fopen("test_round_slip.html", "w");
+    ASSERT(f != NULL);
+    fprintf(f, "%s", html.c_str());
+    fclose(f);
+
+
+    // Close the tournament
+    ASSERT(t->close());
+    delete t;
+    return 1;
+}
+
 SUB_TEST(test_tournament_ffi,
 {&test_create_base, "Test Create Tournament Base Case"},
 {&test_tournament_getters, "Test Tournament Getters"},
@@ -369,6 +421,7 @@ SUB_TEST(test_tournament_ffi,
 {&test_add_player, "Test add, drop player"},
 {&test_update_settings, "Test update settings"},
 {&test_status_change, "Test status changes"},
-{&test_pair_round, "Test pair rounds"}
+{&test_pair_round, "Test pair rounds"},
+{&test_round_slips, "Test round slip generation"}
         )
 

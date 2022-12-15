@@ -61,6 +61,7 @@ public:
     bool killRound(Round round);
     bool timeExtendRound(Round round, size_t ext);
     std::vector<PlayerScore> standings();
+    std::string roundSlipsHtml(std::string css);
 
     // Respects Translations, this is a GUI method
     QString statusToActionName(squire_core::sc_TournamentStatus status);

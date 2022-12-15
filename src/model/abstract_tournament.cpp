@@ -429,6 +429,50 @@ std::vector<Round> Tournament::pairRounds()
     return ret;
 }
 
+std::string Tournament::roundSlipsHtml(std::string css)
+{
+    std::vector<Round> rounds = this->rounds();
+    std::string ret = "<!DOCTPYE HTML>";
+
+    ret += "<html lang=\"en\">";
+    ret += "<head><style>" + css + "</style></head>";
+    ret += "<body>";
+
+    for (Round r : rounds) {
+        ret += "<div class='card' style='border-style: solid;'>";
+        ret += "<div class='title' style='display: flex; align-items: center; width: 100%; flex-direction: column;'>";
+        ret += this->name();
+        ret += "</div>";
+        ret += "<table style='width: 100%;'>";
+        ret += "<tr><tr><td>Round # ";
+        ret += std::to_string(r.match_number());
+        ret += "</td>";
+
+        int table_number = r.table_number();
+        if (table_number != -1) {
+            ret += "<td>Table #";
+            ret += std::to_string(table_number);
+            ret += "</td><tr>";
+        }
+
+        std::vector<Player> players = r.players();
+        for (size_t i = 0; i < players.size(); i++) {
+            if (i % 2 == 0) {
+                if (i != 0) {
+                    ret += "</tr>";
+                }
+                ret += "<tr>";
+            }
+            ret += "<td>" + players[i].all_names() + "</td>";
+        }
+        ret += "</tr></table></div>";
+    }
+
+    ret += "</body>";
+
+    return ret;
+}
+
 bool Tournament::start()
 {
     squire_core::sc_AdminId laid = this->aid();

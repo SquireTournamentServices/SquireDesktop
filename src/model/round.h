@@ -18,6 +18,7 @@ public:
     long time_left();
     long duration();
     int match_number();
+    int table_number();
     bool matches(std::string query);
     int resultFor(Player p);
     int draws();

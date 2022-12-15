@@ -60,6 +60,11 @@ int Round::match_number()
     return squire_core::rid_match_number(this->rid, this->tid);
 }
 
+int Round::table_number()
+{
+    return squire_core::rid_table_number(this->rid, this->tid);
+}
+
 bool Round::matches(std::string query)
 {
     bool match = false;
