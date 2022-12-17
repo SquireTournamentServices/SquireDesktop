@@ -89,7 +89,7 @@ static int test_round_getters()
     ASSERT(rounds[0].time_left() > 0);
     ASSERT(rounds[0].duration() > 0);
 
-    ASSERT(rounds[0].match_number() == 0);
+    ASSERT(rounds[0].match_number() == 1);
     ASSERT(memcmp(rounds[0].tourn_id()._0, t->id()._0, sizeof(t->id()._0)) == 0);
     ASSERT(rounds[0].status() == squire_core::sc_RoundStatus::Open);
     ASSERT(rounds[0].players_as_str() != "");
