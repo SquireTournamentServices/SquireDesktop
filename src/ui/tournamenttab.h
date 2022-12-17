@@ -61,6 +61,7 @@ public slots:
     void roundSelected(const QItemSelection &selected, const QItemSelection deselected);
     void confirmAllMatches();
     void showStandings();
+    void openRoundSlips();
 protected:
     void changeEvent(QEvent *e);
 

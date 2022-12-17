@@ -116,13 +116,13 @@ void MainWindow::addDefaultmenu()
     QAction *wikiAction = helpMenu->addAction(tr("Open &Wiki"));
     connect(wikiAction, &QAction::triggered, this, &MainWindow::viewWiki);
 
-    QAction *sourceCodeAction = helpMenu->addAction(tr("View Source Code"));
+    QAction *sourceCodeAction = helpMenu->addAction(tr("&View Source Code"));
     connect(sourceCodeAction, &QAction::triggered, this, &MainWindow::viewGithub);
 
-    QAction *issuesAction = helpMenu->addAction(tr("Report An Issue"));
+    QAction *issuesAction = helpMenu->addAction(tr("&Report An Issue"));
     connect(issuesAction, &QAction::triggered, this, &MainWindow::reportIssue);
 
-    QAction *discordAction = helpMenu->addAction(tr("Join Our Discord"));
+    QAction *discordAction = helpMenu->addAction(tr("Join Our &Discord"));
     connect(discordAction, &QAction::triggered, this, &MainWindow::joinDiscord);
 }
 

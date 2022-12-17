@@ -5,8 +5,12 @@
 #include "./tournament/tournamentunsavederrordialogue.h"
 #include "./tournament/standingsboardwidget.h"
 #include "../config.h"
+#include <QUrl>
 #include <QDialogButtonBox>
 #include <QMessageBox>
+#include <QDesktopServices>
+
+#define ROUND_SLIP_SCRATCH_FILE "squire_desktop.round_slip.temp.html"
 
 TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
     AbstractTabWidget(parent),
@@ -73,27 +77,56 @@ TournamentTab::TournamentTab(Tournament *tourn, QWidget *parent) :
 
     // Add menu
     QMenu *tournamentsMenu = this->addMenu(tr("Tournament"));
-    QAction *addPlayerAction = tournamentsMenu->addAction(tr("Add Player"));
+    QAction *addPlayerAction = tournamentsMenu->addAction(tr("&Add Player"));
     connect(addPlayerAction, &QAction::triggered, this, &TournamentTab::addPlayerClicked);
 
-    QAction *pairRoundsAction = tournamentsMenu->addAction(tr("Pair Round"));
+    QAction *pairRoundsAction = tournamentsMenu->addAction(tr("&Pair Round"));
     connect(pairRoundsAction, &QAction::triggered, this, &TournamentTab::pairRoundsClicked);
 
-    QAction *changeSettingsAction = tournamentsMenu->addAction(tr("Change Settings"));
+    QAction *changeSettingsAction = tournamentsMenu->addAction(tr("&Change Settings"));
     connect(changeSettingsAction, &QAction::triggered, this, &TournamentTab::changeSettingsClicked);
 
     QAction *closeTournamentAction = tournamentsMenu->addAction(tr("Close Tournament"));
     connect(closeTournamentAction, &QAction::triggered, this, &TournamentTab::closeTab);
 
-    QAction *confirmAllMatchesAction = tournamentsMenu->addAction(tr("Confirm All Matches"));
+    QAction *confirmAllMatchesAction = tournamentsMenu->addAction(tr("Confirm &All Matches"));
     connect(confirmAllMatchesAction, &QAction::triggered, this, &TournamentTab::confirmAllMatches);
 
-    QAction *showStandingsAction = tournamentsMenu->addAction(tr("Show Standings"));
+    QAction *showStandingsAction = tournamentsMenu->addAction(tr("&Show Standings"));
     connect(showStandingsAction, &QAction::triggered, this, &TournamentTab::showStandings);
+
+    QAction *roundSlipAction = tournamentsMenu->addAction(tr("&Generate Match Slips"));
+    connect(roundSlipAction, &QAction::triggered, this, &TournamentTab::openRoundSlips);
 
     // Start timer
     connect(&this->timeLeftUpdater, &QTimer::timeout, this, &TournamentTab::updateRoundTimer);
     this->updateRoundTimer();
+}
+
+void TournamentTab:: openRoundSlips()
+{
+    std::string slip_html;
+    int s = this->tourn->roundSlipsHtml("", slip_html);
+    if (!s) {
+        QMessageBox dlg;
+        dlg.setWindowTitle(tr("Cannot generate match slips."));
+        dlg.setText(tr("Cannot generate match slips."));
+        return;
+    }
+
+    FILE *f = fopen(ROUND_SLIP_SCRATCH_FILE, "w");
+    if (f == NULL) {
+        QMessageBox dlg;
+        dlg.setWindowTitle(tr("Cannot generate match slips."));
+        dlg.setText(tr("Cannot generate match slips."));
+        return;
+    }
+
+    fprintf(f, "%s", slip_html.c_str());
+    fclose(f);
+
+    QUrl url = QUrl::fromLocalFile(ROUND_SLIP_SCRATCH_FILE);
+    QDesktopServices::openUrl(url);
 }
 
 TournamentTab::~TournamentTab()
