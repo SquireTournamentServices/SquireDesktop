@@ -73,17 +73,17 @@ QVariant PlayerScoreModel::data(const QModelIndex &index, int role) const
     case 0:
         return QVariant(QString::fromStdString(p.player().all_names()));
     case 1:
-        return QVariant(p.score().match_points);
+        return QVariant(ratio32ToFloat(p.score().match_points));
     case 2:
-        return QVariant(p.score().game_points);
+        return QVariant(ratio32ToFloat(p.score().game_points));
     case 3:
-        return formatPercentage(p.score().mwp);
+        return formatPercentage(ratio32ToFloat(p.score().mwp));
     case 4:
-        return formatPercentage(p.score().gwp);
+        return formatPercentage(ratio32ToFloat(p.score().gwp));
     case 5:
-        return formatPercentage(p.score().opp_mwp);
+        return formatPercentage(ratio32ToFloat(p.score().opp_mwp));
     case 6:
-        return formatPercentage(p.score().opp_gwp);
+        return formatPercentage(ratio32ToFloat(p.score().opp_gwp));
     }
     return QVariant();
 }

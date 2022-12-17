@@ -93,14 +93,14 @@ void RoundViewWidget::displayRound()
         case squire_core::sc_RoundStatus::Open:
             statusStr = tr("Match is in progress");
             break;
-        case squire_core::sc_RoundStatus::Uncertified:
-            statusStr = tr("Match is waiting results certification");
-            break;
         case squire_core::sc_RoundStatus::Certified:
             statusStr = tr("Match has been finished and, results are confirmed");
             break;
         case squire_core::sc_RoundStatus::Dead:
             statusStr = tr("Match has been deleted");
+            break;
+        default:
+            statusStr = tr("Match is waiting results certification");
             break;
         }
     } else {

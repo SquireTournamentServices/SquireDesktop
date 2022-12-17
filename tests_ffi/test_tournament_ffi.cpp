@@ -398,7 +398,8 @@ int test_round_slips()
 
     ASSERT(!is_null_id(t->rounds()[0].id()._0));
     ASSERT(memcmp(rounds[0].id()._0, rid._0, sizeof(rid._0)) == 0);
-    std::string html = t->roundSlipsHtml("");
+    std::string html;
+    ASSERT(t->roundSlipsHtml("", html));
     ASSERT(html.size() != 0);
 
     FILE *f = fopen("test_round_slip.html", "w");

@@ -50,7 +50,7 @@ Tournament *new_tournament(std::string file,
                                        require_deck_reg);
 
     squire_core::sc_AdminId laid = local_aid();
-    if (!squire_core::tid_add_admin_local(tid, "System User", laid, *(squire_core::sc_UserAccountId *) &laid)) {
+    if (!squire_core::tid_add_admin_local(tid, "System User", laid, *(squire_core::sc_SquireAccountId *) &laid)) {
         lprintf(LOG_ERROR, "Cannot add system user\n");
     }
 
@@ -429,48 +429,15 @@ std::vector<Round> Tournament::pairRounds()
     return ret;
 }
 
-std::string Tournament::roundSlipsHtml(std::string css)
+int Tournament::roundSlipsHtml(std::string css, std::string &result)
 {
-    std::vector<Round> rounds = this->rounds();
-    std::string ret = "<!DOCTPYE HTML>";
+    char *str = (char *) squire_core::tid_round_slips_html(this->tid, css.c_str());
+    if (str == NULL) return 0;
 
-    ret += "<html lang=\"en\">";
-    ret += "<head><style>" + css + "</style></head>";
-    ret += "<body>";
-
-    for (Round r : rounds) {
-        ret += "<div class='card' style='border-style: solid;'>";
-        ret += "<div class='title' style='display: flex; align-items: center; width: 100%; flex-direction: column;'>";
-        ret += this->name();
-        ret += "</div>";
-        ret += "<table style='width: 100%;'>";
-        ret += "<tr><tr><td>Round # ";
-        ret += std::to_string(r.match_number());
-        ret += "</td>";
-
-        int table_number = r.table_number();
-        if (table_number != -1) {
-            ret += "<td>Table #";
-            ret += std::to_string(table_number);
-            ret += "</td><tr>";
-        }
-
-        std::vector<Player> players = r.players();
-        for (size_t i = 0; i < players.size(); i++) {
-            if (i % 2 == 0) {
-                if (i != 0) {
-                    ret += "</tr>";
-                }
-                ret += "<tr>";
-            }
-            ret += "<td>" + players[i].all_names() + "</td>";
-        }
-        ret += "</tr></table></div>";
-    }
-
-    ret += "</body>";
-
-    return ret;
+    std::string ret = std::string(str);
+    squire_core::sq_free(str, ret.size() + 1);
+    result = ret;
+    return 1;
 }
 
 bool Tournament::start()

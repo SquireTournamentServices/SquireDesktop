@@ -267,42 +267,42 @@ static int match_points(const PlayerScore &match_points, const PlayerScore &b)
 {
     PlayerScore pa(match_points);
     PlayerScore pb(b);
-    return __sort(pa.score().match_points - pb.score().match_points);
+    return __sort(ratio32ToFloat(pa.score().match_points) - ratio32ToFloat(pb.score().match_points));
 }
 
 static int game_points(const PlayerScore &game_points, const PlayerScore &b)
 {
     PlayerScore pa(game_points);
     PlayerScore pb(b);
-    return __sort(pa.score().game_points - pb.score().game_points);
+    return __sort(ratio32ToFloat(pa.score().game_points) - ratio32ToFloat(pb.score().game_points));
 }
 
 static int mwp(const PlayerScore &mwp, const PlayerScore &b)
 {
     PlayerScore pa(mwp);
     PlayerScore pb(b);
-    return __sort(pa.score().mwp - pb.score().mwp);
+    return __sort(ratio32ToFloat(pa.score().mwp) - ratio32ToFloat(pb.score().mwp));
 }
 
 static int gwp(const PlayerScore &gwp, const PlayerScore &b)
 {
     PlayerScore pa(gwp);
     PlayerScore pb(b);
-    return __sort(pa.score().gwp - pb.score().gwp);
+    return __sort(ratio32ToFloat(pa.score().gwp) - ratio32ToFloat(pb.score().gwp));
 }
 
 static int opp_mwp(const PlayerScore &opp_mwp, const PlayerScore &b)
 {
     PlayerScore pa(opp_mwp);
     PlayerScore pb(b);
-    return __sort(pa.score().opp_mwp - pb.score().opp_mwp);
+    return __sort(ratio32ToFloat(pa.score().opp_mwp) - ratio32ToFloat(pb.score().opp_mwp));
 }
 
 static int opp_gwp(const PlayerScore &opp_gwp, const PlayerScore &b)
 {
     PlayerScore pa(opp_gwp);
     PlayerScore pb(b);
-    return __sort(pa.score().opp_gwp - pb.score().opp_gwp);
+    return __sort(ratio32ToFloat(pa.score().opp_gwp) - ratio32ToFloat(pb.score().opp_gwp));
 }
 
 std::vector<int (*)(const PlayerScore &, const PlayerScore &)> PlayerScore::getDefaultAlgs()

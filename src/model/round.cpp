@@ -192,7 +192,7 @@ std::vector<int (*)(const Round &, const Round &)> Round::getDefaultAlgs()
 bool roundIsActive(Round r)
 {
     squire_core::sc_RoundStatus s = r.status();
-    return s == squire_core::sc_RoundStatus::Open || s == squire_core::sc_RoundStatus::Uncertified;
+    return s == squire_core::sc_RoundStatus::Open;
 }
 
 RoundResults::RoundResults()
