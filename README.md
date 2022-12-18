@@ -75,12 +75,12 @@ sudo apt-get update
 sudo apt-get install -y --no-install-recommends build-essential \
 cmake gcovr qt6-base-dev qt6-base-dev-tools qt6-declarative-dev \
 qt6-tools-dev qt6-tools-dev-tools linguist-qt6 \
-valgrind python3 astyle qt6-l10n-tool \
-libgl1-mesa-dev
+valgrind python3 astyle qt6-l10n-tool libjansson-dev libcurl4-openssl-dev \
+libgl1-mesa-dev 
 ```
 ```sh
 # Arch
-sudo pacman -S gcc build-essential g++ cmake 
+sudo pacman -S gcc build-essential g++ cmake jansson
 ```
 
 Then run the compiler
@@ -117,9 +117,10 @@ describing the bug/crash and what you did to cause it, if possible please attach
 advanced users) ||a stacktrace or core dump (if you do this please don't post it in full as
 they contain sensitive information on the heap (squire id user token)).||
 
-By default the application logs to `squire_desktop.log` found next to the configuration file,
-this logging is done by the desktop shortcut not the app. Developers will see all logs in 
-`stderr` and none in this file.
+By default the application logs to `squiredesktop.log` found next to the configuration file.
+Developers will see all logs in `stderr` and in this file. By default crashes are not reported
+if you opt into this in settings then a crash report is sent every time it crashes to the 
+Discord of Monarch Development.
 
 ### Privacy
 This app contains no trackers, however when using the Squire online services it follows the
