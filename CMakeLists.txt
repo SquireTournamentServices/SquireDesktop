@@ -423,7 +423,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   # /usr/bin/gcc) set(CMAKE_CXX_COMPILER /usr/bin/g++)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG} -DTEST")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -DTEST")
-  set(GCOVR_EXCLUDE "build/*" "tests/*" "src/main.cpp" "src/ui/*")
+  set(GCOVR_EXCLUDE "build/*" "tests/*" "tests_ffi/*" "src/main.cpp" "src/ui/*"
+                    "coverage_main.cpp")
 
   append_coverage_compiler_flags()
   setup_target_for_coverage_gcovr_xml(
