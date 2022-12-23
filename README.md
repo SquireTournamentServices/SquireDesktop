@@ -90,6 +90,7 @@ mkdir -p build && cd build # dont build in src please
 cmake .. -DCMAKE_BUILD_TYPE=RELEASE # or DEBUG if you want debug symbols + debug logging
 cmake --build . -j
 # ctest -V # use to run the tests if you built them
+# make coverage # use this to create a code coverage report
 ```
 
 ### Copyright, Iconography and, Image Assets

@@ -246,7 +246,6 @@ set(TESTING_SOURCES
     ${MAIN_FILES}
     ./testing_h/testing.cpp
     ./testing_h/testing.h
-    ./tests/main.cpp
     ./tests/test_filter_list.cpp
     ./tests/test_filter_list.h
     ./tests/test_coins.cpp
@@ -255,6 +254,8 @@ set(TESTING_SOURCES
     ./tests/test_config.h
     ./tests/test_utils.cpp
     ./tests/test_utils.h
+    ./tests/unit_tests.h
+    ./tests/unit_tests.cpp
     ./tests/test_timers.cpp
     ./tests/test_timers.h)
 
@@ -268,7 +269,9 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/test_tournament_ffi.h
     ./tests_ffi/test_tournament_ffi.cpp
     ./tests_ffi/test_round_ffi.h
-    ./tests_ffi/test_round_ffi.cpp)
+    ./tests_ffi/test_round_ffi.cpp
+    ./tests_ffi/test_ffi.cpp
+    ./tests_ffi/test_ffi.h)
 
 set(LIBS)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
@@ -424,32 +427,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
 
   append_coverage_compiler_flags()
   setup_target_for_coverage_gcovr_xml(
-    NAME
-    coverage
-    EXECUTABLE
-    SquireDesktopTests
-    EXCLUDE
-    ${GCOVR_EXCLUDE}
-    "src/model/*")
-
-  setup_target_for_coverage_gcovr_xml(
-    NAME
-    coverage-ffi
-    EXECUTABLE
-    SquireDesktopFFITests
-    EXCLUDE
-    ${GCOVR_EXCLUDE}
-    "src/*.cpp"
-    "src/*.h"
-    "src/*.hpp"
-    INCLUDE
-    "src/model/*")
+    NAME coverage EXECUTABLE SquireDesktopCoverage EXCLUDE ${GCOVR_EXCLUDE})
 
   # tests, set the flags manually
   set(CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_DEBUG})
   set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_DEBUG})
 
-  add_executable(SquireDesktopTests ${TESTING_SOURCES})
+  add_executable(SquireDesktopTests ./tests/main.cpp ${TESTING_SOURCES})
   target_link_libraries(
     SquireDesktopTests
     PUBLIC ${LIBS}
@@ -461,6 +445,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
                                        ${FFI_TESTING_SOURCES})
   target_link_libraries(
     SquireDesktopFFITests
+    PUBLIC ${LIBS}
+    PRIVATE squire_core nlohmann_json::nlohmann_json
+            Qt${QT_VERSION_MAJOR}::Widgets)
+
+  add_executable(SquireDesktopCoverage
+                 ./coverage_main.cpp ${FFI_TESTING_SOURCES} ${TESTING_SOURCES})
+  target_link_libraries(
+    SquireDesktopCoverage
     PUBLIC ${LIBS}
     PRIVATE squire_core nlohmann_json::nlohmann_json
             Qt${QT_VERSION_MAJOR}::Widgets)
