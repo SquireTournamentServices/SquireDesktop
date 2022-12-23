@@ -45,12 +45,6 @@ add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
 add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
 
 if(WIN32)
-  message(STATUS "Not using backtrace catcher on windoze")
-else()
-  add_definitions("-DUSE_BACKTRACE")
-endif()
-
-if(WIN32)
   add_definitions("-DWINDOWS")
   # Use vcpkg toolchain on Windows
   set(CMAKE_TOOLCHAIN_FILE
@@ -273,7 +267,7 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/test_ffi.cpp
     ./tests_ffi/test_ffi.h)
 
-set(LIBS)
+set(LIBS nlohmann_json::nlohmann_json backtrace)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
@@ -330,6 +324,7 @@ set(JSON_BuildTests
 add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_core)
+add_subdirectory(libbacktrace)
 include_directories(${CMAKE_BINARY_DIR}/squire_core)
 
 # Get the branch name
@@ -391,9 +386,8 @@ else()
   qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(
-  SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
-                        nlohmann_json::nlohmann_json squire_core ${LIBS})
+target_link_libraries(SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+                                            squire_core ${LIBS})
 add_dependencies(SquireDesktop generate_assets)
 
 # Link discord
@@ -435,10 +429,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_DEBUG})
 
   add_executable(SquireDesktopTests ./tests/main.cpp ${TESTING_SOURCES})
-  target_link_libraries(
-    SquireDesktopTests
-    PUBLIC ${LIBS}
-    PRIVATE nlohmann_json::nlohmann_json)
+  target_link_libraries(SquireDesktopTests PUBLIC ${LIBS})
   target_include_directories(SquireDesktopTests
                              PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -447,16 +438,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   target_link_libraries(
     SquireDesktopFFITests
     PUBLIC ${LIBS}
-    PRIVATE squire_core nlohmann_json::nlohmann_json
-            Qt${QT_VERSION_MAJOR}::Widgets)
+    PRIVATE squire_core Qt${QT_VERSION_MAJOR}::Widgets)
 
   add_executable(SquireDesktopCoverage
                  ./coverage_main.cpp ${FFI_TESTING_SOURCES} ${TESTING_SOURCES})
   target_link_libraries(
     SquireDesktopCoverage
     PUBLIC ${LIBS}
-    PRIVATE squire_core nlohmann_json::nlohmann_json
-            Qt${QT_VERSION_MAJOR}::Widgets)
+    PRIVATE squire_core Qt${QT_VERSION_MAJOR}::Widgets)
 
   file(COPY config_test_tournament.tourn DESTINATION ${CMAKE_BINARY_DIR})
   file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})

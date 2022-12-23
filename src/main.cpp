@@ -1,7 +1,5 @@
-#ifdef USE_BACKTRACE
 #include <unistd.h>
 #include <execinfo.h>
-#endif
 #include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -11,11 +9,18 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QtGlobal>
+#include <squire_core/squire_core.h>
 #include "./ui/mainwindow.h"
 #include "./config.h"
 #include "../testing_h/logger.h"
 #include "./init.h"
-#include <squire_core/squire_core.h>
+
+/// Backtrace code is used from the example at libbacktrace
+/// https://tjysdsg.github.io/libbacktrace
+#include <cxxabi.h>
+#include <cstdio>
+#include <cstdlib>
+#include <backtrace.h>
 
 static void print_error_system_information()
 {
@@ -38,10 +43,52 @@ static void print_error_system_information()
     lprintf(LOG_ERROR, "Qt Version: %x (%d.%d.%d)\n", QT_VERSION, qt_api, qt_major, qt_minor);
 }
 
-#ifdef USE_BACKTRACE
-#ifndef STDERR_FILENO
-#define STDERR_FILENO 2
-#endif
+void *__bt_state = nullptr;
+
+static int bt_callback(void *, uintptr_t, const char *filename, int lineno, const char *function)
+{
+    /// demangle function name
+    const char *func_name = function;
+    int status;
+    char *demangled = abi::__cxa_demangle(function, nullptr, nullptr, &status);
+    if (status == 0) {
+        func_name = demangled;
+    }
+
+    /// print
+    lprintf(LOG_INFO, ANSI_BLUE "%s" ANSI_RESET
+            ":" ANSI_BLUE "%d" ANSI_RESET " in function "
+            ANSI_YELLOW "%s" ANSI_RESET "\n",
+            filename,
+            lineno,
+            func_name);
+    return 0;
+}
+
+static void bt_error_callback(void *, const char *msg, int errnum)
+{
+    lprintf(LOG_ERROR, "%d occurred when getting the stacktrace: %s\n", errnum, msg);
+}
+
+static void bt_error_callback_create(void *, const char *msg, int errnum)
+{
+    lprintf(LOG_ERROR, "%d occurred when initializing the stacktrace: %s\n", errnum, msg);
+}
+
+static void init_back_trace(const char *filename)
+{
+    __bt_state = backtrace_create_state(filename, 0, bt_error_callback_create, nullptr);
+}
+
+static void print_back_trace()
+{
+    if (!__bt_state) { /// make sure init_back_trace() is called
+        lprintf(LOG_ERROR, "Make sure init_back_trace() is called before calling print_stack_trace()\n");
+        return;
+    }
+    backtrace_full((backtrace_state *) __bt_state, 0, bt_callback, bt_error_callback, nullptr);
+}
+
 static void handler(int sig)
 {
     void *array[100];
@@ -53,51 +100,22 @@ static void handler(int sig)
     // print out all the frames to stderr
     lprintf(LOG_ERROR, "Crash detected, please share the following information in a crash report:\n");
     lprintf(LOG_ERROR, "Signal %d:\n", sig);
+    lprintf(LOG_ERROR, "Printing stack trace...\n");
 
-    int fid[2];
-    int r = pipe(fid);
-
-    if (r != 0) {
-        // Write to stderr on error
-        lprintf(LOG_ERROR, "Printing stack trace to stderr, pipe err\n");
-        backtrace_symbols_fd(array, size, STDERR_FILENO);
-    } else {
-        lprintf(LOG_ERROR, "Printing stack trace...\n");
-        backtrace_symbols_fd(array, size, fid[1]);
-        close(fid[1]);
-
-        FILE *read = fdopen(fid[0], "r");
-        if (read == NULL) {
-            lprintf(LOG_ERROR, "Pipe error\n");
-            exit(1);
-        }
-
-        char buffer[4096];
-
-        // Read line by line
-        for (int i = 0; fgets(buffer, sizeof(buffer), read) != NULL; i++) {
-            lprintf(LOG_ERROR, ANSI_BLUE "#%d" ANSI_RESET ": %s", i, buffer);
-        }
-        fclose(read);
-    }
-
+    print_back_trace();
     print_error_system_information();
     exit(1);
 }
-#endif
 
 int main(int argc, char *argv[])
 {
-    lprintf(LOG_INFO, "Starting...\n");
-
-#ifdef USE_BACKTRACE
-    lprintf(LOG_INFO, "Crash detection is enabled in this build!\n");
+    lprintf(LOG_INFO, "Starting %s ...\n", argv[0]);
 
     // Error catchinator 9000
+    init_back_trace(argv[0]);
     signal(SIGSEGV, &handler);
     signal(SIGPIPE, &handler);
     signal(SIGABRT, &handler);
-#endif
 
     squire_core::init_squire_ffi(); // Inits the global tourn struct
     srand(time(NULL));

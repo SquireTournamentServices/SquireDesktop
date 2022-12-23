@@ -13,3 +13,6 @@
 [submodule "src/mtg_search_engine"]
 	path = src/mtg_search_engine
 	url = https://github.com/djpiper28/mtg-search-engine
+[submodule "libbacktrace"]
+	path = libbacktrace
+	url = https://github.com/ErwanLegrand/libbacktrace
