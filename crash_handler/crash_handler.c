@@ -10,6 +10,7 @@
 #include <string.h>
 #include "./config_reader.h"
 #include "./webhooks.h"
+#include "./escape_seq.h"
 #include "../testing_h/testing.h"
 
 #define NO_START_VAL 180
@@ -71,7 +72,6 @@ int main(int argc, char **argv)
             return 1;
         }
 
-        int special_char_status = 0;
         for (int c; c = fgetc(pipe_r), c != EOF;) {
             fputc(c, stdout);
             fflush(stdout);
@@ -80,24 +80,17 @@ int main(int argc, char **argv)
             fflush(log_file);
 
             // Change status
-            if (c == ANSI_RED[0]) {
-                special_char_status = 1;
-            } else if (special_char_status > 0) {
-                special_char_status++;
-                special_char_status %= sizeof(ANSI_RED) - 1;
-            }
+            if (c == ANSI_RED[0] || c == ANSI_RESET[0]) {
+                read_ansi_sequence(pipe_r, log_file, c);
+            } else if (c != 0 && c != EOF) {
+                in_memory_log[b_ptr] = c;
+                b_ptr++;
+                b_ptr %= sizeof(in_memory_log);
 
-            if (c != 0) {
-                if (special_char_status == 0) {
-                    in_memory_log[b_ptr] = c;
-                    b_ptr++;
-                    b_ptr %= sizeof(in_memory_log);
-
-                    // Truncate the log.
-                    if (b_ptr == f_ptr) {
-                        f_ptr++;
-                        f_ptr %= sizeof(in_memory_log);
-                    }
+                // Truncate the log.
+                if (b_ptr == f_ptr) {
+                    f_ptr++;
+                    f_ptr %= sizeof(in_memory_log);
                 }
             }
         }

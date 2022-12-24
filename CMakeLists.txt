@@ -357,6 +357,8 @@ add_executable(
   ./crash_handler/config_reader.h
   ./crash_handler/webhooks.c
   ./crash_handler/webhooks.h
+  ./crash_handler/escape_seq.h
+  ./crash_handler/escape_seq.c
   ./testing_h/ansi_colour.h
   ./testing_h/testing.c
   ./testing_h/testing.h
