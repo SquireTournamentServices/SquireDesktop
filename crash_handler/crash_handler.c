@@ -16,8 +16,8 @@
 #define NO_START_VAL 180
 #define DEFAULT_EXEC "SquireDesktop"
 #define LOG_FILE "squiredesktop.log"
-#define MSG_START "```py"
-#define MSG_END "```"
+#define MSG_START "```py\n"
+#define MSG_END "\n```"
 #define DISCORD_WEBHOOK_URL "https://discord.com/api/webhooks/1039929537477222521/EZoDsiu0_-zlSwFmdT6S9M5GMznfJkQR86kjRObIy5ccnCQhNCAZd3pAvUS31AtOBMDW"
 #define DISCORD_MESSAGE_LIMIT (2000 - sizeof(MSG_START) - 1 - sizeof(MSG_END) - 1)
 #define FAILED_START_MSG "Failed to start"
