@@ -73,10 +73,10 @@ You should be able to make this in XCode.
 # Ubuntu
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends build-essential \
-cmake gcovr qt6-base-dev qt6-base-dev-tools qt6-declarative-dev \
-qt6-tools-dev qt6-tools-dev-tools linguist-qt6 \
-valgrind python3 astyle qt6-l10n-tool libjansson-dev libcurl4-openssl-dev \
-libgl1-mesa-dev 
+  cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
+  valgrind python3 astyle qt6-l10n-tools \
+  libgl1-mesa-dev libjemalloc-dev libjansson-dev libcurl4-openssl-dev \
+  libdwarf-dev libelf-dev
 ```
 ```sh
 # Arch
