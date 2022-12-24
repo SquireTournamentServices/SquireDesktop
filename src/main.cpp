@@ -24,14 +24,14 @@
 
 static void print_error_system_information()
 {
-    lprintf(LOG_ERROR, "Operating System: " OS "\n");
-    lprintf(LOG_ERROR, "Squire Desktop Version: " VERSION "\n");
-    lprintf(LOG_ERROR, "Squire Core Version: " SQ_VERSION "\n");
+    lprintf(LOG_INFO, "Operating System: " OS "\n");
+    lprintf(LOG_INFO, "Squire Desktop Version: " VERSION "\n");
+    lprintf(LOG_INFO, "Squire Core Version: " SQ_VERSION "\n");
 
 #ifdef UNIX
     char buffer[1024];
     if (gethostname(buffer, sizeof(buffer)) == 0) {
-        lprintf(LOG_ERROR, "Hostname: %s\n", buffer);
+        lprintf(LOG_INFO, "Hostname: %s\n", buffer);
     }
 #endif
 
@@ -40,7 +40,7 @@ static void print_error_system_information()
     int qt_major = (QT_VERSION >> 8) & 0xff;
     int qt_minor = QT_VERSION & 0xff;
 
-    lprintf(LOG_ERROR, "Qt Version: %x (%d.%d.%d)\n", QT_VERSION, qt_api, qt_major, qt_minor);
+    lprintf(LOG_INFO, "Qt Version: %x (%d.%d.%d)\n", QT_VERSION, qt_api, qt_major, qt_minor);
 }
 
 void *__bt_state = nullptr;
