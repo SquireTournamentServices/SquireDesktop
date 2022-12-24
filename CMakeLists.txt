@@ -100,7 +100,7 @@ if(MSVC)
   # Generate complete debugging information set(CMAKE_CXX_FLAGS_DEBUG "/Zi")
 else()
   # Compiler settings compiler flags
-  set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -Og -g -gdwarf-4")
+  set(COMPILER_FLAGS "-Wall -Wextra -Wpedantic -gdwarf-4 -gsplit-dwarf")
   set(CMAKE_C_FLAGS_DEBUG "${COMPILER_FLAGS} -DDEBUG")
   set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
   set(CMAKE_C_FLAGS_RELEASE "${COMPILER_FLAGS}")

@@ -48,12 +48,10 @@ void *__bt_state = nullptr;
 static int bt_callback(void *, uintptr_t, const char *filename, int lineno, const char *function)
 {
     /// demangle function name
-    const char *func_name = function;
     int status;
-    char *demangled = abi::__cxa_demangle(function, nullptr, nullptr, &status);
-    if (status == 0) {
-        func_name = demangled;
-    }
+    char func_name[1024] = "null";
+    size_t len = sizeof(func_name) - 1;
+    abi::__cxa_demangle(function, func_name, &len, &status);
 
     /// print
     lprintf(LOG_INFO, ANSI_BLUE "%s" ANSI_RESET
@@ -77,7 +75,7 @@ static void bt_error_callback_create(void *, const char *msg, int errnum)
 
 static void init_back_trace(const char *filename)
 {
-    __bt_state = backtrace_create_state(filename, 0, bt_error_callback_create, nullptr);
+    __bt_state = backtrace_create_state(filename, 1, bt_error_callback_create, nullptr);
 }
 
 static void print_back_trace()
