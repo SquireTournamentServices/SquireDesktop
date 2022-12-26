@@ -529,4 +529,5 @@ elseif(WIN32)
   endif()
 endif()
 
+# Package with cpack, this is the same code as Cockatrice
 include(CPack)
