@@ -267,10 +267,11 @@ jobs:
           modules: ${{matrix.qt_modules}}
           tools: ${{matrix.qt_tools}}
 
+      - name: Install Chocolatey
+        run: Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
       - name: Install OpenSSL
-        uses: microsoft/setup-openssl@v1
-        with:
-          version: latest
+        run: choco install openssl -y
 
       - name: Run vcpkg
         uses: lukka/run-vcpkg@v10.2
