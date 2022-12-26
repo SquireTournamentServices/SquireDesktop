@@ -275,12 +275,6 @@ jobs:
       - name: Install curl
         run: choco install curl -y
         
-      - name: Install vcpkg
-        uses: vcpkg/setup-vcpkg@v10.2
-
-      - name: Install dependencies
-        run: vcpkg install --triplet x64-windows --json vcpkg.json
-
       - name: Build Squire Desktop
         id: build
         shell: bash
