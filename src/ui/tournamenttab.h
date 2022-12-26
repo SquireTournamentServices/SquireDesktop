@@ -20,6 +20,7 @@ class TournamentTab;
 
 class TournamentTab : public AbstractTabWidget
 {
+    Q_OBJECT
 public:
     explicit TournamentTab(Tournament *tourn, QWidget *parent = nullptr);
     ~TournamentTab();

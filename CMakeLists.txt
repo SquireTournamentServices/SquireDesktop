@@ -272,24 +272,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
 # https://stackoverflow.com/questions/40743372/gcc-lto-appears-to-strip-debugging-symbols
-#option(ENABLE_LTO ON)
+# option(ENABLE_LTO ON)
 option(ENABLE_LTO OFF)
-#if(POLICY CMP0048)
-#  cmake_policy(SET CMP0048 NEW)
-#endif()
+# if(POLICY CMP0048) cmake_policy(SET CMP0048 NEW) endif()
 
-#option(ENABLE_LTO "Enable cross language linking time optimization" ON)
-#if(ENABLE_LTO)
-#  include(CheckIPOSupported)
-#  check_ipo_supported(RESULT supported OUTPUT error)
-#  if(supported)
-#    message(STATUS "IPO / LTO enabled")
-#    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-#    add_link_options(-fuse-ld=lld)
-#  else()
-#    message(STATUS "IPO / LTO not supported: <${error}>")
-#  endif()
-#  endif()
+# option(ENABLE_LTO "Enable cross language linking time optimization" ON)
+# if(ENABLE_LTO) include(CheckIPOSupported) check_ipo_supported(RESULT supported
+# OUTPUT error) if(supported) message(STATUS "IPO / LTO enabled")
+# set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) add_link_options(-fuse-ld=lld)
+# else() message(STATUS "IPO / LTO not supported: <${error}>") endif() endif()
 
 # Assets to data strings
 file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
@@ -361,6 +352,8 @@ add_executable(
   ./crash_handler/webhooks.h
   ./crash_handler/escape_seq.h
   ./crash_handler/escape_seq.c
+  ./crash_handler/path_change.h
+  ./crash_handler/path_change.c
   ./testing_h/ansi_colour.h
   ./testing_h/testing.c
   ./testing_h/testing.h

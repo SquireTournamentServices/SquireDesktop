@@ -11,6 +11,7 @@
 #include "./config_reader.h"
 #include "./webhooks.h"
 #include "./escape_seq.h"
+#include "./path_change.h"
 #include "../testing_h/testing.h"
 
 #define NO_START_VAL 180
@@ -27,6 +28,10 @@ static size_t f_ptr, b_ptr;
 
 int main(int argc, char **argv)
 {
+    if (!change_path()) {
+        lprintf(LOG_ERROR, "Cannot get to the Squire Desktop data folder.\n");
+    }
+
     char *exec_file = DEFAULT_EXEC;
     if (argc == 2) {
         exec_file = argv[1];
