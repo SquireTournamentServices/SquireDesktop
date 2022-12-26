@@ -267,6 +267,11 @@ jobs:
           modules: ${{matrix.qt_modules}}
           tools: ${{matrix.qt_tools}}
 
+      - name: Install OpenSSL
+        uses: microsoft/setup-openssl@v1
+        with:
+          version: latest
+
       - name: Run vcpkg
         uses: lukka/run-vcpkg@v10.2
         with:
