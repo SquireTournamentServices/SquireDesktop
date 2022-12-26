@@ -272,15 +272,18 @@ jobs:
 
       - name: Install OpenSSL
         run: choco install openssl -y
+        
+      - name: Install curl
+        run: choco install curl -y
+        
+      - name: Install jansson
+        run: choco install jansson -y
+        
+      #- name: Install vcpkg
+      #  uses: vcpkg/setup-vcpkg@v10.2
 
-      - name: Run vcpkg
-        uses: lukka/run-vcpkg@v10.2
-        with:
-          runVcpkgInstall: true
-          appendedCacheKey: ${{matrix.arch}}-bit
-        env:
-          VCPKG_DEFAULT_TRIPLET: '${{matrix.vcpkg_default_triplet}}-windows'
-          VCPKG_DISABLE_METRICS: 1
+      #- name: Install dependencies
+      #   run: vcpkg install --triplet x64-windows --json vcpkg.json
 
       - name: Build Squire Desktop
         id: build
