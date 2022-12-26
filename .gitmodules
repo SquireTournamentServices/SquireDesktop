@@ -16,3 +16,6 @@
 [submodule "libbacktrace"]
 	path = libbacktrace
 	url = https://github.com/ErwanLegrand/libbacktrace
+[submodule "jansson"]
+	path = jansson
+	url = https://github.com/akheron/jansson

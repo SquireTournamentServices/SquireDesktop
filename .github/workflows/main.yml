@@ -99,7 +99,7 @@ jobs:
         sudo apt-get install -y --no-install-recommends build-essential \
           cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
           valgrind python3 astyle qt6-l10n-tools \
-          libgl1-mesa-dev libjemalloc-dev libjansson-dev libcurl4-openssl-dev \
+          libgl1-mesa-dev libjemalloc-dev libcurl4-openssl-dev \
            libdwarf-dev libelf-dev
           
     - name: Make Release
@@ -185,7 +185,6 @@ jobs:
           brew install llvm
           brew install gcc
           brew install python3
-          brew install jansson
           brew install curl
           
       - name: Build on Xcode ${{matrix.xcode}}
@@ -276,14 +275,11 @@ jobs:
       - name: Install curl
         run: choco install curl -y
         
-      - name: Install jansson
-        run: choco install jansson -y
-        
-      #- name: Install vcpkg
-      #  uses: vcpkg/setup-vcpkg@v10.2
+      - name: Install vcpkg
+        uses: vcpkg/setup-vcpkg@v10.2
 
-      #- name: Install dependencies
-      #   run: vcpkg install --triplet x64-windows --json vcpkg.json
+      - name: Install dependencies
+        run: vcpkg install --triplet x64-windows --json vcpkg.json
 
       - name: Build Squire Desktop
         id: build

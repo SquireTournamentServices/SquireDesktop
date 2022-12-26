@@ -75,12 +75,12 @@ sudo apt-get update
 sudo apt-get install -y --no-install-recommends build-essential \
   cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
   valgrind python3 astyle qt6-l10n-tools \
-  libgl1-mesa-dev libjemalloc-dev libjansson-dev libcurl4-openssl-dev \
+  libgl1-mesa-dev libjemalloc-dev libcurl4-openssl-dev \
   libdwarf-dev libelf-dev
 ```
 ```sh
 # Arch
-sudo pacman -S gcc build-essential g++ cmake jansson
+sudo yay -S gcc build-essential g++ cmake curl libdwarf libelf
 ```
 
 Then run the compiler

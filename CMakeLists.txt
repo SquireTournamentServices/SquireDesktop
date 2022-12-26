@@ -129,6 +129,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(OpenSSL REQUIRED Crypto SSL)
+find_package(curl)
 
 set(TS_FILES SquireDesktop_en_GB.ts)
 
@@ -307,7 +308,7 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
       "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
 endif()
-install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH} DESTINATION lib/)
+install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH} DESTINATION "${CMAKE_BINARY_DIR}/lib/")
 message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
 
 # Setup deps
@@ -318,6 +319,7 @@ add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_core)
 add_subdirectory(libbacktrace)
+add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/squire_core)
 
 # Get the branch name
