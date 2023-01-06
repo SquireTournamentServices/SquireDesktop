@@ -268,7 +268,7 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/test_ffi.cpp
     ./tests_ffi/test_ffi.h)
 
-set(LIBS nlohmann_json::nlohmann_json backtrace)
+set(LIBS nlohmann_json::nlohmann_json) # backtrace)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
@@ -318,7 +318,7 @@ set(JSON_BuildTests
 add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_core)
-add_subdirectory(libbacktrace)
+#add_subdirectory(libbacktrace)
 add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/squire_core)
 

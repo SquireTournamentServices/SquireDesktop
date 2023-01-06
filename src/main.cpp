@@ -15,12 +15,14 @@
 #include "../testing_h/logger.h"
 #include "./init.h"
 
+/*
 /// Backtrace code is used from the example at libbacktrace
 /// https://tjysdsg.github.io/libbacktrace
 #include <cxxabi.h>
 #include <cstdio>
 #include <cstdlib>
 #include <backtrace.h>
+*/
 
 static void print_error_system_information()
 {
@@ -43,7 +45,8 @@ static void print_error_system_information()
     lprintf(LOG_INFO, "Qt Version: %x (%d.%d.%d)\n", QT_VERSION, qt_api, qt_major, qt_minor);
 }
 
-void *__bt_state = nullptr;
+/*
+static void *__bt_state = nullptr;
 
 static int bt_callback(void *, uintptr_t, const char *filename, int lineno, const char *function)
 {
@@ -86,6 +89,7 @@ static void print_back_trace()
     }
     backtrace_full((backtrace_state *) __bt_state, 0, bt_callback, bt_error_callback, nullptr);
 }
+*/
 
 static void handler(int sig)
 {
@@ -98,9 +102,11 @@ static void handler(int sig)
     // print out all the frames to stderr
     lprintf(LOG_ERROR, "Crash detected, please share the following information in a crash report:\n");
     lprintf(LOG_ERROR, "Signal %d:\n", sig);
+    /*
     lprintf(LOG_ERROR, "Printing stack trace...\n");
 
     print_back_trace();
+    */
     print_error_system_information();
     exit(1);
 }
@@ -110,7 +116,7 @@ int main(int argc, char *argv[])
     lprintf(LOG_INFO, "Starting %s ...\n", argv[0]);
 
     // Error catchinator 9000
-    init_back_trace(argv[0]);
+    //init_back_trace(argv[0]);
     signal(SIGSEGV, &handler);
     signal(SIGPIPE, &handler);
     signal(SIGABRT, &handler);
