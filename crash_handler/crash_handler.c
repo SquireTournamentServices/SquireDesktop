@@ -26,6 +26,14 @@
 static char in_memory_log[DISCORD_MESSAGE_LIMIT];
 static size_t f_ptr, b_ptr;
 
+#ifndef STDERR_FILENO
+#define STDERR_FILENO 2
+#endif
+
+#ifndef STDOUT_FILENO
+#define STDOUT_FILENO 1
+#endif
+
 int main(int argc, char **argv)
 {
     if (!change_path()) {
