@@ -119,8 +119,10 @@ int main(int argc, char *argv[])
     // Error catchinator 9000
     //init_back_trace(argv[0]);
     signal(SIGSEGV, &handler);
-    signal(SIGPIPE, &handler);
     signal(SIGABRT, &handler);
+#ifdef __UNIX
+    signal(SIGPIPE, &handler);
+#endif
 
     squire_core::init_squire_ffi(); // Inits the global tourn struct
     srand(time(NULL));
