@@ -129,7 +129,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(OpenSSL REQUIRED Crypto SSL)
-find_package(curl)
+find_package(CURL REQUIRED)
+include_directories(${CURL_INCLUDE_DIR})
 
 set(TS_FILES SquireDesktop_en_GB.ts)
 

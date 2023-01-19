@@ -1,8 +1,13 @@
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
 #include "../testing_h/logger.h"
 #include "./path_change.h"
+
+#ifdef WINDOWS
+#include <filesystem>
+#else
+#include <unistd.h>
+#endif
 
 #define SQUIRE_DESKTOP_FOLDER "SquireDesktop"
 
