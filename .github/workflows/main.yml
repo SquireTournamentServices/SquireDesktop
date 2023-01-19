@@ -186,6 +186,7 @@ jobs:
           brew install gcc
           brew install python3
           brew install curl
+          brew install openssl@1.1
           
       - name: Build on Xcode ${{matrix.xcode}}
         shell: bash
