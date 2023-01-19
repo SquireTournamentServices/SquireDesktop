@@ -321,7 +321,8 @@ add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_core)
 # add_subdirectory(libbacktrace)
 add_subdirectory(jansson)
-include_directories(${CMAKE_BINARY_DIR}/squire_core)
+
+include_directories(${CMAKE_BINARY_DIR}/squire_core ${JANSSON_INCLUDE_DIRS})
 
 # Get the branch name
 execute_process(
