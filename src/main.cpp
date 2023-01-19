@@ -1,4 +1,3 @@
-#include <execinfo.h>
 #include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -92,11 +91,13 @@ static void print_back_trace()
 
 static void handler(int sig)
 {
+    /*
     void *array[100];
     size_t size;
 
     // get void*'s for all entries on the stack
     size = backtrace(array, sizeof(array));
+    */
 
     // print out all the frames to stderr
     lprintf(LOG_ERROR, "Crash detected, please share the following information in a crash report:\n");

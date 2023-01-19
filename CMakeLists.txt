@@ -308,7 +308,8 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
       "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
 endif()
-install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH} DESTINATION "${CMAKE_BINARY_DIR}/lib/")
+install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}
+        DESTINATION "${CMAKE_BINARY_DIR}/lib/")
 message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
 
 # Setup deps
@@ -318,7 +319,7 @@ set(JSON_BuildTests
 add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_core)
-#add_subdirectory(libbacktrace)
+# add_subdirectory(libbacktrace)
 add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/squire_core)
 
