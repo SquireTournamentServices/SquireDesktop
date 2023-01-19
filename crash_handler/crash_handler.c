@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef WINDOWS
+#ifdef __WINDOWS
 #include <io.h>
 #include <process.h>
 #else

@@ -3,7 +3,7 @@
 #include "../testing_h/logger.h"
 #include "./path_change.h"
 
-#ifdef WINDOWS
+#ifdef __WINDOWS
 #include <filesystem>
 #else
 #include <unistd.h>
@@ -22,7 +22,7 @@ int change_path()
         lprintf(LOG_ERROR, "%APPDATA% environment variable not set.\n");
         return 0;
     }
-#elif __APPLE__
+#elif ______APPLE__
     // On macOS, the appdata folder is located in the $HOME/Library/Application Support directory
     appdata_folder = getenv("HOME");
     if (appdata_folder == NULL) {

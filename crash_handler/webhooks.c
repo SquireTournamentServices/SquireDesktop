@@ -9,15 +9,15 @@
 #define WEBHOOK_SUB_TITLE VERSION " running on " OS
 
 #define REPO_CDNURL "https://raw.githubusercontent.com/MonarchDevelopment/SquireDesktop/"
-#ifdef APPLE
+#ifdef __APPLE
 #define IMG_URL REPO_CDNURL "main/assets/apple.png"
 #endif
 
-#ifdef WINDOWS
+#ifdef __WINDOWS
 #define IMG_URL REPO_CDNURL "main/assets/windows.png"
 #endif
 
-#ifdef LINUX
+#ifdef __LINUX
 #define IMG_URL REPO_CDNURL "main/assets/tux.png"
 #endif
 

@@ -29,7 +29,7 @@ static void print_error_system_information()
     lprintf(LOG_INFO, "Squire Desktop Version: " VERSION "\n");
     lprintf(LOG_INFO, "Squire Core Version: " SQ_VERSION "\n");
 
-#ifdef UNIX
+#ifdef ____UNIX
     char buffer[1024];
     if (gethostname(buffer, sizeof(buffer)) == 0) {
         lprintf(LOG_INFO, "Hostname: %s\n", buffer);
