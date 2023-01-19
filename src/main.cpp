@@ -16,6 +16,7 @@
 /*
 /// Backtrace code is used from the example at libbacktrace
 /// https://tjysdsg.github.io/libbacktrace
+include <execinfo.h>
 #include <cxxabi.h>
 #include <cstdio>
 #include <cstdlib>
