@@ -292,8 +292,6 @@ jobs:
 
           mkdir -p debug-build
 
-          cp -f *.dll debug-build/
-          cp -f *.exe debug-build/
           cp -f **/*.exe debug-build/
           cp -f **/*.dll debug.build/
 
