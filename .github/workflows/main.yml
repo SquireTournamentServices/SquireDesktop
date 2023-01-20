@@ -290,8 +290,15 @@ jobs:
           cmake ..
           cmake --build . -j
 
+          mkdir -p debug-build
+
+          cp *.dll debug-build/
+          cp *.exe debug-build/
+          cp **/*.exe debug-build/
+          cp **/*.dll debug.build/
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: SquireDesktop.exe
-          path: build/Debug/SquireDesktop.exe
+          path: build/debug-build

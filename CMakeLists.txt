@@ -415,6 +415,12 @@ set_target_properties(
              MACOSX_BUNDLE TRUE
              WIN32_EXECUTABLE TRUE)
 
+add_custom_command(
+  TARGET SquireDesktop
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          "${CMAKE_DISCORD_GAME_SDK_LIB_PATH}" $<TARGET_FILE_DIR:SquireDesktop>)
+
 if(QT_VERSION_MAJOR EQUAL 6)
   qt_finalize_executable(SquireDesktop)
 endif()

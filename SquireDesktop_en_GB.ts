@@ -1209,50 +1209,56 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <name>TournamentTab</name>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="14"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="219"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="259"/>
         <source>Form</source>
         <translation type="unfinished">Form</translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="30"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="220"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="260"/>
         <source>Tournament Name and Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="45"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="221"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="261"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="56"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="222"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="262"/>
         <source>Pair Round</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/ui/tournamenttab.ui" line="82"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="223"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="263"/>
         <source>Matches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="141"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="224"/>
+        <location filename="src/ui/tournamenttab.ui" line="165"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="264"/>
+        <source>Add Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/ui/tournamenttab.ui" line="195"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="267"/>
         <location filename="src/ui/tournamenttab.cpp" line="260"/>
         <source>Not Started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="155"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="225"/>
+        <location filename="src/ui/tournamenttab.ui" line="209"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="268"/>
         <source>Tournament Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournamenttab.ui" line="169"/>
-        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="226"/>
+        <location filename="src/ui/tournamenttab.ui" line="223"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="269"/>
         <source>Time Left in Round</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1325,11 +1331,15 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui/tournamenttab.ui" line="141"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="265"/>
         <location filename="src/ui/tournamenttab.cpp" line="27"/>
         <source>Players</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="src/ui/tournamenttab.ui" line="178"/>
+        <location filename="build/SquireDesktop_autogen/include/ui_tournamenttab.h" line="266"/>
         <location filename="src/ui/tournamenttab.cpp" line="30"/>
         <source>Standings</source>
         <translation type="unfinished"></translation>
