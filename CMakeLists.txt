@@ -322,6 +322,7 @@ add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_core)
 # add_subdirectory(libbacktrace)
+
 add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/squire_core ${JANSSON_INCLUDE_DIRS})
 
@@ -351,24 +352,28 @@ add_definitions(
 include_directories(include)
 
 # Make crash handler
-add_executable(
-  sq_crash_handler
-  ./crash_handler/crash_handler.c
-  ./crash_handler/config_reader.c
-  ./crash_handler/config_reader.h
-  ./crash_handler/webhooks.c
-  ./crash_handler/webhooks.h
-  ./crash_handler/escape_seq.h
-  ./crash_handler/escape_seq.c
-  ./crash_handler/path_change.h
-  ./crash_handler/path_change.c
-  ./testing_h/ansi_colour.h
-  ./testing_h/testing.c
-  ./testing_h/testing.h
-  ./testing_h/logger.c
-  ./testing_h/logger.h)
-target_link_libraries(sq_crash_handler PRIVATE jansson CURL::libcurl
-                                               OpenSSL::SSL OpenSSL::Crypto)
+if(UNIX)
+  add_executable(
+    sq_crash_handler
+    ./crash_handler/crash_handler.c
+    ./crash_handler/config_reader.c
+    ./crash_handler/config_reader.h
+    ./crash_handler/webhooks.c
+    ./crash_handler/webhooks.h
+    ./crash_handler/escape_seq.h
+    ./crash_handler/escape_seq.c
+    ./crash_handler/path_change.h
+    ./crash_handler/path_change.c
+    ./testing_h/ansi_colour.h
+    ./testing_h/testing.c
+    ./testing_h/testing.h
+    ./testing_h/logger.c
+    ./testing_h/logger.h)
+  target_link_libraries(sq_crash_handler PRIVATE jansson CURL::libcurl
+                                                 OpenSSL::SSL OpenSSL::Crypto)
+else()
+  message(WARNING "The crash handler will not be built.")
+endif()
 
 # Build desktop app
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

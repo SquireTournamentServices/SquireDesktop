@@ -57,7 +57,6 @@ void PlayerListWidget::onPlayersChanged(std::vector<Player> players)
     this->playerTable->setData(players);
 }
 
-
 void PlayerListWidget::onRegOpenChanged(bool regOpen)
 {
     if (regOpen) {

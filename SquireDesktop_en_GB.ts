@@ -463,7 +463,7 @@
     <message>
         <location filename="src/ui/tournament/playerlistwidget.ui" line="41"/>
         <location filename="build/SquireDesktop_autogen/include/ui_playerlistwidget.h" line="68"/>
-        <location filename="src/ui/tournament/playerlistwidget.cpp" line="64"/>
+        <location filename="src/ui/tournament/playerlistwidget.cpp" line="63"/>
         <source>Add Player</source>
         <translation type="unfinished"></translation>
     </message>
@@ -473,17 +473,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerlistwidget.cpp" line="66"/>
+        <location filename="src/ui/tournament/playerlistwidget.cpp" line="65"/>
         <source>Allow Player Registration to Add Players</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerlistwidget.cpp" line="88"/>
+        <location filename="src/ui/tournament/playerlistwidget.cpp" line="87"/>
         <source>Cannot add player </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/ui/tournament/playerlistwidget.cpp" line="89"/>
+        <location filename="src/ui/tournament/playerlistwidget.cpp" line="88"/>
         <source>Unable to add the player due to an internal error.</source>
         <translation type="unfinished"></translation>
     </message>
