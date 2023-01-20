@@ -294,4 +294,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: SquireDesktop.exe
-          path: SquireDesktop/build/SquireDesktop.exe
+          path: build/SquireDesktop.exe
