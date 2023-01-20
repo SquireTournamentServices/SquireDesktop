@@ -292,8 +292,8 @@ jobs:
 
           mkdir -p debug-build
 
-          cp -f build/Debug/*.exe debug-build/
-          cp -f build/Debug/*.dll debug.build/
+          cp -f build/Debug/SquireDesktop.exe debug-build/
+          cp -f build/Debug/discord_game_sdk.dll debug.build/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
