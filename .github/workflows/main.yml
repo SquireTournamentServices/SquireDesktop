@@ -292,10 +292,10 @@ jobs:
 
           mkdir -p debug-build
 
-          cp *.dll debug-build/
-          cp *.exe debug-build/
-          cp **/*.exe debug-build/
-          cp **/*.dll debug.build/
+          cp -f *.dll debug-build/
+          cp -f *.exe debug-build/
+          cp -f **/*.exe debug-build/
+          cp -f **/*.dll debug.build/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
