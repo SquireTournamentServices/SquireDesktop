@@ -8,7 +8,7 @@
 #include "./tournament/playerviewwidget.h"
 #include "./tournament/playerlistwidget.h"
 #include "./tournament/standingsboardwidget.h"
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QTimer>
@@ -47,9 +47,9 @@ public slots:
     void onFormatChanged(std::string str);
     void onMinDeckCountChanged(int mdc);
     void onMaxDeckCountChanged(int mdc);
-    void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
+    void onPairingTypeChanged(squire_ffi::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
-    void onStatusChanged(squire_core::sc_TournamentStatus status);
+    void onStatusChanged(squire_ffi::sc_TournamentStatus status);
     void onRegOpenChanged(bool regOpen);
     void onSaveStatusChanged(bool status);
 

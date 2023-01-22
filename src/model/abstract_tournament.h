@@ -1,7 +1,7 @@
 #pragma once
 #include "./player.h"
 #include "./round.h"
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 #include <string>
 #include <vector>
 #include <QObject>
@@ -21,9 +21,9 @@ signals:
     void onFormatChanged(std::string str);
     void onMinDeckCountChanged(int mdc);
     void onMaxDeckCountChanged(int mdc);
-    void onPairingTypeChanged(squire_core::sc_TournamentPreset type);
+    void onPairingTypeChanged(squire_ffi::sc_TournamentPreset type);
     void onSaveLocationChanged(std::string str);
-    void onStatusChanged(squire_core::sc_TournamentStatus status);
+    void onStatusChanged(squire_ffi::sc_TournamentStatus status);
     void onSaveStatusChanged(bool saved);
     void onRegOpenChanged(bool regOpen);
     void onClose();
@@ -36,25 +36,25 @@ public:
     ~Tournament();
 
     // Getters
-    squire_core::sc_TournamentId id();
+    squire_ffi::sc_TournamentId id();
     std::string name();
     bool use_table_number();
     std::string format();
     int game_size();
     int min_deck_count();
     int max_deck_count();
-    squire_core::sc_TournamentPreset pairing_type();
+    squire_ffi::sc_TournamentPreset pairing_type();
     int round_length();
     bool reg_open();
     bool require_check_in();
     bool require_deck_reg();
-    squire_core::sc_TournamentStatus status();
+    squire_ffi::sc_TournamentStatus status();
     int starting_table_number();
     std::string save_location();
     std::vector<Player> players();
     std::vector<Round> rounds();
     std::vector<Round> playerRounds(Player player);
-    std::vector<squire_core::sc_TournamentStatus> availableStatusChanges();
+    std::vector<squire_ffi::sc_TournamentStatus> availableStatusChanges();
     bool recordResult(Round round, Player p, int wins);
     bool recordDraws(Round round, int draws);
     bool confirmPlayer(Round round, Player p);
@@ -64,7 +64,7 @@ public:
     int roundSlipsHtml(std::string css, std::string &result);
 
     // Respects Translations, this is a GUI method
-    QString statusToActionName(squire_core::sc_TournamentStatus status);
+    QString statusToActionName(squire_ffi::sc_TournamentStatus status);
 
     // Setters
     bool updateSettings(std::string format,
@@ -89,13 +89,13 @@ public:
     // Internal status things
     bool save();
     bool close();
-    virtual squire_core::sc_AdminId aid();
+    virtual squire_ffi::sc_AdminId aid();
     bool isSaved(); // Whether the tournament has been saved correctly.
     void emitAllProps(); // emits all props to force a UI change
 protected:
     void setSaveStatus(bool status); // This is a wrapper to emit the correct signal and, change state correctly
     bool saved;
-    squire_core::sc_TournamentId tid;
+    squire_ffi::sc_TournamentId tid;
     std::string saveLocation;
 };
 
@@ -104,8 +104,8 @@ class LocalTournament : public Tournament
 {
     Q_OBJECT
 public:
-    LocalTournament(std::string save_location, squire_core::sc_TournamentId tid); // Primary constructor
-    squire_core::sc_AdminId aid() override;
+    LocalTournament(std::string save_location, squire_ffi::sc_TournamentId tid); // Primary constructor
+    squire_ffi::sc_AdminId aid() override;
 };
 
 // Static util methods
@@ -113,7 +113,7 @@ Tournament *load_tournament(std::string file_name);
 Tournament *new_tournament(std::string file,
                            std::string name,
                            std::string format,
-                           squire_core::sc_TournamentPreset preset,
+                           squire_ffi::sc_TournamentPreset preset,
                            bool use_table_number,
                            int game_size,
                            int min_deck_count,

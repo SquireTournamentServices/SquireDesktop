@@ -232,13 +232,13 @@ void TournamentTab::onMaxDeckCountChanged(int mdc)
 
 }
 
-void TournamentTab::onPairingTypeChanged(squire_core::sc_TournamentPreset type)
+void TournamentTab::onPairingTypeChanged(squire_ffi::sc_TournamentPreset type)
 {
     switch(type) {
-    case squire_core::sc_TournamentPreset::Fluid:
+    case squire_ffi::sc_TournamentPreset::Fluid:
         this->t_type = tr("Fluid").toStdString();
         break;
-    case squire_core::sc_TournamentPreset::Swiss:
+    case squire_ffi::sc_TournamentPreset::Swiss:
         this->t_type = tr("Swiss").toStdString();
         break;
     }
@@ -250,9 +250,9 @@ void TournamentTab::onSaveLocationChanged(std::string str)
 
 }
 
-void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
+void TournamentTab::onStatusChanged(squire_ffi::sc_TournamentStatus status)
 {
-    if (status == squire_core::sc_TournamentStatus::Started) {
+    if (status == squire_ffi::sc_TournamentStatus::Started) {
         ui->startedIndicator->setChecked(true);
         ui->startedIndicator->setText(tr("Started"));
     } else {
@@ -262,20 +262,20 @@ void TournamentTab::onStatusChanged(squire_core::sc_TournamentStatus status)
 
     bool canPairRounds = false;
     switch(status) {
-    case squire_core::sc_TournamentStatus::Planned:
+    case squire_ffi::sc_TournamentStatus::Planned:
         ui->statusIndicator->setText(tr("Planned"));
         break;
-    case squire_core::sc_TournamentStatus::Started:
+    case squire_ffi::sc_TournamentStatus::Started:
         ui->statusIndicator->setText(tr("Started"));
         canPairRounds = true;
         break;
-    case squire_core::sc_TournamentStatus::Frozen:
+    case squire_ffi::sc_TournamentStatus::Frozen:
         ui->statusIndicator->setText(tr("Frozen"));
         break;
-    case squire_core::sc_TournamentStatus::Ended:
+    case squire_ffi::sc_TournamentStatus::Ended:
         ui->statusIndicator->setText(tr("Ended"));
         break;
-    case squire_core::sc_TournamentStatus::Cancelled:
+    case squire_ffi::sc_TournamentStatus::Cancelled:
         ui->statusIndicator->setText(tr("Cancelled"));
         break;
     }

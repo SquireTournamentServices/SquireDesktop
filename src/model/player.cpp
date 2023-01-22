@@ -7,7 +7,7 @@ Player::Player()
 
 }
 
-Player::Player(squire_core::sc_PlayerId pid, squire_core::sc_TournamentId tid)
+Player::Player(squire_ffi::sc_PlayerId pid, squire_ffi::sc_TournamentId tid)
 {
     this->pid = pid;
     this->tid = tid;
@@ -26,25 +26,25 @@ Player::~Player()
 
 std::string Player::name()
 {
-    char *name = (char *)squire_core::pid_name(this->pid, this->tid);
+    char *name = (char *)squire_ffi::pid_name(this->pid, this->tid);
     if (name == NULL) {
         return "";
     }
 
     std::string ret = std::string(name);
-    squire_core::sq_free(name, ret.size() + 1);
+    squire_ffi::sq_free(name, ret.size() + 1);
     return ret;
 }
 
 std::string Player::game_name()
 {
-    char *name = (char *)squire_core::pid_game_name(this->pid, this->tid);
+    char *name = (char *)squire_ffi::pid_game_name(this->pid, this->tid);
     if (name == NULL) {
         return "";
     }
 
     std::string ret = std::string(name);
-    squire_core::sq_free(name, ret.size() + 1);
+    squire_ffi::sq_free(name, ret.size() + 1);
     return ret;
 }
 
@@ -60,17 +60,17 @@ std::string Player::all_names()
     }
 }
 
-squire_core::sc_PlayerStatus Player::status()
+squire_ffi::sc_PlayerStatus Player::status()
 {
-    return squire_core::pid_status(this->pid, this->tid);
+    return squire_ffi::pid_status(this->pid, this->tid);
 }
 
 std::string Player::statusAsStr()
 {
     switch(this->status()) {
-    case squire_core::sc_PlayerStatus::Registered:
+    case squire_ffi::sc_PlayerStatus::Registered:
         return "Registered";
-    case squire_core::sc_PlayerStatus::Dropped:
+    case squire_ffi::sc_PlayerStatus::Dropped:
         return "Dropped";
     }
     return "Error";
@@ -79,24 +79,24 @@ std::string Player::statusAsStr()
 int Player::statusAsInt()
 {
     switch(this->status()) {
-    case squire_core::sc_PlayerStatus::Registered:
+    case squire_ffi::sc_PlayerStatus::Registered:
         return 0;
-    case squire_core::sc_PlayerStatus::Dropped:
+    case squire_ffi::sc_PlayerStatus::Dropped:
         return 1;
     }
     return -1;
 }
 
-squire_core::sc_PlayerId Player::id()
+squire_ffi::sc_PlayerId Player::id()
 {
-    squire_core::sc_PlayerId ret;
+    squire_ffi::sc_PlayerId ret;
     memcpy(ret._0, this->pid._0, sizeof(ret));
     return ret;
 }
 
-squire_core::sc_TournamentId Player::tourn_id()
+squire_ffi::sc_TournamentId Player::tourn_id()
 {
-    squire_core::sc_TournamentId ret;
+    squire_ffi::sc_TournamentId ret;
     memcpy(ret._0, this->tid._0, sizeof(ret));
     return ret;
 }
@@ -159,7 +159,7 @@ int playerGameNameSort(const Player &a, const Player &b)
 
 bool playerIsActive(Player p)
 {
-    return p.status() != squire_core::sc_PlayerStatus::Dropped;
+    return p.status() != squire_ffi::sc_PlayerStatus::Dropped;
 }
 
 PlayerScore::PlayerScore()
@@ -167,7 +167,7 @@ PlayerScore::PlayerScore()
 
 }
 
-PlayerScore::PlayerScore(Player p, squire_core::sc_StandardScore s)
+PlayerScore::PlayerScore(Player p, squire_ffi::sc_StandardScore s)
 {
     this->p = p;
     this->s = s;
@@ -204,7 +204,7 @@ Player PlayerScore::player()
     return this->p;
 }
 
-squire_core::sc_StandardScore PlayerScore::score()
+squire_ffi::sc_StandardScore PlayerScore::score()
 {
     return this->s;
 }

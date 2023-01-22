@@ -12,7 +12,8 @@ crate-type = ["lib", "staticlib"]
 
 [dependencies]
 #In-house deps
-squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", package = "squire_sdk" }
+squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", package = "squire_sdk", no-default-features=true }
+squire_lib = { git = "https://github.com/MonarchDevelopment/SquireCore", package = "squire_lib", no-default-features=true }
 
 libc = { version = "0.2" }
 dashmap = { version = "5.0", features = ["serde"] }

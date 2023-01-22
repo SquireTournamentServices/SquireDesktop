@@ -108,9 +108,9 @@ void CreateTournamentDialogue::onOkay()
         return;
     }
 
-    squire_core::sc_TournamentPreset preset = squire_core::sc_TournamentPreset::Swiss;
+    squire_ffi::sc_TournamentPreset preset = squire_ffi::sc_TournamentPreset::Swiss;
     if (ui->fluidRoundRadio->isChecked()) {
-        preset = squire_core::sc_TournamentPreset::Fluid;
+        preset = squire_ffi::sc_TournamentPreset::Fluid;
     }
 
     init_tourn_folder(this->config);

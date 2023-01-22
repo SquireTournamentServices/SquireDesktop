@@ -7,7 +7,7 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QtGlobal>
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 #include "./ui/mainwindow.h"
 #include "./config.h"
 #include "../testing_h/logger.h"
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
     signal(SIGPIPE, &handler);
 #endif
 
-    squire_core::init_squire_ffi(); // Inits the global tourn struct
+    squire_ffi::init_squire_ffi(); // Inits the global tourn struct
     srand(time(NULL));
 
     // Qt init

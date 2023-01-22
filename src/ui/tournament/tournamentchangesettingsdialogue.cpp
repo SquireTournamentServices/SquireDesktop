@@ -2,7 +2,7 @@
 #include "ui_tournamentchangesettingsdialogue.h"
 #include "../../../testing_h/logger.h"
 #include <QMessageBox>
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 
 TournamentChangeSettingsDialogue::TournamentChangeSettingsDialogue(Tournament *tourn, QWidget *parent) :
     QDialog(parent),
@@ -12,7 +12,7 @@ TournamentChangeSettingsDialogue::TournamentChangeSettingsDialogue(Tournament *t
     this->tourn = tourn;
     this->setWindowTitle(tr("Changing Settings For ") + QString::fromStdString(this->tourn->name()));
     this->possibleStatusChanges = this->tourn->availableStatusChanges();
-    for (squire_core::sc_TournamentStatus s : this->possibleStatusChanges) {
+    for (squire_ffi::sc_TournamentStatus s : this->possibleStatusChanges) {
         QString str = this->tourn->statusToActionName(s);
         ui->statusEdit->addItem(str);
     }
@@ -61,7 +61,7 @@ void TournamentChangeSettingsDialogue::onApply()
     bool requireCheckIn = ui->requireCheckinsEdit->isChecked();
     bool requireDeckReg = minDeckCount > 0;
 
-    squire_core::sc_TournamentStatus newStatus = this->possibleStatusChanges[ui->statusEdit->currentIndex()];
+    squire_ffi::sc_TournamentStatus newStatus = this->possibleStatusChanges[ui->statusEdit->currentIndex()];
 
     bool res = this->tourn->updateSettings(format,
                                            startingTableNumber,
@@ -79,16 +79,16 @@ void TournamentChangeSettingsDialogue::onApply()
 
     if (res && newStatus != this->tourn->status()) {
         switch (newStatus) {
-        case squire_core::sc_TournamentStatus::Started:
+        case squire_ffi::sc_TournamentStatus::Started:
             res |= this->tourn->start();
             break;
-        case squire_core::sc_TournamentStatus::Ended:
+        case squire_ffi::sc_TournamentStatus::Ended:
             res |= this->tourn->end();
             break;
-        case squire_core::sc_TournamentStatus::Cancelled:
+        case squire_ffi::sc_TournamentStatus::Cancelled:
             res |= this->tourn->cancel();
             break;
-        case squire_core::sc_TournamentStatus::Frozen:
+        case squire_ffi::sc_TournamentStatus::Frozen:
             res |= this->tourn->freeze();
         }
 

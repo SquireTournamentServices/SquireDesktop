@@ -9,7 +9,7 @@ Round::Round()
 
 }
 
-Round::Round(squire_core::sc_RoundId rid, squire_core::sc_TournamentId tid)
+Round::Round(squire_ffi::sc_RoundId rid, squire_ffi::sc_TournamentId tid)
 {
     this->rid = rid;
     this->tid = tid;
@@ -26,43 +26,43 @@ Round::~Round()
 
 }
 
-squire_core::sc_RoundId Round::id()
+squire_ffi::sc_RoundId Round::id()
 {
-    squire_core::sc_RoundId ret;
+    squire_ffi::sc_RoundId ret;
     memcpy(ret._0, this->rid._0, sizeof(ret._0));
     return ret;
 }
 
-squire_core::sc_TournamentId Round::tourn_id()
+squire_ffi::sc_TournamentId Round::tourn_id()
 {
-    squire_core::sc_TournamentId ret;
+    squire_ffi::sc_TournamentId ret;
     memcpy(ret._0, this->tid._0, sizeof(ret._0));
     return ret;
 }
 
-squire_core::sc_RoundStatus Round::status()
+squire_ffi::sc_RoundStatus Round::status()
 {
-    return squire_core::rid_status(this->rid, this->tid);
+    return squire_ffi::rid_status(this->rid, this->tid);
 }
 
 long Round::time_left()
 {
-    return squire_core::rid_time_left(this->rid, this->tid);
+    return squire_ffi::rid_time_left(this->rid, this->tid);
 }
 
 long Round::duration()
 {
-    return squire_core::rid_duration(this->rid, this->tid);
+    return squire_ffi::rid_duration(this->rid, this->tid);
 }
 
 int Round::match_number()
 {
-    return squire_core::rid_match_number(this->rid, this->tid);
+    return squire_ffi::rid_match_number(this->rid, this->tid);
 }
 
 int Round::table_number()
 {
-    return squire_core::rid_table_number(this->rid, this->tid);
+    return squire_ffi::rid_table_number(this->rid, this->tid);
 }
 
 bool Round::matches(std::string query)
@@ -85,7 +85,7 @@ bool Round::matches(std::string query)
 std::vector<Player> Round::players()
 {
     std::vector<Player> ret;
-    squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::rid_players(this->rid, this->tid);
+    squire_ffi::sc_PlayerId *player_ptr = (squire_ffi::sc_PlayerId *) squire_ffi::rid_players(this->rid, this->tid);
 
     if (player_ptr == NULL) {
         return ret;
@@ -95,19 +95,19 @@ std::vector<Player> Round::players()
         ret.push_back(Player(player_ptr[i], this->tid));
     }
 
-    squire_core::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
+    squire_ffi::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
     return ret;
 }
 
 int Round::resultFor(Player p)
 {
-    return squire_core::rid_result_for(this->rid, this->tid, p.id());
+    return squire_ffi::rid_result_for(this->rid, this->tid, p.id());
 }
 
 std::vector<Player> Round::confirmed_players()
 {
     std::vector<Player> ret;
-    squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::rid_confirmed_players(this->rid, this->tid);
+    squire_ffi::sc_PlayerId *player_ptr = (squire_ffi::sc_PlayerId *) squire_ffi::rid_confirmed_players(this->rid, this->tid);
 
     if (player_ptr == NULL) {
         return ret;
@@ -117,14 +117,14 @@ std::vector<Player> Round::confirmed_players()
         ret.push_back(Player(player_ptr[i], this->tid));
     }
 
-    squire_core::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
+    squire_ffi::sq_free(player_ptr, (ret.size() + 1) * sizeof(*player_ptr));
     return ret;
 
 }
 
 int Round::draws()
 {
-    return squire_core::rid_draws(this->rid, this->tid);
+    return squire_ffi::rid_draws(this->rid, this->tid);
 }
 
 std::string Round::players_as_str()
@@ -191,8 +191,8 @@ std::vector<int (*)(const Round &, const Round &)> Round::getDefaultAlgs()
 
 bool roundIsActive(Round r)
 {
-    squire_core::sc_RoundStatus s = r.status();
-    return s == squire_core::sc_RoundStatus::Open;
+    squire_ffi::sc_RoundStatus s = r.status();
+    return s == squire_ffi::sc_RoundStatus::Open;
 }
 
 RoundResults::RoundResults()

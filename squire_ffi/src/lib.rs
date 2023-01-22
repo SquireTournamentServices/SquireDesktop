@@ -5,28 +5,27 @@ use std::{
     alloc::{Allocator, Layout, System},
     borrow::Cow,
     os::raw::{c_char, c_void},
-    ptr,
+    ptr, 
 };
 
-use squire_sdk::model::{
+use squire_sdk::{model::{
     error::TournamentError,
-    identifiers::{PlayerId, RoundId, TournamentId},
     operations::{OpData, TournOp},
     players::Player,
-    rounds::Round,
-    tournament::{Tournament, TournamentPreset},
-};
+    rounds::{Round, RoundId},
+    tournament::Tournament,
+}, tournaments::{TournamentId, TournamentPreset}, players::PlayerId};
 
 use chrono::Utc;
 use dashmap::DashMap;
 use once_cell::sync::OnceCell;
 
 /// Contains the ffi C bindings for players used in SquireDesktop
-pub mod ffi_player;
+pub mod player;
 /// Contains the ffi C bindings for a tournament used in SquireDesktop
-pub mod ffi_rounds;
+pub mod rounds;
 /// Contains the ffi C bindings for a tournament used in SquireDesktop
-pub mod ffi_tournament;
+pub mod tournament;
 
 /// A map of tournament ids to tournaments
 /// this is used for allocating ffi tournaments
@@ -139,8 +138,8 @@ impl SquireRuntime {
     ) -> TournamentId {
         let tourn = Tournament::from_preset(name, preset, format);
         let id = tourn.id;
-        self.tourns.insert(id, tourn);
-        id
+        self.tourns.insert(id.into(), tourn);
+        id.into()
     }
 
     /// Removes a tournament from the runtime and returns it, if found

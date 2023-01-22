@@ -1340,6 +1340,7 @@ dependencies = [
  "libc",
  "once_cell",
  "serde_json",
+ "squire_lib",
  "squire_sdk",
 ]
 

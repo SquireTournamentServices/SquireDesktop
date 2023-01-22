@@ -2,18 +2,18 @@
 #include "../ffi_utils.h"
 #include "../../testing_h/testing.h"
 #include <string.h>
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 
-static squire_core::sc_AdminId local_aid()
+static squire_ffi::sc_AdminId local_aid()
 {
-    squire_core::sc_AdminId id;
+    squire_ffi::sc_AdminId id;
     memset(id._0, 0x21, sizeof(id._0));
     return id;
 }
 
 Tournament *load_tournament(std::string file_name)
 {
-    squire_core::sc_TournamentId tid = squire_core::load_tournament_from_file(file_name.c_str());
+    squire_ffi::sc_TournamentId tid = squire_ffi::load_tournament_from_file(file_name.c_str());
 
     if (is_null_id(tid._0)) {
         lprintf(LOG_ERROR, "Cannot load tournament %s - NULL UUID returned due to invalid file\n", file_name.c_str());
@@ -28,7 +28,7 @@ Tournament *load_tournament(std::string file_name)
 Tournament *new_tournament(std::string file,
                            std::string name,
                            std::string format,
-                           squire_core::sc_TournamentPreset preset,
+                           squire_ffi::sc_TournamentPreset preset,
                            bool use_table_number,
                            int game_size,
                            int min_deck_count,
@@ -37,7 +37,7 @@ Tournament *new_tournament(std::string file,
                            bool require_check_in,
                            bool require_deck_reg)
 {
-    squire_core::sc_TournamentId tid = squire_core::new_tournament_from_settings(file.c_str(),
+    squire_ffi::sc_TournamentId tid = squire_ffi::new_tournament_from_settings(file.c_str(),
                                        name.c_str(),
                                        format.c_str(),
                                        preset,
@@ -49,8 +49,8 @@ Tournament *new_tournament(std::string file,
                                        require_check_in,
                                        require_deck_reg);
 
-    squire_core::sc_AdminId laid = local_aid();
-    if (!squire_core::tid_add_admin_local(tid, "System User", laid, *(squire_core::sc_SquireAccountId *) &laid)) {
+    squire_ffi::sc_AdminId laid = local_aid();
+    if (!squire_ffi::tid_add_admin_local(tid, "System User", laid, *(squire_ffi::sc_SquireAccountId *) &laid)) {
         lprintf(LOG_ERROR, "Cannot add system user\n");
     }
 
@@ -78,20 +78,20 @@ Tournament::Tournament(const Tournament &t)
     this->saved = t.saved;
 }
 
-LocalTournament::LocalTournament(std::string save_location, squire_core::sc_TournamentId tid)
+LocalTournament::LocalTournament(std::string save_location, squire_ffi::sc_TournamentId tid)
     : Tournament()
 {
     this->tid = tid;
     this->saveLocation = save_location;
 }
 
-squire_core::sc_AdminId Tournament::aid()
+squire_ffi::sc_AdminId Tournament::aid()
 {
     lprintf(LOG_ERROR, "System user admin id passed to FFI errouneously\n");
     return local_aid();
 }
 
-squire_core::sc_AdminId LocalTournament::aid()
+squire_ffi::sc_AdminId LocalTournament::aid()
 {
     return local_aid();
 }
@@ -110,7 +110,7 @@ bool Tournament::close()
         lprintf(LOG_WARNING, "The tournament '%s' has unsaved data which is now lost\n", this->name().c_str());
     }
     emit this->onClose();
-    return squire_core::close_tourn(this->tid);
+    return squire_ffi::close_tourn(this->tid);
 }
 
 std::string Tournament::save_location()
@@ -118,47 +118,47 @@ std::string Tournament::save_location()
     return std::string(this->saveLocation);
 }
 
-squire_core::sc_TournamentId Tournament::id()
+squire_ffi::sc_TournamentId Tournament::id()
 {
-    squire_core::sc_TournamentId ret;
+    squire_ffi::sc_TournamentId ret;
     memcpy(ret._0, this->tid._0, sizeof(ret));
     return ret;
 }
 
 std::string Tournament::name()
 {
-    char *name = (char *) squire_core::tid_name(this->tid);
+    char *name = (char *) squire_ffi::tid_name(this->tid);
     if (name == NULL) {
         lprintf(LOG_ERROR, "Cannot get tournament name\n");
         return "";
     }
 
     std::string ret = std::string(name);
-    squire_core::sq_free(name, ret.size() + 1);
+    squire_ffi::sq_free(name, ret.size() + 1);
     return ret;
 }
 
 bool Tournament::use_table_number()
 {
-    return squire_core::tid_use_table_number(this->tid);
+    return squire_ffi::tid_use_table_number(this->tid);
 }
 
 std::string Tournament::format()
 {
-    char *format = (char *) squire_core::tid_format(this->tid);
+    char *format = (char *) squire_ffi::tid_format(this->tid);
     if (format == NULL) {
         lprintf(LOG_ERROR, "Cannot get tournament format\n");
         return "";
     }
 
     std::string ret = std::string(format);
-    squire_core::sq_free(format, ret.size() + 1);
+    squire_ffi::sq_free(format, ret.size() + 1);
     return ret;
 }
 
 int Tournament::game_size()
 {
-    int ret =  squire_core::tid_game_size(this->tid);
+    int ret =  squire_ffi::tid_game_size(this->tid);
     if (ret == -1) {
         lprintf(LOG_ERROR, "Cannot get tournament game size\n");
     }
@@ -167,7 +167,7 @@ int Tournament::game_size()
 
 int Tournament::min_deck_count()
 {
-    int ret = squire_core::tid_min_deck_count(this->tid);
+    int ret = squire_ffi::tid_min_deck_count(this->tid);
     if (ret == -1) {
         lprintf(LOG_ERROR, "Cannot get tournament min deck count\n");
     }
@@ -176,22 +176,22 @@ int Tournament::min_deck_count()
 
 int Tournament::max_deck_count()
 {
-    int ret = squire_core::tid_max_deck_count(this->tid);
+    int ret = squire_ffi::tid_max_deck_count(this->tid);
     if (ret == -1) {
         lprintf(LOG_ERROR, "Cannot get tournament max deck count\n");
     }
     return ret;
 }
 
-squire_core::sc_TournamentPreset Tournament::pairing_type()
+squire_ffi::sc_TournamentPreset Tournament::pairing_type()
 {
-    int ret = squire_core::tid_pairing_type(this->tid);
-    return squire_core::sc_TournamentPreset(ret);
+    int ret = squire_ffi::tid_pairing_type(this->tid);
+    return squire_ffi::sc_TournamentPreset(ret);
 }
 
 int Tournament::round_length()
 {
-    int ret = squire_core::tid_round_length(this->tid);
+    int ret = squire_ffi::tid_round_length(this->tid);
     if (ret == -1) {
         lprintf(LOG_ERROR, "Cannot get tournament round length\n");
     }
@@ -200,69 +200,69 @@ int Tournament::round_length()
 
 bool Tournament::reg_open()
 {
-    return squire_core::tid_reg_open(this->tid);
+    return squire_ffi::tid_reg_open(this->tid);
 }
 
 bool Tournament::require_check_in()
 {
-    return squire_core::tid_require_check_in(this->tid);
+    return squire_ffi::tid_require_check_in(this->tid);
 }
 
 bool Tournament::require_deck_reg()
 {
-    return squire_core::tid_require_deck_reg(this->tid);
+    return squire_ffi::tid_require_deck_reg(this->tid);
 }
 
-squire_core::sc_TournamentStatus Tournament::status()
+squire_ffi::sc_TournamentStatus Tournament::status()
 {
-    return squire_core::tid_status(this->tid);
+    return squire_ffi::tid_status(this->tid);
 }
 
 int Tournament::starting_table_number()
 {
-    return squire_core::tid_starting_table_number(this->tid);
+    return squire_ffi::tid_starting_table_number(this->tid);
 }
 
-std::vector<squire_core::sc_TournamentStatus> Tournament::availableStatusChanges()
+std::vector<squire_ffi::sc_TournamentStatus> Tournament::availableStatusChanges()
 {
-    std::vector<squire_core::sc_TournamentStatus> ret;
-    squire_core::sc_TournamentStatus s = this->status();
+    std::vector<squire_ffi::sc_TournamentStatus> ret;
+    squire_ffi::sc_TournamentStatus s = this->status();
     ret.push_back(s);
 
     switch (s) {
-    case squire_core::sc_TournamentStatus::Planned:
-        ret.push_back(squire_core::sc_TournamentStatus::Started);
-        ret.push_back(squire_core::sc_TournamentStatus::Frozen);
-        ret.push_back(squire_core::sc_TournamentStatus::Cancelled);
+    case squire_ffi::sc_TournamentStatus::Planned:
+        ret.push_back(squire_ffi::sc_TournamentStatus::Started);
+        ret.push_back(squire_ffi::sc_TournamentStatus::Frozen);
+        ret.push_back(squire_ffi::sc_TournamentStatus::Cancelled);
         break;
-    case squire_core::sc_TournamentStatus::Started:
-        ret.push_back(squire_core::sc_TournamentStatus::Frozen);
-        ret.push_back(squire_core::sc_TournamentStatus::Ended);
+    case squire_ffi::sc_TournamentStatus::Started:
+        ret.push_back(squire_ffi::sc_TournamentStatus::Frozen);
+        ret.push_back(squire_ffi::sc_TournamentStatus::Ended);
         break;
     // Frozen tournaments should show a FROZEN screen and, not use this method
-    case squire_core::sc_TournamentStatus::Frozen:
+    case squire_ffi::sc_TournamentStatus::Frozen:
         break;
-    case squire_core::sc_TournamentStatus::Ended:
+    case squire_ffi::sc_TournamentStatus::Ended:
         break;
-    case squire_core::sc_TournamentStatus::Cancelled:
+    case squire_ffi::sc_TournamentStatus::Cancelled:
         break;
     }
 
     return ret;
 }
 
-QString Tournament::statusToActionName(squire_core::sc_TournamentStatus status)
+QString Tournament::statusToActionName(squire_ffi::sc_TournamentStatus status)
 {
     switch (status) {
-    case squire_core::sc_TournamentStatus::Planned:
+    case squire_ffi::sc_TournamentStatus::Planned:
         return tr("Planned");
-    case squire_core::sc_TournamentStatus::Started:
+    case squire_ffi::sc_TournamentStatus::Started:
         return tr("Started");
-    case squire_core::sc_TournamentStatus::Frozen:
+    case squire_ffi::sc_TournamentStatus::Frozen:
         return tr("Frozon");
-    case squire_core::sc_TournamentStatus::Ended:
+    case squire_ffi::sc_TournamentStatus::Ended:
         return tr("Ended");
-    case squire_core::sc_TournamentStatus::Cancelled:
+    case squire_ffi::sc_TournamentStatus::Cancelled:
         return tr("Cancelled");
     }
 
@@ -281,8 +281,8 @@ bool Tournament::updateSettings(std::string format,
                                 bool requireCheckIn,
                                 bool requireDeckReg)
 {
-    squire_core::sc_AdminId laid = this->aid();
-    bool s = squire_core::tid_update_settings(this->tid,
+    squire_ffi::sc_AdminId laid = this->aid();
+    bool s = squire_ffi::tid_update_settings(this->tid,
              format.c_str(),
              startingTableNumber,
              useTableNumber,
@@ -305,7 +305,7 @@ bool Tournament::updateSettings(std::string format,
 
 Player Tournament::addPlayer(std::string name, bool *status)
 {
-    squire_core::sc_PlayerId pid = squire_core::tid_add_player(this->tid, name.c_str());
+    squire_ffi::sc_PlayerId pid = squire_ffi::tid_add_player(this->tid, name.c_str());
     if (!is_null_id(pid._0)) {
         *status = true;
         Player p = Player(pid, this->tid);
@@ -326,7 +326,7 @@ Player Tournament::addPlayer(std::string name, bool *status)
 std::vector<Player> Tournament::players()
 {
     std::vector<Player> players;
-    squire_core::sc_PlayerId *player_ptr = (squire_core::sc_PlayerId *) squire_core::tid_players(this->tid);
+    squire_ffi::sc_PlayerId *player_ptr = (squire_ffi::sc_PlayerId *) squire_ffi::tid_players(this->tid);
     if (player_ptr == NULL) {
         lprintf(LOG_ERROR, "Cannot get tournament players\n");
         return players;
@@ -335,7 +335,7 @@ std::vector<Player> Tournament::players()
     for (int i = 0; !is_null_id(player_ptr[i]._0); i++) {
         players.push_back(Player(player_ptr[i], this->tid));
     }
-    squire_core::sq_free(player_ptr, (players.size() + 1) * sizeof * player_ptr);
+    squire_ffi::sq_free(player_ptr, (players.size() + 1) * sizeof * player_ptr);
 
     return players;
 }
@@ -343,8 +343,8 @@ std::vector<Player> Tournament::players()
 std::vector<PlayerScore> Tournament::standings()
 {
     std::vector<PlayerScore> ret;
-    squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *standings_ptr =
-        (squire_core::sc_PlayerScore<squire_core::sc_StandardScore> *) squire_core::tid_standings(this->tid);
+    squire_ffi::sc_PlayerScore<squire_ffi::sc_StandardScore> *standings_ptr =
+        (squire_ffi::sc_PlayerScore<squire_ffi::sc_StandardScore> *) squire_ffi::tid_standings(this->tid);
     if (standings_ptr == NULL) {
         lprintf(LOG_ERROR, "Cannot get tournament standings\n");
         return ret;
@@ -355,7 +355,7 @@ std::vector<PlayerScore> Tournament::standings()
         ret.push_back(PlayerScore(Player(standings_ptr[i].pid, this->tid), standings_ptr[i].score));
     }
 
-    squire_core::sq_free(standings_ptr, (ret.size() + 1) * sizeof * standings_ptr);
+    squire_ffi::sq_free(standings_ptr, (ret.size() + 1) * sizeof * standings_ptr);
 
     return ret;
 }
@@ -363,7 +363,7 @@ std::vector<PlayerScore> Tournament::standings()
 std::vector<Round> Tournament::rounds()
 {
     std::vector<Round> rounds;
-    squire_core::sc_RoundId *round_ptr = (squire_core::sc_RoundId *) squire_core::tid_rounds(this->tid);
+    squire_ffi::sc_RoundId *round_ptr = (squire_ffi::sc_RoundId *) squire_ffi::tid_rounds(this->tid);
     if (round_ptr == NULL) {
         lprintf(LOG_ERROR, "Cannot get tournament rounds\n");
         return rounds;
@@ -372,7 +372,7 @@ std::vector<Round> Tournament::rounds()
     for (int i = 0; !is_null_id(round_ptr[i]._0); i++) {
         rounds.push_back(Round(round_ptr[i], this->tid));
     }
-    squire_core::sq_free(round_ptr, sizeof * round_ptr * (rounds.size() + 1));
+    squire_ffi::sq_free(round_ptr, sizeof * round_ptr * (rounds.size() + 1));
 
     return rounds;
 }
@@ -380,7 +380,7 @@ std::vector<Round> Tournament::rounds()
 std::vector<Round> Tournament::playerRounds(Player player)
 {
     std::vector<Round> ret;
-    squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::pid_rounds(player.id(), this->tid);
+    squire_ffi::sc_RoundId *rids = (squire_ffi::sc_RoundId *) squire_ffi::pid_rounds(player.id(), this->tid);
     if (rids == NULL) {
         lprintf(LOG_ERROR, "Cannot get rounds for player\n");
         return ret;
@@ -390,7 +390,7 @@ std::vector<Round> Tournament::playerRounds(Player player)
         ret.push_back(Round(rids[i], this->tid));
     }
 
-    squire_core::sq_free(rids, sizeof(*rids) * (ret.size() + 1));
+    squire_ffi::sq_free(rids, sizeof(*rids) * (ret.size() + 1));
     return ret;
 }
 
@@ -398,7 +398,7 @@ std::vector<Round> Tournament::playerRounds(Player player)
 bool Tournament::save()
 {
     this->setSaveStatus(false);
-    bool ret = squire_core::save_tourn(this->tid, this->saveLocation.c_str());
+    bool ret = squire_ffi::save_tourn(this->tid, this->saveLocation.c_str());
     if (!ret) {
         lprintf(LOG_ERROR, "Cannot save tournament as %s\n", this->saveLocation.c_str());
     } else {
@@ -411,8 +411,8 @@ bool Tournament::save()
 std::vector<Round> Tournament::pairRounds()
 {
     std::vector<Round> ret = std::vector<Round>();
-    squire_core::sc_AdminId laid = this->aid();
-    squire_core::sc_RoundId *rids = (squire_core::sc_RoundId *) squire_core::tid_pair_round(this->tid, laid);
+    squire_ffi::sc_AdminId laid = this->aid();
+    squire_ffi::sc_RoundId *rids = (squire_ffi::sc_RoundId *) squire_ffi::tid_pair_round(this->tid, laid);
     if (rids == NULL) {
         lprintf(LOG_ERROR, "Cannot pair rounds\n");
         return ret;
@@ -423,7 +423,7 @@ std::vector<Round> Tournament::pairRounds()
         ret.push_back(rnd);
         emit onRoundAdded(rnd);
     }
-    squire_core::sq_free(rids, ret.size() + 1);
+    squire_ffi::sq_free(rids, ret.size() + 1);
     this->save();
 
     return ret;
@@ -431,19 +431,19 @@ std::vector<Round> Tournament::pairRounds()
 
 int Tournament::roundSlipsHtml(std::string css, std::string &result)
 {
-    char *str = (char *) squire_core::tid_round_slips_html(this->tid, css.c_str());
+    char *str = (char *) squire_ffi::tid_round_slips_html(this->tid, css.c_str());
     if (str == NULL) return 0;
 
     std::string ret = std::string(str);
-    squire_core::sq_free(str, ret.size() + 1);
+    squire_ffi::sq_free(str, ret.size() + 1);
     result = ret;
     return 1;
 }
 
 bool Tournament::start()
 {
-    squire_core::sc_AdminId laid = this->aid();
-    bool r = squire_core::tid_start(this->tid, laid);
+    squire_ffi::sc_AdminId laid = this->aid();
+    bool r = squire_ffi::tid_start(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
 
@@ -455,8 +455,8 @@ bool Tournament::start()
 
 bool Tournament::end()
 {
-    squire_core::sc_AdminId laid = this->aid();
-    bool r = squire_core::tid_end(this->tid, laid);
+    squire_ffi::sc_AdminId laid = this->aid();
+    bool r = squire_ffi::tid_end(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
 
@@ -468,8 +468,8 @@ bool Tournament::end()
 
 bool Tournament::cancel()
 {
-    squire_core::sc_AdminId laid = this->aid();
-    bool r = squire_core::tid_cancel(this->tid, laid);
+    squire_ffi::sc_AdminId laid = this->aid();
+    bool r = squire_ffi::tid_cancel(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
 
@@ -481,8 +481,8 @@ bool Tournament::cancel()
 
 bool Tournament::freeze()
 {
-    squire_core::sc_AdminId laid = this->aid();
-    bool r = squire_core::tid_freeze(this->tid, laid);
+    squire_ffi::sc_AdminId laid = this->aid();
+    bool r = squire_ffi::tid_freeze(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
 
@@ -494,8 +494,8 @@ bool Tournament::freeze()
 
 bool Tournament::thaw()
 {
-    squire_core::sc_AdminId laid = this->aid();
-    bool r = squire_core::tid_thaw(this->tid, laid);
+    squire_ffi::sc_AdminId laid = this->aid();
+    bool r = squire_ffi::tid_thaw(this->tid, laid);
     emit this->onStatusChanged(this->status());
     this->save();
 
@@ -518,7 +518,7 @@ bool Tournament::isSaved()
 
 bool Tournament::recordResult(Round round, Player p, int wins)
 {
-    squire_core::sc_AdminId laid = this->aid();
+    squire_ffi::sc_AdminId laid = this->aid();
     bool r = rid_record_result(round.id(), this->tid, laid, p.id(), wins);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
@@ -532,7 +532,7 @@ bool Tournament::recordResult(Round round, Player p, int wins)
 
 bool Tournament::recordDraws(Round round, int draws)
 {
-    squire_core::sc_AdminId laid = this->aid();
+    squire_ffi::sc_AdminId laid = this->aid();
     bool r = rid_record_draws(round.id(), this->tid, laid, draws);
     emit onRoundsChanged(this->rounds()); // TODO: emit something better
     this->save();
@@ -545,7 +545,7 @@ bool Tournament::recordDraws(Round round, int draws)
 
 bool Tournament::confirmPlayer(Round round, Player p)
 {
-    squire_core::sc_AdminId laid = this->aid();
+    squire_ffi::sc_AdminId laid = this->aid();
     bool r = rid_confirm_player(round.id(), this->tid, laid, p.id());
     emit onRoundsChanged(this->rounds());
     this->save();
@@ -558,7 +558,7 @@ bool Tournament::confirmPlayer(Round round, Player p)
 
 bool Tournament::killRound(Round round)
 {
-    squire_core::sc_AdminId laid = this->aid();
+    squire_ffi::sc_AdminId laid = this->aid();
     bool r = rid_kill(round.id(), this->tid, laid);
     emit onRoundsChanged(this->rounds());
     this->save();
@@ -571,7 +571,7 @@ bool Tournament::killRound(Round round)
 
 bool Tournament::timeExtendRound(Round round, size_t ext)
 {
-    squire_core::sc_AdminId laid = this->aid();
+    squire_ffi::sc_AdminId laid = this->aid();
     bool r = rid_time_extend(round.id(), this->tid, laid, ext);
     emit onRoundsChanged(this->rounds());
     this->save();
@@ -584,7 +584,7 @@ bool Tournament::timeExtendRound(Round round, size_t ext)
 
 bool Tournament::dropPlayer(Player p)
 {
-    squire_core::sc_AdminId laid = this->aid();
+    squire_ffi::sc_AdminId laid = this->aid();
     bool r = tid_drop_player(this->tid, p.id(), laid);
     emit this->onPlayersChanged(this->players());
     this->save();

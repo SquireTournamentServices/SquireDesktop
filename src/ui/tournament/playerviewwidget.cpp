@@ -1,7 +1,7 @@
 #include "playerviewwidget.h"
 #include "ui_playerviewwidget.h"
 #include <QMessageBox>
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 
 PlayerViewWidget::PlayerViewWidget(Tournament *tourn, QWidget *parent) :
     QWidget(parent),
@@ -52,10 +52,10 @@ QString PlayerViewWidget::getStatusString()
                    + " - ";
 
     switch(this->player.status()) {
-    case squire_core::sc_PlayerStatus::Registered:
+    case squire_ffi::sc_PlayerStatus::Registered:
         base += tr("Active");
         break;
-    case squire_core::sc_PlayerStatus::Dropped:
+    case squire_ffi::sc_PlayerStatus::Dropped:
         base += tr("Dropped");
         break;
     }

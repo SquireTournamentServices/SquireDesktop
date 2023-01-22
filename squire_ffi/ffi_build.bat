@@ -1,8 +1,7 @@
 python bindgen.py
-cbindgen --config cbindgen.toml --crate squire_lib --output squire_core.h -v
-echo "Exported to ./squire_core.h"
-cargo build --features ffi --package squire_lib --release
+cbindgen --config cbindgen.toml --output squire_ffi.h -v
+echo "Exported to ./squire_ffi.h"
+cargo build --release
 
 echo "Removing polymorphism"
 python postprocess.py
-
