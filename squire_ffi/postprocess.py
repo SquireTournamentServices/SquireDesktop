@@ -19,7 +19,8 @@ def main() -> None:
     for line in data.split("\n"):
         mtchs = RATIONAL_LINE_RE.match(line)
         if mtchs:
-            ret += """
+            ret += (
+                """
 /// This is ghastly wrapper for ratio32
 typedef struct ratio32 {
     int _0;
@@ -29,7 +30,10 @@ typedef struct ratio32 {
 /// Turns a rational32 or ratio32 into a floating point number
 float ratio32ToFloat(ratio32 r);
 
-using sc_Rational32 = ratio32;\n""" + line + "\n"
+using sc_Rational32 = ratio32;\n"""
+                + line
+                + "\n"
+            )
             print("Rational32 is no longer undefined")
             continue
 

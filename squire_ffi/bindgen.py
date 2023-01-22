@@ -7,7 +7,16 @@ re_impl = re.compile(".*impl ([a-zA-Z0-9_]+).*")
 re_func = re.compile(".*pub extern fn ([a-zA-Z0-9_]+).*")
 
 dirs = os.listdir("./src/")
-types = ["AdminId","RoundId","PlayerId","TournamentId","JudgeId","TournamentPreset","PlayerStatus","StandardScore"]
+types = [
+    "AdminId",
+    "RoundId",
+    "PlayerId",
+    "TournamentId",
+    "JudgeId",
+    "TournamentPreset",
+    "PlayerStatus",
+    "StandardScore",
+]
 funcs = []
 
 for dir in dirs:

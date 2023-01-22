@@ -5,26 +5,19 @@ project(
   VERSION 0.1
   LANGUAGES CXX)
 
-set(SQ_REPO_URL "https://github.com/MonarchDevelopment/SquireFFI")
-
 message(STATUS "SquireFFI information:")
 message(STATUS "Building ${CMAKE_PROJECT_NAME}")
-message(STATUS "SQ Git repo: ${SQ_REPO_URL}")
 message(STATUS "SQ Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "SQ Version: ${CMAKE_PROJECT_VERSION}")
 message(STATUS "SQ Build OS: ${CMAKE_SYSTEM_NAME}")
 
 # Copy into your CMakeFile after importing this sub directory Get the branch
 # name
-execute_process(
-  COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  OUTPUT_VARIABLE SQ_GIT_BRANCH
-  OUTPUT_STRIP_TRAILING_WHITESPACE)
+set(SQ_GIT_BRANCH "main")
 
 # Get the latest abbreviated commit hash of the working branch
 execute_process(
-  COMMAND git log -1 --format=%h
+  COMMAND python squire_core_git_hash.py
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   OUTPUT_VARIABLE SQ_GIT_COMMIT_HASH
   OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -92,9 +85,9 @@ endif()
 
 add_library(squire_ffi INTERFACE)
 set_target_properties(squire_ffi PROPERTIES IMPORTED_LOCATION
-                                             ${RUST_PART_CXX_FILE})
+                                            ${RUST_PART_CXX_FILE})
 target_link_libraries(squire_ffi INTERFACE ${RUST_PART_CXX_FILE} ${LIBS}
-                                            OpenSSL::SSL OpenSSL::Crypto)
+                                           OpenSSL::SSL OpenSSL::Crypto)
 add_dependencies(squire_ffi RUST_PART_H)
 
 add_test(

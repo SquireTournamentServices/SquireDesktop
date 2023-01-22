@@ -133,7 +133,12 @@ pub extern "C" fn rid_confirmed_players(rid: RoundId, tid: TournamentId) -> *con
 /// Confirms a player for the match result
 /// false on error
 #[no_mangle]
-pub extern "C" fn rid_confirm_player(rid: RoundId, tid: TournamentId, aid: AdminId, pid: PlayerId) -> bool {
+pub extern "C" fn rid_confirm_player(
+    rid: RoundId,
+    tid: TournamentId,
+    aid: AdminId,
+    pid: PlayerId,
+) -> bool {
     match SQUIRE_RUNTIME.get().unwrap().apply_operation(
         tid,
         TournOp::JudgeOp(aid.into(), JudgeOp::AdminConfirmResult(rid, pid.into())),
@@ -173,7 +178,12 @@ pub extern "C" fn rid_record_result(
 
 /// Records draws for a round
 #[no_mangle]
-pub extern "C" fn rid_record_draws(rid: RoundId, tid: TournamentId, aid: AdminId, draws: u32) -> bool {
+pub extern "C" fn rid_record_draws(
+    rid: RoundId,
+    tid: TournamentId,
+    aid: AdminId,
+    draws: u32,
+) -> bool {
     match SQUIRE_RUNTIME.get().unwrap().apply_operation(
         tid,
         TournOp::JudgeOp(

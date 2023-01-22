@@ -355,8 +355,7 @@ pub extern "C" fn tid_update_settings(
         return false;
     }
 
-    if let Err(err) = rt.apply_operation(tid, TournOp::AdminOp(aid, AdminOp::UpdateReg(reg_open)))
-    {
+    if let Err(err) = rt.apply_operation(tid, TournOp::AdminOp(aid, AdminOp::UpdateReg(reg_open))) {
         print_err(err, "updating regsitration status.");
         return false;
     }
@@ -727,11 +726,7 @@ pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> Tournament
         return TournamentId::default();
     }
 
-    let t_id = rt.create_tournament(
-        "TEMP".into(),
-        TournamentPreset::Swiss,
-        "TEMP".into(),
-    );
+    let t_id = rt.create_tournament("TEMP".into(), TournamentPreset::Swiss, "TEMP".into());
     let _ = rt.mutate_tournament(t_id, |t| *t = tournament);
     t_id
 }

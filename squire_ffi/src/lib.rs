@@ -5,16 +5,20 @@ use std::{
     alloc::{Allocator, Layout, System},
     borrow::Cow,
     os::raw::{c_char, c_void},
-    ptr, 
+    ptr,
 };
 
-use squire_sdk::{model::{
-    error::TournamentError,
-    operations::{OpData, TournOp},
-    players::Player,
-    rounds::{Round, RoundId},
-    tournament::Tournament,
-}, tournaments::{TournamentId, TournamentPreset}, players::PlayerId};
+use squire_sdk::{
+    model::{
+        error::TournamentError,
+        operations::{OpData, TournOp},
+        players::Player,
+        rounds::{Round, RoundId},
+        tournament::Tournament,
+    },
+    players::PlayerId,
+    tournaments::{TournamentId, TournamentPreset},
+};
 
 use chrono::Utc;
 use dashmap::DashMap;

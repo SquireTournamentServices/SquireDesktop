@@ -1,6 +1,10 @@
 use std::os::raw::c_char;
 
-use squire_sdk::{model::{identifiers::RoundId, players::PlayerStatus}, tournaments::TournamentId, players::PlayerId};
+use squire_sdk::{
+    model::{identifiers::RoundId, players::PlayerStatus},
+    players::PlayerId,
+    tournaments::TournamentId,
+};
 
 use crate::{clone_string_to_c_string, copy_to_system_pointer, print_err, SQUIRE_RUNTIME};
 
