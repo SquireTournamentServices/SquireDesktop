@@ -292,10 +292,15 @@ jobs:
 
       - name: Generate release assets
         shell: bash
+        env:
+          QTDIR: '${{github.workspace}}\Qt\${{matrix.qt_version}}\win${{matrix.arch}}_${{matrix.qt_arch}}'
+
         run: |
           mkdir -p debug-build
           cp -f build/Debug/SquireDesktop.exe debug-build/
           cp -f lib/x86_64/discord_game_sdk.dll debug-build/
+          cp -f $QTFIR/*.dll debug-build || true
+          cp -f $QTFIR/**/*.dll debug-build || true
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
