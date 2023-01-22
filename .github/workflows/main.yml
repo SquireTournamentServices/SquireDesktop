@@ -295,10 +295,10 @@ jobs:
         run: |
           mkdir -p debug-build
           cp -f build/Debug/SquireDesktop.exe debug-build/
-          cp -f build/Debug/discord_game_sdk.dll debug.build/
+          cp -f build/discord_game_sdk.dll debug.build/
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: SquireDesktop.exe
-          path: build/debug-build
+          path: debug-build
