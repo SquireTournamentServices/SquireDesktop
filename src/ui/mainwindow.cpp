@@ -55,14 +55,14 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     ui->statusbar->addWidget(this->versionLabel);
 #if QT_VERSION >= 0x050e00
     this->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
-                                + tr("Squire Core Version: ") + SQ_VERSION
+                                + tr("Squire Lib Version: ") + SQ_VERSION
                                 + " | OS: " + OS + " | ["
                                 + tr("Github Repo") + "](" + REPO_URL + ") | "
                                 + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
     this->versionLabel->setTextFormat(Qt::MarkdownText);
 #else
     this->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
-                                + tr("Squire Core Version: ") + SQ_VERSION
+                                + tr("Squire Lib Version: ") + SQ_VERSION
                                 + " | OS: " + OS + " | "
                                 + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2022"));
 #endif

@@ -5,12 +5,12 @@
 #include "../src/model/player.h"
 #include "../src/model/round.h"
 #include "../src/ffi_utils.h"
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 
 #define TEST_FILE "test_tournament.tourn"
 #define TEST_NAME "Tournament 1234567890"
 #define TEST_FORMAT "cEDH"
-#define TEST_PRESET squire_core::sc_TournamentPreset::Fluid
+#define TEST_PRESET squire_ffi::sc_TournamentPreset::Fluid
 #define TEST_NUM_GAME_SIZE 5
 #define TEST_NUM_MIN_DECKS (TEST_NUM_GAME_SIZE + 1)
 #define TEST_NUM_MAX_DECKS (TEST_NUM_MIN_DECKS + 1)
@@ -25,7 +25,7 @@ static int test_round_getters()
     Tournament *t = new_tournament(TEST_FILE ".2",
                                    TEST_NAME,
                                    TEST_FORMAT,
-                                   squire_core::sc_TournamentPreset::Swiss,
+                                   squire_ffi::sc_TournamentPreset::Swiss,
                                    TEST_BOOL,
                                    4,
                                    TEST_NUM_MIN_DECKS,
@@ -59,7 +59,7 @@ static int test_round_getters()
     ASSERT(rounds.size() > 0);
     ASSERT(rounds.size() == t->rounds().size());
 
-    squire_core::sc_RoundId rid = rounds[0].id();
+    squire_ffi::sc_RoundId rid = rounds[0].id();
     ASSERT(!is_null_id(rid._0));
 
     ASSERT(t->rounds().size() == 1);
@@ -91,7 +91,7 @@ static int test_round_getters()
 
     ASSERT(rounds[0].match_number() == 1);
     ASSERT(memcmp(rounds[0].tourn_id()._0, t->id()._0, sizeof(t->id()._0)) == 0);
-    ASSERT(rounds[0].status() == squire_core::sc_RoundStatus::Open);
+    ASSERT(rounds[0].status() == squire_ffi::sc_RoundStatus::Open);
     ASSERT(rounds[0].players_as_str() != "");
     ASSERT(roundIsActive(rounds[0]));
     ASSERT(rounds[0].confirmed_players().size() == 0);
@@ -138,7 +138,7 @@ static int test_round_kill()
     Tournament *t = new_tournament(TEST_FILE ".2",
                                    TEST_NAME,
                                    TEST_FORMAT,
-                                   squire_core::sc_TournamentPreset::Swiss,
+                                   squire_ffi::sc_TournamentPreset::Swiss,
                                    TEST_BOOL,
                                    4,
                                    TEST_NUM_MIN_DECKS,
@@ -171,7 +171,7 @@ static int test_round_kill()
     ASSERT(rounds.size() == t->players().size() / t->game_size());
     ASSERT(rounds.size() > 0);
 
-    squire_core::sc_RoundId rid = rounds[0].id();
+    squire_ffi::sc_RoundId rid = rounds[0].id();
     ASSERT(!is_null_id(rid._0));
 
     ASSERT(t->rounds().size() == 1);

@@ -2,7 +2,7 @@
 #include "../testing_h/testing.h"
 #include "../src/model/abstract_tournament.h"
 #include "../src/ffi_utils.h"
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 #include <unistd.h>
 #include <string.h>
 #include <string>
@@ -10,7 +10,7 @@
 #define TEST_FILE "test_tournament.tourn"
 #define TEST_NAME "Tournament 1234567890"
 #define TEST_FORMAT "cEDH"
-#define TEST_PRESET squire_core::sc_TournamentPreset::Fluid
+#define TEST_PRESET squire_ffi::sc_TournamentPreset::Fluid
 #define TEST_NUM_GAME_SIZE 5
 #define TEST_NUM_MIN_DECKS (TEST_NUM_GAME_SIZE + 1)
 #define TEST_NUM_MAX_DECKS (TEST_NUM_MIN_DECKS + 1)
@@ -172,7 +172,7 @@ static int test_add_player()
     std::vector<Player> players = t->players();
     ASSERT(players.size() == 0);
 
-    squire_core::sc_PlayerId pid;
+    squire_ffi::sc_PlayerId pid;
     bool s;
     Player p = t->addPlayer(TEST_NAME, &s);
     ASSERT(t->save());
@@ -281,13 +281,13 @@ static int test_status_change()
 
     // Test status things
     ASSERT(t->start());
-    ASSERT(t->status() == squire_core::sc_TournamentStatus::Started);
+    ASSERT(t->status() == squire_ffi::sc_TournamentStatus::Started);
     ASSERT(t->freeze());
-    ASSERT(t->status() == squire_core::sc_TournamentStatus::Frozen);
+    ASSERT(t->status() == squire_ffi::sc_TournamentStatus::Frozen);
     ASSERT(t->thaw());
-    ASSERT(t->status() == squire_core::sc_TournamentStatus::Started);
+    ASSERT(t->status() == squire_ffi::sc_TournamentStatus::Started);
     ASSERT(t->end());
-    ASSERT(t->status() == squire_core::sc_TournamentStatus::Ended);
+    ASSERT(t->status() == squire_ffi::sc_TournamentStatus::Ended);
 
     ASSERT(t->close());
     delete t;
@@ -306,7 +306,7 @@ static int test_status_change()
 
     ASSERT(t2 != nullptr);
     ASSERT(t2->cancel());
-    ASSERT(t2->status() == squire_core::sc_TournamentStatus::Cancelled);
+    ASSERT(t2->status() == squire_ffi::sc_TournamentStatus::Cancelled);
     ASSERT(t2->close());
 
     delete t2;
@@ -318,7 +318,7 @@ static int test_pair_round()
     Tournament *t = new_tournament(TEST_FILE ".2",
                                    TEST_NAME,
                                    TEST_FORMAT,
-                                   squire_core::sc_TournamentPreset::Swiss,
+                                   squire_ffi::sc_TournamentPreset::Swiss,
                                    TEST_BOOL,
                                    4,
                                    TEST_NUM_MIN_DECKS,
@@ -351,7 +351,7 @@ static int test_pair_round()
             t->players().size() / t->game_size());
     ASSERT(rounds.size() == 1);
 
-    squire_core::sc_RoundId rid = rounds[0].id();
+    squire_ffi::sc_RoundId rid = rounds[0].id();
     ASSERT(!is_null_id(rid._0));
 
     ASSERT(t->rounds().size() == 1);
@@ -369,7 +369,7 @@ int test_round_slips()
     Tournament *t = new_tournament(TEST_FILE ".3",
                                    TEST_NAME,
                                    TEST_FORMAT,
-                                   squire_core::sc_TournamentPreset::Swiss,
+                                   squire_ffi::sc_TournamentPreset::Swiss,
                                    TEST_BOOL,
                                    4,
                                    TEST_NUM_MIN_DECKS,
@@ -393,7 +393,7 @@ int test_round_slips()
             rounds.size(),
             t->players().size() / t->game_size());
 
-    squire_core::sc_RoundId rid = rounds[0].id();
+    squire_ffi::sc_RoundId rid = rounds[0].id();
     ASSERT(!is_null_id(rid._0));
 
     ASSERT(!is_null_id(t->rounds()[0].id()._0));

@@ -20,7 +20,7 @@ after_includes = "#define SQUIRE_FFI"
 [export]
 prefix = "sc_"
 
-include = ["AdminId","RoundId","PlayerId","TournamentId","JudgeId","TournamentPreset","PlayerStatus","StandardScore","PlayerScore","SquireRuntime","ActionError"]
+include = ["AdminId","RoundId","PlayerId","TournamentId","JudgeId","TournamentPreset","PlayerStatus","StandardScore","SquireRuntime","ActionError","PlayerScore"]
 
 item_types = ["globals", "enums", "structs", "unions", "typedefs", "opaque", "functions", "constants"]
 

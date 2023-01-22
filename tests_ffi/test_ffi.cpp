@@ -6,7 +6,7 @@
 #include "./test_tournament_ffi.h"
 #include "./test_round_ffi.h"
 #include "./test_ffi.h"
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 
 int test_func()
 {
@@ -24,7 +24,7 @@ int ffi_tests()
         {&test_round_ffi, "Round FFI Tests"}
     };
 
-    squire_core::init_squire_ffi(); // This is important!
+    squire_ffi::init_squire_ffi(); // This is important!
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");
     lprintf(LOG_INFO, "%d/%ld tests failed.\n", failed_tests, sizeof(tests) / sizeof(*tests));
     return failed_tests > 0;

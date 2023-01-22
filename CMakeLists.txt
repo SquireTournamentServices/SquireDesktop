@@ -321,6 +321,14 @@ set(JSON_BuildTests
 add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_ffi)
+
+# Version info
+add_definitions("-DSQ_GIT_COMMIT_HASH=\"${SQ_GIT_COMMIT_HASH}\"")
+add_definitions("-DSQ_GIT_BRANCH=\"${SQ_GIT_BRANCH}\"")
+add_definitions(
+  "-DSQ_VERSION=\"${CMAKE_PROJECT_VERSION} (${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH})\""
+)
+
 # add_subdirectory(libbacktrace)
 
 add_subdirectory(jansson)
@@ -328,26 +336,6 @@ include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
 
 add_subdirectory(curl)
 include_directories(${CURL_INCLUDE_DIR})
-
-# Get the branch name
-execute_process(
-  COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/squire_ffi"
-  OUTPUT_VARIABLE SQ_GIT_BRANCH
-  OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-# Get the latest abbreviated commit hash of the working branch
-execute_process(
-  COMMAND git log -1 --format=%h
-  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/squire_ffi"
-  OUTPUT_VARIABLE SQ_GIT_COMMIT_HASH
-  OUTPUT_STRIP_TRAILING_WHITESPACE)
-# Version info
-add_definitions("-DSQ_GIT_COMMIT_HASH=\"${SQ_GIT_COMMIT_HASH}\"")
-add_definitions("-DSQ_GIT_BRANCH=\"${SQ_GIT_BRANCH}\"")
-add_definitions(
-  "-DSQ_VERSION=\"${CMAKE_PROJECT_VERSION} (${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH})\""
-)
 
 include_directories(include)
 

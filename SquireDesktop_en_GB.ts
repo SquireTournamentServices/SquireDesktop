@@ -372,8 +372,8 @@
     <message>
         <location filename="src/ui/mainwindow.cpp" line="58"/>
         <location filename="src/ui/mainwindow.cpp" line="65"/>
-        <source>Squire Core Version: </source>
-        <oldsource>Core Version: </oldsource>
+        <source>Squire Lib Version: </source>
+        <oldsource>Squire Core Version: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
