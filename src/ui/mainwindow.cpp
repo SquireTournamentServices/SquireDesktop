@@ -10,7 +10,7 @@
 #include "./ui_appdashboardtab.h" // Hack to attach dashboard to menubar
 #include "./abstracttabwidget.h"
 #include "./tournamenttab.h"
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 #include <chrono>
 #include <string.h>
 #include <QIcon>
@@ -355,10 +355,10 @@ void MainWindow::onTournamentAdded(Tournament *t)
     recent_t.file_path = clone_std_string(t->save_location());
     recent_t.name = clone_std_string(t->name());
     switch(t->pairing_type()) {
-    case squire_core::sc_TournamentPreset::Fluid:
+    case squire_ffi::sc_TournamentPreset::Fluid:
         recent_t.pairing_sys = clone_string(PAIRING_FLUID);
         break;
-    case squire_core::sc_TournamentPreset::Swiss:
+    case squire_ffi::sc_TournamentPreset::Swiss:
         recent_t.pairing_sys = clone_string(PAIRING_SWISS);
         break;
     }

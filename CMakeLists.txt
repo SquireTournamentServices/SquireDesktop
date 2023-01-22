@@ -320,11 +320,11 @@ set(JSON_BuildTests
     CACHE INTERNAL "")
 add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
-add_subdirectory(squire_core)
+add_subdirectory(squire_ffi)
 # add_subdirectory(libbacktrace)
 
 add_subdirectory(jansson)
-include_directories(${CMAKE_BINARY_DIR}/squire_core ${JANSSON_INCLUDE_DIRS})
+include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
 
 add_subdirectory(curl)
 include_directories(${CURL_INCLUDE_DIR})
@@ -332,14 +332,14 @@ include_directories(${CURL_INCLUDE_DIR})
 # Get the branch name
 execute_process(
   COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/squire_core"
+  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/squire_ffi"
   OUTPUT_VARIABLE SQ_GIT_BRANCH
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 # Get the latest abbreviated commit hash of the working branch
 execute_process(
   COMMAND git log -1 --format=%h
-  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/squire_core"
+  WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/squire_ffi"
   OUTPUT_VARIABLE SQ_GIT_COMMIT_HASH
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 # Version info
@@ -397,7 +397,7 @@ else()
 endif()
 
 target_link_libraries(SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
-                                            squire_core ${LIBS})
+                                            squire_ffi ${LIBS})
 add_dependencies(SquireDesktop generate_assets)
 
 # Link discord
@@ -454,14 +454,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "TEST")
   target_link_libraries(
     SquireDesktopFFITests
     PUBLIC ${LIBS}
-    PRIVATE squire_core Qt${QT_VERSION_MAJOR}::Widgets)
+    PRIVATE squire_ffi Qt${QT_VERSION_MAJOR}::Widgets)
 
   add_executable(SquireDesktopCoverage
                  ./coverage_main.cpp ${FFI_TESTING_SOURCES} ${TESTING_SOURCES})
   target_link_libraries(
     SquireDesktopCoverage
     PUBLIC ${LIBS}
-    PRIVATE squire_core Qt${QT_VERSION_MAJOR}::Widgets)
+    PRIVATE squire_ffi Qt${QT_VERSION_MAJOR}::Widgets)
 
   file(COPY config_test_tournament.tourn DESTINATION ${CMAKE_BINARY_DIR})
   file(COPY mem_tests.sh DESTINATION ${CMAKE_BINARY_DIR})

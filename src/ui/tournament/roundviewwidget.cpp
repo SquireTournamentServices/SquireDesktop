@@ -90,13 +90,13 @@ void RoundViewWidget::displayRound()
 
         // Status
         switch(this->round.status()) {
-        case squire_core::sc_RoundStatus::Open:
+        case squire_ffi::sc_RoundStatus::Open:
             statusStr = tr("Match is in progress");
             break;
-        case squire_core::sc_RoundStatus::Certified:
+        case squire_ffi::sc_RoundStatus::Certified:
             statusStr = tr("Match has been finished and, results are confirmed");
             break;
-        case squire_core::sc_RoundStatus::Dead:
+        case squire_ffi::sc_RoundStatus::Dead:
             statusStr = tr("Match has been deleted");
             break;
         default:

@@ -21,6 +21,6 @@ protected:
 private:
     Ui::TournamentChangeSettingsDialogue *ui;
     Tournament *tourn;
-    std::vector<squire_core::sc_TournamentStatus> possibleStatusChanges;
+    std::vector<squire_ffi::sc_TournamentStatus> possibleStatusChanges;
 };
 

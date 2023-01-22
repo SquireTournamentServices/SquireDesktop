@@ -69,9 +69,9 @@ QVariant PlayerModel::data(const QModelIndex &index, int role) const
     switch (index.column()) {
     case 0:
         switch (player.status()) {
-        case squire_core::sc_PlayerStatus::Dropped:
+        case squire_ffi::sc_PlayerStatus::Dropped:
             return QVariant(*DROPPED_STATUS_ICON);
-        case squire_core::sc_PlayerStatus::Registered:
+        case squire_ffi::sc_PlayerStatus::Registered:
             return QVariant(*REGISTERED_STATUS_ICON);
         }
         return QVariant(tr("Error"));

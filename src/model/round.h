@@ -3,18 +3,18 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 
 class Round
 {
 public:
     Round();
-    Round(squire_core::sc_RoundId rid, squire_core::sc_TournamentId tid);
+    Round(squire_ffi::sc_RoundId rid, squire_ffi::sc_TournamentId tid);
     Round(const Round &r);
     ~Round();
-    squire_core::sc_RoundId id();
-    squire_core::sc_TournamentId tourn_id();
-    squire_core::sc_RoundStatus status();
+    squire_ffi::sc_RoundId id();
+    squire_ffi::sc_TournamentId tourn_id();
+    squire_ffi::sc_RoundStatus status();
     long time_left();
     long duration();
     int match_number();
@@ -27,8 +27,8 @@ public:
     std::vector<Player> confirmed_players();
     std::string players_as_str();
 private:
-    squire_core::sc_TournamentId tid;
-    squire_core::sc_RoundId rid;
+    squire_ffi::sc_TournamentId tid;
+    squire_ffi::sc_RoundId rid;
 };
 
 bool roundIsActive(Round r);

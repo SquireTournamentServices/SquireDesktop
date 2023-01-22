@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdio.h>
-#include <squire_core/squire_core.h>
+#include <squire_ffi/squire_ffi.h>
 #include "../testing_h/logger.h"
 
 bool is_null_id(const unsigned char id[16])
@@ -30,7 +30,7 @@ void print_id(const unsigned char id[16])
     }
 }
 
-namespace squire_core
+namespace squire_ffi
 {
 /// This is the definition for this method from the ffi wrapper
 float ratio32ToFloat(ratio32 r)
