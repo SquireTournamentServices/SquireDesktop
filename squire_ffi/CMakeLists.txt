@@ -17,11 +17,6 @@ set(SQ_GIT_BRANCH
     "main"
     PARENT_SCOPE)
 
-# Get the latest abbreviated commit hash of the working branch
-set(SQ_GIT_BRANCH
-    ""
-    PARENT_SCOPE)
-
 execute_process(
   COMMAND python squire_core_git_hash.py
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
