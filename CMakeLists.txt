@@ -29,23 +29,23 @@ execute_process(
 message(STATUS "Commit info: ${GIT_COMMIT_HASH}@${GIT_BRANCH}")
 
 # Version info
-add_definitions("-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
-add_definitions("-DGIT_BRANCH=\"${GIT_BRANCH}\"")
-add_definitions(
+add_compile_definitions("-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
+add_compile_definitions("-DGIT_BRANCH=\"${GIT_BRANCH}\"")
+add_compile_definitions(
   "-DVERSION=\"${CMAKE_PROJECT_VERSION} (${GIT_COMMIT_HASH}@${GIT_BRANCH})\"")
-add_definitions("-DOS=\"${CMAKE_SYSTEM_NAME}\"")
-add_definitions("-DREPO_URL=\"${REPO_URL}\"")
-add_definitions("-DBUFFER_LENGTH=4096")
-add_definitions("-DPROJECT_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
-add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
+add_compile_definitions("-DOS=\"${CMAKE_SYSTEM_NAME}\"")
+add_compile_definitions("-DREPO_URL=\"${REPO_URL}\"")
+add_compile_definitions("-DBUFFER_LENGTH=4096")
+add_compile_definitions("-DPROJECT_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
+add_compile_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 
 # __FILENAME__
 string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
-add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
-add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
+add_compile_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
+add_compile_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
 
 if(WIN32)
-  add_definitions("-D__WINDOWS")
+  add_compile_definitions("-D__WINDOWS")
   set(CURL_STATIC_CRT ON)
   set(JANSSON_STATIC_CRT ON)
 
@@ -72,14 +72,14 @@ endif()
 
 # Define a proper install path
 if(UNIX)
-  add_definitions("-D__UNIX")
+  add_compile_definitions("-D__UNIX")
   if(APPLE)
     # macOS Due to the special bundle structure ignore the prefix eventually set
     # by the user.
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/release)
-    add_definitions("-D__APPLE")
+    add_compile_definitions("-D__APPLE")
   else()
-    add_definitions("-D__LINUX") # bsd isnt real
+    add_compile_definitions("-D__LINUX") # bsd isnt real
     # Linux / BSD
     if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
       # fix package build
