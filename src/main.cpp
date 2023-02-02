@@ -114,6 +114,7 @@ static void handler(int sig)
 
 int main(int argc, char *argv[])
 {
+    tzset();
     lprintf(LOG_INFO, "Starting %s ...\n", argv[0]);
 
     // Error catchinator 9000

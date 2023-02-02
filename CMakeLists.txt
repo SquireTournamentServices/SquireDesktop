@@ -137,7 +137,7 @@ set(TS_FILES SquireDesktop_en_GB.ts)
 
 # Non-ui files that are tested
 set(MAIN_FILES
-    ./testing_h/logger.cpp
+    ./testing_h/logger.c
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
     ./src/filerable_list.hpp
@@ -241,7 +241,7 @@ set(PROJECT_SOURCES
 
 set(TESTING_SOURCES
     ${MAIN_FILES}
-    ./testing_h/testing.cpp
+    ./testing_h/testing.c
     ./testing_h/testing.h
     ./tests/test_filter_list.cpp
     ./tests/test_filter_list.h
@@ -259,7 +259,7 @@ set(TESTING_SOURCES
 set(FFI_TESTING_SOURCES
     ${MAIN_FILES}
     ${FFI_FILES}
-    ./testing_h/testing.cpp
+    ./testing_h/testing.c
     ./testing_h/testing.h
     ./tests_ffi/sq_link_test.h
     ./tests_ffi/sq_link_test.cpp
