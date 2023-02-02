@@ -13,22 +13,16 @@ message(STATUS "SQ Build OS: ${CMAKE_SYSTEM_NAME}")
 
 # Copy into your CMakeFile after importing this sub directory Get the branch
 # name
-set(SQ_GIT_BRANCH "main")
+set(SQ_GIT_BRANCH
+    "main"
+    PARENT_SCOPE)
 
-# Get the latest abbreviated commit hash of the working branch
 execute_process(
   COMMAND python squire_core_git_hash.py
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   OUTPUT_VARIABLE SQ_GIT_COMMIT_HASH
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 message(STATUS "SQ Commit info: ${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH}")
-
-# Version info
-add_definitions("-DSQ_GIT_COMMIT_HASH=\"${SQ_GIT_COMMIT_HASH}\"")
-add_definitions("-DSQ_GIT_BRANCH=\"${SQ_GIT_BRANCH}\"")
-add_definitions(
-  "-DSQ_VERSION=\"${CMAKE_PROJECT_VERSION} (${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH})\""
-)
 
 find_package(OpenSSL)
 
@@ -89,6 +83,17 @@ set_target_properties(squire_ffi PROPERTIES IMPORTED_LOCATION
 target_link_libraries(squire_ffi INTERFACE ${RUST_PART_CXX_FILE} ${LIBS}
                                            OpenSSL::SSL OpenSSL::Crypto)
 add_dependencies(squire_ffi RUST_PART_H)
+
+# Version info
+target_compile_definitions(
+  squire_ffi INTERFACE "-DSQ_GIT_COMMIT_HASH=\"${SQ_GIT_COMMIT_HASH}\"")
+target_compile_definitions(squire_ffi
+                           INTERFACE "-DSQ_GIT_BRANCH=\"${SQ_GIT_BRANCH}\"")
+target_compile_definitions(
+  squire_ffi
+  INTERFACE
+    "-DSQ_VERSION=\"${CMAKE_PROJECT_VERSION} (${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH})\""
+)
 
 add_test(
   NAME squire_ffi_test

@@ -322,13 +322,6 @@ add_subdirectory(nlohmann_json)
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_ffi)
 
-# Version info
-add_definitions("-DSQ_GIT_COMMIT_HASH=\"${SQ_GIT_COMMIT_HASH}\"")
-add_definitions("-DSQ_GIT_BRANCH=\"${SQ_GIT_BRANCH}\"")
-add_definitions(
-  "-DSQ_VERSION=\"${CMAKE_PROJECT_VERSION} (${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH})\""
-)
-
 # add_subdirectory(libbacktrace)
 
 add_subdirectory(jansson)
