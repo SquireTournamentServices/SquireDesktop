@@ -24,13 +24,6 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE)
 message(STATUS "SQ Commit info: ${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH}")
 
-# Version info
-add_compile_definitions("-DSQ_GIT_COMMIT_HASH=\"${SQ_GIT_COMMIT_HASH}\"")
-add_compile_definitions("-DSQ_GIT_BRANCH=\"${SQ_GIT_BRANCH}\"")
-add_compile_definitions(
-  "-DSQ_VERSION=\"${CMAKE_PROJECT_VERSION} (${SQ_GIT_COMMIT_HASH}@${SQ_GIT_BRANCH})\""
-)
-
 find_package(OpenSSL)
 
 if(WIN32)
