@@ -107,7 +107,7 @@ jobs:
       with:
         python-version: '3.9'
         cache: 'pip' # caching pip dependencies
-    - run: pip install -r requirements.txt src/mtg_search_engine/requirements.txt
+    - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
         
     - name: Run Tests and Coverage
       shell: bash

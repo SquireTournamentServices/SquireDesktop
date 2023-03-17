@@ -91,7 +91,7 @@ jobs:
       with:
         python-version: '3.9'
         cache: 'pip' # caching pip dependencies
-    - run: pip install -r requirements.txt src/mtg_search_engine/requirements.txt
+    - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
@@ -183,7 +183,7 @@ jobs:
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
-      - run: pip install -r requirements.txt src/mtg_search_engine/requirements.txt
+      - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
 
       - name: Install dependencies using homebrew
         shell: bash
@@ -267,7 +267,7 @@ jobs:
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
-      - run: pip install -r requirements.txt src/mtg_search_engine/requirements.txt
+      - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
 
       - name: Restore Qt ${{matrix.qt_version}} for ${{matrix.target}} from cache
         id: cache-qt
