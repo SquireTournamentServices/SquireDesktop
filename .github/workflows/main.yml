@@ -87,6 +87,12 @@ jobs:
       with:
         rust-version: nightly
 
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r requirements.txt src/mtg-search-engine/requirements.txt
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
@@ -173,6 +179,12 @@ jobs:
         with:
          rust-version: nightly
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements.txt src/mtg-search-engine/requirements.txt
+
       - name: Install dependencies using homebrew
         shell: bash
         # cmake cannot find the mysql connector
@@ -250,6 +262,12 @@ jobs:
         uses: hecrj/setup-rust-action@v1
         with:
          rust-version: nightly
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements.txt src/mtg-search-engine/requirements.txt
 
       - name: Restore Qt ${{matrix.qt_version}} for ${{matrix.target}} from cache
         id: cache-qt
