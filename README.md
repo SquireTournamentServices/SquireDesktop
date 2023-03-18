@@ -86,10 +86,9 @@ sudo yay -S gcc build-essential g++ cmake curl libdwarf libelf
 Then run the compiler
 ```bash
 mkdir -p build && cd build # dont build in src please
-# cmake .. -DCMAKE_BUILD_TYPE=TEST # Use if want to compile tests
-cmake .. -DCMAKE_BUILD_TYPE=RELEASE # or DEBUG if you want debug symbols + debug logging
+cmake .. -DCMAKE_BUILD_TYPE=Release # or Debug if you want debug symbols + debug logging
 cmake --build . -j
-# ctest -V # use to run the tests if you built them
+# ctest -V # use to run the tests
 # make coverage # use this to create a code coverage report
 ```
 
