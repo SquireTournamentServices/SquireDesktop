@@ -319,13 +319,14 @@ set(JSON_BuildTests
     OFF
     CACHE INTERNAL "")
 add_subdirectory(nlohmann_json)
-add_subdirectory(src/mtg_search_engine)
 add_subdirectory(squire_ffi)
 
 # add_subdirectory(libbacktrace)
 
 add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
+
+add_subdirectory(src/mtg_search_engine)
 
 add_subdirectory(curl)
 include_directories(${CURL_INCLUDE_DIR})
