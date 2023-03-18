@@ -160,10 +160,21 @@ set(FFI_FILES
     ./src/model/abstract_tournament.cpp
     ./src/model/abstract_tournament.h)
 
+# Assets to data strings
+file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
+set(ASSETS_FILE ${CMAKE_CURRENT_BINARY_DIR}/assets.h)
+if(UNUX)
+  add_custom_command(OUTPUT ${ASSETS_FILE} COMMAND python3 ${ASSETS_TO_STR_PY})
+else()
+  add_custom_command(OUTPUT ${ASSETS_FILE} COMMAND python ${ASSETS_TO_STR_PY})
+endif()
+
 set(PROJECT_SOURCES
     ${TS_FILES}
     ${MAIN_FILES}
     ${FFI_FILES}
+    ${ASSETS_FILE}
     ./src/discord_game_sdk.h
     ./src/init.cpp
     ./src/init.h
@@ -285,16 +296,6 @@ option(ENABLE_LTO OFF)
 # set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) add_link_options(-fuse-ld=lld)
 # else() message(STATUS "IPO / LTO not supported: <${error}>") endif() endif()
 
-# Assets to data strings
-file(COPY "assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
-set(ASSETS_TO_STR_PY "${CMAKE_SOURCE_DIR}/assets_to_header.py")
-if(UNUX)
-  add_custom_command(OUTPUT assets.h COMMAND python3 ${ASSETS_TO_STR_PY})
-else()
-  add_custom_command(OUTPUT assets.h COMMAND python ${ASSETS_TO_STR_PY})
-endif()
-add_custom_target(generate_assets DEPENDS assets.h)
-
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
@@ -380,7 +381,6 @@ endif()
 
 target_link_libraries(SquireDesktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                                             squire_ffi ${LIBS})
-add_dependencies(SquireDesktop generate_assets)
 
 # Link discord
 add_library(discord STATIC IMPORTED)
