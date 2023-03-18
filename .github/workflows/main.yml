@@ -94,7 +94,7 @@ jobs:
     - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         languages: ${{matrix.language}}
         
