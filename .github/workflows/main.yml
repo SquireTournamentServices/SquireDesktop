@@ -316,7 +316,7 @@ jobs:
           cp -f lib/x86_64/discord_game_sdk.dll debug-build/
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: SquireDesktop.exe
           path: debug-build
