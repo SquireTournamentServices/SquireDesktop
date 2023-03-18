@@ -42,7 +42,7 @@ jobs:
 
       - name: Checkout
         if: steps.configure.outputs.tag != null
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -78,7 +78,7 @@ jobs:
       
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         submodules: recursive
         
@@ -94,7 +94,7 @@ jobs:
     - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         languages: ${{matrix.language}}
         
@@ -170,7 +170,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           
@@ -271,7 +271,7 @@ jobs:
 
       - name: Restore Qt ${{matrix.qt_version}} for ${{matrix.target}} from cache
         id: cache-qt
-        uses: actions/cache@v1 # Intentionally v1, based on jurplel documentation
+        uses: actions/cache@v3 # Intentionally v1, based on jurplel documentation
         with:
           key: QtCache-${{matrix.qt_version}}-${{matrix.target}}
           path: '${{github.workspace}}/../Qt'
