@@ -42,7 +42,7 @@ add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 # __FILENAME__
 string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
 add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
-add_definitions("-D__FILENAME__=(__FILE__ + SOURCE_PATH_SIZE)")
+add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
 
 if(WIN32)
   add_definitions("-D__WINDOWS")
