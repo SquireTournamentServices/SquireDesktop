@@ -247,7 +247,8 @@ pub fn print_err(err: ActionError, context: &str) {
                 IncompatiblePairingSystem => Cow::Borrowed("Incompatible pairing system"),
                 IncompatibleScoringSystem => Cow::Borrowed("Incompatible scoring system"),
                 InvalidDeckCount => Cow::Borrowed("Invalid deck count"),
-                NoMatchResult => Cow::Borrowed("There is at one active match with no results."),
+                NoMatchResult => Cow::Borrowed("There is at one active match with no results"),
+                MaxDecksReached => Cow::Borrowed("The maximum deck count has been reached"),
             };
             let time = Utc::now();
             eprintln!("[FFI] {time}: {content} in tournament '{t_id}' while {context}");

@@ -297,6 +297,9 @@ using sc_AdminId = struct __sc_AdminId{ sc_Uuid _0; };
  */
 using sc_SquireAccountId = struct __sc_SquireAccountId{ sc_Uuid _0; };
 
+/**
+ * The numerical type used in the scoring systems
+ */
 
 /// This is ghastly wrapper for ratio32
 typedef struct ratio32 {
@@ -388,17 +391,6 @@ extern "C" {
 bool close_tourn(sc_TournamentId tid);
 
 /**
- * Closes a tournament removing it from the internal FFI state
- */
-bool close_tourn(sc_TournamentId self);
-
-/**
- * Call this in main()
- * Inits the internal structs of squire lib for FFI.
- */
-void init_squire_ffi();
-
-/**
  * Call this in main()
  * Inits the internal structs of squire lib for FFI.
  */
@@ -411,20 +403,6 @@ void init_squire_ffi();
  * Returns a NULL UUID (all 0s) if there is an error
  */
 sc_TournamentId load_tournament_from_file(const char *__file);
-
-/**
- * Loads a tournament from a file via serde
- * The tournament is then registered (stored on the heap)
- * CStr path to the tournament (alloc and, free on Cxx side)
- * Returns a NULL UUID (all 0s) if there is an error
- */
-sc_TournamentId load_tournament_from_file(const char *__file);
-
-/**
- * Creates a tournament from the settings provided
- * Returns a NULL UUID (all 0s) if there is an error
- */
-sc_TournamentId new_tournament_from_settings(const char *__file, const char *__name, const char *__format, sc_TournamentPreset preset, bool use_table_number, uint8_t game_size, uint8_t min_deck_count, uint8_t max_deck_count, bool reg_open, bool require_check_in, bool require_deck_reg);
 
 /**
  * Creates a tournament from the settings provided
@@ -439,22 +417,10 @@ sc_TournamentId new_tournament_from_settings(const char *__file, const char *__n
 const char *pid_game_name(sc_PlayerId pid, sc_TournamentId tid);
 
 /**
- * Returns the player's game name if they can be found
- * NULL is returned on error or, failure to find
- */
-const char *pid_game_name(sc_PlayerId self, sc_TournamentId tid);
-
-/**
  * Returns the player name if they can be found
  * NULL is returned on error or, failure to find
  */
 const char *pid_name(sc_PlayerId pid, sc_TournamentId tid);
-
-/**
- * Returns the player name if they can be found
- * NULL is returned on error or, failure to find
- */
-const char *pid_name(sc_PlayerId self, sc_TournamentId tid);
 
 /**
  * Returns a raw pointer to rounds that a player is in
@@ -465,24 +431,10 @@ const char *pid_name(sc_PlayerId self, sc_TournamentId tid);
 const sc_RoundId *pid_rounds(sc_PlayerId pid, sc_TournamentId tid);
 
 /**
- * Returns a raw pointer to rounds that a player is in
- * This is an array that is terminated by the NULL UUID
- * This is heap allocted, please free it
- * Returns NULL on error
- */
-const sc_RoundId *pid_rounds(sc_PlayerId self, sc_TournamentId tid);
-
-/**
  * Returns the player's status if they can be found
  * Dropped on error.
  */
 sc_PlayerStatus pid_status(sc_PlayerId pid, sc_TournamentId tid);
-
-/**
- * Returns the player's status if they can be found
- * Dropped on error.
- */
-sc_PlayerStatus pid_status(sc_PlayerId self, sc_TournamentId tid);
 
 /**
  * Confirms a player for the match result
@@ -491,22 +443,10 @@ sc_PlayerStatus pid_status(sc_PlayerId self, sc_TournamentId tid);
 bool rid_confirm_player(sc_RoundId rid, sc_TournamentId tid, sc_AdminId aid, sc_PlayerId pid);
 
 /**
- * Confirms a player for the match result
- * false on error
- */
-bool rid_confirm_player(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid, sc_PlayerId pid);
-
-/**
  * Gets the players that are in a round who have confirmed
  * Returns NULL on error
  */
 const sc_PlayerId *rid_confirmed_players(sc_RoundId rid, sc_TournamentId tid);
-
-/**
- * Gets the players that are in a round who have confirmed
- * Returns NULL on error
- */
-const sc_PlayerId *rid_confirmed_players(sc_RoundId self, sc_TournamentId tid);
 
 /**
  * Returns the draw count for a game
@@ -515,22 +455,10 @@ const sc_PlayerId *rid_confirmed_players(sc_RoundId self, sc_TournamentId tid);
 int32_t rid_draws(sc_RoundId rid, sc_TournamentId tid);
 
 /**
- * Returns the draw count for a game
- * Returns -1 on error
- */
-int32_t rid_draws(sc_RoundId self, sc_TournamentId tid);
-
-/**
  * Returns the total duration in a round
  * Retrusn -1 on error
  */
 int64_t rid_duration(sc_RoundId rid, sc_TournamentId tid);
-
-/**
- * Returns the total duration in a round
- * Retrusn -1 on error
- */
-int64_t rid_duration(sc_RoundId self, sc_TournamentId tid);
 
 /**
  * Kills a match
@@ -539,22 +467,10 @@ int64_t rid_duration(sc_RoundId self, sc_TournamentId tid);
 bool rid_kill(sc_RoundId rid, sc_TournamentId tid, sc_AdminId aid);
 
 /**
- * Kills a match
- * false on error
- */
-bool rid_kill(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid);
-
-/**
  * Gets the round number
  * -1 on error
  */
 int64_t rid_match_number(sc_RoundId rid, sc_TournamentId tid);
-
-/**
- * Gets the round number
- * -1 on error
- */
-int64_t rid_match_number(sc_RoundId self, sc_TournamentId tid);
 
 /**
  * Gets the players that are in a round
@@ -563,20 +479,9 @@ int64_t rid_match_number(sc_RoundId self, sc_TournamentId tid);
 const sc_PlayerId *rid_players(sc_RoundId rid, sc_TournamentId tid);
 
 /**
- * Gets the players that are in a round
- * Returns NULL on error
- */
-const sc_PlayerId *rid_players(sc_RoundId self, sc_TournamentId tid);
-
-/**
  * Records draws for a round
  */
 bool rid_record_draws(sc_RoundId rid, sc_TournamentId tid, sc_AdminId aid, uint32_t draws);
-
-/**
- * Records draws for a round
- */
-bool rid_record_draws(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid, uint32_t draws);
 
 /**
  * Records results for a round; DO NOT RECORD DRAWS HERE (it breaks :( )
@@ -585,34 +490,16 @@ bool rid_record_draws(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid, uint
 bool rid_record_result(sc_RoundId rid, sc_TournamentId tid, sc_AdminId aid, sc_PlayerId pid, uint32_t wins);
 
 /**
- * Records results for a round; DO NOT RECORD DRAWS HERE (it breaks :( )
- * false on error
- */
-bool rid_record_result(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid, sc_PlayerId pid, uint32_t wins);
-
-/**
  * Returns the result for a player in a round
  * Returns -1 on error
  */
 int32_t rid_result_for(sc_RoundId rid, sc_TournamentId tid, sc_PlayerId pid);
 
 /**
- * Returns the result for a player in a round
- * Returns -1 on error
- */
-int32_t rid_result_for(sc_RoundId self, sc_TournamentId tid, sc_PlayerId pid);
-
-/**
  * Gets the status for a round
  * Dead on error
  */
 sc_RoundStatus rid_status(sc_RoundId rid, sc_TournamentId tid);
-
-/**
- * Gets the status for a round
- * Dead on error
- */
-sc_RoundStatus rid_status(sc_RoundId self, sc_TournamentId tid);
 
 /**
  * Gets the table number
@@ -622,23 +509,10 @@ sc_RoundStatus rid_status(sc_RoundId self, sc_TournamentId tid);
 int64_t rid_table_number(sc_RoundId rid, sc_TournamentId tid);
 
 /**
- * Gets the table number
- * Warning: Currently cannot detect if the round has not been allocated a table number
- * -1 on error
- */
-int64_t rid_table_number(sc_RoundId self, sc_TournamentId tid);
-
-/**
  * Grants a time extension of ext seconds to the round
  * false on error
  */
 bool rid_time_extend(sc_RoundId rid, sc_TournamentId tid, sc_AdminId aid, uint64_t ext);
-
-/**
- * Grants a time extension of ext seconds to the round
- * false on error
- */
-bool rid_time_extend(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid, uint64_t ext);
 
 /**
  * Returns the amount of time left in a round
@@ -647,28 +521,10 @@ bool rid_time_extend(sc_RoundId self, sc_TournamentId tid, sc_AdminId aid, uint6
 int64_t rid_time_left(sc_RoundId rid, sc_TournamentId tid);
 
 /**
- * Returns the amount of time left in a round
- * Retrusn -1 on error
- */
-int64_t rid_time_left(sc_RoundId self, sc_TournamentId tid);
-
-/**
  * Saves a tournament to a name
  * Returns true if successful, false if not.
  */
 bool save_tourn(sc_TournamentId tid, const char *__file);
-
-/**
- * Saves a tournament to a name
- * Returns true if successful, false if not.
- */
-bool save_tourn(sc_TournamentId self, const char *__file);
-
-/**
- * Deallocates a block assigned in the FFI portion,
- * use this when handling with squire strings
- */
-void sq_free(void *pointer, size_t len);
 
 /**
  * Deallocates a block assigned in the FFI portion,
@@ -683,22 +539,10 @@ void sq_free(void *pointer, size_t len);
 bool tid_add_admin_local(sc_TournamentId tid, const char *__name, sc_AdminId aid, sc_SquireAccountId uid);
 
 /**
- * Adds an admin to a local tournament in a way that is perfect for
- * adding the system user.
- */
-bool tid_add_admin_local(sc_TournamentId self, const char *__name, sc_AdminId aid, sc_SquireAccountId uid);
-
-/**
  * Adds a player to a tournament
  * On error a NULL UUID is returned
  */
 sc_PlayerId tid_add_player(sc_TournamentId tid, const char *__name);
-
-/**
- * Adds a player to a tournament
- * On error a NULL UUID is returned
- */
-sc_PlayerId tid_add_player(sc_TournamentId self, const char *__name);
 
 /**
  * Cancels a tournament
@@ -707,34 +551,16 @@ sc_PlayerId tid_add_player(sc_TournamentId self, const char *__name);
 bool tid_cancel(sc_TournamentId tid, sc_AdminId aid);
 
 /**
- * Cancels a tournament
- * false on error, true on success.
- */
-bool tid_cancel(sc_TournamentId self, sc_AdminId aid);
-
-/**
  * Drops a player for the tournament
  * On error false is returned
  */
 bool tid_drop_player(sc_TournamentId tid, sc_PlayerId pid, sc_AdminId aid);
 
 /**
- * Drops a player for the tournament
- * On error false is returned
- */
-bool tid_drop_player(sc_TournamentId self, sc_PlayerId pid, sc_AdminId aid);
-
-/**
  * End a tournament
  * false on error, true on success.
  */
 bool tid_end(sc_TournamentId tid, sc_AdminId aid);
-
-/**
- * End a tournament
- * false on error, true on success.
- */
-bool tid_end(sc_TournamentId self, sc_AdminId aid);
 
 /**
  * Returns the format of a tournament
@@ -744,23 +570,10 @@ bool tid_end(sc_TournamentId self, sc_AdminId aid);
 const char *tid_format(sc_TournamentId tid);
 
 /**
- * Returns the format of a tournament
- * Returns NULL if an error happens
- * This is heap allocated, please free it
- */
-const char *tid_format(sc_TournamentId self);
-
-/**
  * Freezes a tournament
  * false on error, true on success.
  */
 bool tid_freeze(sc_TournamentId tid, sc_AdminId aid);
-
-/**
- * Freezes a tournament
- * false on error, true on success.
- */
-bool tid_freeze(sc_TournamentId self, sc_AdminId aid);
 
 /**
  * Returns the game size
@@ -769,34 +582,16 @@ bool tid_freeze(sc_TournamentId self, sc_AdminId aid);
 int32_t tid_game_size(sc_TournamentId tid);
 
 /**
- * Returns the game size
- * -1 is the error value
- */
-int32_t tid_game_size(sc_TournamentId self);
-
-/**
  * Returns the max deck count
  * -1 is the error value
  */
 int32_t tid_max_deck_count(sc_TournamentId tid);
 
 /**
- * Returns the max deck count
- * -1 is the error value
- */
-int32_t tid_max_deck_count(sc_TournamentId self);
-
-/**
  * Returns the min deck count
  * -1 is the error value
  */
 int32_t tid_min_deck_count(sc_TournamentId tid);
-
-/**
- * Returns the min deck count
- * -1 is the error value
- */
-int32_t tid_min_deck_count(sc_TournamentId self);
 
 /**
  * Returns the name of a tournament
@@ -806,13 +601,6 @@ int32_t tid_min_deck_count(sc_TournamentId self);
 const char *tid_name(sc_TournamentId tid);
 
 /**
- * Returns the name of a tournament
- * Returns NULL if an error happens
- * This is heap allocated, please free it
- */
-const char *tid_name(sc_TournamentId self);
-
-/**
  * Pairs a set of rounds
  * Returns a null terminated list of the round ids
  * Returns NULL on error
@@ -820,25 +608,11 @@ const char *tid_name(sc_TournamentId self);
 const sc_RoundId *tid_pair_round(sc_TournamentId tid, sc_AdminId aid);
 
 /**
- * Pairs a set of rounds
- * Returns a null terminated list of the round ids
- * Returns NULL on error
- */
-const sc_RoundId *tid_pair_round(sc_TournamentId self, sc_AdminId aid);
-
-/**
  * Returns the pairing type
  * This is of type TournamentPreset, but an int to let me return error values
  * -1 is error value
  */
 int32_t tid_pairing_type(sc_TournamentId tid);
-
-/**
- * Returns the pairing type
- * This is of type TournamentPreset, but an int to let me return error values
- * -1 is error value
- */
-int32_t tid_pairing_type(sc_TournamentId self);
 
 /**
  * Returns a raw pointer to players
@@ -849,24 +623,10 @@ int32_t tid_pairing_type(sc_TournamentId self);
 const sc_PlayerId *tid_players(sc_TournamentId tid);
 
 /**
- * Returns a raw pointer to players
- * This is an array that is terminated by the NULL UUID
- * This is heap allocted, please free it
- * Returns NULL on error
- */
-const sc_PlayerId *tid_players(sc_TournamentId self);
-
-/**
  * Whether reg is open
  * False on error
  */
 bool tid_reg_open(sc_TournamentId tid);
-
-/**
- * Whether reg is open
- * False on error
- */
-bool tid_reg_open(sc_TournamentId self);
 
 /**
  * Whether checkins are needed
@@ -875,22 +635,10 @@ bool tid_reg_open(sc_TournamentId self);
 bool tid_require_check_in(sc_TournamentId tid);
 
 /**
- * Whether checkins are needed
- * False on error
- */
-bool tid_require_check_in(sc_TournamentId self);
-
-/**
  * Whether deck reg is needed
  * False on error
  */
 bool tid_require_deck_reg(sc_TournamentId tid);
-
-/**
- * Whether deck reg is needed
- * False on error
- */
-bool tid_require_deck_reg(sc_TournamentId self);
 
 /**
  * Returns the round length
@@ -899,22 +647,10 @@ bool tid_require_deck_reg(sc_TournamentId self);
 int64_t tid_round_length(sc_TournamentId tid);
 
 /**
- * Returns the round length
- * -1 on error
- */
-int64_t tid_round_length(sc_TournamentId self);
-
-/**
  * Generates a round slip for a tournament
  * NULL on error
  */
 const char *tid_round_slips_html(sc_TournamentId tid, const char *__css);
-
-/**
- * Generates a round slip for a tournament
- * NULL on error
- */
-const char *tid_round_slips_html(sc_TournamentId self, const char *__css);
 
 /**
  * Returns a raw pointer to rounds
@@ -923,14 +659,6 @@ const char *tid_round_slips_html(sc_TournamentId self, const char *__css);
  * Returns NULL on error
  */
 const sc_RoundId *tid_rounds(sc_TournamentId tid);
-
-/**
- * Returns a raw pointer to rounds
- * This is an array that is terminated by the NULL UUID
- * This is heap allocted, please free it
- * Returns NULL on error
- */
-const sc_RoundId *tid_rounds(sc_TournamentId self);
 
 /**
  * TournamentIds can be used to get data safely from
@@ -943,24 +671,10 @@ const sc_RoundId *tid_rounds(sc_TournamentId self);
 const sc_PlayerScore<sc_StandardScore> *tid_standings(sc_TournamentId tid);
 
 /**
- * Returns a raw pointer to a list of standings
- * This is an array, the last element has a NULL player id
- * This is heap allocated, please free it
- * Returns NULL on error
- */
-const sc_PlayerScore<sc_StandardScore> *tid_standings(sc_TournamentId self);
-
-/**
  * Starts a tournament
  * false on error, true on success.
  */
 bool tid_start(sc_TournamentId tid, sc_AdminId aid);
-
-/**
- * Starts a tournament
- * false on error, true on success.
- */
-bool tid_start(sc_TournamentId self, sc_AdminId aid);
 
 /**
  * Returns the starting table number
@@ -969,34 +683,16 @@ bool tid_start(sc_TournamentId self, sc_AdminId aid);
 int32_t tid_starting_table_number(sc_TournamentId tid);
 
 /**
- * Returns the starting table number
- * Retruns -1 on error
- */
-int32_t tid_starting_table_number(sc_TournamentId self);
-
-/**
  * Returns the status
  * Returns cancelled on error
  */
 sc_TournamentStatus tid_status(sc_TournamentId tid);
 
 /**
- * Returns the status
- * Returns cancelled on error
- */
-sc_TournamentStatus tid_status(sc_TournamentId self);
-
-/**
  * Defrosts a tournament
  * false on error, true on success.
  */
 bool tid_thaw(sc_TournamentId tid, sc_AdminId aid);
-
-/**
- * Defrosts a tournament
- * false on error, true on success.
- */
-bool tid_thaw(sc_TournamentId self, sc_AdminId aid);
 
 /**
  * Updates the settings
@@ -1014,31 +710,10 @@ bool tid_thaw(sc_TournamentId self, sc_AdminId aid);
 bool tid_update_settings(sc_TournamentId tid, const char *__format, uint64_t starting_table_number, bool use_table_number, uint8_t game_size, uint8_t min_deck_count, uint8_t max_deck_count, uint64_t match_length, bool reg_open, bool require_check_in, bool require_deck_reg, sc_AdminId aid);
 
 /**
- * Updates the settings
- * Values that are not to be changed should remain the
- * current setting, that would be the value the user
- * selected in the GUI so that is fine.
- * All input must be non-null.
- *
- * If any errors occur then all actions are rolled back
- * and, false returned.
- *
- * Otherwise true is returned and the operations are all
- * applied to the tournament.
- */
-bool tid_update_settings(sc_TournamentId self, const char *__format, uint64_t starting_table_number, bool use_table_number, uint8_t game_size, uint8_t min_deck_count, uint8_t max_deck_count, uint64_t match_length, bool reg_open, bool require_check_in, bool require_deck_reg, sc_AdminId aid);
-
-/**
  * Returns whether table numbers are being used for this tournament
  * false, is the error value (kinda sketchy)
  */
 bool tid_use_table_number(sc_TournamentId tid);
-
-/**
- * Returns whether table numbers are being used for this tournament
- * false, is the error value (kinda sketchy)
- */
-bool tid_use_table_number(sc_TournamentId self);
 
 } // extern "C"
 
