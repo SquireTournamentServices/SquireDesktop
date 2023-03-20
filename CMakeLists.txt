@@ -39,10 +39,10 @@ add_definitions("-DBUFFER_LENGTH=4096")
 add_definitions("-DPROJECT_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
 add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 
-# __FILENAME__
-string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
-add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
-add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
+# This can be ommitted as mtg_search_engine will also define it __FILENAME__
+# string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+# add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
+# add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
 
 if(WIN32)
   add_definitions("-D__WINDOWS")
@@ -319,15 +319,14 @@ message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
 set(JSON_BuildTests
     OFF
     CACHE INTERNAL "")
+
+add_subdirectory(src/mtg_search_engine)
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
-
 # add_subdirectory(libbacktrace)
 
 add_subdirectory(jansson)
 include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
-
-add_subdirectory(src/mtg_search_engine)
 
 add_subdirectory(curl)
 include_directories(${CURL_INCLUDE_DIR})
