@@ -792,7 +792,7 @@ dependencies = [
 [[package]]
 name = "squire_lib"
 version = "0.1.0-pre-alpha.1"
-source = "git+https://github.com/MonarchDevelopment/SquireCore#60fbf7e3a975868531f3ffd061f96d319771fb14"
+source = "git+https://github.com/MonarchDevelopment/SquireCore#60c4a16f380ae532a84d524d7167a77bc644fc55"
 dependencies = [
  "chrono",
  "cycle_map",
@@ -810,7 +810,7 @@ dependencies = [
 [[package]]
 name = "squire_sdk"
 version = "0.1.0-pre-alpha.1"
-source = "git+https://github.com/MonarchDevelopment/SquireCore#60fbf7e3a975868531f3ffd061f96d319771fb14"
+source = "git+https://github.com/MonarchDevelopment/SquireCore#60c4a16f380ae532a84d524d7167a77bc644fc55"
 dependencies = [
  "array-concat",
  "chrono",
