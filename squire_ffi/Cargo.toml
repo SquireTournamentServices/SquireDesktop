@@ -12,8 +12,8 @@ crate-type = ["lib", "staticlib"]
 
 [dependencies]
 #In-house deps
-squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", package = "squire_sdk", no-default-features=true }
-squire_lib = { git = "https://github.com/MonarchDevelopment/SquireCore", package = "squire_lib", no-default-features=true }
+#squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", branch = "wip-websockets", package = "squire_sdk", features = ["client"] }
+squire_sdk = { path = "../../SquireCore/squire_sdk", features = ["client"] }
 
 libc = { version = "0.2" }
 dashmap = { version = "5.0", features = ["serde"] }
@@ -21,6 +21,7 @@ serde_json = { version = "1.0.99" }
 cbindgen = { version = "0.24.5" }
 once_cell = { version = "1.18.0" }
 chrono = { version = "0.4", features = ["serde"] }
+tokio = { version = "1", features = ["full"] }
 
 # This ensures that when the program crashes a usable stack trace can be generated
 [profile.release]
