@@ -2,20 +2,24 @@ use std::{ffi::CStr, os::raw::c_char, time::Duration};
 
 use serde_json;
 
-use squire_sdk::model::{
-    accounts::SquireAccount,
-    admin::Admin,
-    identifiers::{AdminId, SquireAccountId},
-    operations::{AdminOp, OpData, TournOp},
-    pairings::PairingStyle,
-    scoring::StandardScore,
-    settings::{PairingSetting, TournamentSetting},
-    tournament::{Tournament, TournamentStatus},
+use squire_sdk::{
+    model::{
+        accounts::SquireAccount,
+        identifiers::{AdminId, SquireAccountId},
+        operations::{AdminOp, OpData, TournOp},
+        pairings::PairingStyle,
+        rounds::RoundId,
+        scoring::StandardScore,
+        settings::{CommonPairingSetting, GeneralSetting, PairingSetting, TournamentSetting},
+        tournament::TournamentStatus,
+    },
+    players::PlayerId,
+    tournaments::{TournamentId, TournamentManager, TournamentPreset},
 };
 
 use crate::{
-    clone_string_to_c_string, copy_to_system_pointer, print_err, PlayerId, RoundId, TournamentId,
-    TournamentPreset, SQUIRE_RUNTIME,
+    utils::{clone_string_to_c_string, copy_to_system_pointer, print_err},
+    CLIENT,
 };
 
 const BACKUP_EXT: &str = ".bak";
@@ -36,18 +40,16 @@ pub struct PlayerScore<S> {
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<StandardScore> {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .tournament_query(tid, |t| unsafe {
-            copy_to_system_pointer(t.get_standings().scores.into_iter().map(|(pid, score)| {
-                PlayerScore {
-                    pid: pid.into(),
-                    score,
-                }
-            }))
-        }) {
-        Ok(data) => data,
+    match CLIENT.get().unwrap().tournament_query(tid, |t| {
+        t.get_standings()
+            .scores
+            .into_iter()
+            .map(|(pid, score)| PlayerScore {
+                pid: pid.into(),
+                score,
+            })
+    }) {
+        Ok(data) => unsafe { copy_to_system_pointer(data) },
         Err(err) => {
             print_err(err, "getting standings.");
             std::ptr::null()
@@ -61,13 +63,10 @@ pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<Standar
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .tournament_query(tid, |t| unsafe {
-            copy_to_system_pointer(t.player_reg.players.keys().cloned().map(Into::into))
-        }) {
-        Ok(data) => data,
+    match CLIENT.get().unwrap().tournament_query(tid, |t| {
+        t.player_reg.players.keys().cloned().map(Into::into)
+    }) {
+        Ok(data) => unsafe { copy_to_system_pointer(data) },
         Err(err) => {
             print_err(err, "players.");
             std::ptr::null()
@@ -81,13 +80,10 @@ pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_rounds(tid: TournamentId) -> *const RoundId {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .tournament_query(tid, |t| unsafe {
-            copy_to_system_pointer(t.round_reg.num_and_id.iter_right().cloned().map(Into::into))
-        }) {
-        Ok(data) => data,
+    match CLIENT.get().unwrap().tournament_query(tid, |t| {
+        t.round_reg.num_and_id.iter_right().cloned().map(Into::into)
+    }) {
+        Ok(data) => unsafe { copy_to_system_pointer(data) },
         Err(err) => {
             print_err(err, "rounds.");
             std::ptr::null()
@@ -102,7 +98,7 @@ pub extern "C" fn tid_add_player(tid: TournamentId, __name: *const c_char) -> Pl
     let name = unsafe { CStr::from_ptr(__name).to_str().unwrap() };
     let op = TournOp::RegisterPlayer(SquireAccount::new(name.to_string(), name.to_string()));
 
-    match SQUIRE_RUNTIME.get().unwrap().apply_operation(tid, op) {
+    match CLIENT.get().unwrap().apply_operation(tid, op) {
         Ok(data) => data.assume_register_player().into(),
         Err(err) => {
             print_err(err, "adding player.");
@@ -115,7 +111,7 @@ pub extern "C" fn tid_add_player(tid: TournamentId, __name: *const c_char) -> Pl
 /// Drops a player for the tournament
 /// On error false is returned
 pub extern "C" fn tid_drop_player(tid: TournamentId, pid: PlayerId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::AdminDropPlayer(pid)))
@@ -140,11 +136,11 @@ pub extern "C" fn tid_add_admin_local(
     let name = unsafe { CStr::from_ptr(__name).to_str().unwrap() };
     let mut account = SquireAccount::new(name.to_string(), name.to_string());
     account.id = uid;
-    let admin = Admin::new(account);
+    let client = CLIENT.get().unwrap();
+    let a_id = AdminId::new(*client.client.get_user().id);
+    let op = TournOp::AdminOp(a_id, AdminOp::RegisterAdmin(account));
 
-    match SQUIRE_RUNTIME.get().unwrap().mutate_tournament(tid, |t| {
-        t.admins.insert(aid, admin.clone());
-    }) {
+    match CLIENT.get().unwrap().apply_operation(tid, op) {
         Ok(_) => true,
         Err(err) => {
             print_err(err, "adding admin.");
@@ -157,7 +153,7 @@ pub extern "C" fn tid_add_admin_local(
 /// false on error, true on success.
 #[no_mangle]
 pub extern "C" fn tid_thaw(tid: TournamentId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::Thaw))
@@ -174,7 +170,7 @@ pub extern "C" fn tid_thaw(tid: TournamentId, aid: AdminId) -> bool {
 /// false on error, true on success.
 #[no_mangle]
 pub extern "C" fn tid_freeze(tid: TournamentId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::Freeze))
@@ -191,7 +187,7 @@ pub extern "C" fn tid_freeze(tid: TournamentId, aid: AdminId) -> bool {
 /// false on error, true on success.
 #[no_mangle]
 pub extern "C" fn tid_end(tid: TournamentId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::End))
@@ -208,7 +204,7 @@ pub extern "C" fn tid_end(tid: TournamentId, aid: AdminId) -> bool {
 /// false on error, true on success.
 #[no_mangle]
 pub extern "C" fn tid_cancel(tid: TournamentId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::Cancel))
@@ -225,7 +221,7 @@ pub extern "C" fn tid_cancel(tid: TournamentId, aid: AdminId) -> bool {
 /// false on error, true on success.
 #[no_mangle]
 pub extern "C" fn tid_start(tid: TournamentId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::Start))
@@ -267,13 +263,15 @@ pub extern "C" fn tid_update_settings(
     // Sort input strings out
     let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
 
-    let rt = SQUIRE_RUNTIME.get().unwrap();
+    let rt = CLIENT.get().unwrap();
 
     if let Err(err) = rt.apply_operation(
         tid,
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::Format(format)),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(GeneralSetting::Format(
+                format,
+            ))),
         ),
     ) {
         print_err(err, "updating format.");
@@ -284,8 +282,8 @@ pub extern "C" fn tid_update_settings(
         tid,
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::StartingTableNumber(
-                starting_table_number,
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::StartingTableNumber(starting_table_number),
             )),
         ),
     ) {
@@ -297,7 +295,9 @@ pub extern "C" fn tid_update_settings(
         tid,
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::UseTableNumbers(use_table_number)),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::UseTableNumbers(use_table_number),
+            )),
         ),
     ) {
         print_err(err, "updating use table number.");
@@ -308,16 +308,16 @@ pub extern "C" fn tid_update_settings(
         tid,
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::PairingSetting(
-                PairingSetting::MatchSize(game_size),
-            )),
+            AdminOp::UpdateTournSetting(TournamentSetting::PairingSetting(PairingSetting::Common(
+                CommonPairingSetting::MatchSize(game_size),
+            ))),
         ),
     ) {
         print_err(err, "updating match size.");
         return false;
     }
 
-    let curr_max = rt.tournament_query(tid, |t| t.max_deck_count).unwrap();
+    let curr_max = rt.tournament_query(tid, |t| t.settings.max_deck_count).unwrap();
 
     let (deck_op_one, deck_op_two) = if min_deck_count > curr_max {
         (
@@ -390,7 +390,7 @@ pub extern "C" fn tid_update_settings(
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_pair_round(tid: TournamentId, aid: AdminId) -> *const RoundId {
-    let rt = SQUIRE_RUNTIME.get().unwrap();
+    let rt = CLIENT.get().unwrap();
     match rt.tournament_query(tid, |t| t.create_pairings()) {
         Ok(Some(pairings)) => {
             match rt.apply_operation(tid, TournOp::AdminOp(aid, AdminOp::PairRound(pairings))) {
@@ -417,7 +417,7 @@ pub extern "C" fn tid_pair_round(tid: TournamentId, aid: AdminId) -> *const Roun
 /// This is heap allocated, please free it
 #[no_mangle]
 pub extern "C" fn tid_name(tid: TournamentId) -> *const c_char {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| clone_string_to_c_string(&t.name))
@@ -435,7 +435,7 @@ pub extern "C" fn tid_name(tid: TournamentId) -> *const c_char {
 /// This is heap allocated, please free it
 #[no_mangle]
 pub extern "C" fn tid_format(tid: TournamentId) -> *const c_char {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| clone_string_to_c_string(&t.format))
@@ -452,7 +452,7 @@ pub extern "C" fn tid_format(tid: TournamentId) -> *const c_char {
 /// Retruns -1 on error
 #[no_mangle]
 pub extern "C" fn tid_starting_table_number(tid: TournamentId) -> i32 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.round_reg.starting_table as i32)
@@ -469,7 +469,7 @@ pub extern "C" fn tid_starting_table_number(tid: TournamentId) -> i32 {
 /// false, is the error value (kinda sketchy)
 #[no_mangle]
 pub extern "C" fn tid_use_table_number(tid: TournamentId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.use_table_number)
@@ -486,7 +486,7 @@ pub extern "C" fn tid_use_table_number(tid: TournamentId) -> bool {
 /// -1 is the error value
 #[no_mangle]
 pub extern "C" fn tid_game_size(tid: TournamentId) -> i32 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.pairing_sys.match_size as i32)
@@ -503,7 +503,7 @@ pub extern "C" fn tid_game_size(tid: TournamentId) -> i32 {
 /// -1 is the error value
 #[no_mangle]
 pub extern "C" fn tid_min_deck_count(tid: TournamentId) -> i32 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.min_deck_count as i32)
@@ -520,7 +520,7 @@ pub extern "C" fn tid_min_deck_count(tid: TournamentId) -> i32 {
 /// -1 is the error value
 #[no_mangle]
 pub extern "C" fn tid_max_deck_count(tid: TournamentId) -> i32 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.max_deck_count as i32)
@@ -538,7 +538,7 @@ pub extern "C" fn tid_max_deck_count(tid: TournamentId) -> i32 {
 /// -1 is error value
 #[no_mangle]
 pub extern "C" fn tid_pairing_type(tid: TournamentId) -> i32 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| match t.pairing_sys.style {
@@ -557,7 +557,7 @@ pub extern "C" fn tid_pairing_type(tid: TournamentId) -> i32 {
 /// -1 on error
 #[no_mangle]
 pub extern "C" fn tid_round_length(tid: TournamentId) -> i64 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.round_reg.length.as_secs() as i64)
@@ -574,11 +574,7 @@ pub extern "C" fn tid_round_length(tid: TournamentId) -> i64 {
 /// False on error
 #[no_mangle]
 pub extern "C" fn tid_reg_open(tid: TournamentId) -> bool {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .tournament_query(tid, |t| t.reg_open)
-    {
+    match CLIENT.get().unwrap().tournament_query(tid, |t| t.reg_open) {
         Ok(data) => data,
         Err(err) => {
             print_err(err, "getting reg status.");
@@ -591,7 +587,7 @@ pub extern "C" fn tid_reg_open(tid: TournamentId) -> bool {
 /// False on error
 #[no_mangle]
 pub extern "C" fn tid_require_check_in(tid: TournamentId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.require_check_in)
@@ -608,7 +604,7 @@ pub extern "C" fn tid_require_check_in(tid: TournamentId) -> bool {
 /// False on error
 #[no_mangle]
 pub extern "C" fn tid_require_deck_reg(tid: TournamentId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .tournament_query(tid, |t| t.require_check_in)
@@ -625,11 +621,7 @@ pub extern "C" fn tid_require_deck_reg(tid: TournamentId) -> bool {
 /// Returns cancelled on error
 #[no_mangle]
 pub extern "C" fn tid_status(tid: TournamentId) -> TournamentStatus {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .tournament_query(tid, |t| t.status)
-    {
+    match CLIENT.get().unwrap().tournament_query(tid, |t| t.status) {
         Ok(data) => data,
         Err(err) => {
             print_err(err, "getting tournament status.");
@@ -642,7 +634,7 @@ pub extern "C" fn tid_status(tid: TournamentId) -> TournamentStatus {
 /// NULL on error
 #[no_mangle]
 pub extern "C" fn tid_round_slips_html(tid: TournamentId, __css: *const c_char) -> *const c_char {
-    match SQUIRE_RUNTIME.get().unwrap().tournament_query(tid, |t| {
+    match CLIENT.get().unwrap().tournament_query(tid, |t| {
         clone_string_to_c_string(
             &t.round_slips_html(unsafe { CStr::from_ptr(__css).to_str().unwrap() }),
         )
@@ -659,7 +651,7 @@ pub extern "C" fn tid_round_slips_html(tid: TournamentId, __css: *const c_char) 
 /// Closes a tournament removing it from the internal FFI state
 #[no_mangle]
 pub extern "C" fn close_tourn(tid: TournamentId) -> bool {
-    match SQUIRE_RUNTIME.get().unwrap().remove_tournament(tid) {
+    match CLIENT.get().unwrap().remove_tournament(tid) {
         Some(_) => true,
         None => {
             println!("[FFI]: Cannot find tournament in clsoe_tourn");
@@ -677,14 +669,18 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
     let _ = std::fs::remove_file(&file_backup);
     let _ = std::fs::rename(file, &file_backup);
 
-    match SQUIRE_RUNTIME.get().unwrap().tournament_query(tid, |t| {
-        serde_json::to_string(&t).map(|json| std::fs::write(file, json))
-    }) {
-        Ok(Ok(Ok(()))) => true,
-        Ok(Ok(Err(e))) => {
-            println!("[FFI]: Tried to write to file {file} and got this error: {e}");
-            false
-        }
+    match CLIENT
+        .get()
+        .unwrap()
+        .tournament_query(tid, |t| serde_json::to_string(&t))
+    {
+        Ok(Ok(data)) => match std::fs::write(file, data) {
+            Ok(_) => true,
+            Err(e) => {
+                println!("[FFI]: Tried to write to file {file} and got this error: {e}");
+                false
+            }
+        },
         Ok(Err(e)) => {
             println!("[FFI]: Tried to convert tournament to json and for this error: {e}");
             false
@@ -703,23 +699,17 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
 #[no_mangle]
 pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> TournamentId {
     let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
-    let json = match std::fs::read_to_string(file) {
-        Ok(s) => s,
-        Err(_) => {
+    let Ok(json) = std::fs::read_to_string(file) else {
             println!("[FFI]: Cannot read input file");
-            return TournamentId::default();
-        }
-    };
+            return TournamentId::default()
+        };
 
-    let tournament: Tournament = match serde_json::from_str(&json) {
-        Ok(t) => t,
-        Err(_) => {
+    let Ok(tournament) = serde_json::from_str::<TournamentManager>(&json) else {
             println!("[FFI]: Input file is invalid");
-            return TournamentId::default();
-        }
-    };
+            return TournamentId::default()
+        };
 
-    let rt = SQUIRE_RUNTIME.get().unwrap();
+    let rt = CLIENT.get().unwrap();
 
     if let Ok(()) = rt.tournament_query(tournament.id.into(), |_| ()) {
         println!("[FFI]: Input tournament is already open");
@@ -750,7 +740,7 @@ pub extern "C" fn new_tournament_from_settings(
     let name = String::from(unsafe { CStr::from_ptr(__name).to_str().unwrap().to_string() });
     let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
 
-    let rt = SQUIRE_RUNTIME.get().unwrap();
+    let rt = CLIENT.get().unwrap();
     let t_id = rt.create_tournament(name, preset, format);
 
     let _: () = rt
