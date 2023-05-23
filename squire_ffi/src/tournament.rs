@@ -263,126 +263,85 @@ pub extern "C" fn tid_update_settings(
     // Sort input strings out
     let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
 
-    let rt = CLIENT.get().unwrap();
+    let client = CLIENT.get().unwrap();
+    let curr_max = client
+        .tournament_query(tid, |t| t.settings.max_deck_count)
+        .unwrap();
+    let (deck_op_one, deck_op_two) = if min_deck_count > curr_max {
+        (
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::MaxDeckCount(max_deck_count),
+            )),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::MinDeckCount(min_deck_count),
+            )),
+        )
+    } else {
+        (
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::MinDeckCount(min_deck_count),
+            )),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::MaxDeckCount(max_deck_count),
+            )),
+        )
+    };
 
-    if let Err(err) = rt.apply_operation(
-        tid,
+    let to_update = vec![
+        TournOp::AdminOp(aid, deck_op_one),
+        TournOp::AdminOp(aid, deck_op_two),
         TournOp::AdminOp(
             aid,
             AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(GeneralSetting::Format(
                 format,
             ))),
         ),
-    ) {
-        print_err(err, "updating format.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(
-        tid,
         TournOp::AdminOp(
             aid,
             AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
                 GeneralSetting::StartingTableNumber(starting_table_number),
             )),
         ),
-    ) {
-        print_err(err, "updating starting table number.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(
-        tid,
         TournOp::AdminOp(
             aid,
             AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
                 GeneralSetting::UseTableNumbers(use_table_number),
             )),
         ),
-    ) {
-        print_err(err, "updating use table number.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(
-        tid,
         TournOp::AdminOp(
             aid,
             AdminOp::UpdateTournSetting(TournamentSetting::PairingSetting(PairingSetting::Common(
                 CommonPairingSetting::MatchSize(game_size),
             ))),
         ),
-    ) {
-        print_err(err, "updating match size.");
-        return false;
-    }
-
-    let curr_max = rt.tournament_query(tid, |t| t.settings.max_deck_count).unwrap();
-
-    let (deck_op_one, deck_op_two) = if min_deck_count > curr_max {
-        (
-            AdminOp::UpdateTournSetting(TournamentSetting::MaxDeckCount(max_deck_count)),
-            AdminOp::UpdateTournSetting(TournamentSetting::MinDeckCount(min_deck_count)),
-        )
-    } else {
-        (
-            AdminOp::UpdateTournSetting(TournamentSetting::MinDeckCount(min_deck_count)),
-            AdminOp::UpdateTournSetting(TournamentSetting::MaxDeckCount(max_deck_count)),
-        )
-    };
-
-    if let Err(err) = rt.apply_operation(tid, TournOp::AdminOp(aid, deck_op_one)) {
-        print_err(err, "updating deck count.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(tid, TournOp::AdminOp(aid, deck_op_two)) {
-        print_err(err, "updating deck count.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(
-        tid,
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::RoundLength(Duration::new(
-                match_length,
-                0,
-            ))),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::RoundLength(Duration::new(match_length, 0)),
+            )),
         ),
-    ) {
-        print_err(err, "updating round length.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(tid, TournOp::AdminOp(aid, AdminOp::UpdateReg(reg_open))) {
-        print_err(err, "updating regsitration status.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(
-        tid,
+        TournOp::AdminOp(aid, AdminOp::UpdateReg(reg_open)),
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::RequireCheckIn(require_check_in)),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::RequireCheckIn(require_check_in),
+            )),
         ),
-    ) {
-        print_err(err, "updating require check in.");
-        return false;
-    }
-
-    if let Err(err) = rt.apply_operation(
-        tid,
         TournOp::AdminOp(
             aid,
-            AdminOp::UpdateTournSetting(TournamentSetting::RequireDeckReg(require_deck_reg)),
+            AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+                GeneralSetting::RequireDeckReg(require_deck_reg),
+            )),
         ),
-    ) {
-        print_err(err, "updating require deck reg.");
-        return false;
-    }
+    ];
 
-    true
+    match client.bulk_operations(tid, to_update) {
+        Ok(_) => true,
+        Err(err) => {
+            print_err(err, "updating tournament settings");
+            false
+        }
+    }
 }
 
 /// Pairs a set of rounds
@@ -420,9 +379,9 @@ pub extern "C" fn tid_name(tid: TournamentId) -> *const c_char {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| clone_string_to_c_string(&t.name))
+        .tournament_query(tid, |t| t.name.clone())
     {
-        Ok(data) => data,
+        Ok(data) => clone_string_to_c_string(&data),
         Err(err) => {
             print_err(err, "getting tournament name.");
             std::ptr::null()
@@ -438,9 +397,9 @@ pub extern "C" fn tid_format(tid: TournamentId) -> *const c_char {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| clone_string_to_c_string(&t.format))
+        .tournament_query(tid, |t| t.settings.format.clone())
     {
-        Ok(data) => data,
+        Ok(data) => clone_string_to_c_string(&data),
         Err(err) => {
             print_err(err, "getting tournament format.");
             std::ptr::null()
@@ -472,7 +431,7 @@ pub extern "C" fn tid_use_table_number(tid: TournamentId) -> bool {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.use_table_number)
+        .tournament_query(tid, |t| t.settings.use_table_number)
     {
         Ok(data) => data,
         Err(err) => {
@@ -489,7 +448,7 @@ pub extern "C" fn tid_game_size(tid: TournamentId) -> i32 {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.pairing_sys.match_size as i32)
+        .tournament_query(tid, |t| t.pairing_sys.common.match_size as i32)
     {
         Ok(data) => data,
         Err(err) => {
@@ -506,7 +465,7 @@ pub extern "C" fn tid_min_deck_count(tid: TournamentId) -> i32 {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.min_deck_count as i32)
+        .tournament_query(tid, |t| t.settings.min_deck_count as i32)
     {
         Ok(data) => data,
         Err(err) => {
@@ -523,7 +482,7 @@ pub extern "C" fn tid_max_deck_count(tid: TournamentId) -> i32 {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.max_deck_count as i32)
+        .tournament_query(tid, |t| t.settings.max_deck_count as i32)
     {
         Ok(data) => data,
         Err(err) => {
@@ -590,7 +549,7 @@ pub extern "C" fn tid_require_check_in(tid: TournamentId) -> bool {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.require_check_in)
+        .tournament_query(tid, |t| t.settings.require_check_in)
     {
         Ok(data) => data,
         Err(err) => {
@@ -607,7 +566,7 @@ pub extern "C" fn tid_require_deck_reg(tid: TournamentId) -> bool {
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.require_check_in)
+        .tournament_query(tid, |t| t.settings.require_check_in)
     {
         Ok(data) => data,
         Err(err) => {
@@ -634,12 +593,14 @@ pub extern "C" fn tid_status(tid: TournamentId) -> TournamentStatus {
 /// NULL on error
 #[no_mangle]
 pub extern "C" fn tid_round_slips_html(tid: TournamentId, __css: *const c_char) -> *const c_char {
-    match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        clone_string_to_c_string(
-            &t.round_slips_html(unsafe { CStr::from_ptr(__css).to_str().unwrap() }),
-        )
-    }) {
-        Ok(ret) => ret,
+    // TODO: CSS should be managed on the Rust side
+    let css = unsafe { CStr::from_ptr(__css).to_str().unwrap() };
+    match CLIENT
+        .get()
+        .unwrap()
+        .tournament_query(tid, |t| t.round_slips_html(css))
+    {
+        Ok(ret) => clone_string_to_c_string(&ret),
         Err(err) => {
             print_err(err, "creating round slips");
             std::ptr::null()
@@ -652,9 +613,9 @@ pub extern "C" fn tid_round_slips_html(tid: TournamentId, __css: *const c_char) 
 #[no_mangle]
 pub extern "C" fn close_tourn(tid: TournamentId) -> bool {
     match CLIENT.get().unwrap().remove_tournament(tid) {
-        Some(_) => true,
-        None => {
-            println!("[FFI]: Cannot find tournament in clsoe_tourn");
+        Ok(_) => true,
+        Err(_) => {
+            println!("[FFI]: Cannot find tournament in close_tourn");
             false
         }
     }
