@@ -93,6 +93,14 @@ impl SquireRuntime {
             .flatten()
     }
 
+    pub fn bulk_operations(&self, t_id: TournamentId, ops: Vec<TournOp>) -> Result<OpData, ActionError> {
+        self.client.bulk_update(t_id, ops)
+            .process_blocking()
+            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
+            .map(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
+            .flatten()
+    }
+
     /// Creates a tournament, stores it in the runtime, and returns its id
     pub fn create_tournament(&self, seed: TournamentSeed) -> Option<TournamentId> {
         let tourn = TournamentManager::new(self.client.get_user().clone(), seed);
@@ -104,8 +112,11 @@ impl SquireRuntime {
     }
 
     /// Removes a tournament from the runtime and returns it, if found
-    pub fn remove_tournament(&self, t_id: TournamentId) -> UpdateTracker {
+    pub fn remove_tournament(&self, t_id: TournamentId) -> Result<(), ActionError> {
         self.client.remove_tourn(t_id)
+            .process_blocking()
+            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
+            .map(|_| ())
     }
 
     /// Looks up a tournament and performs the given query
