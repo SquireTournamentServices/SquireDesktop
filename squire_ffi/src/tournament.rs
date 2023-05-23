@@ -11,7 +11,7 @@ use squire_sdk::{
         rounds::RoundId,
         scoring::StandardScore,
         settings::{CommonPairingSetting, GeneralSetting, PairingSetting, TournamentSetting},
-        tournament::TournamentStatus,
+        tournament::{TournamentSeed, TournamentStatus},
     },
     players::PlayerId,
     tournaments::{TournamentId, TournamentManager, TournamentPreset},
@@ -64,9 +64,14 @@ pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<Standar
 #[no_mangle]
 pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        t.player_reg.players.keys().cloned().map(Into::into)
+        t.player_reg
+            .players
+            .keys()
+            .cloned()
+            .map(Into::into)
+            .collect::<Vec<_>>()
     }) {
-        Ok(data) => unsafe { copy_to_system_pointer(data) },
+        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
         Err(err) => {
             print_err(err, "players.");
             std::ptr::null()
@@ -81,9 +86,14 @@ pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
 #[no_mangle]
 pub extern "C" fn tid_rounds(tid: TournamentId) -> *const RoundId {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        t.round_reg.num_and_id.iter_right().cloned().map(Into::into)
+        t.round_reg
+            .num_and_id
+            .iter_right()
+            .cloned()
+            .map(Into::into)
+            .collect::<Vec<_>>()
     }) {
-        Ok(data) => unsafe { copy_to_system_pointer(data) },
+        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
         Err(err) => {
             print_err(err, "rounds.");
             std::ptr::null()
@@ -130,7 +140,7 @@ pub extern "C" fn tid_drop_player(tid: TournamentId, pid: PlayerId, aid: AdminId
 pub extern "C" fn tid_add_admin_local(
     tid: TournamentId,
     __name: *const c_char,
-    aid: AdminId,
+    _: AdminId,
     uid: SquireAccountId,
 ) -> bool {
     let name = unsafe { CStr::from_ptr(__name).to_str().unwrap() };
@@ -658,28 +668,21 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
 /// CStr path to the tournament (alloc and, free on Cxx side)
 /// Returns a NULL UUID (all 0s) if there is an error
 #[no_mangle]
-pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> TournamentId {
+pub extern "C" fn load_tournament_from_file(__file: *const c_char) {
     let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
     let Ok(json) = std::fs::read_to_string(file) else {
-            println!("[FFI]: Cannot read input file");
-            return TournamentId::default()
+            return println!("[FFI]: Cannot read input file")
         };
 
-    let Ok(tournament) = serde_json::from_str::<TournamentManager>(&json) else {
-            println!("[FFI]: Input file is invalid");
-            return TournamentId::default()
+    let Ok(tourn) = serde_json::from_str::<TournamentManager>(&json) else {
+            return println!("[FFI]: Input file is invalid")
         };
 
-    let rt = CLIENT.get().unwrap();
+    let client = CLIENT.get().unwrap();
 
-    if let Ok(()) = rt.tournament_query(tournament.id.into(), |_| ()) {
-        println!("[FFI]: Input tournament is already open");
-        return TournamentId::default();
+    if client.tournament_query(tourn.id.into(), |_| ()).is_err() {
+        client.import_tournament(tourn);
     }
-
-    let t_id = rt.create_tournament("TEMP".into(), TournamentPreset::Swiss, "TEMP".into());
-    let _ = rt.mutate_tournament(t_id, |t| *t = tournament);
-    t_id
 }
 
 /// Creates a tournament from the settings provided
@@ -694,31 +697,36 @@ pub extern "C" fn new_tournament_from_settings(
     game_size: u8,
     min_deck_count: u8,
     max_deck_count: u8,
-    reg_open: bool,
+    _: bool,
     require_check_in: bool,
     require_deck_reg: bool,
 ) -> TournamentId {
     let name = String::from(unsafe { CStr::from_ptr(__name).to_str().unwrap().to_string() });
     let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
 
-    let rt = CLIENT.get().unwrap();
-    let t_id = rt.create_tournament(name, preset, format);
+    let client = CLIENT.get().unwrap();
+    let seed = TournamentSeed::new(name, preset, format);
+    let t_id = client.create_tournament(seed);
+    let a_id = AdminId::new(*client.client.get_user().id);
+    let ops = vec![
+        TournOp::AdminOp(
+            a_id,
+            GeneralSetting::UseTableNumbers(use_table_number).into(),
+        ),
+        TournOp::AdminOp(a_id, GeneralSetting::MinDeckCount(min_deck_count).into()),
+        TournOp::AdminOp(a_id, GeneralSetting::MaxDeckCount(max_deck_count).into()),
+        TournOp::AdminOp(
+            a_id,
+            GeneralSetting::RequireCheckIn(require_check_in).into(),
+        ),
+        TournOp::AdminOp(
+            a_id,
+            GeneralSetting::RequireDeckReg(require_deck_reg).into(),
+        ),
+        TournOp::AdminOp(a_id, CommonPairingSetting::MatchSize(game_size).into()),
+    ];
 
-    let _: () = rt
-        .mutate_tournament(t_id, |t| {
-            t.use_table_number = use_table_number;
-            t.min_deck_count = min_deck_count;
-            t.max_deck_count = max_deck_count;
-            t.require_check_in = require_check_in;
-            t.require_deck_reg = require_deck_reg;
-            t.reg_open = reg_open;
-            t.pairing_sys.match_size = game_size;
-        })
-        .unwrap();
+    let _ = client.bulk_operations(t_id, ops);
 
-    if !save_tourn(t_id, __file) {
-        return TournamentId::default();
-    }
-
-    t_id
+    save_tourn(t_id, __file).then_some(t_id).unwrap_or_default()
 }

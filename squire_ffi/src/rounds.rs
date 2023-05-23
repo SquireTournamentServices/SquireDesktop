@@ -220,7 +220,7 @@ pub extern "C" fn rid_draws(rid: RoundId, tid: TournamentId) -> i32 {
 /// Returns -1 on error
 #[no_mangle]
 pub extern "C" fn rid_result_for(rid: RoundId, tid: TournamentId, pid: PlayerId) -> i32 {
-    match CLIENT.get().unwrap().round_query(tid, rid, |r| {
+    match CLIENT.get().unwrap().round_query(tid, rid, move |r| {
         r.results.get(&pid).map(|r| *r as i32).unwrap_or(-1)
     }) {
         Ok(data) => data,
