@@ -18,8 +18,8 @@ squire_sdk = { path = "../../SquireCore/squire_sdk", features = ["client"] }
 libc = { version = "0.2" }
 dashmap = { version = "5.0", features = ["serde"] }
 serde_json = { version = "1.0.96" }
-cbindgen = { version = "0.24.3" }
-once_cell = { version = "1.17.1" }
+cbindgen = { version = "0.24.5" }
+once_cell = { version = "1.18.0" }
 chrono = { version = "0.4", features = ["serde"] }
 tokio = { version = "1", features = ["full"] }
 
