@@ -323,6 +323,7 @@ set(JSON_BuildTests
 add_subdirectory(src/mtg_search_engine)
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
+add_subdirectory(pthreads)
 # add_subdirectory(libbacktrace)
 
 add_subdirectory(jansson)
