@@ -24,3 +24,5 @@ cmake-build-test/
 squire_ffi/target
 
 squire_ffi/squire_ffi.h
+
+squire_ffi/cbindgen.toml

@@ -6,18 +6,21 @@ use squire_sdk::{
     tournaments::TournamentId,
 };
 
-use crate::{clone_string_to_c_string, copy_to_system_pointer, print_err, SQUIRE_RUNTIME};
+use crate::{
+    utils::{clone_string_to_c_string, copy_to_system_pointer, print_err},
+    CLIENT,
+};
 
 /// Returns the player name if they can be found
 /// NULL is returned on error or, failure to find
 #[no_mangle]
 pub extern "C" fn pid_name(pid: PlayerId, tid: TournamentId) -> *const c_char {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
-        .player_query(tid, pid, |p| clone_string_to_c_string(&p.name))
+        .player_query(tid, pid, |p| p.name.clone())
     {
-        Ok(name) => name,
+        Ok(name) => clone_string_to_c_string(&name),
         Err(err) => {
             print_err(err, "getting player's name.");
             std::ptr::null()
@@ -29,15 +32,12 @@ pub extern "C" fn pid_name(pid: PlayerId, tid: TournamentId) -> *const c_char {
 /// NULL is returned on error or, failure to find
 #[no_mangle]
 pub extern "C" fn pid_game_name(pid: PlayerId, tid: TournamentId) -> *const c_char {
-    match SQUIRE_RUNTIME.get().unwrap().player_query(tid, pid, |p| {
-        clone_string_to_c_string(
-            p.game_name
-                .as_ref()
-                .map(|n| n.as_str())
-                .unwrap_or_else(|| "No gamer tag"),
-        )
+    match CLIENT.get().unwrap().player_query(tid, pid, |p| {
+        p.game_name
+            .clone()
+            .unwrap_or_else(|| "No gamer tag".to_string())
     }) {
-        Ok(name) => name,
+        Ok(name) => clone_string_to_c_string(&name),
         Err(err) => {
             print_err(err, "getting player's gamer tag.");
             std::ptr::null()
@@ -49,11 +49,7 @@ pub extern "C" fn pid_game_name(pid: PlayerId, tid: TournamentId) -> *const c_ch
 /// Dropped on error.
 #[no_mangle]
 pub extern "C" fn pid_status(pid: PlayerId, tid: TournamentId) -> PlayerStatus {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .player_query(tid, pid, |p| p.status)
-    {
+    match CLIENT.get().unwrap().player_query(tid, pid, |p| p.status) {
         Ok(status) => status,
         Err(err) => {
             print_err(err, "getting player's status.");
@@ -68,13 +64,12 @@ pub extern "C" fn pid_status(pid: PlayerId, tid: TournamentId) -> PlayerStatus {
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn pid_rounds(pid: PlayerId, tid: TournamentId) -> *const RoundId {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| unsafe {
-            copy_to_system_pointer(t.round_reg.get_round_ids_for_player(pid).into_iter())
-        }) {
-        Ok(rnds) => rnds,
+        .tournament_query(tid, move |t| t.round_reg.get_round_ids_for_player(pid))
+    {
+        Ok(rnds) => unsafe { copy_to_system_pointer(rnds.into_iter()) },
         Err(err) => {
             print_err(err, "getting player's matches.");
             std::ptr::null()
