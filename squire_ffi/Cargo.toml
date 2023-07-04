@@ -12,8 +12,7 @@ crate-type = ["lib", "staticlib"]
 
 [dependencies]
 #In-house deps
-#squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", branch = "wip-websockets", package = "squire_sdk", features = ["client"] }
-squire_sdk = { path = "../../SquireCore/squire_sdk", features = ["client"] }
+squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", branch = "main", package = "squire_sdk", features = ["client"] }
 
 libc = { version = "0.2" }
 dashmap = { version = "5.0", features = ["serde"] }
