@@ -281,7 +281,8 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/test_ffi.cpp
     ./tests_ffi/test_ffi.h)
 
-set(LIBS nlohmann_json::nlohmann_json mtg-search-engine) # backtrace)
+set(LIBS nlohmann_json::nlohmann_json mtg-search-engine jansson CURL::libcurl
+         OpenSSL::SSL OpenSSL::Crypto) # backtrace)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
@@ -325,14 +326,10 @@ add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
 add_subdirectory(pthreads)
 # add_subdirectory(libbacktrace)
-
 add_subdirectory(jansson)
-include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
-
 add_subdirectory(curl)
-include_directories(${CURL_INCLUDE_DIR})
 
-include_directories(include)
+include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS} ${CURL_INCLUDE_DIR})
 
 # Make crash handler
 if(UNIX)
@@ -352,8 +349,7 @@ if(UNIX)
     ./testing_h/testing.h
     ./testing_h/logger.c
     ./testing_h/logger.h)
-  target_link_libraries(sq_crash_handler PRIVATE jansson CURL::libcurl
-                                                 OpenSSL::SSL OpenSSL::Crypto)
+  target_link_libraries(sq_crash_handler)
 else()
   message(WARNING "The crash handler will not be built.")
 endif()
