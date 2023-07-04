@@ -8,13 +8,13 @@ use squire_sdk::{
         identifiers::{AdminId, SquireAccountId},
         operations::{AdminOp, OpData, TournOp},
         pairings::PairingStyle,
+        players::PlayerId,
         rounds::RoundId,
         scoring::StandardScore,
         settings::{CommonPairingSetting, GeneralSetting, PairingSetting, TournamentSetting},
-        tournament::TournamentStatus,
+        tournament::{TournamentId, TournamentPreset, TournamentSeed, TournamentStatus},
     },
-    players::PlayerId,
-    tournaments::{TournamentId, TournamentManager, TournamentPreset},
+    sync::TournamentManager,
 };
 
 use crate::{
@@ -44,10 +44,7 @@ pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<Standar
         t.get_standings()
             .scores
             .into_iter()
-            .map(|(pid, score)| PlayerScore {
-                pid: pid.into(),
-                score,
-            })
+            .map(|(pid, score)| PlayerScore { pid, score })
     }) {
         Ok(data) => unsafe { copy_to_system_pointer(data) },
         Err(err) => {
@@ -63,10 +60,15 @@ pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<Standar
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
-    match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        t.player_reg.players.keys().cloned().map(Into::into)
+    match CLIENT.get().unwrap().tournament_query(tid, move |t| {
+        t.player_reg
+            .players
+            .keys()
+            .cloned()
+            .map(Into::into)
+            .collect::<Vec<_>>()
     }) {
-        Ok(data) => unsafe { copy_to_system_pointer(data) },
+        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
         Err(err) => {
             print_err(err, "players.");
             std::ptr::null()
@@ -81,9 +83,14 @@ pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
 #[no_mangle]
 pub extern "C" fn tid_rounds(tid: TournamentId) -> *const RoundId {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        t.round_reg.num_and_id.iter_right().cloned().map(Into::into)
+        t.round_reg
+            .num_and_id
+            .iter_right()
+            .cloned()
+            .map(Into::into)
+            .collect::<Vec<_>>()
     }) {
-        Ok(data) => unsafe { copy_to_system_pointer(data) },
+        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
         Err(err) => {
             print_err(err, "rounds.");
             std::ptr::null()
@@ -93,13 +100,17 @@ pub extern "C" fn tid_rounds(tid: TournamentId) -> *const RoundId {
 
 /// Adds a player to a tournament
 /// On error a NULL UUID is returned
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn tid_add_player(tid: TournamentId, __name: *const c_char) -> PlayerId {
-    let name = unsafe { CStr::from_ptr(__name).to_str().unwrap() };
-    let op = TournOp::RegisterPlayer(SquireAccount::new(name.to_string(), name.to_string()));
+pub unsafe extern "C" fn tid_add_player(tid: TournamentId, name: *const c_char) -> PlayerId {
+    let name = unsafe { CStr::from_ptr(name).to_str().unwrap() };
+    let op = TournOp::RegisterPlayer(SquireAccount::new(name.to_string(), name.to_string()), None);
 
     match CLIENT.get().unwrap().apply_operation(tid, op) {
-        Ok(data) => data.assume_register_player().into(),
+        Ok(data) => data.assume_register_player(),
         Err(err) => {
             print_err(err, "adding player.");
             PlayerId::default()
@@ -126,15 +137,19 @@ pub extern "C" fn tid_drop_player(tid: TournamentId, pid: PlayerId, aid: AdminId
 
 /// Adds an admin to a local tournament in a way that is perfect for
 /// adding the system user.
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn tid_add_admin_local(
+pub unsafe extern "C" fn tid_add_admin_local(
     tid: TournamentId,
-    __name: *const c_char,
-    aid: AdminId,
+    name: *const c_char,
+    _aid: AdminId,
     uid: SquireAccountId,
 ) -> bool {
-    let name = unsafe { CStr::from_ptr(__name).to_str().unwrap() };
-    let mut account = SquireAccount::new(name.to_string(), name.to_string());
+    let name = unsafe { CStr::from_ptr(name).to_str().unwrap().to_string() };
+    let mut account = SquireAccount::new(name.clone(), name.clone());
     account.id = uid;
     let client = CLIENT.get().unwrap();
     let a_id = AdminId::new(*client.client.get_user().id);
@@ -245,10 +260,14 @@ pub extern "C" fn tid_start(tid: TournamentId, aid: AdminId) -> bool {
 ///
 /// Otherwise true is returned and the operations are all
 /// applied to the tournament.
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn tid_update_settings(
+pub unsafe extern "C" fn tid_update_settings(
     tid: TournamentId,
-    __format: *const c_char,
+    format: *const c_char,
     starting_table_number: u64,
     use_table_number: bool,
     game_size: u8,
@@ -261,7 +280,7 @@ pub extern "C" fn tid_update_settings(
     aid: AdminId,
 ) -> bool {
     // Sort input strings out
-    let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
+    let format = String::from(unsafe { CStr::from_ptr(format).to_str().unwrap() });
 
     let client = CLIENT.get().unwrap();
     let curr_max = client
@@ -591,10 +610,17 @@ pub extern "C" fn tid_status(tid: TournamentId) -> TournamentStatus {
 
 /// Generates a round slip for a tournament
 /// NULL on error
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn tid_round_slips_html(tid: TournamentId, __css: *const c_char) -> *const c_char {
+pub unsafe extern "C" fn tid_round_slips_html(
+    tid: TournamentId,
+    css: *const c_char,
+) -> *const c_char {
     // TODO: CSS should be managed on the Rust side
-    let css = unsafe { CStr::from_ptr(__css).to_str().unwrap() };
+    let css = unsafe { CStr::from_ptr(css).to_str().unwrap() };
     match CLIENT
         .get()
         .unwrap()
@@ -623,9 +649,13 @@ pub extern "C" fn close_tourn(tid: TournamentId) -> bool {
 
 /// Saves a tournament to a name
 /// Returns true if successful, false if not.
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
-    let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
+pub unsafe extern "C" fn save_tourn(tid: TournamentId, file: *const c_char) -> bool {
+    let file = unsafe { CStr::from_ptr(file).to_str().unwrap() };
     let file_backup = format!("{file}{BACKUP_EXT}");
     let _ = std::fs::remove_file(&file_backup);
     let _ = std::fs::rename(file, &file_backup);
@@ -657,38 +687,46 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
 /// The tournament is then registered (stored on the heap)
 /// CStr path to the tournament (alloc and, free on Cxx side)
 /// Returns a NULL UUID (all 0s) if there is an error
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> TournamentId {
-    let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
+pub unsafe extern "C" fn load_tournament_from_file(file: *const c_char) -> TournamentId {
+    let file = unsafe { CStr::from_ptr(file).to_str().unwrap() };
     let Ok(json) = std::fs::read_to_string(file) else {
-            println!("[FFI]: Cannot read input file");
-            return TournamentId::default()
-        };
+        println!("[FFI]: Cannot read input file");
+        return TournamentId::default();
+    };
 
     let Ok(tournament) = serde_json::from_str::<TournamentManager>(&json) else {
-            println!("[FFI]: Input file is invalid");
-            return TournamentId::default()
-        };
+        println!("[FFI]: Input file is invalid");
+        return TournamentId::default();
+    };
 
     let rt = CLIENT.get().unwrap();
 
-    if let Ok(()) = rt.tournament_query(tournament.id.into(), |_| ()) {
+    if let Ok(()) = rt.tournament_query(tournament.id, |_| ()) {
         println!("[FFI]: Input tournament is already open");
         return TournamentId::default();
     }
 
-    let t_id = rt.create_tournament("TEMP".into(), TournamentPreset::Swiss, "TEMP".into());
-    let _ = rt.mutate_tournament(t_id, |t| *t = tournament);
+    let t_id = tournament.id;
+    let _ = rt.import_tournament(tournament);
     t_id
 }
 
 /// Creates a tournament from the settings provided
 /// Returns a NULL UUID (all 0s) if there is an error
+/// # Safety
+/// The given *char must live long enough for it to be converted into a `Cstr` and the into a Rust
+/// `String`. Since this involves cloning the whole buffer (twice), the *char can be dropped after
+/// this function returns.
 #[no_mangle]
-pub extern "C" fn new_tournament_from_settings(
-    __file: *const c_char,
-    __name: *const c_char,
-    __format: *const c_char,
+pub unsafe extern "C" fn new_tournament_from_settings(
+    file: *const c_char,
+    name: *const c_char,
+    format: *const c_char,
     preset: TournamentPreset,
     use_table_number: bool,
     game_size: u8,
@@ -698,25 +736,34 @@ pub extern "C" fn new_tournament_from_settings(
     require_check_in: bool,
     require_deck_reg: bool,
 ) -> TournamentId {
-    let name = String::from(unsafe { CStr::from_ptr(__name).to_str().unwrap().to_string() });
-    let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
+    fn make_op<O: Into<AdminOp>>(a_id: AdminId, op: O) -> TournOp {
+        TournOp::AdminOp(a_id, op.into())
+    }
+
+    let name = String::from(unsafe { CStr::from_ptr(name).to_str().unwrap() });
+    let format = String::from(unsafe { CStr::from_ptr(format).to_str().unwrap() });
 
     let rt = CLIENT.get().unwrap();
-    let t_id = rt.create_tournament(name, preset, format);
+    // Checks for "empty" names
+    let Ok(seed) = TournamentSeed::new(name, preset, format) else {
+        return Default::default();
+    };
+    let Some(t_id) = rt.create_tournament(seed) else {
+        return Default::default();
+    };
+    let a_id: AdminId = rt.client.get_user().id.0.into();
+    let updates: Vec<TournOp> = vec![
+        make_op(a_id, GeneralSetting::UseTableNumbers(use_table_number)),
+        make_op(a_id, GeneralSetting::MinDeckCount(min_deck_count)),
+        make_op(a_id, GeneralSetting::MaxDeckCount(max_deck_count)),
+        make_op(a_id, GeneralSetting::RequireCheckIn(require_check_in)),
+        make_op(a_id, GeneralSetting::RequireDeckReg(require_deck_reg)),
+        make_op(a_id, CommonPairingSetting::MatchSize(game_size)),
+        make_op(a_id, AdminOp::UpdateReg(reg_open)),
+    ];
+    let _ = rt.bulk_operations(t_id, updates);
 
-    let _: () = rt
-        .mutate_tournament(t_id, |t| {
-            t.use_table_number = use_table_number;
-            t.min_deck_count = min_deck_count;
-            t.max_deck_count = max_deck_count;
-            t.require_check_in = require_check_in;
-            t.require_deck_reg = require_deck_reg;
-            t.reg_open = reg_open;
-            t.pairing_sys.match_size = game_size;
-        })
-        .unwrap();
-
-    if !save_tourn(t_id, __file) {
+    if unsafe { !save_tourn(t_id, file) } {
         return TournamentId::default();
     }
 

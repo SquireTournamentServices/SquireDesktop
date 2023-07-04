@@ -7,15 +7,13 @@ use std::{
 
 use chrono::Utc;
 
-use squire_sdk::{
-    model::{error::TournamentError, rounds::RoundId},
-    players::PlayerId,
-    tournaments::TournamentId,
+use squire_sdk::model::{
+    error::TournamentError, players::PlayerId, rounds::RoundId, tournament::TournamentId,
 };
 
 /// The enum that encodes what could go wrong while performing an action
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub(crate) enum ActionError {
+pub enum ActionError {
     /// The given tournament could not be found
     TournamentNotFound(TournamentId),
     /// The given round could not be found
@@ -72,7 +70,7 @@ pub(crate) fn clone_string_to_c_string(s: &str) -> *const c_char {
 }
 
 /// Prints an error for debugging
-pub fn print_err(err: ActionError, context: &str) {
+pub(crate) fn print_err(err: ActionError, context: &str) {
     use ActionError::*;
     match err {
         TournamentNotFound(t_id) => {
@@ -110,6 +108,10 @@ pub fn print_err(err: ActionError, context: &str) {
                 InvalidDeckCount => Cow::Borrowed("Invalid deck count"),
                 NoMatchResult => Cow::Borrowed("There is at one active match with no results"),
                 MaxDecksReached => Cow::Borrowed("The maximum deck count has been reached"),
+                NameTaken => Cow::Borrowed("That name is already taken"),
+                InvalidMatchSize => Cow::Borrowed("Incorrect number of players to create a match"),
+                TimeOverflow => Cow::Borrowed("Overflowed the timer"),
+                BadTournamentName => Cow::Borrowed("That tournament name is invalide"),
             };
             let time = Utc::now();
             eprintln!("[FFI] {time}: {content} in tournament '{t_id}' while {context}");

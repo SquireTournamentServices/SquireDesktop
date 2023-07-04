@@ -21,24 +21,25 @@ use std::{
     ptr,
 };
 
-use dashmap::DashMap;
 use once_cell::sync::OnceCell;
 use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
 
 use squire_sdk::{
-    client::{update::UpdateTracker, SquireClient},
+    client::SquireClient,
     model::{
         operations::{OpData, TournOp},
         players::Player,
+        players::PlayerId,
         rounds::{Round, RoundId},
-        tournament::{Tournament, TournamentSeed},
+        tournament::{Tournament, TournamentId, TournamentSeed},
     },
-    players::PlayerId,
-    tournaments::{TournamentId, TournamentManager},
+    sync::TournamentManager,
 };
 
 use crate::utils::ActionError;
 
+/// Contains the defintion of structures used in the configuration of the Rust side
+pub mod config;
 /// Contains the ffi C bindings for players used in SquireDesktop
 pub mod player;
 /// Contains the ffi C bindings for a tournament used in SquireDesktop
@@ -48,13 +49,10 @@ pub mod tournament;
 /// Contains utilities that are not directly exposed to FFI but make FFI easier and safer
 pub(crate) mod utils;
 
-/// A map of tournament ids to tournaments this is used for allocating ffi tournaments all ffi
-/// tournaments are always deeply copied at the lanuage barrier
-pub static FFI_TOURNAMENT_REGISTRY: OnceCell<DashMap<TournamentId, Tournament>> = OnceCell::new();
-
 /// The FFI client that holds a handle to the SquireClient (which manages tournaments) as well as
 /// manages async messages set from the client.
 pub static CLIENT: OnceCell<SquireRuntime> = OnceCell::new();
+
 /// The tokio runtime needed by the client
 static RUNTIME: OnceCell<Runtime> = OnceCell::new();
 
@@ -88,17 +86,21 @@ impl SquireRuntime {
         self.client
             .update_tourn(t_id, op)
             .process_blocking()
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
-            .map(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
-            .flatten()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+            .and_then(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
     }
 
-    pub fn bulk_operations(&self, t_id: TournamentId, ops: Vec<TournOp>) -> Result<OpData, ActionError> {
-        self.client.bulk_update(t_id, ops)
+    /// Applies a series of operations to a tournament
+    pub fn bulk_operations(
+        &self,
+        t_id: TournamentId,
+        ops: Vec<TournOp>,
+    ) -> Result<OpData, ActionError> {
+        self.client
+            .bulk_update(t_id, ops)
             .process_blocking()
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
-            .map(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
-            .flatten()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+            .and_then(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
     }
 
     /// Creates a tournament, stores it in the runtime, and returns its id
@@ -107,28 +109,30 @@ impl SquireRuntime {
         self.client.import_tourn(tourn).process_blocking()
     }
 
+    /// Adds a tournament for the client to manage
     pub fn import_tournament(&self, tourn: TournamentManager) -> Option<TournamentId> {
         self.client.import_tourn(tourn).process_blocking()
     }
 
     /// Removes a tournament from the runtime and returns it, if found
     pub fn remove_tournament(&self, t_id: TournamentId) -> Result<(), ActionError> {
-        self.client.remove_tourn(t_id)
+        self.client
+            .remove_tourn(t_id)
             .process_blocking()
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
-            .map(|_| ())
+            .ok_or(ActionError::TournamentNotFound(t_id))
+            .map(drop)
     }
 
     /// Looks up a tournament and performs the given query
     pub fn tournament_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
     where
-        Q: Send + FnOnce(&Tournament) -> O,
-        O: Send,
+        Q: 'static + Send + FnOnce(&Tournament) -> O,
+        O: 'static + Send,
     {
         self.client
             .query_tourn(t_id, |t| query(t.tourn()))
             .process_blocking()
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
+            .ok_or(ActionError::TournamentNotFound(t_id))
     }
 
     /// Looks up a player and performs the given query
@@ -139,8 +143,8 @@ impl SquireRuntime {
         query: Q,
     ) -> Result<O, ActionError>
     where
-        Q: Send + FnOnce(&Round) -> O,
-        O: Send,
+        Q: 'static + Send + FnOnce(&Round) -> O,
+        O: 'static + Send,
     {
         self.tournament_query(t_id, move |tourn| {
             tourn
@@ -148,7 +152,7 @@ impl SquireRuntime {
                 .rounds
                 .get(&r_id)
                 .map(query)
-                .ok_or_else(|| ActionError::RoundNotFound(t_id, r_id))
+                .ok_or(ActionError::RoundNotFound(t_id, r_id))
         })
         .flatten()
     }
@@ -161,8 +165,8 @@ impl SquireRuntime {
         query: Q,
     ) -> Result<O, ActionError>
     where
-        Q: Send + FnOnce(&Player) -> O,
-        O: Send,
+        Q: 'static + Send + FnOnce(&Player) -> O,
+        O: 'static + Send,
     {
         self.tournament_query(t_id, move |tourn| {
             tourn
@@ -170,7 +174,7 @@ impl SquireRuntime {
                 .players
                 .get(&p_id)
                 .map(query)
-                .ok_or_else(|| ActionError::PlayerNotFound(t_id, p_id))
+                .ok_or(ActionError::PlayerNotFound(t_id, p_id))
         })
         .flatten()
     }

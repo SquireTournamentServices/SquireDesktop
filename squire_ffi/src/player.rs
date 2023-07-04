@@ -1,9 +1,9 @@
 use std::os::raw::c_char;
 
-use squire_sdk::{
-    model::{identifiers::RoundId, players::PlayerStatus},
-    players::PlayerId,
-    tournaments::TournamentId,
+use squire_sdk::model::{
+    identifiers::RoundId,
+    players::{PlayerId, PlayerStatus},
+    tournament::TournamentId,
 };
 
 use crate::{
@@ -67,7 +67,7 @@ pub extern "C" fn pid_rounds(pid: PlayerId, tid: TournamentId) -> *const RoundId
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| t.round_reg.get_round_ids_for_player(pid))
+        .tournament_query(tid, move |t| t.round_reg.get_round_ids_for_player(pid))
     {
         Ok(rnds) => unsafe { copy_to_system_pointer(rnds.into_iter()) },
         Err(err) => {
