@@ -11,7 +11,7 @@ use squire_sdk::{
         rounds::RoundId,
         scoring::StandardScore,
         settings::{CommonPairingSetting, GeneralSetting, PairingSetting, TournamentSetting},
-        tournament::{TournamentSeed, TournamentStatus},
+        tournament::TournamentStatus,
     },
     players::PlayerId,
     tournaments::{TournamentId, TournamentManager, TournamentPreset},
@@ -64,14 +64,9 @@ pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<Standar
 #[no_mangle]
 pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        t.player_reg
-            .players
-            .keys()
-            .cloned()
-            .map(Into::into)
-            .collect::<Vec<_>>()
+        t.player_reg.players.keys().cloned().map(Into::into)
     }) {
-        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
+        Ok(data) => unsafe { copy_to_system_pointer(data) },
         Err(err) => {
             print_err(err, "players.");
             std::ptr::null()
@@ -86,14 +81,9 @@ pub extern "C" fn tid_players(tid: TournamentId) -> *const PlayerId {
 #[no_mangle]
 pub extern "C" fn tid_rounds(tid: TournamentId) -> *const RoundId {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
-        t.round_reg
-            .num_and_id
-            .iter_right()
-            .cloned()
-            .map(Into::into)
-            .collect::<Vec<_>>()
+        t.round_reg.num_and_id.iter_right().cloned().map(Into::into)
     }) {
-        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
+        Ok(data) => unsafe { copy_to_system_pointer(data) },
         Err(err) => {
             print_err(err, "rounds.");
             std::ptr::null()
@@ -671,14 +661,16 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
 pub extern "C" fn load_tournament_from_file(__file: *const c_char) {
     let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
     let Ok(json) = std::fs::read_to_string(file) else {
-            return println!("[FFI]: Cannot read input file")
+            println!("[FFI]: Cannot read input file");
+            return TournamentId::default()
         };
 
-    let Ok(tourn) = serde_json::from_str::<TournamentManager>(&json) else {
-            return println!("[FFI]: Input file is invalid")
+    let Ok(tournament) = serde_json::from_str::<TournamentManager>(&json) else {
+            println!("[FFI]: Input file is invalid");
+            return TournamentId::default()
         };
 
-    let client = CLIENT.get().unwrap();
+    let rt = CLIENT.get().unwrap();
 
     if client.tournament_query(tourn.id.into(), |_| ()).is_err() {
         client.import_tournament(tourn);
@@ -704,27 +696,8 @@ pub extern "C" fn new_tournament_from_settings(
     let name = String::from(unsafe { CStr::from_ptr(__name).to_str().unwrap().to_string() });
     let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
 
-    let client = CLIENT.get().unwrap();
-    let seed = TournamentSeed::new(name, preset, format);
-    let t_id = client.create_tournament(seed);
-    let a_id = AdminId::new(*client.client.get_user().id);
-    let ops = vec![
-        TournOp::AdminOp(
-            a_id,
-            GeneralSetting::UseTableNumbers(use_table_number).into(),
-        ),
-        TournOp::AdminOp(a_id, GeneralSetting::MinDeckCount(min_deck_count).into()),
-        TournOp::AdminOp(a_id, GeneralSetting::MaxDeckCount(max_deck_count).into()),
-        TournOp::AdminOp(
-            a_id,
-            GeneralSetting::RequireCheckIn(require_check_in).into(),
-        ),
-        TournOp::AdminOp(
-            a_id,
-            GeneralSetting::RequireDeckReg(require_deck_reg).into(),
-        ),
-        TournOp::AdminOp(a_id, CommonPairingSetting::MatchSize(game_size).into()),
-    ];
+    let rt = CLIENT.get().unwrap();
+    let t_id = rt.create_tournament(name, preset, format);
 
     let _ = client.bulk_operations(t_id, ops);
 

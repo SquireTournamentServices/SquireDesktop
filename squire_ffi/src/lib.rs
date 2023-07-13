@@ -26,7 +26,7 @@ use once_cell::sync::OnceCell;
 use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
 
 use squire_sdk::{
-    client::SquireClient,
+    client::{update::UpdateTracker, SquireClient},
     model::{
         operations::{OpData, TournOp},
         players::Player,
@@ -93,13 +93,8 @@ impl SquireRuntime {
             .flatten()
     }
 
-    pub fn bulk_operations(
-        &self,
-        t_id: TournamentId,
-        ops: Vec<TournOp>,
-    ) -> Result<OpData, ActionError> {
-        self.client
-            .bulk_update(t_id, ops)
+    pub fn bulk_operations(&self, t_id: TournamentId, ops: Vec<TournOp>) -> Result<OpData, ActionError> {
+        self.client.bulk_update(t_id, ops)
             .process_blocking()
             .ok_or_else(|| ActionError::TournamentNotFound(t_id))
             .map(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
@@ -107,11 +102,9 @@ impl SquireRuntime {
     }
 
     /// Creates a tournament, stores it in the runtime, and returns its id
-    pub fn create_tournament(&self, seed: TournamentSeed) -> TournamentId {
+    pub fn create_tournament(&self, seed: TournamentSeed) -> Option<TournamentId> {
         let tourn = TournamentManager::new(self.client.get_user().clone(), seed);
-        let t_id = tourn.tourn().id;
-        let _ = self.client.import_tourn(tourn).process_blocking();
-        t_id
+        self.client.import_tourn(tourn).process_blocking()
     }
 
     pub fn import_tournament(&self, tourn: TournamentManager) -> Option<TournamentId> {
@@ -120,8 +113,7 @@ impl SquireRuntime {
 
     /// Removes a tournament from the runtime and returns it, if found
     pub fn remove_tournament(&self, t_id: TournamentId) -> Result<(), ActionError> {
-        self.client
-            .remove_tourn(t_id)
+        self.client.remove_tourn(t_id)
             .process_blocking()
             .ok_or_else(|| ActionError::TournamentNotFound(t_id))
             .map(|_| ())
@@ -130,8 +122,8 @@ impl SquireRuntime {
     /// Looks up a tournament and performs the given query
     pub fn tournament_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
     where
-        Q: 'static + Send + FnOnce(&Tournament) -> O,
-        O: 'static + Send,
+        Q: Send + FnOnce(&Tournament) -> O,
+        O: Send,
     {
         self.client
             .query_tourn(t_id, |t| query(t.tourn()))
@@ -147,8 +139,8 @@ impl SquireRuntime {
         query: Q,
     ) -> Result<O, ActionError>
     where
-        Q: 'static + Send + FnOnce(&Round) -> O,
-        O: 'static + Send,
+        Q: Send + FnOnce(&Round) -> O,
+        O: Send,
     {
         self.tournament_query(t_id, move |tourn| {
             tourn
@@ -169,8 +161,8 @@ impl SquireRuntime {
         query: Q,
     ) -> Result<O, ActionError>
     where
-        Q: 'static + Send + FnOnce(&Player) -> O,
-        O: 'static + Send,
+        Q: Send + FnOnce(&Player) -> O,
+        O: Send,
     {
         self.tournament_query(t_id, move |tourn| {
             tourn
@@ -194,10 +186,6 @@ impl Default for SquireRuntime {
 /// Inits the internal structs of squire lib for FFI.
 #[no_mangle]
 pub extern "C" fn init_squire_ffi() {
-    // TODO:
-    //  - Load the user's account from file
-    //  - Use this account to construct the client
-
     // Construct the tokio runtime that the client will need
     let rt = tokio::runtime::Builder::new_multi_thread()
         .enable_all()

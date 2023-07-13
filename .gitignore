@@ -22,6 +22,7 @@ cmake-build-test/
 .idea/
 
 squire_ffi/target
+target/
 
 squire_ffi/squire_ffi.h
 
