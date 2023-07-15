@@ -39,10 +39,9 @@ add_definitions("-DBUFFER_LENGTH=4096")
 add_definitions("-DPROJECT_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
 add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 
-# This can be ommitted as mtg_search_engine will also define it __FILENAME__
-# string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
-# add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
-# add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
+string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
+add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
 
 if(WIN32)
   add_definitions("-D__WINDOWS")
@@ -135,13 +134,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 # https://stackoverflow.com/questions/40743372/gcc-lto-appears-to-strip-debugging-symbols
 # option(ENABLE_LTO ON)
 option(ENABLE_LTO OFF)
-# if(POLICY CMP0048) cmake_policy(SET CMP0048 NEW) endif()
-
-# option(ENABLE_LTO "Enable cross language linking time optimization" ON)
-# if(ENABLE_LTO) include(CheckIPOSupported) check_ipo_supported(RESULT supported
-# OUTPUT error) if(supported) message(STATUS "IPO / LTO enabled")
-# set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) add_link_options(-fuse-ld=lld)
-# else() message(STATUS "IPO / LTO not supported: <${error}>") endif() endif()
 
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
