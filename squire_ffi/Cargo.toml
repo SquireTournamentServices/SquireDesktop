@@ -15,7 +15,7 @@ crate-type = ["lib", "staticlib"]
 squire_sdk = { git = "https://github.com/MonarchDevelopment/SquireCore", branch = "main", package = "squire_sdk", features = ["client"] }
 
 libc = { version = "0.2" }
-dashmap = { version = "5.0", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0.100" }
 cbindgen = { version = "0.24.5" }
 once_cell = { version = "1.18.0" }
