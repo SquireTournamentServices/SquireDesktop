@@ -703,7 +703,8 @@ pub extern "C" fn new_tournament_from_settings(
     let rt = CLIENT.get().unwrap();
     let t_id = rt.create_tournament(name, preset, format);
 
-    let _ = client.bulk_operations(t_id, ops);
+    // TODO: set ops
+    let _ = rt.bulk_operations(t_id, ops);
 
     save_tourn(t_id, __file).then_some(t_id).unwrap_or_default()
 }
