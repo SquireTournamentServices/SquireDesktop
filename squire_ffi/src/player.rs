@@ -2,7 +2,7 @@ use std::os::raw::c_char;
 
 use squire_sdk::{
     model::{identifiers::RoundId, players::PlayerStatus},
-    players::PlayerId,
+    model::players::PlayerId,
     tournaments::TournamentId,
 };
 

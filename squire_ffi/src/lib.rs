@@ -33,7 +33,7 @@ use squire_sdk::{
         rounds::{Round, RoundId},
         tournament::{Tournament, TournamentSeed},
     },
-    players::PlayerId,
+    model::players::PlayerId,
     tournaments::{TournamentId, TournamentManager},
 };
 

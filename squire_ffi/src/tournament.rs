@@ -13,7 +13,7 @@ use squire_sdk::{
         settings::{CommonPairingSetting, GeneralSetting, PairingSetting, TournamentSetting},
         tournament::TournamentStatus,
     },
-    players::PlayerId,
+    model::players::PlayerId,
     tournaments::{TournamentId, TournamentManager, TournamentPreset},
 };
 
