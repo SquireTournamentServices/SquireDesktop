@@ -670,12 +670,15 @@ pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> Tournament
         return TournamentId::default();
     };
 
-    let rt = CLIENT.get().unwrap();
+    let client = CLIENT.get().unwrap();
 
-    if client.tournament_query(tourn.id.into(), |_| ()).is_err() {
-        client.import_tournament(tourn);
+    if client
+        .tournament_query(tournament.id.into(), |_| ())
+        .is_err()
+    {
+        client.import_tournament(tournament);
     }
-    tourn.id
+    tournament.id
 }
 
 /// Creates a tournament from the settings provided
