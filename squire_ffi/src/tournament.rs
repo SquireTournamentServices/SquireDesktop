@@ -32,12 +32,16 @@ pub struct PlayerScore<S> {
     score: S,
 }
 
-/// TournamentIds can be used to get data safely from
-/// the Rust lib with these methods
-/// Returns a raw pointer to a list of standings
-/// This is an array, the last element has a NULL player id
-/// This is heap allocated, please free it
-/// Returns NULL on error
+/// Checks to see if a tournament has received a remote update since the last time that it was
+/// polled. The returned bool is true if the tournament has been updated.
+#[no_mangle]
+pub extern "C" fn poll_remote_update(tid: TournamentId) -> bool {
+    CLIENT.get().unwrap().poll_remote_update(tid)
+}
+
+/// TournamentIds can be used to get data safely from the Rust lib with these methods Returns a raw
+/// pointer to a list of standings This is an array, the last element has a NULL player id This is
+/// heap allocated, please free it Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<StandardScore> {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
@@ -149,7 +153,7 @@ pub unsafe extern "C" fn tid_add_admin_local(
     uid: SquireAccountId,
 ) -> bool {
     let name = unsafe { CStr::from_ptr(name).to_str().unwrap().to_string() };
-    let mut account = SquireAccount::new(name.clone(), name.clone());
+    let mut account = SquireAccount::new(name.clone(), name);
     account.id = uid;
     let client = CLIENT.get().unwrap();
     let a_id = AdminId::new(*client.client.get_user().id);
