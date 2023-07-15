@@ -143,8 +143,8 @@ bitflags = true
 [parse]
 parse_deps = true
 clean = true
-include = ["uuid", "squire_lib"]
-extra_bindings = ["uuid", "squire_lib"]
+include = ["uuid", "squire_lib", "squire_sdk"]
+extra_bindings = ["uuid", "squire_lib", "squire_sdk"]
 
 [parse.expand]
 crates = ["uuid"]
