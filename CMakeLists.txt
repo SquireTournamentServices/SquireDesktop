@@ -132,8 +132,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
 # https://stackoverflow.com/questions/40743372/gcc-lto-appears-to-strip-debugging-symbols
-# option(ENABLE_LTO ON)
-option(ENABLE_LTO OFF)
+ option(ENABLE_LTO ON)
+#option(ENABLE_LTO OFF)
 
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
