@@ -126,7 +126,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
@@ -174,7 +174,10 @@ set(CURL_STATICLIB ON)
 
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
-add_subdirectory(pthreads)
+
+if (WIN32)
+  add_subdirectory(pthreads)
+endif()
 # add_subdirectory(libbacktrace)
 add_subdirectory(jansson)
 add_subdirectory(curl)
@@ -354,7 +357,7 @@ if(UNIX)
     ./testing_h/testing.h
     ./testing_h/logger.c
     ./testing_h/logger.h)
-  target_link_libraries(sq_crash_handler)
+  target_link_libraries(sq_crash_handler ${LIBS})
 else()
   message(WARNING "The crash handler will not be built.")
 endif()
@@ -370,7 +373,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
   if(ANDROID)
-    add_library(SquireDesktop SHARED ${PROJECT_SOURCES})
+    add_library(SquireDesktop SHARED ${PROJECT_SOURCES} mtg-search-engine)
     # Define properties for Android with Qt 5 after find_package() calls as:
     # set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
   else()

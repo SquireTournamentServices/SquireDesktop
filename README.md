@@ -43,7 +43,7 @@ git clone --recursive https://github.com/MonarchDevelopment/SquireDesktop
    - Linguistics
    - Core
    - Networking
- - `Compiler` (gcc, clang or, msvc)
+ - `Compiler` (gcc, clang or, msvc; C++ 20 is the minimum required standard)
 
 ##### 2. Update Rust to Nightly
 ```
