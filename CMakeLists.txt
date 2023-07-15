@@ -183,7 +183,7 @@ add_subdirectory(src/mtg_search_engine)
 include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
 
 set(LIBS nlohmann_json::nlohmann_json mtg-search-engine jansson CURL::libcurl
-         OpenSSL::SSL OpenSSL::Crypto) # backtrace)
+         OpenSSL::SSL OpenSSL::Crypto c m) # backtrace)
 
 if(WIN32)
   add_subdirectory(pthreads)
