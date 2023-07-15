@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 
 is_rust_src = re.compile("(.*)\\.rs$")
 re_type = re.compile(".*pub (struct|enum) ([a-zA-Z0-9]+).*")
@@ -14,6 +15,8 @@ types = [
     "TournamentId",
     "JudgeId",
     "TournamentPreset",
+    "TournamentStatus",
+    "RoundStatus",
     "PlayerStatus",
     "StandardScore",
 ]
