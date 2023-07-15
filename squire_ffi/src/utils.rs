@@ -8,8 +8,7 @@ use std::{
 use chrono::Utc;
 
 use squire_sdk::{
-    model::{error::TournamentError, rounds::RoundId},
-    players::PlayerId,
+    model::{error::TournamentError, players::PlayerId, rounds::RoundId},
     tournaments::TournamentId,
 };
 
