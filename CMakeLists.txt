@@ -236,6 +236,8 @@ set(PROJECT_SOURCES
     ./src/discord_game_sdk.h
     ./src/init.cpp
     ./src/init.h
+    ./src/search.h
+    ./src/search.cpp
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui
