@@ -175,9 +175,6 @@ set(CURL_STATICLIB ON)
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
 
-if(WIN32)
-  add_subdirectory(pthreads)
-endif()
 # add_subdirectory(libbacktrace)
 add_subdirectory(jansson)
 add_subdirectory(curl)
@@ -189,13 +186,13 @@ set(LIBS nlohmann_json::nlohmann_json mtg-search-engine jansson CURL::libcurl
          OpenSSL::SSL OpenSSL::Crypto) # backtrace)
 
 if(WIN32)
+  add_subdirectory(pthreads)
   set(LIBS ${LIBS} win32)
 endif()
 
 # Non-ui files that are tested
 set(TS_FILES SquireDesktop_en_GB.ts)
 set(MAIN_FILES
-    ./testing_h/logger.c
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
     ./src/filerable_list.hpp
@@ -312,7 +309,6 @@ set(PROJECT_SOURCES
 
 set(TESTING_SOURCES
     ${MAIN_FILES}
-    ./testing_h/testing.c
     ./testing_h/testing.h
     ./tests/test_filter_list.cpp
     ./tests/test_filter_list.h
@@ -330,7 +326,6 @@ set(TESTING_SOURCES
 set(FFI_TESTING_SOURCES
     ${MAIN_FILES}
     ${FFI_FILES}
-    ./testing_h/testing.c
     ./testing_h/testing.h
     ./tests_ffi/sq_link_test.h
     ./tests_ffi/sq_link_test.cpp
@@ -355,9 +350,7 @@ if(UNIX)
     ./crash_handler/path_change.h
     ./crash_handler/path_change.c
     ./testing_h/ansi_colour.h
-    ./testing_h/testing.c
     ./testing_h/testing.h
-    ./testing_h/logger.c
     ./testing_h/logger.h)
   target_link_libraries(sq_crash_handler ${LIBS})
 else()
