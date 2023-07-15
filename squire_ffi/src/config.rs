@@ -1,26 +1,31 @@
 use std::{fs, path::PathBuf};
 
 use serde::{Deserialize, Serialize};
-use squire_sdk::{model::settings::TournamentSettingsTree, tournaments::TournamentPreset};
+use squire_sdk::{
+    model::{
+        accounts::SquireAccount, identifiers::SquireAccountId, settings::TournamentSettingsTree,
+    },
+    tournaments::TournamentPreset,
+};
 
 /// Stores the configuration for the Rust side of the desktop. This includes all information
 /// necessary to find tournament save files, user login data, etc.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct StartupConfig {
-    version: String,
-    user: UserConfig,
-    tourn_save_path: PathBuf,
-    remember_user: bool,
-    report_crashes: bool,
-    recently_opened: Vec<PathBuf>,
-    default_tourn_settings: TournamentSettingsTree,
+    pub(crate) version: String,
+    pub(crate) user: UserConfig,
+    pub(crate) tourn_save_path: PathBuf,
+    pub(crate) remember_user: bool,
+    pub(crate) report_crashes: bool,
+    pub(crate) recently_opened: Vec<PathBuf>,
+    pub(crate) default_tourn_settings: TournamentSettingsTree,
 }
 
 /// Stores the data for a user's config
-#[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct UserConfig {
-    user_name: String,
-    user_token: String,
+    pub(crate) account: SquireAccount,
+    pub(crate) user_token: Option<String>,
 }
 
 impl StartupConfig {
@@ -50,6 +55,23 @@ impl Default for StartupConfig {
             report_crashes: true,
             recently_opened: Default::default(),
             default_tourn_settings: TournamentSettingsTree::new(TournamentPreset::Swiss),
+        }
+    }
+}
+
+impl Default for UserConfig {
+    fn default() -> Self {
+        let id = SquireAccountId::default();
+        let account = SquireAccount {
+            user_name: id.to_string(),
+            display_name: id.to_string(),
+            gamer_tags: Default::default(),
+            id,
+            permissions: Default::default(),
+        };
+        Self {
+            account,
+            user_token: None,
         }
     }
 }

@@ -36,7 +36,7 @@ use squire_sdk::{
     sync::TournamentManager,
 };
 
-use crate::utils::ActionError;
+use crate::{config::StartupConfig, utils::ActionError};
 
 /// Contains the defintion of structures used in the configuration of the Rust side
 pub mod config;
@@ -70,7 +70,21 @@ pub struct SquireRuntime {
 impl SquireRuntime {
     /// Creates the runtime.
     pub fn new() -> Self {
-        todo!()
+        // Read in config
+        // Init client
+        // Import all recent tournaments (or all tournaments in save directory)
+        let config = StartupConfig::new();
+
+        let client = SquireClient::builder()
+            .account(config.user.account.clone())
+            .url(String::new())
+            .on_update(|| ()) // TODO: ...
+            .build();
+        Self {
+            client,
+            listener: todo!(),
+            remote_trackers: todo!(),
+        }
     }
 
     /// Checks to see if an update to a tournament has been sent from the backend
