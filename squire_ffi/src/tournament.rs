@@ -2,6 +2,7 @@ use std::{ffi::CStr, os::raw::c_char, time::Duration};
 
 use serde_json;
 
+use squire_sdk::model::tournament::TournamentSeed;
 use squire_sdk::{
     model::players::PlayerId,
     model::{
@@ -96,7 +97,10 @@ pub extern "C" fn tid_rounds(tid: TournamentId) -> *const RoundId {
 #[no_mangle]
 pub extern "C" fn tid_add_player(tid: TournamentId, __name: *const c_char) -> PlayerId {
     let name = unsafe { CStr::from_ptr(__name).to_str().unwrap() };
-    let op = TournOp::RegisterPlayer(SquireAccount::new(name.to_string(), name.to_string()));
+    let op = TournOp::RegisterPlayer(
+        SquireAccount::new(name.to_string(), name.to_string()),
+        Option::None,
+    );
 
     match CLIENT.get().unwrap().apply_operation(tid, op) {
         Ok(data) => data.assume_register_player().into(),
@@ -696,14 +700,27 @@ pub extern "C" fn new_tournament_from_settings(
     _: bool,
     require_check_in: bool,
     require_deck_reg: bool,
+    aid: AdminId,
 ) -> TournamentId {
     let name = String::from(unsafe { CStr::from_ptr(__name).to_str().unwrap().to_string() });
     let format = String::from(unsafe { CStr::from_ptr(__format).to_str().unwrap().to_string() });
 
     let rt = CLIENT.get().unwrap();
-    let t_id = rt.create_tournament(name, preset, format);
+    let t_id = rt
+        .create_tournament(TournamentSeed {
+            name: name,
+            preset: preset,
+            format: format,
+        })
+        .unwrap();
 
-    // TODO: set ops
+    let mut ops = Vec::new();
+    ops.push(TournOp::AdminOp(
+        aid,
+        AdminOp::UpdateTournSetting(TournamentSetting::GeneralSetting(
+            GeneralSetting::UseTableNumbers(use_table_number),
+        )),
+    ));
     let _ = rt.bulk_operations(t_id, ops);
 
     save_tourn(t_id, __file).then_some(t_id).unwrap_or_default()

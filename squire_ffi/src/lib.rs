@@ -26,7 +26,7 @@ use once_cell::sync::OnceCell;
 use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
 
 use squire_sdk::{
-    client::{update::UpdateTracker, SquireClient},
+    client::SquireClient,
     model::players::PlayerId,
     model::{
         operations::{OpData, TournOp},
