@@ -147,7 +147,7 @@ include = ["uuid", "squire_lib", "squire_sdk"]
 extra_bindings = ["uuid", "squire_lib", "squire_sdk"]
 
 [parse.expand]
-crates = ["uuid"]
+crates = ["uuid", "squire_sdk"]
 all_features = false
 default_features = true
 """

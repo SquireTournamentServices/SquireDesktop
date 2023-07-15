@@ -175,7 +175,7 @@ set(CURL_STATICLIB ON)
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
 
-if (WIN32)
+if(WIN32)
   add_subdirectory(pthreads)
 endif()
 # add_subdirectory(libbacktrace)
@@ -189,7 +189,7 @@ set(LIBS nlohmann_json::nlohmann_json mtg-search-engine jansson CURL::libcurl
          OpenSSL::SSL OpenSSL::Crypto) # backtrace)
 
 if(WIN32)
-    set(LIBS ${LIBS} win32)
+  set(LIBS ${LIBS} win32)
 endif()
 
 # Non-ui files that are tested

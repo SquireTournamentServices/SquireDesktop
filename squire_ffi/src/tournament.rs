@@ -3,6 +3,7 @@ use std::{ffi::CStr, os::raw::c_char, time::Duration};
 use serde_json;
 
 use squire_sdk::{
+    model::players::PlayerId,
     model::{
         accounts::SquireAccount,
         identifiers::{AdminId, SquireAccountId},
@@ -13,7 +14,6 @@ use squire_sdk::{
         settings::{CommonPairingSetting, GeneralSetting, PairingSetting, TournamentSetting},
         tournament::TournamentStatus,
     },
-    model::players::PlayerId,
     tournaments::{TournamentId, TournamentManager, TournamentPreset},
 };
 
@@ -661,14 +661,14 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
 pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> TournamentId {
     let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
     let Ok(json) = std::fs::read_to_string(file) else {
-            println!("[FFI]: Cannot read input file");
-            return TournamentId::default()
-        };
+        println!("[FFI]: Cannot read input file");
+        return TournamentId::default();
+    };
 
     let Ok(tournament) = serde_json::from_str::<TournamentManager>(&json) else {
-            println!("[FFI]: Input file is invalid");
-            return TournamentId::default()
-        };
+        println!("[FFI]: Input file is invalid");
+        return TournamentId::default();
+    };
 
     let rt = CLIENT.get().unwrap();
 

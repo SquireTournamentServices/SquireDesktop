@@ -27,13 +27,13 @@ use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
 
 use squire_sdk::{
     client::{update::UpdateTracker, SquireClient},
+    model::players::PlayerId,
     model::{
         operations::{OpData, TournOp},
         players::Player,
         rounds::{Round, RoundId},
         tournament::{Tournament, TournamentSeed},
     },
-    model::players::PlayerId,
     tournaments::{TournamentId, TournamentManager},
 };
 
@@ -93,8 +93,13 @@ impl SquireRuntime {
             .flatten()
     }
 
-    pub fn bulk_operations(&self, t_id: TournamentId, ops: Vec<TournOp>) -> Result<OpData, ActionError> {
-        self.client.bulk_update(t_id, ops)
+    pub fn bulk_operations(
+        &self,
+        t_id: TournamentId,
+        ops: Vec<TournOp>,
+    ) -> Result<OpData, ActionError> {
+        self.client
+            .bulk_update(t_id, ops)
             .process_blocking()
             .ok_or_else(|| ActionError::TournamentNotFound(t_id))
             .map(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
@@ -113,7 +118,8 @@ impl SquireRuntime {
 
     /// Removes a tournament from the runtime and returns it, if found
     pub fn remove_tournament(&self, t_id: TournamentId) -> Result<(), ActionError> {
-        self.client.remove_tourn(t_id)
+        self.client
+            .remove_tourn(t_id)
             .process_blocking()
             .ok_or_else(|| ActionError::TournamentNotFound(t_id))
             .map(|_| ())

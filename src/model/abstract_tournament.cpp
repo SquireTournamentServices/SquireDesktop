@@ -394,7 +394,6 @@ std::vector<Round> Tournament::playerRounds(Player player)
     return ret;
 }
 
-
 bool Tournament::save()
 {
     this->setSaveStatus(false);
@@ -610,4 +609,3 @@ void Tournament::emitAllProps()
     emit onRegOpenChanged(this->reg_open());
     emit onSaveStatusChanged(this->saved);
 }
-

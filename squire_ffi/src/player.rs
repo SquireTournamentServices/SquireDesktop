@@ -1,8 +1,8 @@
 use std::os::raw::c_char;
 
 use squire_sdk::{
-    model::{identifiers::RoundId, players::PlayerStatus},
     model::players::PlayerId,
+    model::{identifiers::RoundId, players::PlayerStatus},
     tournaments::TournamentId,
 };
 
