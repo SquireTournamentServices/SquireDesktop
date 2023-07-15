@@ -25,7 +25,9 @@ squire_ffi/target
 target/
 
 squire_ffi/squire_ffi.h
-
 squire_ffi/cbindgen.toml
-
 squire_ffi/Cargo.lock
+
+.cache/
+*.json
+*.kdev4
