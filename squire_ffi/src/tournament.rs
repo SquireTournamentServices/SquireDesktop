@@ -732,10 +732,10 @@ pub unsafe extern "C" fn new_tournament_from_settings(
     game_size: u8,
     min_deck_count: u8,
     max_deck_count: u8,
-    _: bool,
+    reg_open: bool,
     require_check_in: bool,
     require_deck_reg: bool,
-    aid: AdminId,
+    a_id: AdminId,
 ) -> TournamentId {
     fn make_op<O: Into<AdminOp>>(a_id: AdminId, op: O) -> TournOp {
         TournOp::AdminOp(a_id, op.into())
@@ -752,7 +752,6 @@ pub unsafe extern "C" fn new_tournament_from_settings(
     let Some(t_id) = rt.create_tournament(seed) else {
         return Default::default();
     };
-    let a_id: AdminId = rt.client.get_user().id.0.into();
     let updates: Vec<TournOp> = vec![
         make_op(a_id, GeneralSetting::UseTableNumbers(use_table_number)),
         make_op(a_id, GeneralSetting::MinDeckCount(min_deck_count)),
@@ -768,5 +767,5 @@ pub unsafe extern "C" fn new_tournament_from_settings(
         return TournamentId::default();
     }
 
-    save_tourn(t_id, __file).then_some(t_id).unwrap_or_default()
+    save_tourn(t_id, file).then_some(t_id).unwrap_or_default()
 }

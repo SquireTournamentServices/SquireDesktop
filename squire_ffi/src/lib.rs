@@ -22,7 +22,10 @@ use std::{
 };
 
 use once_cell::sync::OnceCell;
-use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
+use tokio::{
+    runtime::Runtime,
+    sync::mpsc::{unbounded_channel, UnboundedReceiver},
+};
 
 use squire_sdk::{
     client::SquireClient,
@@ -74,15 +77,19 @@ impl SquireRuntime {
         // Import all recent tournaments (or all tournaments in save directory)
         let config = StartupConfig::new();
 
+        let (send, recv) = unbounded_channel();
+
         let client = SquireClient::builder()
             .account(config.user.account.clone())
             .url(String::new())
-            .on_update(|| ()) // TODO: ...
-            .build();
+            .on_update(move |t_id| {
+                _ = send.send(t_id);
+            })
+            .build_unchecked();
         Self {
             client,
-            listener: todo!(),
-            remote_trackers: todo!(),
+            listener: recv,
+            remote_trackers: HashSet::new(),
         }
     }
 
