@@ -27,3 +27,21 @@ public:
 private:
     mse_uuid_t card_id;
 };
+
+class SearchResult
+{
+
+};
+
+class MTGSearchEngine
+{
+public:
+    ~MTGSearchEngine();
+    static MTGSearchEngine *get_instance();
+    MTGSearchEngine(MTGSearchEngine &other) = delete;
+    void operator=(const MTGSearchEngine &) = delete;
+    SearchResult search(std::string query);
+private:
+    MTGSearchEngine();
+    mse_t mse;
+};
