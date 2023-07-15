@@ -658,7 +658,7 @@ pub extern "C" fn save_tourn(tid: TournamentId, __file: *const c_char) -> bool {
 /// CStr path to the tournament (alloc and, free on Cxx side)
 /// Returns a NULL UUID (all 0s) if there is an error
 #[no_mangle]
-pub extern "C" fn load_tournament_from_file(__file: *const c_char) {
+pub extern "C" fn load_tournament_from_file(__file: *const c_char) -> TournamentId {
     let file = unsafe { CStr::from_ptr(__file).to_str().unwrap() };
     let Ok(json) = std::fs::read_to_string(file) else {
             println!("[FFI]: Cannot read input file");
@@ -675,6 +675,7 @@ pub extern "C" fn load_tournament_from_file(__file: *const c_char) {
     if client.tournament_query(tourn.id.into(), |_| ()).is_err() {
         client.import_tournament(tourn);
     }
+    tourn.id
 }
 
 /// Creates a tournament from the settings provided
