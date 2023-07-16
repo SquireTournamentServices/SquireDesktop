@@ -86,5 +86,4 @@ MTGSearchEngine::~MTGSearchEngine()
 {
     lprintf(LOG_ERROR, "Freeing this object is prohibited.\n");
     mse_free(&this->mse);
-    throw std::runtime_error("This object should never be freed outside of tests");
 }
