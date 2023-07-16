@@ -6,6 +6,7 @@
 #include "./test_utils.h"
 #include "./test_filter_list.h"
 #include "./test_timers.h"
+#include "./test_search.h"
 #include "../testing_h/testing.h"
 #include "./unit_tests.h"
 
@@ -25,6 +26,7 @@ int unit_tests()
         {&utils_cpp_test, "IO utils cpp test"},
         {&filter_list_tests, "Filter list cpp test"},
         {&test_timers, "Timers cpp test"},
+        {&test_search, "Test card searching"}
     };
 
     int failed_tests = run_tests(tests, sizeof(tests) / sizeof(*tests), "Squire Desktop Tests");

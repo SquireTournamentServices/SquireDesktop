@@ -1,7 +1,6 @@
 #include "./search.h"
 #include "../testing_h/testing.h"
 #include <string.h>
-#include <pthread.h>
 #include <stdexcept>
 
 std::string Set::code()
@@ -56,25 +55,24 @@ std::list<Set> Card::sets()
     return ret;
 }
 
-MTGSearchEngine *MTGSearchEngine::get_instance()
+SearchResult::SearchResult(mse_t *mse, mse_search_result_t res)
 {
-    static MTGSearchEngine *instance = NULL;
-    static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-
-    pthread_mutex_lock(&lock);
-    if (instance == NULL) {
-        lprintf(LOG_INFO, "Creating mse instance\n");
-        instance = new MTGSearchEngine();
-    }
-
-    MTGSearchEngine *ret = instance;
-    pthread_mutex_unlock(&lock);
-    return ret;
+    this->mse = mse;
+    this->res = res;
 }
 
-SearchResult MTGSearchEngine::search(std::string query)
+SearchResult::~SearchResult()
 {
-    return SearchResult();
+    mse_free_search_results(&res);
+}
+
+SearchResult *MTGSearchEngine::search(std::string query)
+{
+    mse_search_result_t result;
+    if (!mse_search(&this->mse, &result, query.c_str())) {
+        throw std::runtime_error("Search error");
+    }
+    return new SearchResult(&this->mse, result);
 }
 
 MTGSearchEngine::MTGSearchEngine()
@@ -86,5 +84,7 @@ MTGSearchEngine::MTGSearchEngine()
 
 MTGSearchEngine::~MTGSearchEngine()
 {
+    lprintf(LOG_ERROR, "Freeing this object is prohibited.\n");
     mse_free(&this->mse);
+    throw std::runtime_error("This object should never be freed outside of tests");
 }

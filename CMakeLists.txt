@@ -132,8 +132,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
 
 # Squire Core (Rust)
 # https://stackoverflow.com/questions/40743372/gcc-lto-appears-to-strip-debugging-symbols
- option(ENABLE_LTO ON)
-#option(ENABLE_LTO OFF)
+option(ENABLE_LTO ON)
+# option(ENABLE_LTO OFF)
 
 # Installs Discord Game SDK binaries
 set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
@@ -174,8 +174,15 @@ add_subdirectory(src/mtg_search_engine)
 
 include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
 
-set(LIBS nlohmann_json::nlohmann_json mtg-search-engine jansson CURL::libcurl
-         OpenSSL::SSL OpenSSL::Crypto c m) # backtrace)
+set(LIBS
+    nlohmann_json::nlohmann_json
+    mtg-search-engine
+    jansson
+    CURL::libcurl
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    c
+    m) # backtrace)
 
 if(WIN32)
   add_subdirectory(pthreads)
@@ -194,6 +201,8 @@ set(MAIN_FILES
     ./src/coins.h
     ./src/config.cpp
     ./src/config.h
+    ./src/search.h
+    ./src/search.cpp
     ./src/timers.cpp
     ./src/timers.h)
 
@@ -225,8 +234,6 @@ set(PROJECT_SOURCES
     ./src/discord_game_sdk.h
     ./src/init.cpp
     ./src/init.h
-    ./src/search.h
-    ./src/search.cpp
     ./src/ui/mainwindow.cpp
     ./src/ui/mainwindow.h
     ./src/ui/mainwindow.ui
@@ -313,7 +320,9 @@ set(TESTING_SOURCES
     ./tests/unit_tests.h
     ./tests/unit_tests.cpp
     ./tests/test_timers.cpp
-    ./tests/test_timers.h)
+    ./tests/test_timers.h
+    ./tests/test_search.h
+    ./tests/test_search.cpp)
 
 set(FFI_TESTING_SOURCES
     ${MAIN_FILES}
