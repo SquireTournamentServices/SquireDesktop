@@ -1,18 +1,24 @@
 use std::time::Duration;
 
-use squire_sdk::model::{
-    identifiers::{AdminId, PlayerId},
-    operations::{AdminOp, JudgeOp, TournOp},
-    rounds::{RoundResult, RoundStatus},
+use squire_sdk::{
+    model::{
+        identifiers::{AdminId, PlayerId},
+        operations::{AdminOp, JudgeOp, TournOp},
+        rounds::{RoundId, RoundResult, RoundStatus},
+    },
+    tournaments::TournamentId,
 };
 
-use crate::{copy_to_system_pointer, print_err, RoundId, TournamentId, SQUIRE_RUNTIME};
+use crate::{
+    utils::{copy_to_system_pointer, print_err},
+    CLIENT,
+};
 
 /// Gets the round number
 /// -1 on error
 #[no_mangle]
 pub extern "C" fn rid_match_number(rid: RoundId, tid: TournamentId) -> i64 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .round_query(tid, rid, |r| r.match_number as i64)
@@ -30,7 +36,7 @@ pub extern "C" fn rid_match_number(rid: RoundId, tid: TournamentId) -> i64 {
 /// -1 on error
 #[no_mangle]
 pub extern "C" fn rid_table_number(rid: RoundId, tid: TournamentId) -> i64 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .round_query(tid, rid, |r| r.table_number as i64)
@@ -47,11 +53,7 @@ pub extern "C" fn rid_table_number(rid: RoundId, tid: TournamentId) -> i64 {
 /// Dead on error
 #[no_mangle]
 pub extern "C" fn rid_status(rid: RoundId, tid: TournamentId) -> RoundStatus {
-    match SQUIRE_RUNTIME
-        .get()
-        .unwrap()
-        .round_query(tid, rid, |r| r.status)
-    {
+    match CLIENT.get().unwrap().round_query(tid, rid, |r| r.status) {
         Ok(data) => data,
         Err(err) => {
             print_err(err, "getting round's status.");
@@ -64,7 +66,7 @@ pub extern "C" fn rid_status(rid: RoundId, tid: TournamentId) -> RoundStatus {
 /// Retrusn -1 on error
 #[no_mangle]
 pub extern "C" fn rid_time_left(rid: RoundId, tid: TournamentId) -> i64 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .round_query(tid, rid, |r| r.time_left().as_secs() as i64)
@@ -81,7 +83,7 @@ pub extern "C" fn rid_time_left(rid: RoundId, tid: TournamentId) -> i64 {
 /// Retrusn -1 on error
 #[no_mangle]
 pub extern "C" fn rid_duration(rid: RoundId, tid: TournamentId) -> i64 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .round_query(tid, rid, |r| r.length.as_secs() as i64)
@@ -98,13 +100,12 @@ pub extern "C" fn rid_duration(rid: RoundId, tid: TournamentId) -> i64 {
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn rid_players(rid: RoundId, tid: TournamentId) -> *const PlayerId {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
-        .round_query(tid, rid, |r| unsafe {
-            copy_to_system_pointer(r.players.iter().cloned())
-        }) {
-        Ok(data) => data,
+        .round_query(tid, rid, |r| r.players.clone())
+    {
+        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
         Err(err) => {
             print_err(err, "getting round's players.");
             std::ptr::null()
@@ -116,13 +117,12 @@ pub extern "C" fn rid_players(rid: RoundId, tid: TournamentId) -> *const PlayerI
 /// Returns NULL on error
 #[no_mangle]
 pub extern "C" fn rid_confirmed_players(rid: RoundId, tid: TournamentId) -> *const PlayerId {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
-        .round_query(tid, rid, |r| unsafe {
-            copy_to_system_pointer(r.confirmations.iter().cloned())
-        }) {
-        Ok(data) => data,
+        .round_query(tid, rid, |r| r.confirmations.clone())
+    {
+        Ok(data) => unsafe { copy_to_system_pointer(data.into_iter()) },
         Err(err) => {
             print_err(err, "getting round's confirmed players.");
             std::ptr::null()
@@ -139,9 +139,9 @@ pub extern "C" fn rid_confirm_player(
     aid: AdminId,
     pid: PlayerId,
 ) -> bool {
-    match SQUIRE_RUNTIME.get().unwrap().apply_operation(
+    match CLIENT.get().unwrap().apply_operation(
         tid,
-        TournOp::JudgeOp(aid.into(), JudgeOp::AdminConfirmResult(rid, pid.into())),
+        TournOp::JudgeOp(aid.into(), JudgeOp::AdminConfirmResult(rid, pid)),
     ) {
         Ok(_) => true,
         Err(err) => {
@@ -161,7 +161,7 @@ pub extern "C" fn rid_record_result(
     pid: PlayerId,
     wins: u32,
 ) -> bool {
-    match SQUIRE_RUNTIME.get().unwrap().apply_operation(
+    match CLIENT.get().unwrap().apply_operation(
         tid,
         TournOp::JudgeOp(
             aid.into(),
@@ -184,7 +184,7 @@ pub extern "C" fn rid_record_draws(
     aid: AdminId,
     draws: u32,
 ) -> bool {
-    match SQUIRE_RUNTIME.get().unwrap().apply_operation(
+    match CLIENT.get().unwrap().apply_operation(
         tid,
         TournOp::JudgeOp(
             aid.into(),
@@ -203,7 +203,7 @@ pub extern "C" fn rid_record_draws(
 /// Returns -1 on error
 #[no_mangle]
 pub extern "C" fn rid_draws(rid: RoundId, tid: TournamentId) -> i32 {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .round_query(tid, rid, |r| r.draws as i32)
@@ -220,7 +220,7 @@ pub extern "C" fn rid_draws(rid: RoundId, tid: TournamentId) -> i32 {
 /// Returns -1 on error
 #[no_mangle]
 pub extern "C" fn rid_result_for(rid: RoundId, tid: TournamentId, pid: PlayerId) -> i32 {
-    match SQUIRE_RUNTIME.get().unwrap().round_query(tid, rid, |r| {
+    match CLIENT.get().unwrap().round_query(tid, rid, move |r| {
         r.results.get(&pid).map(|r| *r as i32).unwrap_or(-1)
     }) {
         Ok(data) => data,
@@ -235,7 +235,7 @@ pub extern "C" fn rid_result_for(rid: RoundId, tid: TournamentId, pid: PlayerId)
 /// false on error
 #[no_mangle]
 pub extern "C" fn rid_kill(rid: RoundId, tid: TournamentId, aid: AdminId) -> bool {
-    match SQUIRE_RUNTIME
+    match CLIENT
         .get()
         .unwrap()
         .apply_operation(tid, TournOp::AdminOp(aid, AdminOp::RemoveRound(rid)))
@@ -252,7 +252,7 @@ pub extern "C" fn rid_kill(rid: RoundId, tid: TournamentId, aid: AdminId) -> boo
 /// false on error
 #[no_mangle]
 pub extern "C" fn rid_time_extend(rid: RoundId, tid: TournamentId, aid: AdminId, ext: u64) -> bool {
-    match SQUIRE_RUNTIME.get().unwrap().apply_operation(
+    match CLIENT.get().unwrap().apply_operation(
         tid,
         TournOp::JudgeOp(
             aid.into(),

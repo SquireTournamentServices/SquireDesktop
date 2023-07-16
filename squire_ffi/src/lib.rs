@@ -1,101 +1,219 @@
-#![feature(allocator_api, slice_ptr_get)]
-#![deny(improper_ctypes_definitions)]
+//! This crate defines an interface through which the desktop (in C++)_can access tournament data.
+
+#![feature(allocator_api, slice_ptr_get, result_flattening)]
+#![deny(
+    dead_code,
+    missing_docs,
+    unused_variables,
+    unused_imports,
+    unused_import_braces,
+    rustdoc::broken_intra_doc_links,
+    missing_debug_implementations,
+    unreachable_pub,
+    improper_ctypes_definitions
+)]
+#![warn(rust_2018_idioms)]
 
 use std::{
     alloc::{Allocator, Layout, System},
-    borrow::Cow,
-    os::raw::{c_char, c_void},
+    collections::HashSet,
+    os::raw::c_void,
     ptr,
 };
 
+use once_cell::sync::OnceCell;
+use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
+
 use squire_sdk::{
+    client::SquireClient,
     model::{
-        error::TournamentError,
         operations::{OpData, TournOp},
         players::Player,
+        players::PlayerId,
         rounds::{Round, RoundId},
-        tournament::Tournament,
+        tournament::{Tournament, TournamentId, TournamentSeed},
     },
-    players::PlayerId,
-    tournaments::{TournamentId, TournamentPreset},
+    sync::TournamentManager,
 };
 
-use chrono::Utc;
-use dashmap::DashMap;
-use once_cell::sync::OnceCell;
+use crate::{config::StartupConfig, utils::ActionError};
 
+/// Contains the defintion of structures used in the configuration of the Rust side
+pub mod config;
 /// Contains the ffi C bindings for players used in SquireDesktop
 pub mod player;
 /// Contains the ffi C bindings for a tournament used in SquireDesktop
 pub mod rounds;
 /// Contains the ffi C bindings for a tournament used in SquireDesktop
 pub mod tournament;
+/// Contains utilities that are not directly exposed to FFI but make FFI easier and safer
+pub(crate) mod utils;
 
-/// A map of tournament ids to tournaments
-/// this is used for allocating ffi tournaments
-/// all ffi tournaments are always deeply copied
-/// at the lanuage barrier
-pub static FFI_TOURNAMENT_REGISTRY: OnceCell<DashMap<TournamentId, Tournament>> = OnceCell::new();
+/// The FFI client that holds a handle to the SquireClient (which manages tournaments) as well as
+/// manages async messages set from the client.
+pub static CLIENT: OnceCell<SquireRuntime> = OnceCell::new();
 
-/// The runtime that contains everything needed to manage and query the tournament model.
-pub static SQUIRE_RUNTIME: OnceCell<SquireRuntime> = OnceCell::new();
+/// The tokio runtime needed by the client
+static RUNTIME: OnceCell<Runtime> = OnceCell::new();
 
 /// The struct that contains everything needed to manage and query the tournament model.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct SquireRuntime {
-    tourns: DashMap<TournamentId, Tournament>,
+    /// The client used to manage tournaments and sync with the backend
+    pub client: SquireClient,
+    /// A channel that receives messages when a remote update is sent
+    listener: UnboundedReceiver<TournamentId>,
+    /// A set that tracks what tournaments have received a remote update since last polled
+    remote_trackers: HashSet<TournamentId>,
+}
+
+impl SquireRuntime {
+    /// Creates the runtime.
+    pub fn new() -> Self {
+        // Read in config
+        // Init client
+        // Import all recent tournaments (or all tournaments in save directory)
+        let config = StartupConfig::new();
+
+        let client = SquireClient::builder()
+            .account(config.user.account.clone())
+            .url(String::new())
+            .on_update(|| ()) // TODO: ...
+            .build();
+        Self {
+            client,
+            listener: todo!(),
+            remote_trackers: todo!(),
+        }
+    }
+
+    /// Checks to see if an update to a tournament has been sent from the backend
+    pub fn poll_remote_update(&mut self, t_id: TournamentId) -> bool {
+        while let Ok(id) = self.listener.try_recv() {
+            self.remote_trackers.insert(id);
+        }
+        self.remote_trackers.remove(&t_id)
+    }
+
+    /// Looks up a tournament and performs the given tournament operation
+    pub fn apply_operation(&self, t_id: TournamentId, op: TournOp) -> Result<OpData, ActionError> {
+        self.client
+            .update_tourn(t_id, op)
+            .process_blocking()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+            .and_then(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
+    }
+
+    /// Applies a series of operations to a tournament
+    pub fn bulk_operations(
+        &self,
+        t_id: TournamentId,
+        ops: Vec<TournOp>,
+    ) -> Result<OpData, ActionError> {
+        self.client
+            .bulk_update(t_id, ops)
+            .process_blocking()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+            .and_then(|res| res.map_err(|err| ActionError::OperationError(t_id, err)))
+    }
+
+    /// Creates a tournament, stores it in the runtime, and returns its id
+    pub fn create_tournament(&self, seed: TournamentSeed) -> Option<TournamentId> {
+        let tourn = TournamentManager::new(self.client.get_user().clone(), seed);
+        self.client.import_tourn(tourn).process_blocking()
+    }
+
+    /// Adds a tournament for the client to manage
+    pub fn import_tournament(&self, tourn: TournamentManager) -> Option<TournamentId> {
+        self.client.import_tourn(tourn).process_blocking()
+    }
+
+    /// Removes a tournament from the runtime and returns it, if found
+    pub fn remove_tournament(&self, t_id: TournamentId) -> Result<(), ActionError> {
+        self.client
+            .remove_tourn(t_id)
+            .process_blocking()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+            .map(drop)
+    }
+
+    /// Looks up a tournament and performs the given query
+    pub fn tournament_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
+    where
+        Q: 'static + Send + FnOnce(&Tournament) -> O,
+        O: 'static + Send,
+    {
+        self.client
+            .query_tourn(t_id, |t| query(t.tourn()))
+            .process_blocking()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+    }
+
+    /// Looks up a player and performs the given query
+    pub fn round_query<Q, O>(
+        &self,
+        t_id: TournamentId,
+        r_id: RoundId,
+        query: Q,
+    ) -> Result<O, ActionError>
+    where
+        Q: 'static + Send + FnOnce(&Round) -> O,
+        O: 'static + Send,
+    {
+        self.tournament_query(t_id, move |tourn| {
+            tourn
+                .round_reg
+                .rounds
+                .get(&r_id)
+                .map(query)
+                .ok_or(ActionError::RoundNotFound(t_id, r_id))
+        })
+        .flatten()
+    }
+
+    /// Looks up a player and performs the given query
+    pub fn player_query<Q, O>(
+        &self,
+        t_id: TournamentId,
+        p_id: PlayerId,
+        query: Q,
+    ) -> Result<O, ActionError>
+    where
+        Q: 'static + Send + FnOnce(&Player) -> O,
+        O: 'static + Send,
+    {
+        self.tournament_query(t_id, move |tourn| {
+            tourn
+                .player_reg
+                .players
+                .get(&p_id)
+                .map(query)
+                .ok_or(ActionError::PlayerNotFound(t_id, p_id))
+        })
+        .flatten()
+    }
+}
+
+impl Default for SquireRuntime {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 /// Call this in main()
 /// Inits the internal structs of squire lib for FFI.
 #[no_mangle]
 pub extern "C" fn init_squire_ffi() {
-    SQUIRE_RUNTIME.set(SquireRuntime::default()).unwrap();
-}
-
-/// Takes an iterator to some data, allocates it to a slice, and returns a pointer to the start of
-/// that slice. This method to primarily used to pass a collection of data from the Rust side to
-/// the C++ side of the FFI boundary.
-///
-/// Safety check: To safely call this function you must ensure two things
-///  1) `T::default()` is the null representation of `T`, i.e. `0x0` as the final element of the
-///     slice must be null.
-///  2) `T` must be safe to pass across the language boundary
-pub unsafe fn copy_to_system_pointer<T, I>(iter: I) -> *const T
-where
-    T: Default,
-    I: ExactSizeIterator<Item = T>,
-{
-    let length = iter.len();
-    let len = (length + 1) * std::mem::size_of::<T>();
-    let ptr = System
-        .allocate(Layout::from_size_align(len, 1).unwrap())
-        .unwrap()
-        .as_mut_ptr() as *mut T;
-    let slice = &mut *(ptr::slice_from_raw_parts(ptr, len) as *mut [T]);
-    slice.iter_mut().zip(iter).for_each(|(dst, p)| {
-        *dst = p;
-    });
-    slice[length] = T::default();
-    ptr
-}
-
-/// Helper function for cloning strings. Assumes that the given string is a Rust string, i.e. it
-/// does not end in a NULL char. Returns NULL on error
-pub fn clone_string_to_c_string(s: &str) -> *const c_char {
-    let ptr = System
-        .allocate(Layout::from_size_align(s.len() + 1, 1).unwrap())
-        .unwrap()
-        .as_mut_ptr() as *mut c_char;
-
-    let slice = unsafe { &mut *(ptr::slice_from_raw_parts(ptr, s.len() + 1) as *mut [c_char]) };
-    slice.iter_mut().zip(s.chars()).for_each(|(dst, c)| {
-        *dst = c as i8;
-    });
-
-    slice[s.len()] = char::default() as i8;
-
-    ptr
+    // Construct the tokio runtime that the client will need
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+    // Construct the squire client and runtime
+    let client = rt.block_on(async { SquireRuntime::default() });
+    // Store the client and runtimes
+    CLIENT.set(client).unwrap();
+    RUNTIME.set(rt).unwrap();
 }
 
 /// Deallocates a block assigned in the FFI portion,
@@ -107,151 +225,5 @@ pub extern "C" fn sq_free(pointer: *mut c_void, len: usize) {
             ptr::NonNull::new(pointer as *mut u8).unwrap(),
             Layout::from_size_align(len, 1).unwrap(),
         );
-    }
-}
-
-/// The enum that encodes what could go wrong while performing an action
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum ActionError {
-    /// The given tournament could not be found
-    TournamentNotFound(TournamentId),
-    /// The given round could not be found
-    RoundNotFound(TournamentId, RoundId),
-    /// The given player could not be found
-    PlayerNotFound(TournamentId, PlayerId),
-    /// An wrap for a tournament error
-    OperationError(TournamentId, TournamentError),
-}
-
-impl SquireRuntime {
-    /// Looks up a tournament and performs the given tournament operation
-    pub fn apply_operation(&self, t_id: TournamentId, op: TournOp) -> Result<OpData, ActionError> {
-        self.tourns
-            .get_mut(&t_id)
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))?
-            .apply_op(Utc::now(), op)
-            .map_err(|err| ActionError::OperationError(t_id, err))
-    }
-
-    /// Creates a tournament, stores it in the runtime, and returns its id
-    pub fn create_tournament(
-        &self,
-        name: String,
-        preset: TournamentPreset,
-        format: String,
-    ) -> TournamentId {
-        let tourn = Tournament::from_preset(name, preset, format);
-        let id = tourn.id;
-        self.tourns.insert(id.into(), tourn);
-        id.into()
-    }
-
-    /// Removes a tournament from the runtime and returns it, if found
-    pub fn remove_tournament(&self, t_id: TournamentId) -> Option<Tournament> {
-        self.tourns.remove(&t_id).map(|(_, t)| t)
-    }
-
-    /// Looks up a tournament and performs the given tournament operation
-    pub fn mutate_tournament<OP, OUT>(&self, t_id: TournamentId, op: OP) -> Result<OUT, ActionError>
-    where
-        OP: FnOnce(&mut Tournament) -> OUT,
-    {
-        self.tourns
-            .get_mut(&t_id)
-            .map(|mut t| (op)(&mut t))
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
-    }
-
-    /// Looks up a tournament and performs the given query
-    pub fn tournament_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
-    where
-        Q: FnOnce(&Tournament) -> O,
-    {
-        self.tourns
-            .get(&t_id)
-            .map(|t| (query)(&t))
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))
-    }
-
-    /// Looks up a player and performs the given query
-    pub fn round_query<Q, O>(
-        &self,
-        t_id: TournamentId,
-        r_id: RoundId,
-        query: Q,
-    ) -> Result<O, ActionError>
-    where
-        Q: FnOnce(&Round) -> O,
-    {
-        self.tourns
-            .get(&t_id)
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))?
-            .get_round_by_id(&r_id)
-            .map(query)
-            .map_err(|_| ActionError::RoundNotFound(t_id, r_id))
-    }
-
-    /// Looks up a player and performs the given query
-    pub fn player_query<Q, O>(
-        &self,
-        t_id: TournamentId,
-        p_id: PlayerId,
-        query: Q,
-    ) -> Result<O, ActionError>
-    where
-        Q: FnOnce(&Player) -> O,
-    {
-        self.tourns
-            .get(&t_id)
-            .ok_or_else(|| ActionError::TournamentNotFound(t_id))?
-            .get_player_by_id(&p_id)
-            .map(query)
-            .map_err(|_| ActionError::PlayerNotFound(t_id, p_id))
-    }
-}
-
-/// Prints an error for debugging
-pub fn print_err(err: ActionError, context: &str) {
-    use ActionError::*;
-    match err {
-        TournamentNotFound(t_id) => {
-            println!("[FFI]: Cannot find tournament '{t_id}' while {context}");
-        }
-        RoundNotFound(t_id, r_id) => {
-            println!("[FFI]: Cannot find round '{r_id}' in tournament '{t_id}' while {context}");
-        }
-        PlayerNotFound(t_id, p_id) => {
-            println!("[FFI]: Cannot find player '{p_id}' in tournament '{t_id}' while {context}");
-        }
-        OperationError(t_id, err) => {
-            use TournamentError::*;
-            let content = match err {
-                IncorrectStatus(status) => {
-                    Cow::Owned(format!("Incorrect tournament status '{status}'"))
-                }
-                PlayerNotFound => Cow::Borrowed("Could not find player"),
-                PlayerAlreadyRegistered => Cow::Borrowed("Player is already registered"),
-                RoundLookup => Cow::Borrowed("Could not find round"),
-                OfficalLookup => Cow::Borrowed("Could not find offical"),
-                DeckLookup => Cow::Borrowed("Could not find deck"),
-                RoundConfirmed => Cow::Borrowed("Round already confimed"),
-                RegClosed => Cow::Borrowed("Registeration closed"),
-                PlayerNotInRound => Cow::Borrowed("Player not in round"),
-                NoActiveRound => Cow::Borrowed("Player has not active round"),
-                IncorrectRoundStatus(status) => {
-                    Cow::Owned(format!("Incorrect round status '{status}'"))
-                }
-                InvalidBye => Cow::Borrowed("Tried to construct an invalid bye"),
-                ActiveMatches => Cow::Borrowed("Tournament currently has active matches"),
-                PlayerNotCheckedIn => Cow::Borrowed("Player not checked-in"),
-                IncompatiblePairingSystem => Cow::Borrowed("Incompatible pairing system"),
-                IncompatibleScoringSystem => Cow::Borrowed("Incompatible scoring system"),
-                InvalidDeckCount => Cow::Borrowed("Invalid deck count"),
-                NoMatchResult => Cow::Borrowed("There is at one active match with no results"),
-                MaxDecksReached => Cow::Borrowed("The maximum deck count has been reached"),
-            };
-            let time = Utc::now();
-            eprintln!("[FFI] {time}: {content} in tournament '{t_id}' while {context}");
-        }
     }
 }
