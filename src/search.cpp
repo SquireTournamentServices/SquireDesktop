@@ -84,6 +84,5 @@ MTGSearchEngine::MTGSearchEngine()
 
 MTGSearchEngine::~MTGSearchEngine()
 {
-    lprintf(LOG_ERROR, "Freeing this object is prohibited.\n");
     mse_free(&this->mse);
 }
