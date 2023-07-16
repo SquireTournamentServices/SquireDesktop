@@ -3,6 +3,11 @@
 #include <string.h>
 #include <stdexcept>
 
+Set::Set(mse_set_code_t set_code)
+{
+    memcpy(this->set_code, set_code, sizeof(set_code));
+}
+
 std::string Set::code()
 {
     return "M19";
@@ -19,40 +24,71 @@ struct tm Set::release()
     memset(&ret, 0, sizeof(ret));
 }
 
+Card::Card(mse_card_t *card)
+{
+    this->card = card;
+}
+
 std::string Card::name()
 {
-    return "Goblin Motivator";
+    return std::string(this->card->name);
 }
 
 std::string Card::oracle()
 {
-    return "{t}: Target creature gains haste until end of turn.";
+    return std::string(this->card->oracle_text);
 }
 
 std::string Card::types()
 {
-    return "Creature - Goblin";
+    std::string ret = "";
+    for (size_t i = 0; i < this->card->types_count; i++, ret += " ") {
+        ret += std::string(this->card->types[i]);
+    }
+    return ret;
 }
 
 double Card::cmc()
 {
-    return 1;
+    return this->card->cmc;
 }
 
 double Card::power()
 {
-    return 1;
+    return this->card->power;
 }
 
 double Card::toughness()
 {
-    return 1;
+    return this->card->toughness;
 }
 
 std::list<Set> Card::sets()
 {
     std::list<Set> ret;
+    for (size_t i = 0; i < this->card->set_codes_count; i++) {
+        ret.push_back(this->card->set_codes[i]);
+    }
     return ret;
+}
+
+size_t SearchResult::size()
+{
+    return this->res.cards_length;
+}
+
+Card SearchResult::at(size_t i)
+{
+    if (i >= this->res.cards_length) {
+        throw std::runtime_error("Invalid index");
+    }
+
+    return Card(this->res.cards[i]);
+}
+
+void SearchResult::sort(mse_search_sort_type_t sort_type)
+{
+    mse_sort_search_results(&this->res, sort_type);
 }
 
 SearchResult::SearchResult(mse_t *mse, mse_search_result_t res)

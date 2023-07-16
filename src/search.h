@@ -7,16 +7,18 @@
 class Set
 {
 public:
+    Set(mse_set_code_t set_code);
     std::string code();
     std::string name();
     struct tm release();
 private:
-    mse_set_t *set;
+    mse_set_code_t set_code;
 };
 
 class Card
 {
 public:
+    Card(mse_card_t *card);
     std::string name();
     std::string oracle();
     std::string types();
@@ -33,6 +35,9 @@ class SearchResult
 public:
     SearchResult(mse_t *mse, mse_search_result_t res);
     ~SearchResult();
+    size_t size();
+    Card at(size_t i);
+    void sort(mse_search_sort_type_t sort_type);
 private:
     mse_t *mse;
     mse_search_result_t res;
