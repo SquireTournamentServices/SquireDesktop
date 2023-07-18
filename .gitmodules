@@ -18,4 +18,4 @@
 	url = https://github.com/curl/curl
 [submodule "pthreads"]
 	path = pthreads
-	url = https://github.com/djpiper28/pthreads.git
+	url = https://github.com/GerHobbelt/pthread-win32
