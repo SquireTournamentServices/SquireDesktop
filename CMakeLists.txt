@@ -69,30 +69,6 @@ if(WIN32)
   endif()
 endif()
 
-# Define a proper install path
-if(UNIX)
-  add_definitions("-D__UNIX")
-  if(APPLE)
-    # macOS Due to the special bundle structure ignore the prefix eventually set
-    # by the user.
-    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/release)
-    add_definitions("-D__APPLE")
-  else()
-    add_definitions("-D__LINUX") # bsd isnt real
-    # Linux / BSD
-    if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-      # fix package build
-      if(PREFIX)
-        set(CMAKE_INSTALL_PREFIX ${PREFIX})
-      else()
-        set(CMAKE_INSTALL_PREFIX /usr/local)
-      endif()
-    endif()
-  endif()
-elseif(WIN32)
-  set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/rundir/${CMAKE_BUILD_TYPE})
-endif()
-
 # Define proper compilation flags
 if(MSVC)
   # Visual Studio: Maximum optimization, disable warning C4251, establish C++17
@@ -150,9 +126,14 @@ elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
   set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
       "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
 endif()
-install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}
-        DESTINATION "${CMAKE_BINARY_DIR}/lib/")
+install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}/abseil_dll.dll
+        DESTINATION "${CMAKE_BINARY_DIR}")
 message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
+
+if (WIN32)
+    install(FILES ${CMAKE_BINARY_DIR}/bin/abseil_dll.dll
+        DESTINATION ${CMAKE_BINARY_DIR})
+endif()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
