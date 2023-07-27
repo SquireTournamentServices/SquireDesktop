@@ -164,16 +164,7 @@ set(JSON_BuildTests
     CACHE INTERNAL "")
 set(CURL_STATICLIB ON)
 
-add_subdirectory(nlohmann_json)
-add_subdirectory(squire_ffi)
-
-# add_subdirectory(libbacktrace)
-add_subdirectory(curl)
-add_subdirectory(src/mtg_search_engine)
-add_subdirectory(jansson)
-
 include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
-
 set(LIBS
     nlohmann_json::nlohmann_json
     mtg-search-engine
@@ -181,9 +172,7 @@ set(LIBS
     CURL::libcurl
     OpenSSL::SSL
     OpenSSL::Crypto
-    pthread
-    c
-    m) # backtrace)
+    pthread) # backtrace)
 
 if(WIN32)
   add_library(pthread STATIC IMPORTED)
@@ -191,7 +180,17 @@ if(WIN32)
                                            "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
   include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
   set(LIBS ${LIBS} win32)
+else()
+  set(LIBS ${LIBS} m)
 endif()
+
+add_subdirectory(nlohmann_json)
+add_subdirectory(squire_ffi)
+
+# add_subdirectory(libbacktrace)
+add_subdirectory(curl)
+add_subdirectory(jansson)
+add_subdirectory(src/mtg_search_engine)
 
 # Non-ui files that are tested
 set(TS_FILES SquireDesktop_en_GB.ts)

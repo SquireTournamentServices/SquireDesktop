@@ -22,6 +22,7 @@ struct tm Set::release()
 {
     struct tm ret;
     memset(&ret, 0, sizeof(ret));
+    return ret;
 }
 
 Card::Card(mse_card_t *card)
