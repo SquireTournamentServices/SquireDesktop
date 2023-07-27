@@ -179,7 +179,6 @@ if(WIN32)
   set_target_properties(pthread PROPERTIES IMPORTED_LOCATION
                                            "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
   include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
-  set(LIBS ${LIBS} win32)
 else()
   set(LIBS ${LIBS} m)
 endif()
