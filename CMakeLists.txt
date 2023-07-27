@@ -181,11 +181,15 @@ set(LIBS
     CURL::libcurl
     OpenSSL::SSL
     OpenSSL::Crypto
+    pthread
     c
     m) # backtrace)
 
 if(WIN32)
-  add_subdirectory(pthreads)
+  add_library(pthread STATIC IMPORTED)
+  set_target_properties(pthread PROPERTIES IMPORTED_LOCATION
+                                           "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
+  include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
   set(LIBS ${LIBS} win32)
 endif()
 
