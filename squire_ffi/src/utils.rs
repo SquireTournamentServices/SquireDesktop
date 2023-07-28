@@ -112,6 +112,8 @@ pub(crate) fn print_err(err: ActionError, context: &str) {
                 InvalidMatchSize => Cow::Borrowed("Incorrect number of players to create a match"),
                 TimeOverflow => Cow::Borrowed("Overflowed the timer"),
                 BadTournamentName => Cow::Borrowed("That tournament name is invalide"),
+                RepeatedPlayerInMatch => Cow::Borrowed("Repeated player in round"),
+                IncorrectMatchSize => Cow::Borrowed("Incorrect number of players in round"),
             };
             let time = Utc::now();
             eprintln!("[FFI] {time}: {content} in tournament '{t_id}' while {context}");

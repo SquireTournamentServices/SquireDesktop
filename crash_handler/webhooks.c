@@ -28,7 +28,6 @@
 #define TITLE "Version Information"
 #define DESCRIPTION VERSION
 
-
 int send_webhook(char *log_data, char *webhook_url)
 {
     // Create json object
@@ -49,7 +48,6 @@ int send_webhook(char *log_data, char *webhook_url)
         lprintf(LOG_ERROR, "Cannot pack object\n");
         return 0;
     }
-
 
     json_t *master_o = json_pack("{ss ss ss s[o]}", "content", log_data, "username", AUTHOR_NAME, "avatar_url", ICON_URL, "embeds", embeds_o);
     if (master_o == NULL) {

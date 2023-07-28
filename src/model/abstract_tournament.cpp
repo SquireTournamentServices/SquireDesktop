@@ -37,6 +37,7 @@ Tournament *new_tournament(std::string file,
                            bool require_check_in,
                            bool require_deck_reg)
 {
+    squire_ffi::sc_AdminId laid = local_aid();
     squire_ffi::sc_TournamentId tid = squire_ffi::new_tournament_from_settings(file.c_str(),
                                       name.c_str(),
                                       format.c_str(),
@@ -47,9 +48,9 @@ Tournament *new_tournament(std::string file,
                                       max_deck_count,
                                       reg_open,
                                       require_check_in,
-                                      require_deck_reg);
+                                      require_deck_reg,
+                                      laid);
 
-    squire_ffi::sc_AdminId laid = local_aid();
     if (!squire_ffi::tid_add_admin_local(tid, "System User", laid, *(squire_ffi::sc_SquireAccountId *) &laid)) {
         lprintf(LOG_ERROR, "Cannot add system user\n");
     }
@@ -394,7 +395,6 @@ std::vector<Round> Tournament::playerRounds(Player player)
     return ret;
 }
 
-
 bool Tournament::save()
 {
     this->setSaveStatus(false);
@@ -610,4 +610,3 @@ void Tournament::emitAllProps()
     emit onRegOpenChanged(this->reg_open());
     emit onSaveStatusChanged(this->saved);
 }
-

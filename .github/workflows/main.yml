@@ -293,6 +293,12 @@ jobs:
         
       - name: Install curl
         run: choco install curl -y
+
+      - name: Install flex and bison
+        run: choco install winflexbison3 -y
+
+      - name: Install Doxygen
+        run: choco install doxygen.install -y
         
       - name: Build Squire Desktop
         id: build

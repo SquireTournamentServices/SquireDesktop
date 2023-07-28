@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 
 is_rust_src = re.compile("(.*)\\.rs$")
 re_type = re.compile(".*pub (struct|enum) ([a-zA-Z0-9]+).*")
@@ -14,6 +15,8 @@ types = [
     "TournamentId",
     "JudgeId",
     "TournamentPreset",
+    "TournamentStatus",
+    "RoundStatus",
     "PlayerStatus",
     "StandardScore",
 ]
@@ -140,11 +143,11 @@ bitflags = true
 [parse]
 parse_deps = true
 clean = true
-include = ["uuid", "squire_lib"]
-extra_bindings = ["uuid", "squire_lib"]
+include = ["uuid", "squire_lib", "squire_sdk"]
+extra_bindings = ["uuid", "squire_lib", "squire_sdk"]
 
 [parse.expand]
-crates = ["uuid"]
+crates = ["uuid", "squire_sdk"]
 all_features = false
 default_features = true
 """

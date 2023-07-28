@@ -407,7 +407,6 @@ int test_round_slips()
     fprintf(f, "%s", html.c_str());
     fclose(f);
 
-
     // Close the tournament
     ASSERT(t->close());
     delete t;
@@ -425,4 +424,3 @@ SUB_TEST(test_tournament_ffi,
 {&test_pair_round, "Test pair rounds"},
 {&test_round_slips, "Test round slip generation"}
         )
-

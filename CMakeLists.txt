@@ -39,10 +39,9 @@ add_definitions("-DBUFFER_LENGTH=4096")
 add_definitions("-DPROJECT_VERSION=\"${CMAKE_PROJECT_VERSION}\"")
 add_definitions("-DPROJECT_NAME=\"${CMAKE_PROJECT_NAME}\"")
 
-# This can be ommitted as mtg_search_engine will also define it __FILENAME__
-# string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
-# add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
-# add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
+string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
+add_definitions("-D__FILENAME__=(&__FILE__[SOURCE_PATH_SIZE])")
 
 if(WIN32)
   add_definitions("-D__WINDOWS")
@@ -126,18 +125,75 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
+
+# Squire Core (Rust)
+# https://stackoverflow.com/questions/40743372/gcc-lto-appears-to-strip-debugging-symbols
+option(ENABLE_LTO ON)
+# option(ENABLE_LTO OFF)
+
+# Installs Discord Game SDK binaries
+set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dll.lib")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.so")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Macos")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
+      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
+endif()
+install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}
+        DESTINATION "${CMAKE_BINARY_DIR}/lib/")
+message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(OpenSSL REQUIRED Crypto SSL)
 
-set(TS_FILES SquireDesktop_en_GB.ts)
+# Setup deps
+set(JSON_BuildTests
+    OFF
+    CACHE INTERNAL "")
+set(CURL_STATICLIB ON)
+
+include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
+set(LIBS
+    nlohmann_json::nlohmann_json
+    mtg-search-engine
+    jansson
+    CURL::libcurl
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    pthread) # backtrace)
+
+if(WIN32)
+  add_library(pthread STATIC IMPORTED)
+  set_target_properties(pthread PROPERTIES IMPORTED_LOCATION
+                                           "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
+  include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
+else()
+  set(LIBS ${LIBS} m)
+endif()
+
+add_subdirectory(nlohmann_json)
+add_subdirectory(squire_ffi)
+
+# add_subdirectory(libbacktrace)
+add_subdirectory(curl)
+add_subdirectory(jansson)
+add_subdirectory(src/mtg_search_engine)
 
 # Non-ui files that are tested
+set(TS_FILES SquireDesktop_en_GB.ts)
 set(MAIN_FILES
-    ./testing_h/logger.c
     ./testing_h/logger.h
     ./testing_h/ansi_colour.h
     ./src/filerable_list.hpp
@@ -147,6 +203,8 @@ set(MAIN_FILES
     ./src/coins.h
     ./src/config.cpp
     ./src/config.h
+    ./src/search.h
+    ./src/search.cpp
     ./src/timers.cpp
     ./src/timers.h)
 
@@ -252,7 +310,6 @@ set(PROJECT_SOURCES
 
 set(TESTING_SOURCES
     ${MAIN_FILES}
-    ./testing_h/testing.c
     ./testing_h/testing.h
     ./tests/test_filter_list.cpp
     ./tests/test_filter_list.h
@@ -265,12 +322,13 @@ set(TESTING_SOURCES
     ./tests/unit_tests.h
     ./tests/unit_tests.cpp
     ./tests/test_timers.cpp
-    ./tests/test_timers.h)
+    ./tests/test_timers.h
+    ./tests/test_search.h
+    ./tests/test_search.cpp)
 
 set(FFI_TESTING_SOURCES
     ${MAIN_FILES}
     ${FFI_FILES}
-    ./testing_h/testing.c
     ./testing_h/testing.h
     ./tests_ffi/sq_link_test.h
     ./tests_ffi/sq_link_test.cpp
@@ -280,58 +338,6 @@ set(FFI_TESTING_SOURCES
     ./tests_ffi/test_round_ffi.cpp
     ./tests_ffi/test_ffi.cpp
     ./tests_ffi/test_ffi.h)
-
-set(LIBS nlohmann_json::nlohmann_json mtg-search-engine) # backtrace)
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
-
-# Squire Core (Rust)
-# https://stackoverflow.com/questions/40743372/gcc-lto-appears-to-strip-debugging-symbols
-# option(ENABLE_LTO ON)
-option(ENABLE_LTO OFF)
-# if(POLICY CMP0048) cmake_policy(SET CMP0048 NEW) endif()
-
-# option(ENABLE_LTO "Enable cross language linking time optimization" ON)
-# if(ENABLE_LTO) include(CheckIPOSupported) check_ipo_supported(RESULT supported
-# OUTPUT error) if(supported) message(STATUS "IPO / LTO enabled")
-# set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) add_link_options(-fuse-ld=lld)
-# else() message(STATUS "IPO / LTO not supported: <${error}>") endif() endif()
-
-# Installs Discord Game SDK binaries
-set(DISCORD_GAME_SDK_PATH "${CMAKE_SOURCE_DIR}")
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
-      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dll.lib")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
-  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
-      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.so")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Macos")
-  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
-      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
-elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-  set(CMAKE_DISCORD_GAME_SDK_LIB_PATH
-      "${DISCORD_GAME_SDK_PATH}/lib/x86_64/discord_game_sdk.dylib")
-endif()
-install(FILES ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}
-        DESTINATION "${CMAKE_BINARY_DIR}/lib/")
-message(STATUS "Discord game sdk: ${CMAKE_DISCORD_GAME_SDK_LIB_PATH}")
-
-# Setup deps
-set(JSON_BuildTests
-    OFF
-    CACHE INTERNAL "")
-
-add_subdirectory(src/mtg_search_engine)
-add_subdirectory(nlohmann_json)
-add_subdirectory(squire_ffi)
-# add_subdirectory(libbacktrace)
-
-add_subdirectory(jansson)
-include_directories(${CMAKE_BINARY_DIR}/squire_ffi ${JANSSON_INCLUDE_DIRS})
-
-add_subdirectory(curl)
-include_directories(${CURL_INCLUDE_DIR})
-
-include_directories(include)
 
 # Make crash handler
 if(UNIX)
@@ -347,12 +353,9 @@ if(UNIX)
     ./crash_handler/path_change.h
     ./crash_handler/path_change.c
     ./testing_h/ansi_colour.h
-    ./testing_h/testing.c
     ./testing_h/testing.h
-    ./testing_h/logger.c
     ./testing_h/logger.h)
-  target_link_libraries(sq_crash_handler PRIVATE jansson CURL::libcurl
-                                                 OpenSSL::SSL OpenSSL::Crypto)
+  target_link_libraries(sq_crash_handler ${LIBS})
 else()
   message(WARNING "The crash handler will not be built.")
 endif()
@@ -368,7 +371,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
   if(ANDROID)
-    add_library(SquireDesktop SHARED ${PROJECT_SOURCES})
+    add_library(SquireDesktop SHARED ${PROJECT_SOURCES} mtg-search-engine)
     # Define properties for Android with Qt 5 after find_package() calls as:
     # set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
   else()

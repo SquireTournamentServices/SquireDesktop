@@ -225,7 +225,6 @@ static int test_insert_3()
     return 1;
 }
 
-
 static int test_insert_4()
 {
     Foo a = Foo(MATCH_STR);
@@ -252,5 +251,3 @@ SUB_TEST(filter_list_tests,
 {&test_insert_3, "Test insert 3"},
 {&test_insert_4, "Test insert 4"}
         )
-
-

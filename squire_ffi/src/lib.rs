@@ -17,12 +17,17 @@
 use std::{
     alloc::{Allocator, Layout, System},
     collections::HashSet,
+    ops::DerefMut,
     os::raw::c_void,
     ptr,
+    sync::Mutex,
 };
 
 use once_cell::sync::OnceCell;
-use tokio::{runtime::Runtime, sync::mpsc::UnboundedReceiver};
+use tokio::{
+    runtime::Runtime,
+    sync::mpsc::{unbounded_channel, UnboundedReceiver},
+};
 
 use squire_sdk::{
     client::SquireClient,
@@ -52,7 +57,6 @@ pub(crate) mod utils;
 /// The FFI client that holds a handle to the SquireClient (which manages tournaments) as well as
 /// manages async messages set from the client.
 pub static CLIENT: OnceCell<SquireRuntime> = OnceCell::new();
-
 /// The tokio runtime needed by the client
 static RUNTIME: OnceCell<Runtime> = OnceCell::new();
 
@@ -61,10 +65,10 @@ static RUNTIME: OnceCell<Runtime> = OnceCell::new();
 pub struct SquireRuntime {
     /// The client used to manage tournaments and sync with the backend
     pub client: SquireClient,
-    /// A channel that receives messages when a remote update is sent
-    listener: UnboundedReceiver<TournamentId>,
-    /// A set that tracks what tournaments have received a remote update since last polled
-    remote_trackers: HashSet<TournamentId>,
+    /// This tracker is used to poll if a tournament has receieved updates from the backend. The
+    /// channel receiver receives which tournaments have been updated. The set contains all
+    /// tournament that have been updated since the a tournament was last polled.
+    tracker: Mutex<(UnboundedReceiver<TournamentId>, HashSet<TournamentId>)>,
 }
 
 impl SquireRuntime {
@@ -75,24 +79,29 @@ impl SquireRuntime {
         // Import all recent tournaments (or all tournaments in save directory)
         let config = StartupConfig::new();
 
+        let (send, recv) = unbounded_channel();
+
         let client = SquireClient::builder()
-            .account(config.user.account.clone())
+            .account(config.user.account)
             .url(String::new())
-            .on_update(|| ()) // TODO: ...
-            .build();
+            .on_update(move |t_id| {
+                _ = send.send(t_id);
+            })
+            .build_unchecked();
         Self {
             client,
-            listener: todo!(),
-            remote_trackers: todo!(),
+            tracker: Mutex::new((recv, HashSet::new())),
         }
     }
 
     /// Checks to see if an update to a tournament has been sent from the backend
-    pub fn poll_remote_update(&mut self, t_id: TournamentId) -> bool {
-        while let Ok(id) = self.listener.try_recv() {
-            self.remote_trackers.insert(id);
+    pub fn poll_remote_update(&self, t_id: TournamentId) -> bool {
+        let mut lock = self.tracker.lock().unwrap();
+        let (listener, tracker) = lock.deref_mut();
+        while let Ok(id) = listener.try_recv() {
+            tracker.insert(id);
         }
-        self.remote_trackers.remove(&t_id)
+        tracker.remove(&t_id)
     }
 
     /// Looks up a tournament and performs the given tournament operation
@@ -135,6 +144,18 @@ impl SquireRuntime {
             .process_blocking()
             .ok_or(ActionError::TournamentNotFound(t_id))
             .map(drop)
+    }
+
+    /// Looks up a tournament manager and performs the given query
+    pub fn tournament_manager_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
+    where
+        Q: 'static + Send + FnOnce(&TournamentManager) -> O,
+        O: 'static + Send,
+    {
+        self.client
+            .query_tourn(t_id, |t| query(t))
+            .process_blocking()
+            .ok_or(ActionError::TournamentNotFound(t_id))
     }
 
     /// Looks up a tournament and performs the given query

@@ -32,12 +32,16 @@ pub struct PlayerScore<S> {
     score: S,
 }
 
-/// TournamentIds can be used to get data safely from
-/// the Rust lib with these methods
-/// Returns a raw pointer to a list of standings
-/// This is an array, the last element has a NULL player id
-/// This is heap allocated, please free it
-/// Returns NULL on error
+/// Checks to see if a tournament has received a remote update since the last time that it was
+/// polled. The returned bool is true if the tournament has been updated.
+#[no_mangle]
+pub extern "C" fn poll_remote_update(tid: TournamentId) -> bool {
+    CLIENT.get().unwrap().poll_remote_update(tid)
+}
+
+/// TournamentIds can be used to get data safely from the Rust lib with these methods Returns a raw
+/// pointer to a list of standings This is an array, the last element has a NULL player id This is
+/// heap allocated, please free it Returns NULL on error
 #[no_mangle]
 pub extern "C" fn tid_standings(tid: TournamentId) -> *const PlayerScore<StandardScore> {
     match CLIENT.get().unwrap().tournament_query(tid, |t| {
@@ -149,7 +153,7 @@ pub unsafe extern "C" fn tid_add_admin_local(
     uid: SquireAccountId,
 ) -> bool {
     let name = unsafe { CStr::from_ptr(name).to_str().unwrap().to_string() };
-    let mut account = SquireAccount::new(name.clone(), name.clone());
+    let mut account = SquireAccount::new(name.clone(), name);
     account.id = uid;
     let client = CLIENT.get().unwrap();
     let a_id = AdminId::new(*client.client.get_user().id);
@@ -663,7 +667,7 @@ pub unsafe extern "C" fn save_tourn(tid: TournamentId, file: *const c_char) -> b
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| serde_json::to_string(&t))
+        .tournament_manager_query(tid, |t| serde_json::to_string(&t))
     {
         Ok(Ok(data)) => match std::fs::write(file, data) {
             Ok(_) => true,
@@ -709,7 +713,7 @@ pub unsafe extern "C" fn load_tournament_from_file(file: *const c_char) -> Tourn
     if let Ok(()) = rt.tournament_query(tournament.id, |_| ()) {
         println!("[FFI]: Input tournament is already open");
         return TournamentId::default();
-    }
+    };
 
     let t_id = tournament.id;
     let _ = rt.import_tournament(tournament);
@@ -735,6 +739,7 @@ pub unsafe extern "C" fn new_tournament_from_settings(
     reg_open: bool,
     require_check_in: bool,
     require_deck_reg: bool,
+    a_id: AdminId,
 ) -> TournamentId {
     fn make_op<O: Into<AdminOp>>(a_id: AdminId, op: O) -> TournOp {
         TournOp::AdminOp(a_id, op.into())
@@ -751,7 +756,6 @@ pub unsafe extern "C" fn new_tournament_from_settings(
     let Some(t_id) = rt.create_tournament(seed) else {
         return Default::default();
     };
-    let a_id: AdminId = rt.client.get_user().id.0.into();
     let updates: Vec<TournOp> = vec![
         make_op(a_id, GeneralSetting::UseTableNumbers(use_table_number)),
         make_op(a_id, GeneralSetting::MinDeckCount(min_deck_count)),
@@ -767,5 +771,5 @@ pub unsafe extern "C" fn new_tournament_from_settings(
         return TournamentId::default();
     }
 
-    t_id
+    save_tourn(t_id, file).then_some(t_id).unwrap_or_default()
 }
