@@ -3,25 +3,52 @@
 #include <string.h>
 #include <stdexcept>
 
-Set::Set(mse_set_code_t set_code)
+static mse_set_t *__lookup_set(mse_avl_tree_node_t *node, mse_set_code_t *set_code)
 {
-    memcpy(this->set_code, set_code, sizeof(set_code));
+    if (node == NULL) {
+        return NULL;
+    }
+
+    mse_set_t *payload = (mse_set_t *) node->payload;
+    if (memcmp(payload->code, set_code, sizeof(*set_code)) == 0) {
+        return payload;
+    }
+
+    mse_set_t *ret = NULL;
+    if (ret = __lookup_set(node->l, set_code)) {
+        return ret;
+    }
+    if (ret = __lookup_set(node->r, set_code)) {
+        return ret;
+    }
+    return  NULL;
+}
+
+Set::Set(mse_t *mse, mse_set_code_t set_code)
+{
+    this->set = __lookup_set(mse->cards->set_tree);
+    if (this->set == NULL) {
+        throw std::runtime_error("Cannot find set");
+    }
 }
 
 std::string Set::code()
 {
-    return "M19";
+    char buffer[sizeof(this->set->code)];
+    memcpy(buffer, this->set->code, sizeof(buffer));
+    return std::string(buffer);
 }
 
 std::string Set::name()
 {
-    return "Core Set 2019";
+    return std::string(this->set->name);
 }
 
 struct tm Set::release()
 {
     struct tm ret;
-    memset(&ret, 0, sizeof(ret));
+    memcpy(&ret, this->set->release, sizeof(ret));
+    return ret;
 }
 
 Card::Card(mse_card_t *card)
