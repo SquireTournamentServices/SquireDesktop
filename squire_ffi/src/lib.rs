@@ -146,6 +146,18 @@ impl SquireRuntime {
             .map(drop)
     }
 
+    /// Looks up a tournament manager and performs the given query
+    pub fn tournament_manager_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
+    where
+        Q: 'static + Send + FnOnce(&TournamentManager) -> O,
+        O: 'static + Send,
+    {
+        self.client
+            .query_tourn(t_id, |t| query(t))
+            .process_blocking()
+            .ok_or(ActionError::TournamentNotFound(t_id))
+    }
+
     /// Looks up a tournament and performs the given query
     pub fn tournament_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
     where

@@ -667,7 +667,7 @@ pub unsafe extern "C" fn save_tourn(tid: TournamentId, file: *const c_char) -> b
     match CLIENT
         .get()
         .unwrap()
-        .tournament_query(tid, |t| serde_json::to_string(&t))
+        .tournament_manager_query(tid, |t| serde_json::to_string(&t))
     {
         Ok(Ok(data)) => match std::fs::write(file, data) {
             Ok(_) => true,

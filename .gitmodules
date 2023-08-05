@@ -16,6 +16,3 @@
 [submodule "curl"]
 	path = curl
 	url = https://github.com/curl/curl
-[submodule "pthreads"]
-	path = pthreads
-	url = https://github.com/djpiper28/pthreads.git
