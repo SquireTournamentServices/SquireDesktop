@@ -10,6 +10,7 @@
 #include "./ui_appdashboardtab.h" // Hack to attach dashboard to menubar
 #include "./abstracttabwidget.h"
 #include "./tournamenttab.h"
+#include "../search.h"
 #include <squire_ffi/squire_ffi.h>
 #include <chrono>
 #include <string.h>
@@ -67,6 +68,18 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
                                 + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2022"));
 #endif
 
+    this->cardDownloadProgress = new QProgressBar(this);
+    this->cardDownloadProgress->setMinimum(0);
+    this->cardDownloadProgress->setMaximum(0);
+    this->ui->statusBar()->addWidget(this->cardDownloadProgress);
+
+    this->cards_downloading = 1;
+    this->card_download_thread = std::thread(&card_download_thread,
+                                 &this->cards_downloading);
+
+    this->timer = new QTimer(this);
+    connect(this->timer, QTimer::timeout, this, &MainWindow::cardDownloadProgressBarUpdate);
+
     QCoreApplication::setOrganizationName("Monarch");
     QCoreApplication::setOrganizationDomain("monarch.cards");
     QCoreApplication::setApplicationName("SquireDesktop");
@@ -86,6 +99,19 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     }
 
     lprintf(LOG_INFO, "Application started fully.\n");
+}
+
+void MainWindow::cardDownloadProgressBarUpdate()
+{
+    if (cards_downloading) {
+        return;
+    }
+
+    if (this->cardDownloadProgress != nullptr) {
+        this->ui->statusBar->removeWidget(this->cardDownloadProgress);
+        delete this->cardDownloadProgress;
+        this->cardDownloadProgress = nullptr;
+    }
 }
 
 void MainWindow::addDefaultmenu()
@@ -202,6 +228,14 @@ void dc_thread(dc_info_t *info)
     }
 }
 
+void card_download_thread(int *is_downloading)
+{
+    *is_downloading = 1;
+    MTGSearchEngine::get_instance();
+    *is_downloading = 0;
+    lprintf(LOG_INFO, "Finished downloading cards\n");
+}
+
 MainWindow::~MainWindow()
 {
     lprintf(LOG_INFO, "Exiting app\n");
@@ -221,7 +255,11 @@ MainWindow::~MainWindow()
         free(this->dc_info);
     }
 
+    delete this->timer;
     delete this->versionLabel;
+    if (this->cardDownloadProgress != nullptr) {
+        delete this->cardDownloadProgress;
+    }
     delete ui;
 }
 

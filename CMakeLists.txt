@@ -176,8 +176,9 @@ set(LIBS
 
 if(WIN32)
   add_library(pthread STATIC IMPORTED)
-  set_target_properties(pthread PROPERTIES IMPORTED_LOCATION
-                                           "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
+  set_target_properties(
+    pthread PROPERTIES IMPORTED_LOCATION
+                       "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
   include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
 else()
   set(LIBS ${LIBS} m)
