@@ -1,11 +1,9 @@
 use std::{fs, path::PathBuf};
 
 use serde::{Deserialize, Serialize};
-use squire_sdk::{
-    model::{
-        accounts::SquireAccount, identifiers::SquireAccountId, settings::TournamentSettingsTree,
-    },
-    tournaments::TournamentPreset,
+use squire_sdk::model::{
+    accounts::SquireAccount, identifiers::SquireAccountId, settings::TournamentSettingsTree,
+    tournament::TournamentPreset,
 };
 
 /// Stores the configuration for the Rust side of the desktop. This includes all information
@@ -54,7 +52,7 @@ impl Default for StartupConfig {
             remember_user: true,
             report_crashes: true,
             recently_opened: Default::default(),
-            default_tourn_settings: TournamentSettingsTree::new(TournamentPreset::Swiss),
+            default_tourn_settings: TournamentSettingsTree::with_preset(TournamentPreset::Swiss),
         }
     }
 }
