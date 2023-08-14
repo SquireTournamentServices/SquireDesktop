@@ -620,9 +620,9 @@ checksum = "b6c80984affa11d98d1b88b66ac8853f143217b399d3c74116778ff8fdb4ed2e"
 
 [[package]]
 name = "gloo-net"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3000ef231a67d5bfee6b35f2c0f6f5c8d45b3381ef5bbbea603690ec4e539762"
+checksum = "8ac9e8288ae2c632fa9f8657ac70bfe38a1530f345282d7ba66a1f70b72b7dc4"
 dependencies = [
  "futures-channel",
  "futures-core",
@@ -653,9 +653,9 @@ dependencies = [
 
 [[package]]
 name = "gloo-utils"
-version = "0.1.7"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "037fcb07216cb3a30f7292bd0176b050b7b9a052ba830ef7d5d65f6dc64ba58e"
+checksum = "0b5555354113b18c547c1d3a98fbf7fb32a9ff4f6fa112ce823a21641a0ba3aa"
 dependencies = [
  "js-sys",
  "serde",
@@ -1661,7 +1661,7 @@ dependencies = [
 [[package]]
 name = "squire_lib"
 version = "0.1.0"
-source = "git+https://github.com/MonarchDevelopment/SquireCore?branch=main#4f24e5c9a928ab570045965ec93881acc4a861c3"
+source = "git+https://github.com/MonarchDevelopment/SquireCore?branch=main#da97f1a8d54ab6b42ec350c994ec78143bb665f2"
 dependencies = [
  "chrono",
  "cycle_map",
@@ -1681,7 +1681,7 @@ dependencies = [
 [[package]]
 name = "squire_sdk"
 version = "0.1.0-pre-alpha.1"
-source = "git+https://github.com/MonarchDevelopment/SquireCore?branch=main#4f24e5c9a928ab570045965ec93881acc4a861c3"
+source = "git+https://github.com/MonarchDevelopment/SquireCore?branch=main#da97f1a8d54ab6b42ec350c994ec78143bb665f2"
 dependencies = [
  "array-concat",
  "chrono",
