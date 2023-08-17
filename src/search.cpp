@@ -3,22 +3,22 @@
 #include <string.h>
 #include <stdexcept>
 
-static mse_set_t *__lookup_set(mse_avl_tree_node_t *node, mse_set_code_t *set_code)
+static mse_set_t *__lookup_set(mse_avl_tree_node_t *node, mse_set_code_t set_code)
 {
     if (node == NULL) {
         return NULL;
     }
 
     mse_set_t *payload = (mse_set_t *) node->payload;
-    if (memcmp(payload->code, set_code, sizeof(*set_code)) == 0) {
+    if (memcmp(payload->code, set_code, sizeof(mse_set_code_t)) == 0) {
         return payload;
     }
 
     mse_set_t *ret = NULL;
-    if (ret = __lookup_set(node->l, set_code)) {
+    if ((ret = __lookup_set(node->l, set_code))) {
         return ret;
     }
-    if (ret = __lookup_set(node->r, set_code)) {
+    if ((ret = __lookup_set(node->r, set_code))) {
         return ret;
     }
     return  NULL;
@@ -26,7 +26,7 @@ static mse_set_t *__lookup_set(mse_avl_tree_node_t *node, mse_set_code_t *set_co
 
 Set::Set(mse_t *mse, mse_set_code_t set_code)
 {
-    this->set = __lookup_set(mse->cards->set_tree);
+    this->set = __lookup_set(mse->cards.set_tree, set_code);
     if (this->set == NULL) {
         throw std::runtime_error("Cannot find set");
     }
@@ -47,12 +47,13 @@ std::string Set::name()
 struct tm Set::release()
 {
     struct tm ret;
-    memcpy(&ret, this->set->release, sizeof(ret));
+    memcpy(&ret, &this->set->release, sizeof(ret));
     return ret;
 }
 
-Card::Card(mse_card_t *card)
+Card::Card(mse_t *mse, mse_card_t *card)
 {
+    this->mse = mse;
     this->card = card;
 }
 
@@ -94,7 +95,7 @@ std::list<Set> Card::sets()
 {
     std::list<Set> ret;
     for (size_t i = 0; i < this->card->set_codes_count; i++) {
-        ret.push_back(this->card->set_codes[i]);
+        ret.push_back(Set(this->mse, this->card->set_codes[i]));
     }
     return ret;
 }
@@ -110,7 +111,7 @@ Card SearchResult::at(size_t i)
         throw std::runtime_error("Invalid index");
     }
 
-    return Card(this->res.cards[i]);
+    return Card(this->mse, this->res.cards[i]);
 }
 
 void SearchResult::sort(mse_search_sort_type_t sort_type)

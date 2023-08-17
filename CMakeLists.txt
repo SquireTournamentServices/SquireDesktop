@@ -180,14 +180,19 @@ if(WIN32)
     pthread PROPERTIES IMPORTED_LOCATION
                        "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
   include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
+
+  # These set statements are magical and from
+  # https://github.com/google/re2/issues/436
+  set(ABSL_PROPAGATE_CXX_STD ON)
+  set(ABSL_ENABLE_INSTALL ON)
+  add_subdirectory(./abseil-cpp)
 else()
   set(LIBS ${LIBS} m)
 endif()
 
+# This feature is turned off at the moment add_subdirectory(libbacktrace)
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
-
-# add_subdirectory(libbacktrace)
 add_subdirectory(curl)
 add_subdirectory(jansson)
 add_subdirectory(src/mtg_search_engine)

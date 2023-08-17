@@ -12,8 +12,8 @@
 #include "./tournamenttab.h"
 #include "../search.h"
 #include <squire_ffi/squire_ffi.h>
-#include <chrono>
 #include <string.h>
+#include <chrono>
 #include <QIcon>
 #include <QPixmap>
 #include <QTabBar>
@@ -37,6 +37,7 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
     this->setWindowIcon(icon);
 
     // Application dashboard
+    lprintf(LOG_INFO, "Setting up dashboard.\n");
     this->dashboard = new AppDashboardTab(*t, ui->tabWidget);
     this->addTab(this->dashboard, tr("Dashboard"));
     ui->tabWidget->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
@@ -59,33 +60,27 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
                                 + tr("Squire Lib Version: ") + SQ_VERSION
                                 + " | OS: " + OS + " | ["
                                 + tr("Github Repo") + "](" + REPO_URL + ") | "
-                                + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2022"));
+                                + PROJECT_NAME + tr(" Copyright [Monarch](https://monarch.cards/) (AGPL 3) 2023"));
     this->versionLabel->setTextFormat(Qt::MarkdownText);
 #else
     this->versionLabel->setText(tr("Squire Desktop Version: ") + VERSION + " | "
                                 + tr("Squire Lib Version: ") + SQ_VERSION
                                 + " | OS: " + OS + " | "
-                                + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2022"));
+                                + PROJECT_NAME + tr(" Copyright Monarch (AGPL 3) 2023"));
 #endif
 
     this->cardDownloadProgress = new QProgressBar(this);
     this->cardDownloadProgress->setMinimum(0);
     this->cardDownloadProgress->setMaximum(0);
-    this->ui->statusBar()->addWidget(this->cardDownloadProgress);
-
-    this->cards_downloading = 1;
-    this->card_download_thread = std::thread(&card_download_thread,
-                                 &this->cards_downloading);
-
-    this->timer = new QTimer(this);
-    connect(this->timer, QTimer::timeout, this, &MainWindow::cardDownloadProgressBarUpdate);
+    this->ui->statusbar->addWidget(this->cardDownloadProgress);
 
     QCoreApplication::setOrganizationName("Monarch");
     QCoreApplication::setOrganizationDomain("monarch.cards");
     QCoreApplication::setApplicationName("SquireDesktop");
     QCoreApplication::setApplicationVersion(VERSION);
 
-    this->dc_info = (dc_info_t *) malloc(sizeof * this->dc_info);
+    lprintf(LOG_INFO, "Starting worker threads for discord and cards download\n");
+    this->dc_info = (dc_info_t *) malloc(sizeof(*this->dc_info));
     if (this->dc_info != NULL) {
         this->discord_thread_txt = NULL;
         this->dc_info->txt = NULL;
@@ -98,20 +93,52 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
         lprintf(LOG_ERROR, "Malloc error\n");
     }
 
+    this->cards_downloading = (download_info_t *) malloc(sizeof(*this->cards_downloading));
+    if (this->cards_downloading != NULL) {
+        this->cards_downloading->done = false;
+        this->cards_downloading->lock = new std::mutex();
+        this->card_download_thread = std::thread(&card_downloader_thread,
+                                                 this->cards_downloading);
+    } else {
+        lprintf(LOG_ERROR, "Malloc error\n");
+    }
+
+    this->timer = new QTimer(this);
+    connect(this->timer, &QTimer::timeout, this, &MainWindow::cardDownloadProgressBarUpdate);
+    this->timer->start(10);
+
     lprintf(LOG_INFO, "Application started fully.\n");
 }
 
 void MainWindow::cardDownloadProgressBarUpdate()
 {
-    if (cards_downloading) {
+    this->cards_downloading->lock->lock();
+    bool done = this->cards_downloading->done;
+    this->cards_downloading->lock->unlock();
+    if (!done) {
         return;
     }
 
+    this->card_download_thread.join();
     if (this->cardDownloadProgress != nullptr) {
-        this->ui->statusBar->removeWidget(this->cardDownloadProgress);
+        this->ui->statusbar->removeWidget(this->cardDownloadProgress);
         delete this->cardDownloadProgress;
         this->cardDownloadProgress = nullptr;
     }
+}
+
+void card_downloader_thread(download_info_t *cards_downloading)
+{
+    lprintf(LOG_INFO, "Starting card download\n");
+    cards_downloading->lock->lock();
+    cards_downloading->done = false;
+    cards_downloading->lock->unlock();
+
+    MTGSearchEngine::get_instance(); // TODO: handle exceptions
+    cards_downloading->lock->lock();
+    cards_downloading->done = true;
+    cards_downloading->lock->unlock();
+    lprintf(LOG_INFO, "Finished downloading cards\n");
 }
 
 void MainWindow::addDefaultmenu()
@@ -228,14 +255,6 @@ void dc_thread(dc_info_t *info)
     }
 }
 
-void card_download_thread(int *is_downloading)
-{
-    *is_downloading = 1;
-    MTGSearchEngine::get_instance();
-    *is_downloading = 0;
-    lprintf(LOG_INFO, "Finished downloading cards\n");
-}
-
 MainWindow::~MainWindow()
 {
     lprintf(LOG_INFO, "Exiting app\n");
@@ -253,6 +272,10 @@ MainWindow::~MainWindow()
         this->discord_thread.join();
         delete this->dc_info->lock;
         free(this->dc_info);
+    }
+
+    if (this->cards_downloading != NULL) {
+        free(this->cards_downloading);
     }
 
     delete this->timer;
@@ -318,7 +341,6 @@ void MainWindow::addTab(AbstractTabWidget *w, QString name)
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
     connect(w, &AbstractTabWidget::close, [this, w]() {
         for (int i = 0; i < ui->tabWidget->count(); i++) {
-            QWidget *wid = ui->tabWidget->widget(i);
             emit this->closeTab(i);
         }
     });

@@ -74,7 +74,15 @@ elseif(WIN32)
   add_link_options(/SUBSYSTEM:WINDOWS /DYNAMICBASE Version.lib Comctl32.lib
                    /MACHINE:X64)
 
-  set(LIBS "ntdll" "userenv" "wsock32" "ws2_32" "bcrypt" "crypt32" "secur32" "ncrypt")
+  set(LIBS
+      "ntdll"
+      "userenv"
+      "wsock32"
+      "ws2_32"
+      "bcrypt"
+      "crypt32"
+      "secur32"
+      "ncrypt")
 endif()
 
 add_library(squire_ffi INTERFACE)

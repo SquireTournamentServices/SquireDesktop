@@ -19,10 +19,18 @@ typedef struct dc_info_t {
     std::mutex *lock;
     bool running;
 } dc_info_t;
+
 void dc_thread(dc_info_t *info);
 
-void card_download_thread(int *is_downloading);
+// Card download stuff
+typedef struct download_info_t {
+    std::mutex *lock;
+    bool done;
+} download_info_t;
 
+void card_downloader_thread(download_info_t *cards_downloading);
+
+// Actual UI stuff
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -49,8 +57,8 @@ private:
     char *discord_thread_txt; // free if not-null on set.
 
     // Card download status
+    download_info_t *cards_downloading;
     std::thread card_download_thread;
-    int cards_downloading;
 
     void addDefaultmenu();
     void addTab(AbstractTabWidget *w, QString name);
