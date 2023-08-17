@@ -147,7 +147,11 @@ impl SquireRuntime {
     }
 
     /// Looks up a tournament manager and performs the given query
-    pub fn tournament_manager_query<Q, O>(&self, t_id: TournamentId, query: Q) -> Result<O, ActionError>
+    pub fn tournament_manager_query<Q, O>(
+        &self,
+        t_id: TournamentId,
+        query: Q,
+    ) -> Result<O, ActionError>
     where
         Q: 'static + Send + FnOnce(&TournamentManager) -> O,
         O: 'static + Send,

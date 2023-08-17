@@ -125,7 +125,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake)
@@ -176,17 +176,23 @@ set(LIBS
 
 if(WIN32)
   add_library(pthread STATIC IMPORTED)
-  set_target_properties(pthread PROPERTIES IMPORTED_LOCATION
-                                           "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
+  set_target_properties(
+    pthread PROPERTIES IMPORTED_LOCATION
+                       "${CMAKE_SOURCE_DIR}/lib/windows_compat/pthreadVC2.lib")
   include_directories(${CMAKE_SOURCE_DIR}/lib/windows_compat/)
+
+  # These set statements are magical and from
+  # https://github.com/google/re2/issues/436
+  set(ABSL_PROPAGATE_CXX_STD ON)
+  set(ABSL_ENABLE_INSTALL ON)
+  add_subdirectory(./abseil-cpp)
 else()
   set(LIBS ${LIBS} m)
 endif()
 
+# This feature is turned off at the moment add_subdirectory(libbacktrace)
 add_subdirectory(nlohmann_json)
 add_subdirectory(squire_ffi)
-
-# add_subdirectory(libbacktrace)
 add_subdirectory(curl)
 add_subdirectory(jansson)
 add_subdirectory(src/mtg_search_engine)
@@ -371,9 +377,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
   qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
   if(ANDROID)
-    add_library(SquireDesktop SHARED ${PROJECT_SOURCES} mtg-search-engine)
-    # Define properties for Android with Qt 5 after find_package() calls as:
-    # set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    add_library(SquireDesktop SHARED ${PROJECT_SOURCES})
+    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
   else()
     add_executable(SquireDesktop ${PROJECT_SOURCES})
   endif()

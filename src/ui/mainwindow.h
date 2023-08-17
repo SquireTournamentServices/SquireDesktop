@@ -1,6 +1,8 @@
 #pragma once
 #include <QMainWindow>
 #include <QString>
+#include <QProgressBar>
+#include <QTimer>
 #include <string>
 #include <mutex>
 #include <thread>
@@ -17,8 +19,18 @@ typedef struct dc_info_t {
     std::mutex *lock;
     bool running;
 } dc_info_t;
+
 void dc_thread(dc_info_t *info);
 
+// Card download stuff
+typedef struct download_info_t {
+    std::mutex *lock;
+    bool done;
+} download_info_t;
+
+void card_downloader_thread(download_info_t *cards_downloading);
+
+// Actual UI stuff
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -44,10 +56,16 @@ private:
     std::thread discord_thread;
     char *discord_thread_txt; // free if not-null on set.
 
+    // Card download status
+    download_info_t *cards_downloading;
+    std::thread card_download_thread;
+
     void addDefaultmenu();
     void addTab(AbstractTabWidget *w, QString name);
     QString getTournamentTabName(Tournament *t);
     QLabel *versionLabel;
+    QProgressBar *cardDownloadProgress;
+    QTimer *timer;
 private slots:
     void coinFlipUtility();
     void diceRollUtility();
@@ -62,6 +80,8 @@ private slots:
     void setDiscordText(std::string txt);
 
     void onTournamentAdded(Tournament *t);
+
+    void cardDownloadProgressBarUpdate();
 
     // About qmenu stuffs
     void viewWiki();

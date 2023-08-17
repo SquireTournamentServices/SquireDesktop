@@ -1,12 +1,9 @@
 use std::time::Duration;
 
-use squire_sdk::{
-    model::{
-        identifiers::{AdminId, PlayerId},
-        operations::{AdminOp, JudgeOp, TournOp},
-        rounds::{RoundId, RoundResult, RoundStatus},
-    },
-    tournaments::TournamentId,
+use squire_sdk::model::{
+    identifiers::{AdminId, PlayerId, TournamentId},
+    operations::{AdminOp, JudgeOp, TournOp},
+    rounds::{RoundId, RoundResult, RoundStatus},
 };
 
 use crate::{

@@ -26,7 +26,7 @@ target/
 
 squire_ffi/squire_ffi.h
 squire_ffi/cbindgen.toml
-squire_ffi/Cargo.lock
+squire_ffi/*.lock
 
 .cache/
 *.json

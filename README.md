@@ -35,7 +35,7 @@ git clone --recursive https://github.com/MonarchDevelopment/SquireDesktop
 ```
 
 ##### 1. Install the following
- - `Rust`
+- `Rust` (**nightly build**, see below for Instructions)
  - `CMake`
  - `cbindgen` (execute: `cargo install --force cbindgen`)
  - `python`
@@ -43,7 +43,9 @@ git clone --recursive https://github.com/MonarchDevelopment/SquireDesktop
    - Linguistics
    - Core
    - Networking
- - `Compiler` (gcc, clang or, msvc; C++ 20 is the minimum required standard)
+ - `Compiler` (gcc, clang or, msvc; C++ **14** is the minimum required standard)
+- `abseil` (**not** required on **Windows**)
+- `jemalloc` (optional, use `-DUSE_JEMALLOC=ON` to use jemalloc)
 
 ##### 2. Update Rust to Nightly
 ```
@@ -56,10 +58,12 @@ rustup update
 Install:
  - Visual Studio Build Tools (default options are fine)
  - QtCreator (sorts most things out for you)
+
 Build in qtcreator (it is easier I promise)
 
 ###### Installing on Mac
 Install Deps
+
 ```
 brew install qt6
 brew install llvm
@@ -76,7 +80,7 @@ sudo apt-get install -y --no-install-recommends build-essential \
   cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools \
   valgrind python3 astyle qt6-l10n-tools \
   libgl1-mesa-dev libjemalloc-dev libcurl4-openssl-dev \
-  libdwarf-dev libelf-dev
+  libdwarf-dev libelf-dev abseil-dev
 ```
 ```sh
 # Arch

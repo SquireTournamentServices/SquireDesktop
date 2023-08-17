@@ -36,7 +36,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends build-essential cmake gcovr qtbase5-dev qtdeclarative5-dev qttools5-dev qttools5-dev-tools
         sudo apt-get install -y --no-install-recommends valgrind python3 astyle libgl1-mesa-dev libjemalloc-dev libcurl4-openssl-dev
-        sudo apt-get install -y --no-install-recommends libdwarf-dev libelf-dev libjansson-dev
+        sudo apt-get install -y --no-install-recommends libdwarf-dev libelf-dev libjansson-dev libaseil-dev
         rustup default nightly
         rustup update
 
