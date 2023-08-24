@@ -98,7 +98,7 @@ MainWindow::MainWindow(config_t *t, QWidget *parent)
         this->cards_downloading->done = false;
         this->cards_downloading->lock = new std::mutex();
         this->card_download_thread = std::thread(&card_downloader_thread,
-                                                 this->cards_downloading);
+                                     this->cards_downloading);
     } else {
         lprintf(LOG_ERROR, "Malloc error\n");
     }
