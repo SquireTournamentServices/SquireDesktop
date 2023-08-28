@@ -8,6 +8,7 @@ SearchModel::SearchModel()
 {
     this->mse = &MTGSearchEngine::get_instance();
     this->result = nullptr;
+    this->ascending = true;
 }
 
 SearchModel::~SearchModel()
@@ -65,6 +66,10 @@ QVariant SearchModel::data(const QModelIndex &index, int role) const
     }
 
     Card card = this->result->at(index.row());
+
+    if (this->ascending) {
+        card = this->result->at(this->result->size() - index.row() - 1);
+    }
     switch (index.column()) {
     case 0:
         return QVariant(QString::fromStdString(card.name()));
@@ -93,7 +98,30 @@ void SearchModel::rerender()
 
 void SearchModel::sort(int column, Qt::SortOrder order)
 {
-    //this->sortIntermediate->onSortChanged(column, order == Qt::AscendingOrder);
+    mse_search_sort_type_t type;
+    if (this->result != nullptr) {
+        type = this->result->sortType();
+    }
+
+    switch(column) {
+    case 0:
+        type = MSE_SORT_CARD_NAME;
+        break;
+    case 1:
+        type = MSE_SORT_CMC;
+        break;
+    case 2:
+        type = MSE_SORT_POWER;
+        break;
+    case 3:
+        type = MSE_SORT_TOUGHNESS;
+        break;
+    }
+
+    this->ascending = order == Qt::AscendingOrder;
+    if (this->result != nullptr) {
+        this->result->sort(type);
+    }
     this->rerender();
 }
 

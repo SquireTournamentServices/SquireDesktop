@@ -22,4 +22,5 @@ private:
     void rerender();
     MTGSearchEngine *mse;
     SearchResult *result;
+    bool ascending;
 };

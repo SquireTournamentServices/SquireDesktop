@@ -117,6 +117,12 @@ Card SearchResult::at(size_t i)
 void SearchResult::sort(mse_search_sort_type_t sort_type)
 {
     mse_sort_search_results(&this->res, sort_type);
+    this->sort_type = sort_type;
+}
+
+mse_search_sort_type_t SearchResult::sortType()
+{
+    return this->sort_type;
 }
 
 SearchResult::SearchResult(mse_t *mse, mse_search_result_t res)

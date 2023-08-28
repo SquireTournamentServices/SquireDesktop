@@ -39,9 +39,11 @@ public:
     size_t size();
     Card at(size_t i);
     void sort(mse_search_sort_type_t sort_type);
+    mse_search_sort_type_t sortType();
 private:
     mse_t *mse;
     mse_search_result_t res;
+    mse_search_sort_type_t sort_type;
 };
 
 class MTGSearchEngine
