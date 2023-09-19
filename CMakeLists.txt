@@ -312,6 +312,8 @@ set(PROJECT_SOURCES
     ./src/ui/abstractmodels/roundmodel.h
     ./src/ui/abstractmodels/playerscoremodel.cpp
     ./src/ui/abstractmodels/playerscoremodel.h
+    ./src/ui/abstractmodels/searchmodel.cpp
+    ./src/ui/abstractmodels/searchmodel.h
     ./src/main.cpp)
 
 set(TESTING_SOURCES
