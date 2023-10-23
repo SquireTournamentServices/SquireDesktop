@@ -277,7 +277,7 @@ jobs:
           path: '${{github.workspace}}/../Qt'
 
       - name: Install Qt ${{matrix.qt_version}} for ${{matrix.target}}
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           cached: ${{steps.cache-qt.outputs.cache-hit}}
           version: ${{matrix.qt_version}}
