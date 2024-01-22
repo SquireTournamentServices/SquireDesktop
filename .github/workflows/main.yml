@@ -87,7 +87,7 @@ jobs:
       with:
         rust-version: nightly
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.9'
         cache: 'pip' # caching pip dependencies
@@ -179,7 +179,7 @@ jobs:
         with:
          rust-version: nightly
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
@@ -263,7 +263,7 @@ jobs:
         with:
          rust-version: nightly
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
