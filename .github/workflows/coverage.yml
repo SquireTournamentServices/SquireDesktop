@@ -89,7 +89,7 @@ jobs:
         rust-version: nightly
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{matrix.language}}
         
@@ -103,7 +103,7 @@ jobs:
           libgl1-mesa-dev libjemalloc-dev libcurl4-openssl-dev \
           libdwarf-dev libelf-dev libabsl-dev
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.9'
         cache: 'pip' # caching pip dependencies

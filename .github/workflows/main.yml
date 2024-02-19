@@ -87,14 +87,14 @@ jobs:
       with:
         rust-version: nightly
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: '3.9'
         cache: 'pip' # caching pip dependencies
     - run: pip install -r requirements.txt -r src/mtg_search_engine/requirements.txt
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{matrix.language}}
         
@@ -179,7 +179,7 @@ jobs:
         with:
          rust-version: nightly
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
@@ -263,7 +263,7 @@ jobs:
         with:
          rust-version: nightly
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           cache: 'pip' # caching pip dependencies
@@ -271,7 +271,7 @@ jobs:
 
       - name: Restore Qt ${{matrix.qt_version}} for ${{matrix.target}} from cache
         id: cache-qt
-        uses: actions/cache@v3 # Intentionally v1, based on jurplel documentation
+        uses: actions/cache@v4 # Intentionally v1, based on jurplel documentation
         with:
           key: QtCache-${{matrix.qt_version}}-${{matrix.target}}
           path: '${{github.workspace}}/../Qt'
